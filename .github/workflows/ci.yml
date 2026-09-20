@@ -1,0 +1,65 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: ${{ matrix.package }} (py${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12"]
+        package:
+          - rtl-intent-ingestor
+          - sva-intent-engine
+          - assertion-review-agent
+          - assertion-mutation-agent
+          - formal-flow-scout
+          - formal-run-orchestrator
+          - counterexample-triage-agent
+          - coverage-closure-agent
+          - verification-knowledge-graph
+          - multi-agent-verification-supervisor
+          - verification-agent-factory
+          - verification-plan-agent
+          - protocol-contract-agent
+          - register-csr-agent
+          - reset-intent-agent
+          - cdc-rdc-triage-agent
+          - equivalence-triage-agent
+          - formal-regression-intelligence-agent
+          - constraint-hygiene-agent
+          - testbench-recovery-agent
+          - security-property-agent
+          - performance-regression-agent
+          - verification-report-kit
+    defaults:
+      run:
+        working-directory: ${{ matrix.package }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install package
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]" || pip install -e .
+          pip install pytest ruff
+
+      - name: Lint (ruff)
+        run: ruff check .
+
+      - name: Test (pytest)
+        run: pytest -q

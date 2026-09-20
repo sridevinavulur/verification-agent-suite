@@ -1,5 +1,9 @@
 # verification-agent-suite
 
+[![CI](https://github.com/sridevinavulur/verification-agent-suite/actions/workflows/ci.yml/badge.svg)](https://github.com/sridevinavulur/verification-agent-suite/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue.svg)](https://www.python.org/)
+
 A suite of **bounded, evidence-grounded, LLM-assisted verification agents** for RTL and
 formal design verification. Each tool is an independent, installable Python package with a
 typed CLI, deterministic core logic, a mock-by-default LLM boundary, reproducible provenance,
@@ -82,6 +86,13 @@ rtl-intent ingest examples/counter.sv
 Every package ships `README.md`, `ARCHITECTURE.md`, `THREAT_MODEL.md`, and `EVIDENCE.md`
 (claims tied to code, tests, and reproduce commands). All LLM usage defaults to a deterministic
 mock adapter, so tests and CI run offline with no API keys.
+
+## Contributing
+
+See [`CONTRIBUTING.md`](CONTRIBUTING.md) and [`BUILD_STANDARD.md`](BUILD_STANDARD.md). In short:
+one package per change where practical, `ruff` + `pytest` green before a PR, tests (prefer
+golden-output) for any behavior change, and public/non-proprietary content only. CI runs every
+package on Python 3.11 and 3.12.
 
 ## Non-claims
 
