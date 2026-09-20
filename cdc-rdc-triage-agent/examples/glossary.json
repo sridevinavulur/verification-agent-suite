@@ -1,0 +1,11 @@
+{
+  "cells": [
+    {
+      "module": "sync_2ff",
+      "depth": 2,
+      "data_in_port": "d",
+      "data_out_port": "q",
+      "description": "Standard 2-flop synchronizer macro (declared by the user)."
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "source": "good/fifo_good.sv",
+  "manifest": "manifests/fifo.manifest.json",
+  "property_count": 3,
+  "counts": {
+    "ERROR": 0,
+    "WARNING": 0,
+    "INFO": 0
+  },
+  "score": 100.0,
+  "grade": "A",
+  "findings": []
+}

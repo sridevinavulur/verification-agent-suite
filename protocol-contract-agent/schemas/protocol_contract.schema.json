@@ -1,0 +1,680 @@
+{
+  "$defs": {
+    "Assumption": {
+      "additionalProperties": false,
+      "description": "An environmental assumption. These constrain *environment inputs* only.\n\n``ownership_ok`` is False when the assumption would constrain a DUT output or\ninternal signal; such assumptions are surfaced for review instead of being\nsilently added.",
+      "properties": {
+        "description": {
+          "title": "Description",
+          "type": "string"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "ownership_ok": {
+          "default": true,
+          "title": "Ownership Ok",
+          "type": "boolean"
+        },
+        "property_kind": {
+          "$ref": "#/$defs/PropertyKind",
+          "default": "assume"
+        },
+        "referenced_symbols": {
+          "items": {
+            "$ref": "#/$defs/GroundedSymbol"
+          },
+          "title": "Referenced Symbols",
+          "type": "array"
+        },
+        "review_reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Review Reason"
+        },
+        "sva": {
+          "title": "Sva",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "description",
+        "sva"
+      ],
+      "title": "Assumption",
+      "type": "object"
+    },
+    "ChecklistItem": {
+      "additionalProperties": false,
+      "properties": {
+        "auto_status": {
+          "default": "REVIEW",
+          "title": "Auto Status",
+          "type": "string"
+        },
+        "detail": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Detail"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "question": {
+          "title": "Question",
+          "type": "string"
+        },
+        "severity": {
+          "$ref": "#/$defs/Severity",
+          "default": "info"
+        }
+      },
+      "required": [
+        "id",
+        "question"
+      ],
+      "title": "ChecklistItem",
+      "type": "object"
+    },
+    "ClockResetMapping": {
+      "additionalProperties": false,
+      "properties": {
+        "clock": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/GroundedSymbol"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "reset": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/GroundedSymbol"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "reset_behavior": {
+          "default": "UNSPECIFIED - reset behavior must be reviewed.",
+          "title": "Reset Behavior",
+          "type": "string"
+        },
+        "reset_polarity": {
+          "$ref": "#/$defs/ResetPolarity",
+          "default": "unknown"
+        },
+        "reset_sync": {
+          "$ref": "#/$defs/ResetSync",
+          "default": "unknown"
+        }
+      },
+      "title": "ClockResetMapping",
+      "type": "object"
+    },
+    "ContractProperty": {
+      "additionalProperties": false,
+      "description": "A named candidate SVA property (assert / assume / cover).\n\n``sva_text`` is a full, deterministically formatted, *candidate* property\nblock. It is compiled offline elsewhere and is never labeled verified.",
+      "properties": {
+        "depends_on": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Depends On",
+          "type": "array"
+        },
+        "description": {
+          "title": "Description",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "notes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        },
+        "property_kind": {
+          "$ref": "#/$defs/PropertyKind"
+        },
+        "referenced_symbols": {
+          "items": {
+            "$ref": "#/$defs/GroundedSymbol"
+          },
+          "title": "Referenced Symbols",
+          "type": "array"
+        },
+        "role": {
+          "title": "Role",
+          "type": "string"
+        },
+        "sva_text": {
+          "title": "Sva Text",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "property_kind",
+        "role",
+        "description",
+        "sva_text"
+      ],
+      "title": "ContractProperty",
+      "type": "object"
+    },
+    "GroundedSymbol": {
+      "additionalProperties": false,
+      "description": "A symbol that has been resolved to a manifest entry.\n\nA property may only reference GroundedSymbols; this is how we enforce\n\"every property is grounded to RTL symbols\".",
+      "properties": {
+        "direction": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PortDirection"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "file": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "File"
+        },
+        "line": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Line"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "ownership": {
+          "$ref": "#/$defs/SignalOwnership"
+        },
+        "symbol_id": {
+          "title": "Symbol Id",
+          "type": "string"
+        },
+        "width_lsb": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Width Lsb"
+        },
+        "width_msb": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Width Msb"
+        }
+      },
+      "required": [
+        "name",
+        "symbol_id",
+        "ownership"
+      ],
+      "title": "GroundedSymbol",
+      "type": "object"
+    },
+    "Guarantee": {
+      "additionalProperties": false,
+      "description": "A design guarantee (assert). Constrains DUT outputs / internal state.",
+      "properties": {
+        "description": {
+          "title": "Description",
+          "type": "string"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "property_kind": {
+          "$ref": "#/$defs/PropertyKind",
+          "default": "assert"
+        },
+        "referenced_symbols": {
+          "items": {
+            "$ref": "#/$defs/GroundedSymbol"
+          },
+          "title": "Referenced Symbols",
+          "type": "array"
+        },
+        "sva": {
+          "title": "Sva",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "description",
+        "sva"
+      ],
+      "title": "Guarantee",
+      "type": "object"
+    },
+    "NegativeScenario": {
+      "additionalProperties": false,
+      "description": "A scenario that MUST NOT happen, expressed as an assertion of its negation\n(or as a cover of the bad condition, flagged for review).",
+      "properties": {
+        "description": {
+          "title": "Description",
+          "type": "string"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "property_kind": {
+          "$ref": "#/$defs/PropertyKind",
+          "default": "assert"
+        },
+        "referenced_symbols": {
+          "items": {
+            "$ref": "#/$defs/GroundedSymbol"
+          },
+          "title": "Referenced Symbols",
+          "type": "array"
+        },
+        "sva": {
+          "title": "Sva",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "description",
+        "sva"
+      ],
+      "title": "NegativeScenario",
+      "type": "object"
+    },
+    "PortDirection": {
+      "enum": [
+        "input",
+        "output",
+        "inout"
+      ],
+      "title": "PortDirection",
+      "type": "string"
+    },
+    "PropertyDependency": {
+      "additionalProperties": false,
+      "properties": {
+        "depends_on": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Depends On",
+          "type": "array"
+        },
+        "property_name": {
+          "title": "Property Name",
+          "type": "string"
+        },
+        "rationale": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Rationale"
+        }
+      },
+      "required": [
+        "property_name"
+      ],
+      "title": "PropertyDependency",
+      "type": "object"
+    },
+    "PropertyKind": {
+      "enum": [
+        "assert",
+        "assume",
+        "cover"
+      ],
+      "title": "PropertyKind",
+      "type": "string"
+    },
+    "ProtocolKind": {
+      "enum": [
+        "valid_ready",
+        "req_grant",
+        "fifo",
+        "interrupt",
+        "credit"
+      ],
+      "title": "ProtocolKind",
+      "type": "string"
+    },
+    "Provenance": {
+      "additionalProperties": false,
+      "properties": {
+        "command": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Command"
+        },
+        "git_sha": {
+          "default": "UNKNOWN",
+          "title": "Git Sha",
+          "type": "string"
+        },
+        "input_sha256": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Input Sha256",
+          "type": "object"
+        },
+        "manifest_module": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Manifest Module"
+        },
+        "protocol": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ProtocolKind"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "schema_version": {
+          "default": "0.1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "tool": {
+          "default": "protocol-contract-agent",
+          "title": "Tool",
+          "type": "string"
+        },
+        "tool_version": {
+          "default": "0.1.0",
+          "title": "Tool Version",
+          "type": "string"
+        }
+      },
+      "title": "Provenance",
+      "type": "object"
+    },
+    "ResetPolarity": {
+      "enum": [
+        "active_high",
+        "active_low",
+        "unknown"
+      ],
+      "title": "ResetPolarity",
+      "type": "string"
+    },
+    "ResetSync": {
+      "enum": [
+        "synchronous",
+        "asynchronous",
+        "unknown"
+      ],
+      "title": "ResetSync",
+      "type": "string"
+    },
+    "Severity": {
+      "enum": [
+        "error",
+        "warning",
+        "info"
+      ],
+      "title": "Severity",
+      "type": "string"
+    },
+    "SignalOwnership": {
+      "description": "Who drives a signal, from the DUT's point of view.\n\n``env_input``  -> driven by the environment (an input port of the DUT).\n``dut_output`` -> driven by the DUT (an output port).\n``internal``   -> internal register/net.\n``unknown``    -> could not be classified from the manifest.",
+      "enum": [
+        "env_input",
+        "dut_output",
+        "internal",
+        "unknown"
+      ],
+      "title": "SignalOwnership",
+      "type": "string"
+    },
+    "SignalRole": {
+      "additionalProperties": false,
+      "description": "Maps a protocol role (e.g. ``valid``) to a grounded RTL symbol.",
+      "properties": {
+        "note": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Note"
+        },
+        "required": {
+          "default": true,
+          "title": "Required",
+          "type": "boolean"
+        },
+        "role": {
+          "title": "Role",
+          "type": "string"
+        },
+        "symbol": {
+          "$ref": "#/$defs/GroundedSymbol"
+        }
+      },
+      "required": [
+        "role",
+        "symbol"
+      ],
+      "title": "SignalRole",
+      "type": "object"
+    },
+    "Warning": {
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "title": "Code",
+          "type": "string"
+        },
+        "message": {
+          "title": "Message",
+          "type": "string"
+        },
+        "severity": {
+          "$ref": "#/$defs/Severity",
+          "default": "warning"
+        }
+      },
+      "required": [
+        "code",
+        "message"
+      ],
+      "title": "Warning",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Top-level reviewable interface contract for a single protocol instance.",
+  "properties": {
+    "assumptions": {
+      "items": {
+        "$ref": "#/$defs/Assumption"
+      },
+      "title": "Assumptions",
+      "type": "array"
+    },
+    "checklist": {
+      "items": {
+        "$ref": "#/$defs/ChecklistItem"
+      },
+      "title": "Checklist",
+      "type": "array"
+    },
+    "clock_reset": {
+      "$ref": "#/$defs/ClockResetMapping"
+    },
+    "contract_id": {
+      "title": "Contract Id",
+      "type": "string"
+    },
+    "dependencies": {
+      "items": {
+        "$ref": "#/$defs/PropertyDependency"
+      },
+      "title": "Dependencies",
+      "type": "array"
+    },
+    "guarantees": {
+      "items": {
+        "$ref": "#/$defs/Guarantee"
+      },
+      "title": "Guarantees",
+      "type": "array"
+    },
+    "instance_label": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Instance Label"
+    },
+    "limitations": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Limitations",
+      "type": "array"
+    },
+    "module": {
+      "title": "Module",
+      "type": "string"
+    },
+    "negative_scenarios": {
+      "items": {
+        "$ref": "#/$defs/NegativeScenario"
+      },
+      "title": "Negative Scenarios",
+      "type": "array"
+    },
+    "properties": {
+      "items": {
+        "$ref": "#/$defs/ContractProperty"
+      },
+      "title": "Properties",
+      "type": "array"
+    },
+    "protocol": {
+      "$ref": "#/$defs/ProtocolKind"
+    },
+    "provenance": {
+      "$ref": "#/$defs/Provenance"
+    },
+    "signal_roles": {
+      "items": {
+        "$ref": "#/$defs/SignalRole"
+      },
+      "title": "Signal Roles",
+      "type": "array"
+    },
+    "warnings": {
+      "items": {
+        "$ref": "#/$defs/Warning"
+      },
+      "title": "Warnings",
+      "type": "array"
+    }
+  },
+  "required": [
+    "contract_id",
+    "protocol",
+    "module"
+  ],
+  "title": "ProtocolContract",
+  "type": "object"
+}

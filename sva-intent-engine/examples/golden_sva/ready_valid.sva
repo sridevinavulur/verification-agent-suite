@@ -1,0 +1,3 @@
+p_ready_valid_c0_bounded_response: assert property (
+  @(posedge clk) disable iff (!rst_n) (valid && ready) |-> ##[1:3] (grant)
+);

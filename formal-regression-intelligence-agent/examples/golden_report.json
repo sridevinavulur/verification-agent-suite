@@ -1,0 +1,476 @@
+{
+  "schema_version": "0.1.0",
+  "n_records": 20,
+  "n_jobs": 11,
+  "n_benchmarks": 5,
+  "status_totals": {
+    "PASS": 13,
+    "FAIL": 4,
+    "TIMEOUT": 3
+  },
+  "findings": [
+    {
+      "finding_id": "reg-wall_time_s-arbiter::cfg-pdr",
+      "kind": "runtime_regression",
+      "severity": "high",
+      "title": "runtime regression on arbiter::cfg-pdr: 5.9x baseline median",
+      "summary": "Latest run run-009 of arbiter::cfg-pdr used 62.0s, vs baseline median 10.5s over n=4 runs (robust_z=173.7, ratio=5.9x). Correlation only, not a root cause (HEURISTIC).",
+      "heuristic": true,
+      "member_run_ids": [
+        "run-009"
+      ],
+      "benchmark_ids": [
+        "arbiter"
+      ],
+      "config_ids": [
+        "cfg-pdr"
+      ],
+      "evidence": {
+        "job_key": "arbiter::cfg-pdr",
+        "metric": "wall_time_s",
+        "latest_run_id": "run-009",
+        "latest_value": 62.0,
+        "baseline": {
+          "n": 4,
+          "mean": 10.5,
+          "stdev": 0.2581988897471616,
+          "median": 10.5,
+          "mad": 0.20000000000000018,
+          "minimum": 10.2,
+          "maximum": 10.8
+        },
+        "z_score": 199.4586423296816,
+        "robust_z": 173.68111067549088,
+        "ratio_to_median": 5.904761904761905
+      },
+      "priority_score": 105.9047619047619
+    },
+    {
+      "finding_id": "reg-peak_memory_mb-arbiter::cfg-pdr",
+      "kind": "memory_regression",
+      "severity": "high",
+      "title": "memory regression on arbiter::cfg-pdr: 5.2x baseline median",
+      "summary": "Latest run run-009 of arbiter::cfg-pdr used 2100.0MB, vs baseline median 402.5MB over n=4 runs (robust_z=1144.9, ratio=5.2x). Correlation only, not a root cause (HEURISTIC).",
+      "heuristic": true,
+      "member_run_ids": [
+        "run-009"
+      ],
+      "benchmark_ids": [
+        "arbiter"
+      ],
+      "config_ids": [
+        "cfg-pdr"
+      ],
+      "evidence": {
+        "job_key": "arbiter::cfg-pdr",
+        "metric": "peak_memory_mb",
+        "latest_run_id": "run-009",
+        "latest_value": 2100.0,
+        "baseline": {
+          "n": 4,
+          "mean": 402.5,
+          "stdev": 1.2909944487358056,
+          "median": 402.5,
+          "mad": 1.0,
+          "minimum": 401.0,
+          "maximum": 404.0
+        },
+        "z_score": 1314.877846037418,
+        "robust_z": 1144.9463509578486,
+        "ratio_to_median": 5.217391304347826
+      },
+      "priority_score": 105.21739130434783
+    },
+    {
+      "finding_id": "repro-handshake::cfg-kind",
+      "kind": "reproducibility_warning",
+      "severity": "high",
+      "title": "Flaky job handshake::cfg-kind: conflicting verdicts (PASS x2, FAIL x1)",
+      "summary": "Job handshake::cfg-kind produced 2 distinct statuses over 3 repeats (conflicting verdicts (PASS x2, FAIL x1); flip_rate=1.00). Non-reproducible results block trust in any single run (HEURISTIC).",
+      "heuristic": true,
+      "member_run_ids": [
+        "run-018",
+        "run-019",
+        "run-020"
+      ],
+      "benchmark_ids": [
+        "handshake"
+      ],
+      "config_ids": [
+        "cfg-kind"
+      ],
+      "evidence": {
+        "job_key": "handshake::cfg-kind",
+        "n_runs": 3,
+        "distinct_statuses": [
+          "FAIL",
+          "PASS"
+        ],
+        "status_counts": {
+          "PASS": 2,
+          "FAIL": 1
+        },
+        "pass_count": 2,
+        "fail_count": 1,
+        "nonconclusive_count": 0,
+        "flip_rate": 1.0,
+        "coefficient_of_variation": 0.027255719982926904
+      },
+      "priority_score": 15.0
+    },
+    {
+      "finding_id": "configsens-fifo_overflow",
+      "kind": "config_sensitivity",
+      "severity": "high",
+      "title": "fifo_overflow is configuration-sensitive: solved by some configs but not others",
+      "summary": "Benchmark fifo_overflow run under 3 configs is configuration-sensitive (solved by some configs but not others). Config choice materially affects the result; review before trusting a single config (HEURISTIC).",
+      "heuristic": true,
+      "member_run_ids": [
+        "run-014",
+        "run-016",
+        "run-017"
+      ],
+      "benchmark_ids": [
+        "fifo_overflow"
+      ],
+      "config_ids": [
+        "cfg-bmc-shallow",
+        "cfg-kind",
+        "cfg-pdr"
+      ],
+      "evidence": {
+        "benchmark_id": "fifo_overflow",
+        "n_configs": 3,
+        "distinct_terminal_statuses": [
+          "PASS",
+          "TIMEOUT"
+        ],
+        "best_config_id": "cfg-pdr",
+        "worst_config_id": "cfg-kind",
+        "best_median_wall_s": 15.0,
+        "worst_median_wall_s": 18.0,
+        "wall_spread_ratio": 1.2,
+        "solved_by_some_config": true,
+        "solved_by_all_configs": false
+      },
+      "priority_score": 6.2
+    },
+    {
+      "finding_id": "configsens-arbiter",
+      "kind": "config_sensitivity",
+      "severity": "high",
+      "title": "arbiter is configuration-sensitive: solved by some configs but not others",
+      "summary": "Benchmark arbiter run under 2 configs is configuration-sensitive (solved by some configs but not others). Config choice materially affects the result; review before trusting a single config (HEURISTIC).",
+      "heuristic": true,
+      "member_run_ids": [
+        "run-005",
+        "run-006",
+        "run-007",
+        "run-008",
+        "run-009",
+        "run-013"
+      ],
+      "benchmark_ids": [
+        "arbiter"
+      ],
+      "config_ids": [
+        "cfg-bmc-shallow",
+        "cfg-pdr"
+      ],
+      "evidence": {
+        "benchmark_id": "arbiter",
+        "n_configs": 2,
+        "distinct_terminal_statuses": [
+          "PASS",
+          "TIMEOUT"
+        ],
+        "best_config_id": "cfg-pdr",
+        "worst_config_id": "cfg-pdr",
+        "best_median_wall_s": 10.6,
+        "worst_median_wall_s": 10.6,
+        "wall_spread_ratio": 1.0,
+        "solved_by_some_config": true,
+        "solved_by_all_configs": false
+      },
+      "priority_score": 6.0
+    },
+    {
+      "finding_id": "configsens-handshake",
+      "kind": "config_sensitivity",
+      "severity": "high",
+      "title": "handshake is configuration-sensitive: solved by some configs but not others",
+      "summary": "Benchmark handshake run under 2 configs is configuration-sensitive (solved by some configs but not others). Config choice materially affects the result; review before trusting a single config (HEURISTIC).",
+      "heuristic": true,
+      "member_run_ids": [
+        "run-015",
+        "run-018",
+        "run-019",
+        "run-020"
+      ],
+      "benchmark_ids": [
+        "handshake"
+      ],
+      "config_ids": [
+        "cfg-bmc-shallow",
+        "cfg-kind"
+      ],
+      "evidence": {
+        "benchmark_id": "handshake",
+        "n_configs": 2,
+        "distinct_terminal_statuses": [
+          "FAIL",
+          "PASS",
+          "TIMEOUT"
+        ],
+        "best_config_id": "cfg-kind",
+        "worst_config_id": "cfg-kind",
+        "best_median_wall_s": 9.2,
+        "worst_median_wall_s": 9.2,
+        "wall_spread_ratio": 1.0,
+        "solved_by_some_config": true,
+        "solved_by_all_configs": false
+      },
+      "priority_score": 6.0
+    },
+    {
+      "finding_id": "tocluster-37cb20d7040052e3",
+      "kind": "timeout_cluster",
+      "severity": "medium",
+      "title": "3 TIMEOUT runs on config 'cfg-bmc-shallow'",
+      "summary": "config 'cfg-bmc-shallow' timed out on 3 run(s) across 3 benchmark(s). No conclusion was reached (NOT a pass). Budget/engine fit is a shared suspect (HEURISTIC).",
+      "heuristic": true,
+      "member_run_ids": [
+        "run-013",
+        "run-014",
+        "run-015"
+      ],
+      "benchmark_ids": [
+        "arbiter",
+        "fifo_overflow",
+        "handshake"
+      ],
+      "config_ids": [
+        "cfg-bmc-shallow"
+      ],
+      "evidence": {
+        "config_id": "cfg-bmc-shallow",
+        "n_members": 3,
+        "n_benchmarks": 3
+      },
+      "priority_score": 7.5
+    },
+    {
+      "finding_id": "failcluster-7cb3bebc1aa8dee0",
+      "kind": "failure_cluster",
+      "severity": "medium",
+      "title": "3 FAIL runs share property/return-code signature",
+      "summary": "3 runs across 1 benchmark(s) failed on the same property (sha 6a5ebbf4) with return_code=1. Likely the same failure mode; triage together (HEURISTIC).",
+      "heuristic": true,
+      "member_run_ids": [
+        "run-010",
+        "run-011",
+        "run-012"
+      ],
+      "benchmark_ids": [
+        "fifo_underflow"
+      ],
+      "config_ids": [
+        "cfg-bmc-deep",
+        "cfg-kind",
+        "cfg-pdr"
+      ],
+      "evidence": {
+        "property_sha": "6a5ebbf4df96b842a3bf2aedfdf2a03bfcda3cd658d68d351ed749d82a2f9edf",
+        "return_code": 1,
+        "n_members": 3,
+        "n_benchmarks": 1
+      },
+      "priority_score": 6.0
+    },
+    {
+      "finding_id": "dup-9ed97b2e4b44842a",
+      "kind": "duplicate_jobs",
+      "severity": "medium",
+      "title": "Duplicate inputs: 2 exact duplicate run(s) (repeated seed)",
+      "summary": "4 runs share identical inputs (design 61cf228c, property 19a6e256, config cfg-kind). 2 exact duplicate run(s) (repeated seed). Redundant compute is a de-duplication candidate (HEURISTIC).",
+      "heuristic": true,
+      "member_run_ids": [
+        "run-001",
+        "run-002",
+        "run-003",
+        "run-004"
+      ],
+      "benchmark_ids": [
+        "counter"
+      ],
+      "config_ids": [
+        "cfg-kind"
+      ],
+      "evidence": {
+        "signature": "9ed97b2e4b44842a",
+        "n_members": 4,
+        "n_distinct_seeds": 3,
+        "exact_duplicate_runs": 2,
+        "near_duplicate_extra_runs": 1
+      },
+      "priority_score": 4.5
+    },
+    {
+      "finding_id": "dup-2a8b4c1ac15cf34c",
+      "kind": "duplicate_jobs",
+      "severity": "low",
+      "title": "Duplicate inputs: 5 runs differing only by seed",
+      "summary": "5 runs share identical inputs (design 42ebb33b, property 9abb2923, config cfg-pdr). 5 runs differing only by seed. Redundant compute is a de-duplication candidate (HEURISTIC).",
+      "heuristic": true,
+      "member_run_ids": [
+        "run-005",
+        "run-006",
+        "run-007",
+        "run-008",
+        "run-009"
+      ],
+      "benchmark_ids": [
+        "arbiter"
+      ],
+      "config_ids": [
+        "cfg-pdr"
+      ],
+      "evidence": {
+        "signature": "2a8b4c1ac15cf34c",
+        "n_members": 5,
+        "n_distinct_seeds": 5,
+        "exact_duplicate_runs": 0,
+        "near_duplicate_extra_runs": 0
+      },
+      "priority_score": 1.0
+    },
+    {
+      "finding_id": "dup-fd2eab8a42399fe5",
+      "kind": "duplicate_jobs",
+      "severity": "low",
+      "title": "Duplicate inputs: 3 runs differing only by seed",
+      "summary": "3 runs share identical inputs (design ee85d4a6, property a707a0eb, config cfg-kind). 3 runs differing only by seed. Redundant compute is a de-duplication candidate (HEURISTIC).",
+      "heuristic": true,
+      "member_run_ids": [
+        "run-018",
+        "run-019",
+        "run-020"
+      ],
+      "benchmark_ids": [
+        "handshake"
+      ],
+      "config_ids": [
+        "cfg-kind"
+      ],
+      "evidence": {
+        "signature": "fd2eab8a42399fe5",
+        "n_members": 3,
+        "n_distinct_seeds": 3,
+        "exact_duplicate_runs": 0,
+        "near_duplicate_extra_runs": 0
+      },
+      "priority_score": 1.0
+    }
+  ],
+  "investigation_queue": [
+    {
+      "rank": 1,
+      "finding_id": "reg-wall_time_s-arbiter::cfg-pdr",
+      "kind": "runtime_regression",
+      "severity": "high",
+      "priority_score": 105.9047619047619,
+      "title": "runtime regression on arbiter::cfg-pdr: 5.9x baseline median",
+      "recommended_next_step": "Compare the latest run's tool/version and inputs against the baseline; bisect the change."
+    },
+    {
+      "rank": 2,
+      "finding_id": "reg-peak_memory_mb-arbiter::cfg-pdr",
+      "kind": "memory_regression",
+      "severity": "high",
+      "priority_score": 105.21739130434783,
+      "title": "memory regression on arbiter::cfg-pdr: 5.2x baseline median",
+      "recommended_next_step": "Inspect peak-memory drivers (COI/depth) for the latest run vs baseline; check memory-cap headroom."
+    },
+    {
+      "rank": 3,
+      "finding_id": "repro-handshake::cfg-kind",
+      "kind": "reproducibility_warning",
+      "severity": "high",
+      "priority_score": 15.0,
+      "title": "Flaky job handshake::cfg-kind: conflicting verdicts (PASS x2, FAIL x1)",
+      "recommended_next_step": "Reproduce the job with fixed seed and environment; a flaky verdict must be resolved before signoff."
+    },
+    {
+      "rank": 4,
+      "finding_id": "configsens-fifo_overflow",
+      "kind": "config_sensitivity",
+      "severity": "high",
+      "priority_score": 6.2,
+      "title": "fifo_overflow is configuration-sensitive: solved by some configs but not others",
+      "recommended_next_step": "Review why configs disagree; pick and document a defensible config, do not auto-change budgets."
+    },
+    {
+      "rank": 5,
+      "finding_id": "configsens-arbiter",
+      "kind": "config_sensitivity",
+      "severity": "high",
+      "priority_score": 6.0,
+      "title": "arbiter is configuration-sensitive: solved by some configs but not others",
+      "recommended_next_step": "Review why configs disagree; pick and document a defensible config, do not auto-change budgets."
+    },
+    {
+      "rank": 6,
+      "finding_id": "configsens-handshake",
+      "kind": "config_sensitivity",
+      "severity": "high",
+      "priority_score": 6.0,
+      "title": "handshake is configuration-sensitive: solved by some configs but not others",
+      "recommended_next_step": "Review why configs disagree; pick and document a defensible config, do not auto-change budgets."
+    },
+    {
+      "rank": 7,
+      "finding_id": "tocluster-37cb20d7040052e3",
+      "kind": "timeout_cluster",
+      "severity": "medium",
+      "priority_score": 7.5,
+      "title": "3 TIMEOUT runs on config 'cfg-bmc-shallow'",
+      "recommended_next_step": "Review the config's budget/engine fit for these benchmarks; a higher timeout tier or different engine may be warranted."
+    },
+    {
+      "rank": 8,
+      "finding_id": "failcluster-7cb3bebc1aa8dee0",
+      "kind": "failure_cluster",
+      "severity": "medium",
+      "priority_score": 6.0,
+      "title": "3 FAIL runs share property/return-code signature",
+      "recommended_next_step": "Open one representative failing run; confirm the shared property/RC is one root cause before fixing."
+    },
+    {
+      "rank": 9,
+      "finding_id": "dup-9ed97b2e4b44842a",
+      "kind": "duplicate_jobs",
+      "severity": "medium",
+      "priority_score": 4.5,
+      "title": "Duplicate inputs: 2 exact duplicate run(s) (repeated seed)",
+      "recommended_next_step": "Confirm the duplicate inputs are intentional; if not, de-duplicate to reclaim compute."
+    },
+    {
+      "rank": 10,
+      "finding_id": "dup-2a8b4c1ac15cf34c",
+      "kind": "duplicate_jobs",
+      "severity": "low",
+      "priority_score": 1.0,
+      "title": "Duplicate inputs: 5 runs differing only by seed",
+      "recommended_next_step": "Confirm the duplicate inputs are intentional; if not, de-duplicate to reclaim compute."
+    },
+    {
+      "rank": 11,
+      "finding_id": "dup-fd2eab8a42399fe5",
+      "kind": "duplicate_jobs",
+      "severity": "low",
+      "priority_score": 1.0,
+      "title": "Duplicate inputs: 3 runs differing only by seed",
+      "recommended_next_step": "Confirm the duplicate inputs are intentional; if not, de-duplicate to reclaim compute."
+    }
+  ]
+}

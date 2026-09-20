@@ -1,0 +1,29 @@
+"""Schema-validation tests for {{ display_name }}."""
+
+from __future__ import annotations
+
+import pytest
+from pydantic import ValidationError
+
+from {{ package_name }}.models import RtlSymbol, SymbolTable
+
+
+def test_symbol_table_requires_symbols():
+    with pytest.raises(ValidationError):
+        SymbolTable(design_top="top", symbols=[])
+
+
+def test_symbol_defaults():
+    s = RtlSymbol(name="clk")
+    assert s.width == 1
+    assert s.direction == "unknown"
+
+
+def test_forbids_extra_fields():
+    with pytest.raises(ValidationError):
+        RtlSymbol(name="clk", bogus=123)
+
+
+def test_names_helper():
+    t = SymbolTable(design_top="top", symbols=[{"name": "a"}, {"name": "b"}])
+    assert t.names() == {"a", "b"}

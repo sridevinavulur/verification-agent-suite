@@ -1,0 +1,430 @@
+{
+  "$defs": {
+    "AllowedAction": {
+      "description": "The *only* recommendation types the agent may emit (spec 6.1).\n\nAnything outside this closed set is a prohibited action and must never be\nproduced. The ranker draws exclusively from this enum.",
+      "enum": [
+        "run_existing_test",
+        "add_cover_property",
+        "add_directed_test",
+        "add_constrained_random_scenario",
+        "inspect_unreachable_code",
+        "request_waiver_review",
+        "request_spec_clarification",
+        "propose_assertion_candidate"
+      ],
+      "title": "AllowedAction",
+      "type": "string"
+    },
+    "CoverageKind": {
+      "description": "Kinds of coverage items supported by the mock coverage format.",
+      "enum": [
+        "statement",
+        "branch",
+        "toggle",
+        "fsm_state",
+        "fsm_transition",
+        "covergroup_bin",
+        "assertion"
+      ],
+      "title": "CoverageKind",
+      "type": "string"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "description": "A single piece of evidence backing a classification or hypothesis.\n\nEvidence is always a *fact drawn from an input*, cited by source, never an\nunsupported claim.",
+      "properties": {
+        "source": {
+          "description": "Which input the fact came from, e.g. 'test_manifest'.",
+          "title": "Source",
+          "type": "string"
+        },
+        "detail": {
+          "description": "The concrete observed fact.",
+          "title": "Detail",
+          "type": "string"
+        },
+        "ref": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Optional id/line the fact points at.",
+          "title": "Ref"
+        }
+      },
+      "required": [
+        "source",
+        "detail"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "HoleCategory": {
+      "description": "Deterministic classification of *why* a coverage item is uncovered.\n\nThese are heuristic categories derived from evidence in the inputs. They are\nhypotheses about the hole, not verified conclusions.",
+      "enum": [
+        "no_linked_test",
+        "test_exists_not_run",
+        "test_ran_but_failed",
+        "test_ran_still_uncovered",
+        "likely_unreachable",
+        "no_requirement_mapping",
+        "waiver_candidate",
+        "unknown"
+      ],
+      "title": "HoleCategory",
+      "type": "string"
+    },
+    "HoleClassification": {
+      "additionalProperties": false,
+      "description": "The classification of one coverage hole plus its ranked recommendations.",
+      "properties": {
+        "coverage_id": {
+          "title": "Coverage Id",
+          "type": "string"
+        },
+        "kind": {
+          "$ref": "#/$defs/CoverageKind"
+        },
+        "module": {
+          "title": "Module",
+          "type": "string"
+        },
+        "category": {
+          "$ref": "#/$defs/HoleCategory"
+        },
+        "is_heuristic": {
+          "default": true,
+          "description": "All categories are heuristic hypotheses, not verified facts.",
+          "title": "Is Heuristic",
+          "type": "boolean"
+        },
+        "root_cause_hypotheses": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Root Cause Hypotheses",
+          "type": "array"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "recommendations": {
+          "items": {
+            "$ref": "#/$defs/Recommendation"
+          },
+          "title": "Recommendations",
+          "type": "array"
+        },
+        "provenance_complete": {
+          "default": false,
+          "description": "True when every classification field is backed by cited evidence.",
+          "title": "Provenance Complete",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "coverage_id",
+        "kind",
+        "module",
+        "category"
+      ],
+      "title": "HoleClassification",
+      "type": "object"
+    },
+    "HumanReviewItem": {
+      "additionalProperties": false,
+      "properties": {
+        "coverage_id": {
+          "title": "Coverage Id",
+          "type": "string"
+        },
+        "reason": {
+          "title": "Reason",
+          "type": "string"
+        },
+        "recommendations": {
+          "items": {
+            "$ref": "#/$defs/AllowedAction"
+          },
+          "title": "Recommendations",
+          "type": "array"
+        }
+      },
+      "required": [
+        "coverage_id",
+        "reason",
+        "recommendations"
+      ],
+      "title": "HumanReviewItem",
+      "type": "object"
+    },
+    "IndependentMeasurementStep": {
+      "additionalProperties": false,
+      "description": "One instruction in the independent-measurement manifest.\n\nThe agent cannot claim closure; closure must be *independently measured* by\nre-running coverage after approved actions. This manifest tells a human how.",
+      "properties": {
+        "coverage_id": {
+          "title": "Coverage Id",
+          "type": "string"
+        },
+        "instruction": {
+          "title": "Instruction",
+          "type": "string"
+        },
+        "verify_covered_when": {
+          "default": "hits >= goal in a fresh coverage export",
+          "description": "Objective pass condition.",
+          "title": "Verify Covered When",
+          "type": "string"
+        }
+      },
+      "required": [
+        "coverage_id",
+        "instruction"
+      ],
+      "title": "IndependentMeasurementStep",
+      "type": "object"
+    },
+    "ProhibitedAction": {
+      "description": "Actions the agent must never take. Kept as an explicit registry so the\nenforcement layer can reference them by name in refusals and tests.",
+      "enum": [
+        "modify_rtl",
+        "auto_waive_coverage",
+        "change_coverage_scope",
+        "claim_closure_without_measurement",
+        "alter_tests_or_constraints"
+      ],
+      "title": "ProhibitedAction",
+      "type": "string"
+    },
+    "Recommendation": {
+      "additionalProperties": false,
+      "description": "A ranked, allowed next action. This is a *proposal* only.",
+      "properties": {
+        "action": {
+          "$ref": "#/$defs/AllowedAction"
+        },
+        "rationale": {
+          "title": "Rationale",
+          "type": "string"
+        },
+        "priority_score": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Priority Score",
+          "type": "number"
+        },
+        "expected_impact_items": {
+          "description": "Hypothesized number of coverage items this could close.",
+          "minimum": 0,
+          "title": "Expected Impact Items",
+          "type": "integer"
+        },
+        "expected_impact_note": {
+          "default": "",
+          "description": "Explicit hypothesis label -- never a guarantee.",
+          "title": "Expected Impact Note",
+          "type": "string"
+        },
+        "requires_human_approval": {
+          "default": true,
+          "description": "Every recommendation requires human approval before action.",
+          "title": "Requires Human Approval",
+          "type": "boolean"
+        },
+        "detail": {
+          "default": "",
+          "description": "Concrete, copy-pasteable next step where possible.",
+          "title": "Detail",
+          "type": "string"
+        }
+      },
+      "required": [
+        "action",
+        "rationale",
+        "priority_score",
+        "expected_impact_items"
+      ],
+      "title": "Recommendation",
+      "type": "object"
+    },
+    "ScopeProvenance": {
+      "additionalProperties": false,
+      "description": "Scope + provenance report for the whole run.",
+      "properties": {
+        "tool_version": {
+          "title": "Tool Version",
+          "type": "string"
+        },
+        "input_hashes": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Input Hashes",
+          "type": "object"
+        },
+        "seed": {
+          "title": "Seed",
+          "type": "integer"
+        },
+        "coverage_format": {
+          "title": "Coverage Format",
+          "type": "string"
+        },
+        "total_items": {
+          "title": "Total Items",
+          "type": "integer"
+        },
+        "total_holes": {
+          "title": "Total Holes",
+          "type": "integer"
+        },
+        "scope_note": {
+          "default": "Triage is heuristic; coverage-tool measurement remains authoritative. This run did not modify RTL, tests, constraints, scope, or waivers.",
+          "title": "Scope Note",
+          "type": "string"
+        }
+      },
+      "required": [
+        "tool_version",
+        "input_hashes",
+        "seed",
+        "coverage_format",
+        "total_items",
+        "total_holes"
+      ],
+      "title": "ScopeProvenance",
+      "type": "object"
+    },
+    "TriageMetrics": {
+      "additionalProperties": false,
+      "description": "Metrics computed over the run / a labelled sample (spec 6.1).",
+      "properties": {
+        "total_holes": {
+          "title": "Total Holes",
+          "type": "integer"
+        },
+        "total_recommendations": {
+          "title": "Total Recommendations",
+          "type": "integer"
+        },
+        "valid_proposal_rate": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Valid Proposal Rate",
+          "type": "number"
+        },
+        "provenance_completeness": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Provenance Completeness",
+          "type": "number"
+        },
+        "sample_size": {
+          "default": 0,
+          "title": "Sample Size",
+          "type": "integer"
+        },
+        "accepted_proposal_rate": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Accepted Proposal Rate"
+        },
+        "false_positive_proposal_rate": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "False Positive Proposal Rate"
+        },
+        "category_precision": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Category Precision"
+        }
+      },
+      "required": [
+        "total_holes",
+        "total_recommendations",
+        "valid_proposal_rate",
+        "provenance_completeness"
+      ],
+      "title": "TriageMetrics",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "The complete output artifact.",
+  "properties": {
+    "classifications": {
+      "items": {
+        "$ref": "#/$defs/HoleClassification"
+      },
+      "title": "Classifications",
+      "type": "array"
+    },
+    "independent_measurement": {
+      "items": {
+        "$ref": "#/$defs/IndependentMeasurementStep"
+      },
+      "title": "Independent Measurement",
+      "type": "array"
+    },
+    "human_review_queue": {
+      "items": {
+        "$ref": "#/$defs/HumanReviewItem"
+      },
+      "title": "Human Review Queue",
+      "type": "array"
+    },
+    "scope_provenance": {
+      "$ref": "#/$defs/ScopeProvenance"
+    },
+    "metrics": {
+      "$ref": "#/$defs/TriageMetrics"
+    },
+    "prohibited_actions_enforced": {
+      "items": {
+        "$ref": "#/$defs/ProhibitedAction"
+      },
+      "title": "Prohibited Actions Enforced",
+      "type": "array"
+    }
+  },
+  "required": [
+    "classifications",
+    "independent_measurement",
+    "human_review_queue",
+    "scope_provenance",
+    "metrics"
+  ],
+  "title": "TriageReport",
+  "type": "object"
+}

@@ -1,0 +1,89 @@
+{
+  "$defs": {
+    "EngineFamily": {
+      "description": "Engine families in the approved catalog (open-source-flavored names).",
+      "enum": [
+        "bmc",
+        "k_induction",
+        "pdr",
+        "interpolation"
+      ],
+      "title": "EngineFamily",
+      "type": "string"
+    },
+    "PartitionStrategy": {
+      "enum": [
+        "monolithic",
+        "coi_slice",
+        "hierarchy"
+      ],
+      "title": "PartitionStrategy",
+      "type": "string"
+    },
+    "PreprocessingLevel": {
+      "enum": [
+        "none",
+        "light",
+        "aggressive"
+      ],
+      "title": "PreprocessingLevel",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "One approved, versioned configuration from the finite catalog.\n\nEvery field maps to a knob the policy layer is *allowed* to choose. Nothing\noutside the catalog is executable.",
+  "properties": {
+    "config_id": {
+      "description": "Stable ID, unique within a catalog version.",
+      "title": "Config Id",
+      "type": "string"
+    },
+    "catalog_version": {
+      "description": "Version of the catalog this config belongs to.",
+      "title": "Catalog Version",
+      "type": "string"
+    },
+    "engine": {
+      "$ref": "#/$defs/EngineFamily"
+    },
+    "bmc_depth": {
+      "description": "Bounded-model-checking depth tier.",
+      "maximum": 100000,
+      "minimum": 1,
+      "title": "Bmc Depth",
+      "type": "integer"
+    },
+    "timeout_s": {
+      "description": "Wall-clock timeout tier (seconds).",
+      "maximum": 86400,
+      "minimum": 1,
+      "title": "Timeout S",
+      "type": "integer"
+    },
+    "memory_cap_mb": {
+      "description": "Peak-memory cap tier (MB).",
+      "maximum": 1048576,
+      "minimum": 64,
+      "title": "Memory Cap Mb",
+      "type": "integer"
+    },
+    "preprocessing": {
+      "$ref": "#/$defs/PreprocessingLevel"
+    },
+    "partition_strategy": {
+      "$ref": "#/$defs/PartitionStrategy"
+    }
+  },
+  "required": [
+    "config_id",
+    "catalog_version",
+    "engine",
+    "bmc_depth",
+    "timeout_s",
+    "memory_cap_mb",
+    "preprocessing",
+    "partition_strategy"
+  ],
+  "title": "SolverConfig",
+  "type": "object"
+}

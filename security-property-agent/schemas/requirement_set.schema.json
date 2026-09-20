@@ -1,0 +1,103 @@
+{
+  "$defs": {
+    "SecurityCategory": {
+      "description": "The security check families this agent supports (spec 6.13).",
+      "enum": [
+        "access_control",
+        "privilege_gating",
+        "debug_lockout",
+        "fault_response",
+        "error_containment",
+        "lockstep_mismatch",
+        "information_flow_adjacent"
+      ],
+      "title": "SecurityCategory",
+      "type": "string"
+    },
+    "SecurityRequirement": {
+      "additionalProperties": false,
+      "description": "A single structured security requirement (the input contract).\n\n``text`` is the human-authored requirement statement and is preserved\nEXACTLY by the whole pipeline. ``signals`` optionally names candidate RTL\nsignals the author already has in mind; the grounding stage still requires\nevidence in the Manifest before treating any of them as resolved.",
+      "properties": {
+        "requirement_id": {
+          "minLength": 1,
+          "title": "Requirement Id",
+          "type": "string"
+        },
+        "category": {
+          "$ref": "#/$defs/SecurityCategory"
+        },
+        "text": {
+          "minLength": 1,
+          "title": "Text",
+          "type": "string"
+        },
+        "signals": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Signals",
+          "type": "array"
+        },
+        "declared_trust_boundary": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Declared Trust Boundary"
+        },
+        "tags": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Tags",
+          "type": "array"
+        }
+      },
+      "required": [
+        "requirement_id",
+        "category",
+        "text"
+      ],
+      "title": "SecurityRequirement",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "A file's worth of structured security requirements.",
+  "properties": {
+    "schema_version": {
+      "default": "0.1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "design": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Design"
+    },
+    "requirements": {
+      "items": {
+        "$ref": "#/$defs/SecurityRequirement"
+      },
+      "title": "Requirements",
+      "type": "array"
+    }
+  },
+  "required": [
+    "requirements"
+  ],
+  "title": "RequirementSet",
+  "type": "object"
+}

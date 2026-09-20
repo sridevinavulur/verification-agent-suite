@@ -1,0 +1,7 @@
+register,field,address,bits,access,reset,description
+DATA,,0x00,,RW,0x0,GPIO data register
+DATA,PINS,0x00,15:0,RW,0x0,pin values
+DIR,,0x04,,RW,0x0,direction register
+DIR,DIRECTION,0x04,15:0,RW,0x0,0=input 1=output
+INT_STAT,,0x08,,RW,0x0,interrupt status
+INT_STAT,PENDING,0x08,15:0,W1C,0x0,write 1 to clear pending

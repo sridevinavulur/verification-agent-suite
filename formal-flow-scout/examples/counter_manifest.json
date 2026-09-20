@@ -1,0 +1,63 @@
+{
+  "schema_version": "0.1.0",
+  "provenance": {
+    "tool": "rtl-intent",
+    "tool_version": "0.1.0",
+    "schema_version": "0.1.0",
+    "git_sha": "UNKNOWN",
+    "input_files": ["counter.v"],
+    "input_sha256": {},
+    "command": "rtl-intent build counter.v"
+  },
+  "parser": {
+    "adapter": "builtin-subset",
+    "adapter_version": "0.1.0",
+    "supported_constructs": ["module", "ports", "assign", "always_ff"],
+    "unsupported_constructs": []
+  },
+  "top": "counter",
+  "modules": [
+    {
+      "name": "counter",
+      "location": {"file": "counter.v", "line": 2, "col": 1, "end_line": 2, "end_col": 8},
+      "parameters": [],
+      "ports": [
+        {"name": "clk", "direction": "input", "location": {"file": "counter.v", "line": 3, "col": 5, "end_line": 3, "end_col": 8}},
+        {"name": "rst", "direction": "input", "location": {"file": "counter.v", "line": 4, "col": 5, "end_line": 4, "end_col": 8}},
+        {"name": "en", "direction": "input", "location": {"file": "counter.v", "line": 5, "col": 5, "end_line": 5, "end_col": 7}},
+        {"name": "at_max", "direction": "output", "location": {"file": "counter.v", "line": 6, "col": 5, "end_line": 6, "end_col": 11}},
+        {"name": "value", "direction": "output", "range": {"msb": "7", "lsb": "0"}, "location": {"file": "counter.v", "line": 7, "col": 5, "end_line": 7, "end_col": 10}}
+      ],
+      "nets": [
+        {"name": "cnt", "net_kind": "reg", "range": {"msb": "7", "lsb": "0"}, "location": {"file": "counter.v", "line": 9, "col": 5, "end_line": 9, "end_col": 8}}
+      ],
+      "registers": [
+        {"name": "cnt", "driven_in_procedure_index": 0, "location": {"file": "counter.v", "line": 15, "col": 9, "end_line": 15, "end_col": 12}}
+      ],
+      "continuous_assigns": [
+        {"lhs": "at_max", "rhs": "(cnt == 8'hFF)", "location": {"file": "counter.v", "line": 11, "col": 5, "end_line": 11, "end_col": 30}},
+        {"lhs": "value", "rhs": "cnt", "location": {"file": "counter.v", "line": 12, "col": 5, "end_line": 12, "end_col": 20}}
+      ],
+      "procedures": [
+        {
+          "index": 0,
+          "kind": "always_ff",
+          "sensitivity": [{"signal": "clk", "edge": "posedge"}],
+          "is_star_sensitivity": false,
+          "assignment_targets": ["cnt"],
+          "assignments": [
+            {"lhs": "cnt", "rhs": "8'h00", "nonblocking": true, "location": {"file": "counter.v", "line": 15, "col": 9, "end_line": 15, "end_col": 22}},
+            {"lhs": "cnt", "rhs": "cnt + 8'h01", "nonblocking": true, "location": {"file": "counter.v", "line": 17, "col": 9, "end_line": 17, "end_col": 28}}
+          ],
+          "location": {"file": "counter.v", "line": 14, "col": 5, "end_line": 18, "end_col": 8}
+        }
+      ],
+      "instances": [],
+      "clock_candidates": [],
+      "reset_candidates": [],
+      "procedure_summary": {"always_ff": 1, "always_comb": 0, "always_other": 0, "continuous_assigns": 2}
+    }
+  ],
+  "hierarchy": [],
+  "unresolved": []
+}

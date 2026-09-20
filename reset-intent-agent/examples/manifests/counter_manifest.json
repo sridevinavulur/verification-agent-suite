@@ -1,0 +1,55 @@
+{
+  "schema_version": "0.1.0",
+  "top": "counter_async_low",
+  "provenance": {
+    "tool": "rtl-intent",
+    "tool_version": "0.1.0",
+    "schema_version": "0.1.0"
+  },
+  "parser": {
+    "adapter": "subset",
+    "adapter_version": "0.1.0",
+    "supported_constructs": ["module", "port", "always_ff", "nonblocking_assign"],
+    "unsupported_constructs": []
+  },
+  "modules": [
+    {
+      "name": "counter_async_low",
+      "location": { "file": "counter_async_low.sv", "line": 3, "col": 1, "end_line": 3, "end_col": 20 },
+      "ports": [
+        { "name": "clk",   "direction": "input",  "location": { "file": "counter_async_low.sv", "line": 4, "col": 22, "end_line": 4, "end_col": 24 } },
+        { "name": "rst_n", "direction": "input",  "location": { "file": "counter_async_low.sv", "line": 5, "col": 22, "end_line": 5, "end_col": 26 } },
+        { "name": "en",    "direction": "input",  "location": { "file": "counter_async_low.sv", "line": 6, "col": 22, "end_line": 6, "end_col": 23 } },
+        { "name": "count", "direction": "output", "location": { "file": "counter_async_low.sv", "line": 7, "col": 22, "end_line": 7, "end_col": 26 } }
+      ],
+      "registers": [
+        { "name": "count", "driven_in_procedure_index": 0, "location": { "file": "counter_async_low.sv", "line": 11, "col": 13, "end_line": 11, "end_col": 17 } }
+      ],
+      "reset_candidates": [
+        { "signal": "rst_n", "polarity": "active_low", "sync": "asynchronous", "confidence": 0.9, "location": { "file": "counter_async_low.sv", "line": 5, "col": 22, "end_line": 5, "end_col": 26 } }
+      ],
+      "clock_candidates": [
+        { "signal": "clk", "confidence": 0.9 }
+      ],
+      "procedures": [
+        {
+          "index": 0,
+          "kind": "always_ff",
+          "location": { "file": "counter_async_low.sv", "line": 10, "col": 5, "end_line": 15, "end_col": 8 },
+          "sensitivity": [
+            { "signal": "clk",   "edge": "posedge" },
+            { "signal": "rst_n", "edge": "negedge" }
+          ],
+          "condition_signals": ["rst_n", "en"],
+          "assignment_targets": ["count"],
+          "assignments": [
+            { "lhs": "count", "rhs": "8'b0",        "nonblocking": true, "location": { "file": "counter_async_low.sv", "line": 12, "col": 13, "end_line": 12, "end_col": 25 } },
+            { "lhs": "count", "rhs": "count + 1'b1", "nonblocking": true, "location": { "file": "counter_async_low.sv", "line": 14, "col": 13, "end_line": 14, "end_col": 33 } }
+          ]
+        }
+      ]
+    }
+  ],
+  "hierarchy": [],
+  "unresolved": []
+}

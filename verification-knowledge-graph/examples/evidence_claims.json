@@ -1,0 +1,26 @@
+{
+  "schema_version": "0.1.0",
+  "note": "Public toy EVIDENCE.md claims + benchmark links. A claim with no benchmarks is unsupported.",
+  "claims": [
+    {
+      "id": "C-IMPORT",
+      "text": "Importers run on sample data and produce correct graph nodes/edges.",
+      "benchmarks": ["examples/"]
+    },
+    {
+      "id": "C-QUERIES",
+      "text": "All five working queries return correct results on sample data.",
+      "benchmarks": ["examples/", "tests/test_queries.py"]
+    },
+    {
+      "id": "C-SCALE",
+      "text": "Graph scales to million-node designs.",
+      "benchmarks": []
+    },
+    {
+      "id": "C-DOT",
+      "text": "Graph exports valid Graphviz DOT.",
+      "benchmarks": ["tests/test_export.py"]
+    }
+  ]
+}

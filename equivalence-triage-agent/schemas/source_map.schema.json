@@ -1,0 +1,81 @@
+{
+  "$defs": {
+    "SourceLocation": {
+      "additionalProperties": false,
+      "description": "1-based source location; mirrors the canonical manifest schema.",
+      "properties": {
+        "file": {
+          "title": "File",
+          "type": "string"
+        },
+        "line": {
+          "minimum": 1,
+          "title": "Line",
+          "type": "integer"
+        },
+        "col": {
+          "default": 1,
+          "minimum": 1,
+          "title": "Col",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "file",
+        "line"
+      ],
+      "title": "SourceLocation",
+      "type": "object"
+    },
+    "SourceMapEntry": {
+      "additionalProperties": false,
+      "description": "Maps a compare-point / signal name to a source location in a design.",
+      "properties": {
+        "signal": {
+          "title": "Signal",
+          "type": "string"
+        },
+        "design": {
+          "description": "'reference' or 'revised'.",
+          "title": "Design",
+          "type": "string"
+        },
+        "location": {
+          "$ref": "#/$defs/SourceLocation"
+        },
+        "module": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Module"
+        }
+      },
+      "required": [
+        "signal",
+        "design",
+        "location"
+      ],
+      "title": "SourceMapEntry",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Collection of signal -> source-location mappings.",
+  "properties": {
+    "entries": {
+      "items": {
+        "$ref": "#/$defs/SourceMapEntry"
+      },
+      "title": "Entries",
+      "type": "array"
+    }
+  },
+  "title": "SourceMap",
+  "type": "object"
+}

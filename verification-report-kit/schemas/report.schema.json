@@ -1,0 +1,532 @@
+{
+  "$defs": {
+    "CoveragePoint": {
+      "additionalProperties": false,
+      "description": "One row of a coverage-over-time history.",
+      "properties": {
+        "label": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "description": "Iteration index or timestamp",
+          "title": "Label"
+        },
+        "metrics": {
+          "additionalProperties": {
+            "type": "number"
+          },
+          "description": "metric name -> percent (0..100), e.g. {'line': 92.3}",
+          "title": "Metrics",
+          "type": "object"
+        }
+      },
+      "required": [
+        "label",
+        "metrics"
+      ],
+      "title": "CoveragePoint",
+      "type": "object"
+    },
+    "Finding": {
+      "additionalProperties": false,
+      "description": "A single finding/bug/issue with a severity classification.",
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "title": {
+          "title": "Title",
+          "type": "string"
+        },
+        "severity": {
+          "default": "info",
+          "description": "One of: critical, high, medium, low, info",
+          "title": "Severity",
+          "type": "string"
+        },
+        "status": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Status"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "category": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Category"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Description"
+        },
+        "suggested_fix": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Suggested Fix"
+        },
+        "location": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "File/signal/scope",
+          "title": "Location"
+        },
+        "heuristic": {
+          "default": false,
+          "description": "True if produced by a heuristic (not sound/formal).",
+          "title": "Heuristic",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "title"
+      ],
+      "title": "Finding",
+      "type": "object"
+    },
+    "Provenance": {
+      "additionalProperties": false,
+      "description": "Run provenance / reproducibility ledger.\n\nRecords enough to reproduce and audit a run. All fields optional so a\nminimal report is still valid, but tools SHOULD populate what they can.",
+      "properties": {
+        "tool": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Producing tool name",
+          "title": "Tool"
+        },
+        "tool_version": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Tool Version"
+        },
+        "git_sha": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Source revision",
+          "title": "Git Sha"
+        },
+        "command": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Invocation command",
+          "title": "Command"
+        },
+        "seed": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Seed"
+        },
+        "input_hashes": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Input Hashes",
+          "type": "object"
+        },
+        "runtime_seconds": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Runtime Seconds"
+        },
+        "peak_memory_mb": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Peak Memory Mb"
+        },
+        "status": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Status"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "timestamp": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "ISO-8601 string. Left to the caller so rendering stays deterministic (no implicit now()).",
+          "title": "Timestamp"
+        },
+        "extra": {
+          "additionalProperties": true,
+          "title": "Extra",
+          "type": "object"
+        }
+      },
+      "title": "Provenance",
+      "type": "object"
+    },
+    "Section": {
+      "additionalProperties": false,
+      "description": "A free-form content section: prose + optional tables/stats.\n\nSections let arbitrary tools express their own structure without changing\nthe schema. Order is preserved in rendering.",
+      "properties": {
+        "heading": {
+          "title": "Heading",
+          "type": "string"
+        },
+        "status": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Status"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "body": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Plain text (rendered as escaped paragraphs)",
+          "title": "Body"
+        },
+        "bullets": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Bullets",
+          "type": "array"
+        },
+        "stats": {
+          "items": {
+            "$ref": "#/$defs/Stat"
+          },
+          "title": "Stats",
+          "type": "array"
+        },
+        "tables": {
+          "items": {
+            "$ref": "#/$defs/Table"
+          },
+          "title": "Tables",
+          "type": "array"
+        }
+      },
+      "required": [
+        "heading"
+      ],
+      "title": "Section",
+      "type": "object"
+    },
+    "Stat": {
+      "additionalProperties": false,
+      "description": "A single labelled key/value statistic shown as a headline tile.",
+      "properties": {
+        "label": {
+          "title": "Label",
+          "type": "string"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Value"
+        },
+        "unit": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "e.g. '%', 'ms'",
+          "title": "Unit"
+        },
+        "status": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Status"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Optional accent for the tile"
+        }
+      },
+      "required": [
+        "label",
+        "value"
+      ],
+      "title": "Stat",
+      "type": "object"
+    },
+    "Status": {
+      "description": "Result vocabulary for findings and section outcomes.",
+      "enum": [
+        "PASS",
+        "FAIL",
+        "TIMEOUT",
+        "ERROR",
+        "UNKNOWN",
+        "INCONCLUSIVE",
+        "COMPILED",
+        "WARN",
+        "SKIP",
+        "INFO"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "Table": {
+      "additionalProperties": false,
+      "description": "A generic table: headers + rows of cell strings.",
+      "properties": {
+        "title": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Title"
+        },
+        "columns": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Columns",
+          "type": "array"
+        },
+        "rows": {
+          "items": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "type": "array"
+          },
+          "title": "Rows",
+          "type": "array"
+        },
+        "note": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Caption below table",
+          "title": "Note"
+        }
+      },
+      "required": [
+        "columns"
+      ],
+      "title": "Table",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Top-level, stable report contract.\n\nA tool populates the fields it has; everything except ``title`` is\noptional. Renderers must tolerate empty collections gracefully.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "title": {
+      "title": "Title",
+      "type": "string"
+    },
+    "subtitle": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Subtitle"
+    },
+    "provenance": {
+      "$ref": "#/$defs/Provenance"
+    },
+    "stats": {
+      "description": "Headline key/value tiles",
+      "items": {
+        "$ref": "#/$defs/Stat"
+      },
+      "title": "Stats",
+      "type": "array"
+    },
+    "sections": {
+      "items": {
+        "$ref": "#/$defs/Section"
+      },
+      "title": "Sections",
+      "type": "array"
+    },
+    "tables": {
+      "description": "Top-level tables (outside sections)",
+      "items": {
+        "$ref": "#/$defs/Table"
+      },
+      "title": "Tables",
+      "type": "array"
+    },
+    "findings": {
+      "items": {
+        "$ref": "#/$defs/Finding"
+      },
+      "title": "Findings",
+      "type": "array"
+    },
+    "coverage_history": {
+      "items": {
+        "$ref": "#/$defs/CoveragePoint"
+      },
+      "title": "Coverage History",
+      "type": "array"
+    }
+  },
+  "required": [
+    "title"
+  ],
+  "title": "ReportModel",
+  "type": "object"
+}

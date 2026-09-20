@@ -1,0 +1,593 @@
+{
+  "hierarchy": [],
+  "modules": [
+    {
+      "clock_candidates": [
+        {
+          "confidence": 1.0,
+          "location": {
+            "col": 5,
+            "end_col": 26,
+            "end_line": 8,
+            "file": "secure_soc.sv",
+            "line": 8
+          },
+          "rationale": [
+            "edge-sensitive in always_ff (proc #0)",
+            "name matches clock convention"
+          ],
+          "signal": "clk"
+        }
+      ],
+      "continuous_assigns": [],
+      "instances": [],
+      "location": {
+        "col": 1,
+        "end_col": 17,
+        "end_line": 7,
+        "file": "secure_soc.sv",
+        "line": 7
+      },
+      "name": "secure_soc",
+      "nets": [],
+      "parameters": [],
+      "ports": [
+        {
+          "direction": "input",
+          "location": {
+            "col": 5,
+            "end_col": 26,
+            "end_line": 8,
+            "file": "secure_soc.sv",
+            "line": 8
+          },
+          "name": "clk",
+          "net_kind": "wire",
+          "range": null
+        },
+        {
+          "direction": "input",
+          "location": {
+            "col": 5,
+            "end_col": 28,
+            "end_line": 9,
+            "file": "secure_soc.sv",
+            "line": 9
+          },
+          "name": "rst_n",
+          "net_kind": "wire",
+          "range": null
+        },
+        {
+          "direction": "input",
+          "location": {
+            "col": 5,
+            "end_col": 32,
+            "end_line": 12,
+            "file": "secure_soc.sv",
+            "line": 12
+          },
+          "name": "mem_wr_en",
+          "net_kind": "wire",
+          "range": null
+        },
+        {
+          "direction": "input",
+          "location": {
+            "col": 5,
+            "end_col": 31,
+            "end_line": 13,
+            "file": "secure_soc.sv",
+            "line": 13
+          },
+          "name": "wr_grant",
+          "net_kind": "wire",
+          "range": null
+        },
+        {
+          "direction": "output",
+          "location": {
+            "col": 5,
+            "end_col": 32,
+            "end_line": 14,
+            "file": "secure_soc.sv",
+            "line": 14
+          },
+          "name": "wr_commit",
+          "net_kind": "reg",
+          "range": null
+        },
+        {
+          "direction": "input",
+          "location": {
+            "col": 5,
+            "end_col": 32,
+            "end_line": 17,
+            "file": "secure_soc.sv",
+            "line": 17
+          },
+          "name": "secure_op",
+          "net_kind": "wire",
+          "range": null
+        },
+        {
+          "direction": "input",
+          "location": {
+            "col": 5,
+            "end_col": 32,
+            "end_line": 18,
+            "file": "secure_soc.sv",
+            "line": 18
+          },
+          "name": "priv_mode",
+          "net_kind": "wire",
+          "range": null
+        },
+        {
+          "direction": "input",
+          "location": {
+            "col": 5,
+            "end_col": 30,
+            "end_line": 21,
+            "file": "secure_soc.sv",
+            "line": 21
+          },
+          "name": "dbg_req",
+          "net_kind": "wire",
+          "range": null
+        },
+        {
+          "direction": "input",
+          "location": {
+            "col": 5,
+            "end_col": 33,
+            "end_line": 22,
+            "file": "secure_soc.sv",
+            "line": 22
+          },
+          "name": "dbg_locked",
+          "net_kind": "wire",
+          "range": null
+        },
+        {
+          "direction": "output",
+          "location": {
+            "col": 5,
+            "end_col": 33,
+            "end_line": 23,
+            "file": "secure_soc.sv",
+            "line": 23
+          },
+          "name": "dbg_enable",
+          "net_kind": "reg",
+          "range": null
+        },
+        {
+          "direction": "input",
+          "location": {
+            "col": 5,
+            "end_col": 37,
+            "end_line": 26,
+            "file": "secure_soc.sv",
+            "line": 26
+          },
+          "name": "fault_detected",
+          "net_kind": "wire",
+          "range": null
+        },
+        {
+          "direction": "output",
+          "location": {
+            "col": 5,
+            "end_col": 32,
+            "end_line": 27,
+            "file": "secure_soc.sv",
+            "line": 27
+          },
+          "name": "safe_halt",
+          "net_kind": "reg",
+          "range": null
+        },
+        {
+          "direction": "input",
+          "location": {
+            "col": 5,
+            "end_col": 32,
+            "end_line": 30,
+            "file": "secure_soc.sv",
+            "line": 30
+          },
+          "name": "ecc_error",
+          "net_kind": "wire",
+          "range": null
+        },
+        {
+          "direction": "output",
+          "location": {
+            "col": 5,
+            "end_col": 37,
+            "end_line": 31,
+            "file": "secure_soc.sv",
+            "line": 31
+          },
+          "name": "data_valid_out",
+          "net_kind": "reg",
+          "range": null
+        },
+        {
+          "direction": "output",
+          "location": {
+            "col": 5,
+            "end_col": 36,
+            "end_line": 34,
+            "file": "secure_soc.sv",
+            "line": 34
+          },
+          "name": "core_a_result",
+          "net_kind": "reg",
+          "range": {
+            "lsb": "0",
+            "msb": "7"
+          }
+        },
+        {
+          "direction": "output",
+          "location": {
+            "col": 5,
+            "end_col": 36,
+            "end_line": 35,
+            "file": "secure_soc.sv",
+            "line": 35
+          },
+          "name": "core_b_result",
+          "net_kind": "reg",
+          "range": {
+            "lsb": "0",
+            "msb": "7"
+          }
+        },
+        {
+          "direction": "output",
+          "location": {
+            "col": 5,
+            "end_col": 40,
+            "end_line": 36,
+            "file": "secure_soc.sv",
+            "line": 36
+          },
+          "name": "lockstep_mismatch",
+          "net_kind": "reg",
+          "range": null
+        }
+      ],
+      "procedure_summary": {
+        "always_comb": 0,
+        "always_ff": 1,
+        "always_other": 0,
+        "continuous_assigns": 0
+      },
+      "procedures": [
+        {
+          "assignment_targets": [
+            "wr_commit",
+            "dbg_enable",
+            "safe_halt",
+            "data_valid_out",
+            "core_a_result",
+            "core_b_result",
+            "lockstep_mismatch"
+          ],
+          "assignments": [
+            {
+              "lhs": "wr_commit",
+              "location": {
+                "col": 13,
+                "end_col": 37,
+                "end_line": 41,
+                "file": "secure_soc.sv",
+                "line": 41
+              },
+              "nonblocking": true,
+              "rhs": "1'b0"
+            },
+            {
+              "lhs": "dbg_enable",
+              "location": {
+                "col": 13,
+                "end_col": 37,
+                "end_line": 42,
+                "file": "secure_soc.sv",
+                "line": 42
+              },
+              "nonblocking": true,
+              "rhs": "1'b0"
+            },
+            {
+              "lhs": "safe_halt",
+              "location": {
+                "col": 13,
+                "end_col": 37,
+                "end_line": 43,
+                "file": "secure_soc.sv",
+                "line": 43
+              },
+              "nonblocking": true,
+              "rhs": "1'b0"
+            },
+            {
+              "lhs": "data_valid_out",
+              "location": {
+                "col": 13,
+                "end_col": 37,
+                "end_line": 44,
+                "file": "secure_soc.sv",
+                "line": 44
+              },
+              "nonblocking": true,
+              "rhs": "1'b0"
+            },
+            {
+              "lhs": "core_a_result",
+              "location": {
+                "col": 13,
+                "end_col": 38,
+                "end_line": 45,
+                "file": "secure_soc.sv",
+                "line": 45
+              },
+              "nonblocking": true,
+              "rhs": "8'h00"
+            },
+            {
+              "lhs": "core_b_result",
+              "location": {
+                "col": 13,
+                "end_col": 38,
+                "end_line": 46,
+                "file": "secure_soc.sv",
+                "line": 46
+              },
+              "nonblocking": true,
+              "rhs": "8'h00"
+            },
+            {
+              "lhs": "lockstep_mismatch",
+              "location": {
+                "col": 13,
+                "end_col": 37,
+                "end_line": 47,
+                "file": "secure_soc.sv",
+                "line": 47
+              },
+              "nonblocking": true,
+              "rhs": "1'b0"
+            },
+            {
+              "lhs": "wr_commit",
+              "location": {
+                "col": 13,
+                "end_col": 53,
+                "end_line": 49,
+                "file": "secure_soc.sv",
+                "line": 49
+              },
+              "nonblocking": true,
+              "rhs": "mem_wr_en & wr_grant"
+            },
+            {
+              "lhs": "dbg_enable",
+              "location": {
+                "col": 13,
+                "end_col": 54,
+                "end_line": 50,
+                "file": "secure_soc.sv",
+                "line": 50
+              },
+              "nonblocking": true,
+              "rhs": "dbg_req & ~dbg_locked"
+            },
+            {
+              "lhs": "safe_halt",
+              "location": {
+                "col": 13,
+                "end_col": 47,
+                "end_line": 51,
+                "file": "secure_soc.sv",
+                "line": 51
+              },
+              "nonblocking": true,
+              "rhs": "fault_detected"
+            },
+            {
+              "lhs": "data_valid_out",
+              "location": {
+                "col": 13,
+                "end_col": 43,
+                "end_line": 52,
+                "file": "secure_soc.sv",
+                "line": 52
+              },
+              "nonblocking": true,
+              "rhs": "~ecc_error"
+            },
+            {
+              "lhs": "lockstep_mismatch",
+              "location": {
+                "col": 13,
+                "end_col": 65,
+                "end_line": 53,
+                "file": "secure_soc.sv",
+                "line": 53
+              },
+              "nonblocking": true,
+              "rhs": "(core_a_result != core_b_result)"
+            }
+          ],
+          "condition_signals": [
+            "rst_n"
+          ],
+          "index": 0,
+          "is_star_sensitivity": false,
+          "kind": "always_ff",
+          "location": {
+            "col": 5,
+            "end_col": 7,
+            "end_line": 55,
+            "file": "secure_soc.sv",
+            "line": 39
+          },
+          "sensitivity": [
+            {
+              "edge": "posedge",
+              "signal": "clk"
+            },
+            {
+              "edge": "negedge",
+              "signal": "rst_n"
+            }
+          ]
+        }
+      ],
+      "registers": [
+        {
+          "driven_in_procedure_index": 0,
+          "location": {
+            "col": 13,
+            "end_col": 37,
+            "end_line": 41,
+            "file": "secure_soc.sv",
+            "line": 41
+          },
+          "name": "wr_commit"
+        },
+        {
+          "driven_in_procedure_index": 0,
+          "location": {
+            "col": 13,
+            "end_col": 37,
+            "end_line": 42,
+            "file": "secure_soc.sv",
+            "line": 42
+          },
+          "name": "dbg_enable"
+        },
+        {
+          "driven_in_procedure_index": 0,
+          "location": {
+            "col": 13,
+            "end_col": 37,
+            "end_line": 43,
+            "file": "secure_soc.sv",
+            "line": 43
+          },
+          "name": "safe_halt"
+        },
+        {
+          "driven_in_procedure_index": 0,
+          "location": {
+            "col": 13,
+            "end_col": 37,
+            "end_line": 44,
+            "file": "secure_soc.sv",
+            "line": 44
+          },
+          "name": "data_valid_out"
+        },
+        {
+          "driven_in_procedure_index": 0,
+          "location": {
+            "col": 13,
+            "end_col": 38,
+            "end_line": 45,
+            "file": "secure_soc.sv",
+            "line": 45
+          },
+          "name": "core_a_result"
+        },
+        {
+          "driven_in_procedure_index": 0,
+          "location": {
+            "col": 13,
+            "end_col": 38,
+            "end_line": 46,
+            "file": "secure_soc.sv",
+            "line": 46
+          },
+          "name": "core_b_result"
+        },
+        {
+          "driven_in_procedure_index": 0,
+          "location": {
+            "col": 13,
+            "end_col": 37,
+            "end_line": 47,
+            "file": "secure_soc.sv",
+            "line": 47
+          },
+          "name": "lockstep_mismatch"
+        }
+      ],
+      "reset_candidates": [
+        {
+          "confidence": 0.9,
+          "location": {
+            "col": 5,
+            "end_col": 28,
+            "end_line": 9,
+            "file": "secure_soc.sv",
+            "line": 9
+          },
+          "polarity": "active_low",
+          "rationale": [
+            "edge-sensitive in always_ff (proc #0) with reset-like name",
+            "name matches reset convention"
+          ],
+          "signal": "rst_n",
+          "sync": "asynchronous"
+        }
+      ]
+    }
+  ],
+  "parser": {
+    "adapter": "builtin",
+    "adapter_version": "0.1.0",
+    "supported_constructs": [
+      "module/endmodule",
+      "ANSI and non-ANSI port lists",
+      "parameter/localparam",
+      "input/output/inout ports with width",
+      "wire/reg/logic declarations",
+      "continuous assign",
+      "always/always_ff/always_comb blocks",
+      "blocking and nonblocking assignments",
+      "basic module instances (named and positional)"
+    ],
+    "unsupported_constructs": [
+      "generate/for-generate blocks",
+      "functions and tasks",
+      "structs/unions/enums/typedefs",
+      "interfaces/modports/packages",
+      "SystemVerilog assertions (SVA)",
+      "preprocessor macros beyond raw passthrough",
+      "case/casez/casex statement bodies (recorded, body not modeled)",
+      "hierarchical/dotted assignment targets",
+      "parameter expression evaluation (ranges kept as text)"
+    ]
+  },
+  "provenance": {
+    "command": "rtl-intent ingest ../security-property-agent/examples/rtl/secure_soc.sv",
+    "git_sha": "UNKNOWN",
+    "input_files": [
+      "secure_soc.sv"
+    ],
+    "input_sha256": {
+      "secure_soc.sv": "74c1b859f63b785fab8927699595a29ce3b10b27b4076914b1b18d3f41b5016e"
+    },
+    "schema_version": "0.1.0",
+    "tool": "rtl-intent",
+    "tool_version": "0.1.0"
+  },
+  "schema_version": "0.1.0",
+  "top": "secure_soc",
+  "unresolved": []
+}

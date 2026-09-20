@@ -1,0 +1,8 @@
+EQLOG/1
+tool: mock-lec
+tool_version: 0.1.0
+reference: ref_alu
+revised: ref_alu_resynth
+status: EQUIVALENT
+compare_points: 13/13
+msg: All compare points matched.

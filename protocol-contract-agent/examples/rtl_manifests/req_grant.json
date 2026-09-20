@@ -1,0 +1,34 @@
+{
+  "schema_version": "0.1.0",
+  "top": "arbiter",
+  "parser": { "adapter": "builtin", "adapter_version": "0.1.0" },
+  "provenance": { "tool_version": "0.1.0" },
+  "modules": [
+    {
+      "name": "arbiter",
+      "location": { "file": "arbiter.sv", "line": 1, "col": 1, "end_line": 40, "end_col": 10 },
+      "clock_candidates": [
+        { "signal": "clk", "confidence": 1.0, "rationale": ["edge-sensitive in always_ff"],
+          "location": { "file": "arbiter.sv", "line": 2, "col": 5, "end_line": 2, "end_col": 20 } }
+      ],
+      "reset_candidates": [
+        { "signal": "rst", "confidence": 0.85, "polarity": "active_high", "sync": "synchronous",
+          "rationale": ["reset-like name", "used synchronously in always_ff"],
+          "location": { "file": "arbiter.sv", "line": 3, "col": 5, "end_line": 3, "end_col": 20 } }
+      ],
+      "ports": [
+        { "name": "clk", "direction": "input", "net_kind": "wire",
+          "location": { "file": "arbiter.sv", "line": 2, "col": 5, "end_line": 2, "end_col": 20 } },
+        { "name": "rst", "direction": "input", "net_kind": "wire",
+          "location": { "file": "arbiter.sv", "line": 3, "col": 5, "end_line": 3, "end_col": 20 } },
+        { "name": "req0", "direction": "input", "net_kind": "wire",
+          "location": { "file": "arbiter.sv", "line": 4, "col": 5, "end_line": 4, "end_col": 20 } },
+        { "name": "gnt0", "direction": "output", "net_kind": "reg",
+          "location": { "file": "arbiter.sv", "line": 5, "col": 5, "end_line": 5, "end_col": 20 } }
+      ],
+      "registers": [
+        { "name": "gnt0", "location": { "file": "arbiter.sv", "line": 15, "col": 9, "end_line": 15, "end_col": 20 } }
+      ]
+    }
+  ]
+}

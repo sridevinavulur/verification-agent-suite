@@ -1,0 +1,11 @@
+{
+  "top": "ref_fsm",
+  "signal_widths": { "state": 2, "state_r": 2, "en": 1, "rst_n": 1 },
+  "reset": {
+    "signal": "rst_n",
+    "polarity": "active_low",
+    "sync": "asynchronous",
+    "init_values": { "state_r": "00" }
+  },
+  "state_encoding": { "state_r": "binary", "state": "binary" }
+}

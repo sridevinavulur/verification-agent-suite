@@ -1,0 +1,16 @@
+{
+  "property_name": "p_inc",
+  "property_text": "@(posedge clk) disable iff (rst) en |=> count_advanced",
+  "source_file": "examples/toy_counter/counter.sva",
+  "source_line": 18,
+  "clock": "tb.clk",
+  "clock_edge": "posedge",
+  "reset": "tb.rst",
+  "reset_active_high": true,
+  "antecedent_signal": "tb.en",
+  "consequent_signal": "tb.count_advanced",
+  "implication": "non_overlapping",
+  "delay_min": 1,
+  "delay_max": 1,
+  "failure_time": 65
+}

@@ -1,0 +1,76 @@
+"""Deterministic static checks for spec-to-SVA candidates.
+
+These are the guardrails that constrain LLM/heuristic proposals. No network, no
+LLM. Every referenced signal must exist in the supplied symbol table; the clock
+must be a real signal; timing ranges must be sane.
+"""
+
+from __future__ import annotations
+
+import re
+from dataclasses import dataclass, field
+
+# Imported lazily by type only to avoid a circular import at module load.
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:  # pragma: no cover
+    from .agent import TemporalIntent
+    from .models import SymbolTable
+
+_IDENT_RE = re.compile(r"[A-Za-z_][A-Za-z0-9_]*")
+
+# SystemVerilog keywords/operators we allow in expressions without treating them
+# as signal identifiers.
+_ALLOWED_WORDS = {
+    "and", "or", "not", "if", "else", "posedge", "negedge",
+}
+
+
+@dataclass
+class StaticCheckResult:
+    ok: bool = True
+    issues: list[str] = field(default_factory=list)
+
+    def fail(self, msg: str) -> None:
+        self.ok = False
+        self.issues.append(msg)
+
+
+def _extract_identifiers(expr: str) -> set[str]:
+    """Return candidate signal identifiers in an expression."""
+    idents = set()
+    for tok in _IDENT_RE.findall(expr):
+        if tok in _ALLOWED_WORDS:
+            continue
+        idents.add(tok)
+    return idents
+
+
+def run_static_checks(intent: TemporalIntent, symbols: SymbolTable) -> StaticCheckResult:
+    result = StaticCheckResult()
+    known = symbols.names()
+
+    # 1. Clock must be a real signal.
+    if intent.clock_signal not in known:
+        result.fail(f"clock '{intent.clock_signal}' not found in symbol table")
+
+    # 2. Reset (if present) must be a real signal.
+    if intent.reset_signal and intent.reset_signal not in known:
+        result.fail(f"reset '{intent.reset_signal}' not found in symbol table")
+
+    # 3. Every referenced signal must be grounded (no invented signals).
+    for sig in intent.referenced_signals:
+        if sig not in known:
+            result.fail(f"referenced signal '{sig}' is ungrounded")
+
+    # 4. Identifiers appearing in expressions must be grounded too.
+    expr_idents = _extract_identifiers(intent.antecedent) | _extract_identifiers(intent.consequent)
+    for ident in sorted(expr_idents):
+        if ident not in known:
+            result.fail(f"expression identifier '{ident}' is ungrounded")
+
+    # 5. Timing range sanity.
+    if intent.max_delay < intent.min_delay:
+        result.fail("max_delay < min_delay")
+
+    return result

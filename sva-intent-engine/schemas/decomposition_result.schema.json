@@ -1,0 +1,367 @@
+{
+  "$defs": {
+    "AtomicClause": {
+      "additionalProperties": false,
+      "description": "One atomic clause extracted from a requirement (spec 5.4).\n\nFields that cannot be determined deterministically are left ``None`` and\nthe term is recorded in ``referenced_terms`` / ``ambiguities`` instead of\nbeing guessed.",
+      "properties": {
+        "clause_id": {
+          "title": "Clause Id",
+          "type": "string"
+        },
+        "requirement_id": {
+          "title": "Requirement Id",
+          "type": "string"
+        },
+        "kind": {
+          "$ref": "#/$defs/ClauseKind"
+        },
+        "source_span": {
+          "$ref": "#/$defs/SourceSpan"
+        },
+        "trigger": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Trigger"
+        },
+        "consequent": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Consequent"
+        },
+        "timing_relation": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Timing Relation"
+        },
+        "min_delay": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Min Delay"
+        },
+        "max_delay": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Max Delay"
+        },
+        "clock": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Clock"
+        },
+        "reset_behavior": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reset Behavior"
+        },
+        "guard": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Guard"
+        },
+        "severity": {
+          "$ref": "#/$defs/Severity",
+          "default": "info"
+        },
+        "referenced_terms": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Referenced Terms",
+          "type": "array"
+        },
+        "vague_terms": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Vague Terms",
+          "type": "array"
+        },
+        "confidence": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Confidence",
+          "type": "number"
+        },
+        "rationale": {
+          "title": "Rationale",
+          "type": "string"
+        }
+      },
+      "required": [
+        "clause_id",
+        "requirement_id",
+        "kind",
+        "source_span",
+        "confidence",
+        "rationale"
+      ],
+      "title": "AtomicClause",
+      "type": "object"
+    },
+    "ClauseKind": {
+      "description": "Classification of an atomic requirement clause (spec 5.4).",
+      "enum": [
+        "design_guarantee",
+        "environment_assumption",
+        "cover_objective",
+        "ambiguity",
+        "unsupported"
+      ],
+      "title": "ClauseKind",
+      "type": "string"
+    },
+    "Provenance": {
+      "additionalProperties": false,
+      "description": "Immutable-ish record of how an artifact was produced.",
+      "properties": {
+        "tool": {
+          "default": "sva-intent-engine",
+          "title": "Tool",
+          "type": "string"
+        },
+        "tool_version": {
+          "default": "0.1.0",
+          "title": "Tool Version",
+          "type": "string"
+        },
+        "stage": {
+          "title": "Stage",
+          "type": "string"
+        },
+        "git_sha": {
+          "default": "UNKNOWN",
+          "title": "Git Sha",
+          "type": "string"
+        },
+        "input_hashes": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Input Hashes",
+          "type": "object"
+        },
+        "command": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Command"
+        },
+        "seed": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Seed"
+        },
+        "model_provider": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Model Provider"
+        },
+        "model_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Model Name"
+        },
+        "notes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        }
+      },
+      "required": [
+        "stage"
+      ],
+      "title": "Provenance",
+      "type": "object"
+    },
+    "Requirement": {
+      "additionalProperties": false,
+      "description": "A raw natural-language requirement as ingested.",
+      "properties": {
+        "requirement_id": {
+          "title": "Requirement Id",
+          "type": "string"
+        },
+        "source_text": {
+          "title": "Source Text",
+          "type": "string"
+        },
+        "design_top": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Design Top"
+        },
+        "origin_path": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Origin Path"
+        }
+      },
+      "required": [
+        "requirement_id",
+        "source_text"
+      ],
+      "title": "Requirement",
+      "type": "object"
+    },
+    "Severity": {
+      "enum": [
+        "error",
+        "warning",
+        "info"
+      ],
+      "title": "Severity",
+      "type": "string"
+    },
+    "SourceSpan": {
+      "additionalProperties": false,
+      "description": "Character span into the original requirement text.",
+      "properties": {
+        "start": {
+          "minimum": 0,
+          "title": "Start",
+          "type": "integer"
+        },
+        "end": {
+          "minimum": 0,
+          "title": "End",
+          "type": "integer"
+        },
+        "text": {
+          "title": "Text",
+          "type": "string"
+        }
+      },
+      "required": [
+        "start",
+        "end",
+        "text"
+      ],
+      "title": "SourceSpan",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "requirement": {
+      "$ref": "#/$defs/Requirement"
+    },
+    "clauses": {
+      "items": {
+        "$ref": "#/$defs/AtomicClause"
+      },
+      "title": "Clauses",
+      "type": "array"
+    },
+    "provenance": {
+      "$ref": "#/$defs/Provenance"
+    }
+  },
+  "required": [
+    "requirement",
+    "clauses",
+    "provenance"
+  ],
+  "title": "DecompositionResult",
+  "type": "object"
+}

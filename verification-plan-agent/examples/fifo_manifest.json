@@ -1,0 +1,69 @@
+{
+  "schema_version": "0.1.0",
+  "top": "sync_fifo",
+  "hierarchy": [],
+  "modules": [
+    {
+      "name": "sync_fifo",
+      "location": { "file": "sync_fifo.sv", "line": 1, "col": 1, "end_line": 1, "end_col": 20 },
+      "ports": [
+        { "name": "clk", "direction": "input", "net_kind": "wire", "range": null,
+          "location": { "file": "sync_fifo.sv", "line": 2, "col": 5, "end_line": 2, "end_col": 20 } },
+        { "name": "rst_n", "direction": "input", "net_kind": "wire", "range": null,
+          "location": { "file": "sync_fifo.sv", "line": 3, "col": 5, "end_line": 3, "end_col": 20 } },
+        { "name": "wr_en", "direction": "input", "net_kind": "wire", "range": null,
+          "location": { "file": "sync_fifo.sv", "line": 4, "col": 5, "end_line": 4, "end_col": 20 } },
+        { "name": "rd_en", "direction": "input", "net_kind": "wire", "range": null,
+          "location": { "file": "sync_fifo.sv", "line": 5, "col": 5, "end_line": 5, "end_col": 20 } },
+        { "name": "din", "direction": "input", "net_kind": "wire", "range": { "msb": "7", "lsb": "0" },
+          "location": { "file": "sync_fifo.sv", "line": 6, "col": 5, "end_line": 6, "end_col": 20 } },
+        { "name": "dout", "direction": "output", "net_kind": "reg", "range": { "msb": "7", "lsb": "0" },
+          "location": { "file": "sync_fifo.sv", "line": 7, "col": 5, "end_line": 7, "end_col": 20 } },
+        { "name": "full", "direction": "output", "net_kind": "reg", "range": null,
+          "location": { "file": "sync_fifo.sv", "line": 8, "col": 5, "end_line": 8, "end_col": 20 } },
+        { "name": "empty", "direction": "output", "net_kind": "reg", "range": null,
+          "location": { "file": "sync_fifo.sv", "line": 9, "col": 5, "end_line": 9, "end_col": 20 } }
+      ],
+      "parameters": [],
+      "nets": [
+        { "name": "mem", "net_kind": "reg", "is_memory": true,
+          "range": { "msb": "7", "lsb": "0" }, "unpacked_range": { "msb": "15", "lsb": "0" },
+          "location": { "file": "sync_fifo.sv", "line": 12, "col": 5, "end_line": 12, "end_col": 30 } }
+      ],
+      "instances": [],
+      "continuous_assigns": [],
+      "procedures": [],
+      "registers": [
+        { "name": "wr_ptr", "driven_in_procedure_index": 0,
+          "location": { "file": "sync_fifo.sv", "line": 20, "col": 5, "end_line": 20, "end_col": 20 } },
+        { "name": "rd_ptr", "driven_in_procedure_index": 0,
+          "location": { "file": "sync_fifo.sv", "line": 21, "col": 5, "end_line": 21, "end_col": 20 } },
+        { "name": "count", "driven_in_procedure_index": 0,
+          "location": { "file": "sync_fifo.sv", "line": 22, "col": 5, "end_line": 22, "end_col": 20 } },
+        { "name": "dout", "driven_in_procedure_index": 1,
+          "location": { "file": "sync_fifo.sv", "line": 23, "col": 5, "end_line": 23, "end_col": 20 } },
+        { "name": "full", "driven_in_procedure_index": 0,
+          "location": { "file": "sync_fifo.sv", "line": 24, "col": 5, "end_line": 24, "end_col": 20 } },
+        { "name": "empty", "driven_in_procedure_index": 0,
+          "location": { "file": "sync_fifo.sv", "line": 25, "col": 5, "end_line": 25, "end_col": 20 } },
+        { "name": "err", "driven_in_procedure_index": 1,
+          "location": { "file": "sync_fifo.sv", "line": 26, "col": 5, "end_line": 26, "end_col": 20 } },
+        { "name": "occ", "driven_in_procedure_index": 0,
+          "location": { "file": "sync_fifo.sv", "line": 27, "col": 5, "end_line": 27, "end_col": 20 } }
+      ],
+      "clock_candidates": [
+        { "signal": "clk", "confidence": 1.0, "rationale": ["name matches clock convention"],
+          "location": { "file": "sync_fifo.sv", "line": 2, "col": 5, "end_line": 2, "end_col": 20 } }
+      ],
+      "reset_candidates": [
+        { "signal": "rst_n", "confidence": 1.0, "polarity": "active_low", "sync": "synchronous",
+          "rationale": ["name matches reset convention"],
+          "location": { "file": "sync_fifo.sv", "line": 3, "col": 5, "end_line": 3, "end_col": 20 } }
+      ],
+      "procedure_summary": { "always_ff": 2, "always_comb": 0, "always_other": 0, "continuous_assigns": 0 }
+    }
+  ],
+  "unresolved": [],
+  "parser": { "adapter": "builtin", "adapter_version": "0.1.0" },
+  "provenance": { "tool_version": "0.1.0" }
+}

@@ -1,0 +1,35 @@
+{
+  "schema_version": "0.1.0",
+  "note": "Public toy run ledger. Only FAIL is recorded as a failure; TIMEOUT/ERROR/UNKNOWN keep their status and are never treated as a pass.",
+  "runs": [
+    {
+      "id": "reg_2026_09_20_nightly",
+      "name": "nightly_2026_09_20",
+      "failures": [
+        {
+          "id": "F_no_underflow",
+          "name": "fifo_no_underflow_cex",
+          "status": "FAIL",
+          "target_assertion": "P_no_underflow",
+          "interfaces": ["fifo.rd"],
+          "bug": "BUG-4521"
+        },
+        {
+          "id": "F_grant_onehot",
+          "name": "arbiter_grant_onehot_cex",
+          "status": "FAIL",
+          "target_assertion": "P_grant_onehot",
+          "interfaces": ["arbiter.req_grant"],
+          "waiver": "WVR-known-arb-corner"
+        },
+        {
+          "id": "F_no_overflow_timeout",
+          "name": "fifo_no_overflow_timeout",
+          "status": "TIMEOUT",
+          "target_assertion": "P_no_overflow",
+          "interfaces": ["fifo.wr"]
+        }
+      ]
+    }
+  ]
+}

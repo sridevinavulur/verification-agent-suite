@@ -1,0 +1,88 @@
+{
+  "$defs": {
+    "ManifestSignal": {
+      "description": "A single symbol from the RTL Intent Manifest fixture.",
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "role": {
+          "$ref": "#/$defs/SignalRole",
+          "default": "unknown"
+        },
+        "width": {
+          "default": 1,
+          "minimum": 1,
+          "title": "Width",
+          "type": "integer"
+        },
+        "reset_polarity": {
+          "$ref": "#/$defs/ResetPolarity",
+          "default": "unknown"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "title": "ManifestSignal",
+      "type": "object"
+    },
+    "ResetPolarity": {
+      "enum": [
+        "active_high",
+        "active_low",
+        "unknown"
+      ],
+      "title": "ResetPolarity",
+      "type": "string"
+    },
+    "SignalRole": {
+      "enum": [
+        "input",
+        "output",
+        "inout",
+        "internal",
+        "clock",
+        "reset",
+        "unknown"
+      ],
+      "title": "SignalRole",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "A constrained RTL Intent Manifest used to ground SVA identifiers.\n\nThis is a *fixture* format for this tool. It mirrors the fields the prompt\npack's RTL Intent Ingestor is meant to emit (name, direction/role, width,\nclock/reset candidates), but only the subset the reviewer needs.",
+  "properties": {
+    "top": {
+      "title": "Top",
+      "type": "string"
+    },
+    "signals": {
+      "items": {
+        "$ref": "#/$defs/ManifestSignal"
+      },
+      "title": "Signals",
+      "type": "array"
+    },
+    "clock_candidates": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Clock Candidates",
+      "type": "array"
+    },
+    "reset_candidates": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Reset Candidates",
+      "type": "array"
+    }
+  },
+  "required": [
+    "top"
+  ],
+  "title": "RtlIntentManifest",
+  "type": "object"
+}

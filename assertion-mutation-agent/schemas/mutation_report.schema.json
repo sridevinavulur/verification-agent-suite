@@ -1,0 +1,238 @@
+{
+  "$defs": {
+    "MutantResult": {
+      "description": "The outcome of classifying one mutant against the property suite.",
+      "properties": {
+        "mutant_id": {
+          "title": "Mutant Id",
+          "type": "string"
+        },
+        "operator": {
+          "$ref": "#/$defs/MutationOperator"
+        },
+        "status": {
+          "$ref": "#/$defs/MutantStatus"
+        },
+        "detected_by": {
+          "description": "Property names that detected the mutant (if DETECTED).",
+          "items": {
+            "type": "string"
+          },
+          "title": "Detected By",
+          "type": "array"
+        },
+        "detail": {
+          "default": "",
+          "title": "Detail",
+          "type": "string"
+        },
+        "executor": {
+          "default": "mock",
+          "title": "Executor",
+          "type": "string"
+        }
+      },
+      "required": [
+        "mutant_id",
+        "operator",
+        "status"
+      ],
+      "title": "MutantResult",
+      "type": "object"
+    },
+    "MutantStatus": {
+      "description": "Classification of a mutant after execution by the configured adapter.\n\nDETECTED     - at least one property caught the injected defect.\nSURVIVED     - no property caught it (undetected mutation to investigate).\nINVALID      - the mutant is not a well-formed / meaningful design change\n               (e.g. it did not change the source). Excluded from scoring.\nTIMEOUT      - the executor exceeded its budget. Never counted as PASS.\nERROR        - the executor failed to run the mutant.\nINCONCLUSIVE - no detected/survived conclusion could be reached. Excluded\n               from scoring.",
+      "enum": [
+        "detected",
+        "survived",
+        "invalid",
+        "timeout",
+        "error",
+        "inconclusive"
+      ],
+      "title": "MutantStatus",
+      "type": "string"
+    },
+    "MutationOperator": {
+      "description": "The source-mutation operators supported on the constrained Verilog subset.",
+      "enum": [
+        "relational_flip",
+        "boolean_negation",
+        "enable_removal",
+        "reset_polarity_flip",
+        "reset_value_change",
+        "counter_incdec_change",
+        "assign_operand_swap",
+        "valid_ready_gating_removal",
+        "width_truncation"
+      ],
+      "title": "MutationOperator",
+      "type": "string"
+    },
+    "ScoreBreakdown": {
+      "description": "Aggregate mutation score with counts by status.",
+      "properties": {
+        "total": {
+          "title": "Total",
+          "type": "integer"
+        },
+        "detected": {
+          "title": "Detected",
+          "type": "integer"
+        },
+        "survived": {
+          "title": "Survived",
+          "type": "integer"
+        },
+        "invalid": {
+          "title": "Invalid",
+          "type": "integer"
+        },
+        "timeout": {
+          "title": "Timeout",
+          "type": "integer"
+        },
+        "error": {
+          "title": "Error",
+          "type": "integer"
+        },
+        "inconclusive": {
+          "title": "Inconclusive",
+          "type": "integer"
+        },
+        "scored": {
+          "description": "Mutants included in the score (excludes invalid + inconclusive).",
+          "title": "Scored",
+          "type": "integer"
+        },
+        "mutation_score": {
+          "description": "detected / scored, in [0, 1]. None-equivalent 0.0 when scored==0.",
+          "title": "Mutation Score",
+          "type": "number"
+        }
+      },
+      "required": [
+        "total",
+        "detected",
+        "survived",
+        "invalid",
+        "timeout",
+        "error",
+        "inconclusive",
+        "scored",
+        "mutation_score"
+      ],
+      "title": "ScoreBreakdown",
+      "type": "object"
+    },
+    "SurvivingMutant": {
+      "description": "A surviving mutant surfaced in the report for investigation.",
+      "properties": {
+        "mutant_id": {
+          "title": "Mutant Id",
+          "type": "string"
+        },
+        "operator": {
+          "$ref": "#/$defs/MutationOperator"
+        },
+        "description": {
+          "title": "Description",
+          "type": "string"
+        },
+        "diff_summary": {
+          "title": "Diff Summary",
+          "type": "string"
+        }
+      },
+      "required": [
+        "mutant_id",
+        "operator",
+        "description",
+        "diff_summary"
+      ],
+      "title": "SurvivingMutant",
+      "type": "object"
+    }
+  },
+  "description": "The complete, machine-readable mutation report.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "module": {
+      "title": "Module",
+      "type": "string"
+    },
+    "rtl_file": {
+      "title": "Rtl File",
+      "type": "string"
+    },
+    "property_files": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Property Files",
+      "type": "array"
+    },
+    "executor": {
+      "default": "mock",
+      "title": "Executor",
+      "type": "string"
+    },
+    "provenance": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Provenance",
+      "type": "object"
+    },
+    "score": {
+      "$ref": "#/$defs/ScoreBreakdown"
+    },
+    "results": {
+      "items": {
+        "$ref": "#/$defs/MutantResult"
+      },
+      "title": "Results",
+      "type": "array"
+    },
+    "surviving_by_property": {
+      "additionalProperties": {
+        "items": {
+          "type": "string"
+        },
+        "type": "array"
+      },
+      "description": "property name -> [mutant_id] it FAILED to detect (survivors).",
+      "title": "Surviving By Property",
+      "type": "object"
+    },
+    "surviving_by_operator": {
+      "additionalProperties": {
+        "items": {
+          "type": "string"
+        },
+        "type": "array"
+      },
+      "description": "operator -> [mutant_id] survivors.",
+      "title": "Surviving By Operator",
+      "type": "object"
+    },
+    "surviving_mutants": {
+      "items": {
+        "$ref": "#/$defs/SurvivingMutant"
+      },
+      "title": "Surviving Mutants",
+      "type": "array"
+    }
+  },
+  "required": [
+    "module",
+    "rtl_file",
+    "score"
+  ],
+  "title": "MutationReport",
+  "type": "object"
+}

@@ -1,0 +1,62 @@
+"""Typed data contracts for {{ display_name }}.
+
+Pydantic v2, strict (extra="forbid"). These are the input/output contracts used
+by the agent core and CLI.
+"""
+
+from __future__ import annotations
+
+from enum import StrEnum
+
+from pydantic import BaseModel, ConfigDict, Field
+
+
+class ResultStatus(StrEnum):
+    """Result vocabulary (never conflate TIMEOUT/ERROR/UNKNOWN with PASS)."""
+
+    PASS = "PASS"
+    FAIL = "FAIL"
+    TIMEOUT = "TIMEOUT"
+    ERROR = "ERROR"
+    UNKNOWN = "UNKNOWN"
+    COMPILED_ONLY = "PROPERTY_COMPILED"  # syntax acceptance only
+
+
+class RtlSymbol(BaseModel):
+    """A signal known to exist in the design (from an RTL symbol table)."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    name: str = Field(..., min_length=1)
+    direction: str = Field(default="unknown")  # input/output/inout/internal
+    width: int = Field(default=1, ge=1)
+    file: str = Field(default="")
+    line: int = Field(default=0, ge=0)
+
+
+class SymbolTable(BaseModel):
+    """The set of grounded symbols plus clock/reset candidates."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    design_top: str = Field(..., min_length=1)
+    clock_candidates: list[str] = Field(default_factory=list)
+    reset_candidates: list[str] = Field(default_factory=list)
+    symbols: list[RtlSymbol] = Field(..., min_length=1)
+
+    def names(self) -> set[str]:
+        return {s.name for s in self.symbols}
+
+
+class ProvenanceRecord(BaseModel):
+    """Per-run provenance (reproducibility requirement)."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    tool: str
+    tool_version: str
+    llm_model: str
+    seed: int
+    input_sha256: str
+    command: str = ""
+    git_sha: str = "UNKNOWN-placeholder"

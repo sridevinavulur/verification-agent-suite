@@ -1,0 +1,22 @@
+{
+  "schema_version": "0.1.0",
+  "top": "timer_block",
+  "provenance": { "tool_version": "0.1.0" },
+  "parser": { "adapter": "rtl-intent-ingestor", "adapter_version": "0.1.0" },
+  "modules": [
+    {
+      "name": "timer_block",
+      "location": { "file": "timer_block.v", "line": 1, "col": 1, "end_line": 1, "end_col": 1 },
+      "registers": [
+        { "name": "CTRL",   "driven_in_procedure_index": 0, "location": { "file": "timer_block.v", "line": 10, "col": 5, "end_line": 10, "end_col": 8 } },
+        { "name": "LOAD",   "driven_in_procedure_index": 0, "location": { "file": "timer_block.v", "line": 11, "col": 5, "end_line": 11, "end_col": 8 } },
+        { "name": "COUNT",  "driven_in_procedure_index": 1, "location": { "file": "timer_block.v", "line": 12, "col": 5, "end_line": 12, "end_col": 9 } },
+        { "name": "STATUS", "driven_in_procedure_index": 1, "location": { "file": "timer_block.v", "line": 13, "col": 5, "end_line": 13, "end_col": 10 } }
+      ],
+      "ports": [
+        { "name": "clk",   "direction": "input", "location": { "file": "timer_block.v", "line": 2, "col": 5, "end_line": 2, "end_col": 7 } },
+        { "name": "rst_n", "direction": "input", "location": { "file": "timer_block.v", "line": 3, "col": 5, "end_line": 3, "end_col": 9 } }
+      ]
+    }
+  ]
+}

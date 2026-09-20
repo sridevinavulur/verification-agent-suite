@@ -1,0 +1,48 @@
+// Candidate SVA for contract sync_fifo__fifo
+// CANDIDATE properties for human review. Not verified. Compile offline; syntactic acceptance != correctness.
+
+// [assert/negative] Overflow: a push while full must never occur (asserted as the negation of the bad event).
+p_sync_fifo_no_overflow: assert property (
+  @(posedge clk) disable iff (!rst_n) !(full && wr_en)
+);
+
+// [assert/negative] Underflow: a pop while empty must never occur.
+p_sync_fifo_no_underflow: assert property (
+  @(posedge clk) disable iff (!rst_n) !(empty && rd_en)
+);
+
+// [assert/guarantee] Occupancy count never exceeds depth 16 (models MULTIPLE outstanding entries, not a single transaction).
+p_sync_fifo_count_bound: assert property (
+  @(posedge clk) disable iff (!rst_n) count <= 16
+);
+
+// [assert/guarantee] full is asserted exactly when count == depth (16).
+p_sync_fifo_full_iff_count: assert property (
+  @(posedge clk) disable iff (!rst_n) full == (count == 16)
+);
+
+// [assert/guarantee] empty is asserted exactly when count == 0.
+p_sync_fifo_empty_iff_count: assert property (
+  @(posedge clk) disable iff (!rst_n) empty == (count == 0)
+);
+
+// [assert/guarantee] While reset is asserted, the FIFO reports empty.
+p_sync_fifo_reset_empty: assert property (
+  @(posedge clk) (!rst_n) |-> (empty)
+);
+
+// [cover/cover] Cover reaching full.
+p_sync_fifo_fill_cover: cover property (
+  @(posedge clk) disable iff (!rst_n) full
+);
+
+// [cover/cover] Cover reaching empty after activity.
+p_sync_fifo_drain_cover: cover property (
+  @(posedge clk) disable iff (!rst_n) empty
+);
+
+// [cover/cover] Cover simultaneous push and pop.
+p_sync_fifo_concurrent_cover: cover property (
+  @(posedge clk) disable iff (!rst_n) wr_en && rd_en
+);
+

@@ -1,0 +1,143 @@
+{
+  "$defs": {
+    "ProtocolKind": {
+      "enum": [
+        "valid_ready",
+        "req_grant",
+        "fifo",
+        "interrupt",
+        "credit"
+      ],
+      "title": "ProtocolKind",
+      "type": "string"
+    },
+    "ResetPolarity": {
+      "enum": [
+        "active_high",
+        "active_low",
+        "unknown"
+      ],
+      "title": "ResetPolarity",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "User-supplied binding of protocol roles to RTL signal names.\n\nWe never guess a role binding: the user (or a reviewed upstream tool) must\nsay which manifest signal plays which role. Unbound optional roles are simply\nabsent; unbound *required* roles produce a blocking warning.",
+  "properties": {
+    "clock": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Clock"
+    },
+    "depth": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Depth"
+    },
+    "instance_label": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Instance Label"
+    },
+    "max_credits": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Max Credits"
+    },
+    "max_delay": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Max Delay"
+    },
+    "min_delay": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Min Delay"
+    },
+    "module": {
+      "title": "Module",
+      "type": "string"
+    },
+    "protocol": {
+      "$ref": "#/$defs/ProtocolKind"
+    },
+    "reset": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Reset"
+    },
+    "reset_polarity": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ResetPolarity"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "roles": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Roles",
+      "type": "object"
+    }
+  },
+  "required": [
+    "protocol",
+    "module"
+  ],
+  "title": "ContractRequest",
+  "type": "object"
+}

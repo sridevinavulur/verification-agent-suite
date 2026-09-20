@@ -1,0 +1,602 @@
+{
+  "schema_version": "0.1.0",
+  "provenance": {
+    "tool": "constraint-hygiene-agent",
+    "tool_version": "0.1.0",
+    "command": "constraint-hygiene review examples/bad/bad_constraints.sva --manifest examples/dut_manifest.json",
+    "git_sha": "UNKNOWN",
+    "input_files": [
+      "examples/bad/bad_constraints.sva",
+      "examples/dut_manifest.json"
+    ],
+    "input_sha256": {
+      "bad_constraints.sva": "0008ef6480b012de70c0d37cc4c6ef76649093730fece2b183aeb03dca21526e",
+      "dut_manifest.json": "484b57e5247048ba66782c86405f8674a1828a32429aa9d5356e7c0eab624765"
+    }
+  },
+  "top_module": "handshake_dut",
+  "assumption_inventory": [
+    {
+      "name": "am_valid_true",
+      "kind": "assume",
+      "expr": "in_valid",
+      "signals": [
+        "in_valid"
+      ],
+      "equalities": {},
+      "boolean_facts": {
+        "in_valid": true
+      },
+      "file": "bad_constraints.sva",
+      "line": 15
+    },
+    {
+      "name": "am_valid_false",
+      "kind": "assume",
+      "expr": "!in_valid",
+      "signals": [
+        "in_valid"
+      ],
+      "equalities": {},
+      "boolean_facts": {
+        "in_valid": false
+      },
+      "file": "bad_constraints.sva",
+      "line": 16
+    },
+    {
+      "name": "am_mode_a",
+      "kind": "assume",
+      "expr": "mode == 2'b01",
+      "signals": [
+        "mode"
+      ],
+      "equalities": {
+        "mode": "1"
+      },
+      "boolean_facts": {},
+      "file": "bad_constraints.sva",
+      "line": 19
+    },
+    {
+      "name": "am_mode_b",
+      "kind": "assume",
+      "expr": "mode == 2'b10",
+      "signals": [
+        "mode"
+      ],
+      "equalities": {
+        "mode": "2"
+      },
+      "boolean_facts": {},
+      "file": "bad_constraints.sva",
+      "line": 20
+    },
+    {
+      "name": "am_force_out_valid",
+      "kind": "assume",
+      "expr": "out_valid",
+      "signals": [
+        "out_valid"
+      ],
+      "equalities": {},
+      "boolean_facts": {
+        "out_valid": true
+      },
+      "file": "bad_constraints.sva",
+      "line": 23
+    },
+    {
+      "name": "am_force_in_ready",
+      "kind": "assume",
+      "expr": "in_ready",
+      "signals": [
+        "in_ready"
+      ],
+      "equalities": {},
+      "boolean_facts": {
+        "in_ready": true
+      },
+      "file": "bad_constraints.sva",
+      "line": 24
+    },
+    {
+      "name": "am_force_state",
+      "kind": "assume",
+      "expr": "state == 2'b00",
+      "signals": [
+        "state"
+      ],
+      "equalities": {
+        "state": "0"
+      },
+      "boolean_facts": {},
+      "file": "bad_constraints.sva",
+      "line": 27
+    },
+    {
+      "name": "am_force_count",
+      "kind": "assume",
+      "expr": "fifo_count == 0",
+      "signals": [
+        "fifo_count"
+      ],
+      "equalities": {
+        "fifo_count": "0"
+      },
+      "boolean_facts": {},
+      "file": "bad_constraints.sva",
+      "line": 28
+    },
+    {
+      "name": "am_unused",
+      "kind": "assume",
+      "expr": "spare_in == 0",
+      "signals": [
+        "spare_in"
+      ],
+      "equalities": {
+        "spare_in": "0"
+      },
+      "boolean_facts": {},
+      "file": "bad_constraints.sva",
+      "line": 31
+    },
+    {
+      "name": "am_unknown",
+      "kind": "assume",
+      "expr": "ghost_sig",
+      "signals": [
+        "ghost_sig"
+      ],
+      "equalities": {},
+      "boolean_facts": {
+        "ghost_sig": true
+      },
+      "file": "bad_constraints.sva",
+      "line": 34
+    }
+  ],
+  "assertion_inventory": [
+    {
+      "name": "as_data_pipe",
+      "kind": "assert",
+      "expr": "in_valid |-> out_data == in_data",
+      "signals": [
+        "in_valid",
+        "out_data",
+        "in_data"
+      ],
+      "equalities": {},
+      "boolean_facts": {},
+      "file": "bad_constraints.sva",
+      "line": 38
+    }
+  ],
+  "cover_inventory": [],
+  "signal_ownership": [
+    {
+      "signal": "fifo_count",
+      "ownership": "internal_state",
+      "rationale": "'fifo_count' is a register/internal net inside the DUT (not a boundary port)."
+    },
+    {
+      "signal": "ghost_sig",
+      "ownership": "unknown",
+      "rationale": "'ghost_sig' not found among manifest ports or internal signals."
+    },
+    {
+      "signal": "in_data",
+      "ownership": "environment_input",
+      "rationale": "'in_data' is an input port of top module 'handshake_dut'."
+    },
+    {
+      "signal": "in_ready",
+      "ownership": "dut_output",
+      "rationale": "'in_ready' is an output port of top module 'handshake_dut'."
+    },
+    {
+      "signal": "in_valid",
+      "ownership": "environment_input",
+      "rationale": "'in_valid' is an input port of top module 'handshake_dut'."
+    },
+    {
+      "signal": "mode",
+      "ownership": "environment_input",
+      "rationale": "'mode' is an input port of top module 'handshake_dut'."
+    },
+    {
+      "signal": "out_data",
+      "ownership": "dut_output",
+      "rationale": "'out_data' is an output port of top module 'handshake_dut'."
+    },
+    {
+      "signal": "out_valid",
+      "ownership": "dut_output",
+      "rationale": "'out_valid' is an output port of top module 'handshake_dut'."
+    },
+    {
+      "signal": "spare_in",
+      "ownership": "environment_input",
+      "rationale": "'spare_in' is an input port of top module 'handshake_dut'."
+    },
+    {
+      "signal": "state",
+      "ownership": "internal_state",
+      "rationale": "'state' is a register/internal net inside the DUT (not a boundary port)."
+    }
+  ],
+  "contradiction_candidates": [
+    {
+      "code": "CONSTANT_CONFLICT",
+      "severity": "error",
+      "confidence": "static_suspicion",
+      "message": "Assumptions 'am_mode_a' and 'am_mode_b' impose conflicting values on 'mode' (1 vs 2).",
+      "evidence": "am_mode_a (line 19) implies mode==1; am_mode_b (line 20) implies mode==2. Facts are top-level conjuncts. NOTE: static suspicion only - the two assumptions could apply under different clock/reset regimes; confirm with a formal vacuity/reachability check before acting.",
+      "properties": [
+        "am_mode_a",
+        "am_mode_b"
+      ],
+      "signals": [
+        "mode"
+      ],
+      "needs_human_review": true
+    },
+    {
+      "code": "CONTRADICTION",
+      "severity": "error",
+      "confidence": "static_suspicion",
+      "message": "Assumptions 'am_valid_true' and 'am_valid_false' impose conflicting values on 'in_valid' (1 vs 0).",
+      "evidence": "am_valid_true (line 15) implies in_valid==1; am_valid_false (line 16) implies in_valid==0. Facts are top-level conjuncts. NOTE: static suspicion only - the two assumptions could apply under different clock/reset regimes; confirm with a formal vacuity/reachability check before acting.",
+      "properties": [
+        "am_valid_true",
+        "am_valid_false"
+      ],
+      "signals": [
+        "in_valid"
+      ],
+      "needs_human_review": true
+    }
+  ],
+  "unused_assumption_candidates": [
+    {
+      "code": "UNUSED_ASSUMPTION",
+      "severity": "warning",
+      "confidence": "static_suspicion",
+      "message": "Assumption 'am_force_count' constrains signals not referenced by any assertion or cover.",
+      "evidence": "am_force_count (line 28) touches ['fifo_count']; none appear in any assert/cover directive in the analyzed set. Candidate for a stale/dead assumption OR a missing assertion. STATIC ONLY: the signal may still matter through RTL fan-in not visible in the SVA text - confirm before removing.",
+      "properties": [
+        "am_force_count"
+      ],
+      "signals": [
+        "fifo_count"
+      ],
+      "needs_human_review": true
+    },
+    {
+      "code": "UNUSED_ASSUMPTION",
+      "severity": "warning",
+      "confidence": "static_suspicion",
+      "message": "Assumption 'am_force_in_ready' constrains signals not referenced by any assertion or cover.",
+      "evidence": "am_force_in_ready (line 24) touches ['in_ready']; none appear in any assert/cover directive in the analyzed set. Candidate for a stale/dead assumption OR a missing assertion. STATIC ONLY: the signal may still matter through RTL fan-in not visible in the SVA text - confirm before removing.",
+      "properties": [
+        "am_force_in_ready"
+      ],
+      "signals": [
+        "in_ready"
+      ],
+      "needs_human_review": true
+    },
+    {
+      "code": "UNUSED_ASSUMPTION",
+      "severity": "warning",
+      "confidence": "static_suspicion",
+      "message": "Assumption 'am_force_out_valid' constrains signals not referenced by any assertion or cover.",
+      "evidence": "am_force_out_valid (line 23) touches ['out_valid']; none appear in any assert/cover directive in the analyzed set. Candidate for a stale/dead assumption OR a missing assertion. STATIC ONLY: the signal may still matter through RTL fan-in not visible in the SVA text - confirm before removing.",
+      "properties": [
+        "am_force_out_valid"
+      ],
+      "signals": [
+        "out_valid"
+      ],
+      "needs_human_review": true
+    },
+    {
+      "code": "UNUSED_ASSUMPTION",
+      "severity": "warning",
+      "confidence": "static_suspicion",
+      "message": "Assumption 'am_force_state' constrains signals not referenced by any assertion or cover.",
+      "evidence": "am_force_state (line 27) touches ['state']; none appear in any assert/cover directive in the analyzed set. Candidate for a stale/dead assumption OR a missing assertion. STATIC ONLY: the signal may still matter through RTL fan-in not visible in the SVA text - confirm before removing.",
+      "properties": [
+        "am_force_state"
+      ],
+      "signals": [
+        "state"
+      ],
+      "needs_human_review": true
+    },
+    {
+      "code": "UNUSED_ASSUMPTION",
+      "severity": "warning",
+      "confidence": "static_suspicion",
+      "message": "Assumption 'am_mode_a' constrains signals not referenced by any assertion or cover.",
+      "evidence": "am_mode_a (line 19) touches ['mode']; none appear in any assert/cover directive in the analyzed set. Candidate for a stale/dead assumption OR a missing assertion. STATIC ONLY: the signal may still matter through RTL fan-in not visible in the SVA text - confirm before removing.",
+      "properties": [
+        "am_mode_a"
+      ],
+      "signals": [
+        "mode"
+      ],
+      "needs_human_review": true
+    },
+    {
+      "code": "UNUSED_ASSUMPTION",
+      "severity": "warning",
+      "confidence": "static_suspicion",
+      "message": "Assumption 'am_mode_b' constrains signals not referenced by any assertion or cover.",
+      "evidence": "am_mode_b (line 20) touches ['mode']; none appear in any assert/cover directive in the analyzed set. Candidate for a stale/dead assumption OR a missing assertion. STATIC ONLY: the signal may still matter through RTL fan-in not visible in the SVA text - confirm before removing.",
+      "properties": [
+        "am_mode_b"
+      ],
+      "signals": [
+        "mode"
+      ],
+      "needs_human_review": true
+    },
+    {
+      "code": "UNUSED_ASSUMPTION",
+      "severity": "warning",
+      "confidence": "static_suspicion",
+      "message": "Assumption 'am_unknown' constrains signals not referenced by any assertion or cover.",
+      "evidence": "am_unknown (line 34) touches ['ghost_sig']; none appear in any assert/cover directive in the analyzed set. Candidate for a stale/dead assumption OR a missing assertion. STATIC ONLY: the signal may still matter through RTL fan-in not visible in the SVA text - confirm before removing.",
+      "properties": [
+        "am_unknown"
+      ],
+      "signals": [
+        "ghost_sig"
+      ],
+      "needs_human_review": true
+    },
+    {
+      "code": "UNUSED_ASSUMPTION",
+      "severity": "warning",
+      "confidence": "static_suspicion",
+      "message": "Assumption 'am_unused' constrains signals not referenced by any assertion or cover.",
+      "evidence": "am_unused (line 31) touches ['spare_in']; none appear in any assert/cover directive in the analyzed set. Candidate for a stale/dead assumption OR a missing assertion. STATIC ONLY: the signal may still matter through RTL fan-in not visible in the SVA text - confirm before removing.",
+      "properties": [
+        "am_unused"
+      ],
+      "signals": [
+        "spare_in"
+      ],
+      "needs_human_review": true
+    }
+  ],
+  "output_constraint_warnings": [
+    {
+      "code": "INTERNAL_STATE_CONSTRAINT",
+      "severity": "warning",
+      "confidence": "static_suspicion",
+      "message": "Assumption 'am_force_count' constrains DUT INTERNAL STATE (a register/internal net).",
+      "evidence": "am_force_count (line 28) assumes on 'fifo_count': 'fifo_count' is a register/internal net inside the DUT (not a boundary port). constrains DUT INTERNAL STATE (a register/internal net). White-box state assumptions are a common source of hidden overconstraint and vacuous proofs.",
+      "properties": [
+        "am_force_count"
+      ],
+      "signals": [
+        "fifo_count"
+      ],
+      "needs_human_review": true
+    },
+    {
+      "code": "INTERNAL_STATE_CONSTRAINT",
+      "severity": "warning",
+      "confidence": "static_suspicion",
+      "message": "Assumption 'am_force_state' constrains DUT INTERNAL STATE (a register/internal net).",
+      "evidence": "am_force_state (line 27) assumes on 'state': 'state' is a register/internal net inside the DUT (not a boundary port). constrains DUT INTERNAL STATE (a register/internal net). White-box state assumptions are a common source of hidden overconstraint and vacuous proofs.",
+      "properties": [
+        "am_force_state"
+      ],
+      "signals": [
+        "state"
+      ],
+      "needs_human_review": true
+    },
+    {
+      "code": "OUTPUT_CONSTRAINT",
+      "severity": "error",
+      "confidence": "static_suspicion",
+      "message": "Assumption 'am_force_in_ready' constrains a DUT OUTPUT.",
+      "evidence": "am_force_in_ready (line 24) assumes on 'in_ready': 'in_ready' is an output port of top module 'handshake_dut'. constrains a DUT OUTPUT. Assumptions on outputs are overconstraint: they can mask real bugs and make the environment illegal. This should almost always be an assertion, not an assumption.",
+      "properties": [
+        "am_force_in_ready"
+      ],
+      "signals": [
+        "in_ready"
+      ],
+      "needs_human_review": true
+    },
+    {
+      "code": "OUTPUT_CONSTRAINT",
+      "severity": "error",
+      "confidence": "static_suspicion",
+      "message": "Assumption 'am_force_out_valid' constrains a DUT OUTPUT.",
+      "evidence": "am_force_out_valid (line 23) assumes on 'out_valid': 'out_valid' is an output port of top module 'handshake_dut'. constrains a DUT OUTPUT. Assumptions on outputs are overconstraint: they can mask real bugs and make the environment illegal. This should almost always be an assertion, not an assumption.",
+      "properties": [
+        "am_force_out_valid"
+      ],
+      "signals": [
+        "out_valid"
+      ],
+      "needs_human_review": true
+    },
+    {
+      "code": "UNKNOWN_SIGNAL",
+      "severity": "warning",
+      "confidence": "static_suspicion",
+      "message": "Assumption 'am_unknown' constrains a signal that could not be classified from the manifest.",
+      "evidence": "am_unknown (line 34) assumes on 'ghost_sig': 'ghost_sig' not found among manifest ports or internal signals. constrains a signal that could not be classified from the manifest. Ownership must be confirmed before trusting this assumption.",
+      "properties": [
+        "am_unknown"
+      ],
+      "signals": [
+        "ghost_sig"
+      ],
+      "needs_human_review": true
+    }
+  ],
+  "dependency_map": [
+    {
+      "property": "as_data_pipe",
+      "signal": "in_data",
+      "constrained_by_assumptions": []
+    },
+    {
+      "property": "as_data_pipe",
+      "signal": "in_valid",
+      "constrained_by_assumptions": [
+        "am_valid_false",
+        "am_valid_true"
+      ]
+    },
+    {
+      "property": "as_data_pipe",
+      "signal": "out_data",
+      "constrained_by_assumptions": []
+    }
+  ],
+  "vacuity_recommendations": [
+    {
+      "code": "VACUITY_RISK",
+      "severity": "error",
+      "confidence": "static_suspicion",
+      "message": "2 contradiction candidate(s) present: high vacuity risk for ALL assertions under these assumptions.",
+      "evidence": "Contradictory assumptions can make the constrained state space empty, in which case every assertion passes VACUOUSLY. Run a formal vacuity check and resolve contradictions before trusting any PASS. Absence of a proven counterexample is NOT proof of correctness.",
+      "properties": [],
+      "signals": [],
+      "needs_human_review": true
+    },
+    {
+      "code": "REACHABILITY_RISK",
+      "severity": "info",
+      "confidence": "static_suspicion",
+      "message": "Assertion 'as_data_pipe' has no paired cover exercising its signals.",
+      "evidence": "as_data_pipe touches ['in_data', 'in_valid', 'out_data'] but no cover directive shares any of these signals. Add a reachability cover to guard against a vacuous pass. RECOMMENDATION ONLY - this is not evidence of vacuity.",
+      "properties": [
+        "as_data_pipe"
+      ],
+      "signals": [
+        "in_data",
+        "in_valid",
+        "out_data"
+      ],
+      "needs_human_review": true
+    },
+    {
+      "code": "VACUITY_RISK",
+      "severity": "info",
+      "confidence": "static_suspicion",
+      "message": "Reminder: a clean hygiene report is NOT a soundness or validity result.",
+      "evidence": "This tool performs static structural checks only. It cannot and does not conclude that the constraint set is consistent, non-vacuous, or that any proof is valid. Always run formal vacuity/reachability analysis in the tool.",
+      "properties": [],
+      "signals": [],
+      "needs_human_review": false
+    }
+  ],
+  "human_review_queue": [
+    {
+      "priority": 1,
+      "reason": "2 contradiction candidate(s) present: high vacuity risk for ALL assertions under these assumptions.",
+      "related_findings": [
+        "VACUITY_RISK"
+      ],
+      "subject": "<constraint-set>"
+    },
+    {
+      "priority": 1,
+      "reason": "Assumption 'am_force_in_ready' constrains a DUT OUTPUT.; Assumption 'am_force_in_ready' constrains signals not referenced by any assertion or cover.",
+      "related_findings": [
+        "OUTPUT_CONSTRAINT",
+        "UNUSED_ASSUMPTION"
+      ],
+      "subject": "am_force_in_ready"
+    },
+    {
+      "priority": 1,
+      "reason": "Assumption 'am_force_out_valid' constrains a DUT OUTPUT.; Assumption 'am_force_out_valid' constrains signals not referenced by any assertion or cover.",
+      "related_findings": [
+        "OUTPUT_CONSTRAINT",
+        "UNUSED_ASSUMPTION"
+      ],
+      "subject": "am_force_out_valid"
+    },
+    {
+      "priority": 1,
+      "reason": "Assumption 'am_mode_a' constrains signals not referenced by any assertion or cover.; Assumptions 'am_mode_a' and 'am_mode_b' impose conflicting values on 'mode' (1 vs 2).",
+      "related_findings": [
+        "CONSTANT_CONFLICT",
+        "UNUSED_ASSUMPTION"
+      ],
+      "subject": "am_mode_a"
+    },
+    {
+      "priority": 1,
+      "reason": "Assumptions 'am_valid_true' and 'am_valid_false' impose conflicting values on 'in_valid' (1 vs 0).",
+      "related_findings": [
+        "CONTRADICTION"
+      ],
+      "subject": "am_valid_true"
+    },
+    {
+      "priority": 2,
+      "reason": "Assumption 'am_force_count' constrains DUT INTERNAL STATE (a register/internal net).; Assumption 'am_force_count' constrains signals not referenced by any assertion or cover.",
+      "related_findings": [
+        "INTERNAL_STATE_CONSTRAINT",
+        "UNUSED_ASSUMPTION"
+      ],
+      "subject": "am_force_count"
+    },
+    {
+      "priority": 2,
+      "reason": "Assumption 'am_force_state' constrains DUT INTERNAL STATE (a register/internal net).; Assumption 'am_force_state' constrains signals not referenced by any assertion or cover.",
+      "related_findings": [
+        "INTERNAL_STATE_CONSTRAINT",
+        "UNUSED_ASSUMPTION"
+      ],
+      "subject": "am_force_state"
+    },
+    {
+      "priority": 2,
+      "reason": "Assumption 'am_unknown' constrains a signal that could not be classified from the manifest.; Assumption 'am_unknown' constrains signals not referenced by any assertion or cover.",
+      "related_findings": [
+        "UNKNOWN_SIGNAL",
+        "UNUSED_ASSUMPTION"
+      ],
+      "subject": "am_unknown"
+    },
+    {
+      "priority": 3,
+      "reason": "Assumption 'am_mode_b' constrains signals not referenced by any assertion or cover.",
+      "related_findings": [
+        "UNUSED_ASSUMPTION"
+      ],
+      "subject": "am_mode_b"
+    },
+    {
+      "priority": 3,
+      "reason": "Assumption 'am_unused' constrains signals not referenced by any assertion or cover.",
+      "related_findings": [
+        "UNUSED_ASSUMPTION"
+      ],
+      "subject": "am_unused"
+    },
+    {
+      "priority": 3,
+      "reason": "Assertion 'as_data_pipe' has no paired cover exercising its signals.",
+      "related_findings": [
+        "REACHABILITY_RISK"
+      ],
+      "subject": "as_data_pipe"
+    }
+  ],
+  "disclaimer": "STATIC HYGIENE ONLY. Absence of a flagged contradiction does NOT mean the constraint set is sound or that any proof is valid. All findings are static suspicions requiring human review; no assumption may be changed without human approval."
+}

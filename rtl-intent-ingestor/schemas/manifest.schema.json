@@ -1,0 +1,854 @@
+{
+  "$defs": {
+    "Assignment": {
+      "additionalProperties": false,
+      "description": "A single assignment inside a procedural block.",
+      "properties": {
+        "lhs": {
+          "title": "Lhs",
+          "type": "string"
+        },
+        "location": {
+          "$ref": "#/$defs/SourceLocation"
+        },
+        "nonblocking": {
+          "title": "Nonblocking",
+          "type": "boolean"
+        },
+        "rhs": {
+          "title": "Rhs",
+          "type": "string"
+        }
+      },
+      "required": [
+        "lhs",
+        "rhs",
+        "nonblocking",
+        "location"
+      ],
+      "title": "Assignment",
+      "type": "object"
+    },
+    "ClockCandidate": {
+      "additionalProperties": false,
+      "description": "Heuristic clock candidate. ``confidence`` is a heuristic score.",
+      "properties": {
+        "confidence": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Confidence",
+          "type": "number"
+        },
+        "location": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SourceLocation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "rationale": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Rationale",
+          "type": "array"
+        },
+        "signal": {
+          "title": "Signal",
+          "type": "string"
+        }
+      },
+      "required": [
+        "signal",
+        "confidence"
+      ],
+      "title": "ClockCandidate",
+      "type": "object"
+    },
+    "ContinuousAssign": {
+      "additionalProperties": false,
+      "properties": {
+        "lhs": {
+          "title": "Lhs",
+          "type": "string"
+        },
+        "location": {
+          "$ref": "#/$defs/SourceLocation"
+        },
+        "rhs": {
+          "title": "Rhs",
+          "type": "string"
+        }
+      },
+      "required": [
+        "lhs",
+        "rhs",
+        "location"
+      ],
+      "title": "ContinuousAssign",
+      "type": "object"
+    },
+    "HierarchyEdge": {
+      "additionalProperties": false,
+      "description": "A parent -> child edge in the instantiation hierarchy.\n\n``child_module`` may reference a module not present in the input set\n(an external/black-box module); ``child_defined`` records that.",
+      "properties": {
+        "child_defined": {
+          "title": "Child Defined",
+          "type": "boolean"
+        },
+        "child_module": {
+          "title": "Child Module",
+          "type": "string"
+        },
+        "instance_name": {
+          "title": "Instance Name",
+          "type": "string"
+        },
+        "parent_module": {
+          "title": "Parent Module",
+          "type": "string"
+        }
+      },
+      "required": [
+        "parent_module",
+        "child_module",
+        "instance_name",
+        "child_defined"
+      ],
+      "title": "HierarchyEdge",
+      "type": "object"
+    },
+    "Instance": {
+      "additionalProperties": false,
+      "properties": {
+        "connections": {
+          "items": {
+            "$ref": "#/$defs/PortConnection"
+          },
+          "title": "Connections",
+          "type": "array"
+        },
+        "location": {
+          "$ref": "#/$defs/SourceLocation"
+        },
+        "module": {
+          "title": "Module",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "module",
+        "name",
+        "location"
+      ],
+      "title": "Instance",
+      "type": "object"
+    },
+    "Module": {
+      "additionalProperties": false,
+      "properties": {
+        "clock_candidates": {
+          "items": {
+            "$ref": "#/$defs/ClockCandidate"
+          },
+          "title": "Clock Candidates",
+          "type": "array"
+        },
+        "continuous_assigns": {
+          "items": {
+            "$ref": "#/$defs/ContinuousAssign"
+          },
+          "title": "Continuous Assigns",
+          "type": "array"
+        },
+        "instances": {
+          "items": {
+            "$ref": "#/$defs/Instance"
+          },
+          "title": "Instances",
+          "type": "array"
+        },
+        "location": {
+          "$ref": "#/$defs/SourceLocation"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "nets": {
+          "items": {
+            "$ref": "#/$defs/Net"
+          },
+          "title": "Nets",
+          "type": "array"
+        },
+        "parameters": {
+          "items": {
+            "$ref": "#/$defs/Parameter"
+          },
+          "title": "Parameters",
+          "type": "array"
+        },
+        "ports": {
+          "items": {
+            "$ref": "#/$defs/Port"
+          },
+          "title": "Ports",
+          "type": "array"
+        },
+        "procedure_summary": {
+          "$ref": "#/$defs/ProcedureSummary"
+        },
+        "procedures": {
+          "items": {
+            "$ref": "#/$defs/Procedure"
+          },
+          "title": "Procedures",
+          "type": "array"
+        },
+        "registers": {
+          "items": {
+            "$ref": "#/$defs/Register"
+          },
+          "title": "Registers",
+          "type": "array"
+        },
+        "reset_candidates": {
+          "items": {
+            "$ref": "#/$defs/ResetCandidate"
+          },
+          "title": "Reset Candidates",
+          "type": "array"
+        }
+      },
+      "required": [
+        "name",
+        "location"
+      ],
+      "title": "Module",
+      "type": "object"
+    },
+    "Net": {
+      "additionalProperties": false,
+      "description": "A ``wire``/``reg``/``logic`` declaration (not a port).\n\n``unpacked_range`` is set for memory arrays such as\n``reg [WIDTH-1:0] mem [0:DEPTH-1];`` (the ``[0:DEPTH-1]`` dimension).",
+      "properties": {
+        "is_memory": {
+          "default": false,
+          "title": "Is Memory",
+          "type": "boolean"
+        },
+        "location": {
+          "$ref": "#/$defs/SourceLocation"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "net_kind": {
+          "$ref": "#/$defs/NetKind"
+        },
+        "range": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Range"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "unpacked_range": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Range"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "name",
+        "net_kind",
+        "location"
+      ],
+      "title": "Net",
+      "type": "object"
+    },
+    "NetKind": {
+      "enum": [
+        "wire",
+        "reg",
+        "logic"
+      ],
+      "title": "NetKind",
+      "type": "string"
+    },
+    "Parameter": {
+      "additionalProperties": false,
+      "properties": {
+        "default": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Default"
+        },
+        "is_localparam": {
+          "default": false,
+          "title": "Is Localparam",
+          "type": "boolean"
+        },
+        "location": {
+          "$ref": "#/$defs/SourceLocation"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "location"
+      ],
+      "title": "Parameter",
+      "type": "object"
+    },
+    "ParserInfo": {
+      "additionalProperties": false,
+      "properties": {
+        "adapter": {
+          "title": "Adapter",
+          "type": "string"
+        },
+        "adapter_version": {
+          "title": "Adapter Version",
+          "type": "string"
+        },
+        "supported_constructs": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Supported Constructs",
+          "type": "array"
+        },
+        "unsupported_constructs": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Unsupported Constructs",
+          "type": "array"
+        }
+      },
+      "required": [
+        "adapter",
+        "adapter_version"
+      ],
+      "title": "ParserInfo",
+      "type": "object"
+    },
+    "Port": {
+      "additionalProperties": false,
+      "properties": {
+        "direction": {
+          "$ref": "#/$defs/PortDirection"
+        },
+        "location": {
+          "$ref": "#/$defs/SourceLocation"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "net_kind": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/NetKind"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "range": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Range"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "name",
+        "direction",
+        "location"
+      ],
+      "title": "Port",
+      "type": "object"
+    },
+    "PortConnection": {
+      "additionalProperties": false,
+      "description": "A single named or positional port connection on an instance.",
+      "properties": {
+        "actual": {
+          "title": "Actual",
+          "type": "string"
+        },
+        "formal": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Formal"
+        },
+        "location": {
+          "$ref": "#/$defs/SourceLocation"
+        }
+      },
+      "required": [
+        "actual",
+        "location"
+      ],
+      "title": "PortConnection",
+      "type": "object"
+    },
+    "PortDirection": {
+      "enum": [
+        "input",
+        "output",
+        "inout"
+      ],
+      "title": "PortDirection",
+      "type": "string"
+    },
+    "Procedure": {
+      "additionalProperties": false,
+      "description": "An ``always`` / ``always_ff`` / ``always_comb`` block summary.",
+      "properties": {
+        "assignment_targets": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Assignment Targets",
+          "type": "array"
+        },
+        "assignments": {
+          "items": {
+            "$ref": "#/$defs/Assignment"
+          },
+          "title": "Assignments",
+          "type": "array"
+        },
+        "condition_signals": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Condition Signals",
+          "type": "array"
+        },
+        "index": {
+          "minimum": 0,
+          "title": "Index",
+          "type": "integer"
+        },
+        "is_star_sensitivity": {
+          "default": false,
+          "title": "Is Star Sensitivity",
+          "type": "boolean"
+        },
+        "kind": {
+          "$ref": "#/$defs/ProcedureKind"
+        },
+        "location": {
+          "$ref": "#/$defs/SourceLocation"
+        },
+        "sensitivity": {
+          "items": {
+            "$ref": "#/$defs/SensitivityEntry"
+          },
+          "title": "Sensitivity",
+          "type": "array"
+        }
+      },
+      "required": [
+        "index",
+        "kind",
+        "location"
+      ],
+      "title": "Procedure",
+      "type": "object"
+    },
+    "ProcedureKind": {
+      "description": "Classification of an ``always`` block based on its sensitivity list.\n\nThe classification is structural (deterministic), not semantic:\n* ``always_ff``  - edge-sensitive (``posedge``/``negedge``)\n* ``always_comb`` - level-sensitive / ``@*`` / SV ``always_comb``\n* ``always``      - could not be classified confidently",
+      "enum": [
+        "always_ff",
+        "always_comb",
+        "always"
+      ],
+      "title": "ProcedureKind",
+      "type": "string"
+    },
+    "ProcedureSummary": {
+      "additionalProperties": false,
+      "properties": {
+        "always_comb": {
+          "default": 0,
+          "title": "Always Comb",
+          "type": "integer"
+        },
+        "always_ff": {
+          "default": 0,
+          "title": "Always Ff",
+          "type": "integer"
+        },
+        "always_other": {
+          "default": 0,
+          "title": "Always Other",
+          "type": "integer"
+        },
+        "continuous_assigns": {
+          "default": 0,
+          "title": "Continuous Assigns",
+          "type": "integer"
+        }
+      },
+      "title": "ProcedureSummary",
+      "type": "object"
+    },
+    "Provenance": {
+      "additionalProperties": false,
+      "properties": {
+        "command": {
+          "default": "",
+          "title": "Command",
+          "type": "string"
+        },
+        "git_sha": {
+          "default": "UNKNOWN",
+          "title": "Git Sha",
+          "type": "string"
+        },
+        "input_files": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Input Files",
+          "type": "array"
+        },
+        "input_sha256": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Input Sha256",
+          "type": "object"
+        },
+        "schema_version": {
+          "default": "0.1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "tool": {
+          "default": "rtl-intent",
+          "title": "Tool",
+          "type": "string"
+        },
+        "tool_version": {
+          "title": "Tool Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "tool_version"
+      ],
+      "title": "Provenance",
+      "type": "object"
+    },
+    "Range": {
+      "additionalProperties": false,
+      "description": "A packed bit range ``[msb:lsb]`` captured verbatim as source text.\n\nThe subset parser does not evaluate parameter arithmetic, so ``msb`` and\n``lsb`` are the original expression strings (e.g. ``\"WIDTH-1\"``).",
+      "properties": {
+        "lsb": {
+          "title": "Lsb",
+          "type": "string"
+        },
+        "msb": {
+          "title": "Msb",
+          "type": "string"
+        }
+      },
+      "required": [
+        "msb",
+        "lsb"
+      ],
+      "title": "Range",
+      "type": "object"
+    },
+    "Register": {
+      "additionalProperties": false,
+      "description": "A signal assigned with ``<=`` inside an edge-sensitive block.\n\nThis is the deterministic definition of a \"register\" used here: a target\nof a nonblocking assignment under a clock edge. It is a structural signal,\nnot a formal state-element proof.",
+      "properties": {
+        "driven_in_procedure_index": {
+          "minimum": 0,
+          "title": "Driven In Procedure Index",
+          "type": "integer"
+        },
+        "location": {
+          "$ref": "#/$defs/SourceLocation"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "driven_in_procedure_index",
+        "location"
+      ],
+      "title": "Register",
+      "type": "object"
+    },
+    "ResetCandidate": {
+      "additionalProperties": false,
+      "description": "Heuristic reset candidate with inferred polarity/sync (heuristic).",
+      "properties": {
+        "confidence": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Confidence",
+          "type": "number"
+        },
+        "location": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SourceLocation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "polarity": {
+          "$ref": "#/$defs/ResetPolarity",
+          "default": "unknown"
+        },
+        "rationale": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Rationale",
+          "type": "array"
+        },
+        "signal": {
+          "title": "Signal",
+          "type": "string"
+        },
+        "sync": {
+          "$ref": "#/$defs/ResetSync",
+          "default": "unknown"
+        }
+      },
+      "required": [
+        "signal",
+        "confidence"
+      ],
+      "title": "ResetCandidate",
+      "type": "object"
+    },
+    "ResetPolarity": {
+      "enum": [
+        "active_high",
+        "active_low",
+        "unknown"
+      ],
+      "title": "ResetPolarity",
+      "type": "string"
+    },
+    "ResetSync": {
+      "enum": [
+        "synchronous",
+        "asynchronous",
+        "unknown"
+      ],
+      "title": "ResetSync",
+      "type": "string"
+    },
+    "SensitivityEntry": {
+      "additionalProperties": false,
+      "properties": {
+        "edge": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Edge"
+        },
+        "signal": {
+          "title": "Signal",
+          "type": "string"
+        }
+      },
+      "required": [
+        "signal"
+      ],
+      "title": "SensitivityEntry",
+      "type": "object"
+    },
+    "SourceLocation": {
+      "additionalProperties": false,
+      "description": "Byte- and line-accurate location of an extracted item.\n\nLines and columns are 1-based. ``end_line``/``end_col`` are inclusive of\nthe last token that produced the item.",
+      "properties": {
+        "col": {
+          "minimum": 1,
+          "title": "Col",
+          "type": "integer"
+        },
+        "end_col": {
+          "minimum": 1,
+          "title": "End Col",
+          "type": "integer"
+        },
+        "end_line": {
+          "minimum": 1,
+          "title": "End Line",
+          "type": "integer"
+        },
+        "file": {
+          "title": "File",
+          "type": "string"
+        },
+        "line": {
+          "minimum": 1,
+          "title": "Line",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "file",
+        "line",
+        "col",
+        "end_line",
+        "end_col"
+      ],
+      "title": "SourceLocation",
+      "type": "object"
+    },
+    "UnresolvedConstruct": {
+      "additionalProperties": false,
+      "description": "An input construct the subset parser did not fully understand.\n\nMaking these explicit is a hard requirement of the spec: every unsupported\nconstruct must be visible in the output rather than silently dropped.",
+      "properties": {
+        "detail": {
+          "title": "Detail",
+          "type": "string"
+        },
+        "kind": {
+          "title": "Kind",
+          "type": "string"
+        },
+        "location": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SourceLocation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "kind",
+        "detail"
+      ],
+      "title": "UnresolvedConstruct",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Top-level normalized design-intelligence manifest.",
+  "properties": {
+    "hierarchy": {
+      "items": {
+        "$ref": "#/$defs/HierarchyEdge"
+      },
+      "title": "Hierarchy",
+      "type": "array"
+    },
+    "modules": {
+      "items": {
+        "$ref": "#/$defs/Module"
+      },
+      "title": "Modules",
+      "type": "array"
+    },
+    "parser": {
+      "$ref": "#/$defs/ParserInfo"
+    },
+    "provenance": {
+      "$ref": "#/$defs/Provenance"
+    },
+    "schema_version": {
+      "default": "0.1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "top": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Top"
+    },
+    "unresolved": {
+      "items": {
+        "$ref": "#/$defs/UnresolvedConstruct"
+      },
+      "title": "Unresolved",
+      "type": "array"
+    }
+  },
+  "required": [
+    "provenance",
+    "parser"
+  ],
+  "title": "Manifest",
+  "type": "object"
+}

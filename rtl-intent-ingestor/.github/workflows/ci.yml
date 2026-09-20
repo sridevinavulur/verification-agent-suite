@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install package (with dev extras)
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+
+      - name: Ruff (lint)
+        run: ruff check .
+
+      - name: Mypy (types)
+        run: mypy src/rtl_intent
+
+      - name: Pytest
+        run: pytest -q
+
+      - name: Smoke-test CLI on examples
+        run: |
+          rtl-intent ingest examples/counter.sv >/dev/null
+          rtl-intent ingest examples/fifo_queue.sv >/dev/null
+          rtl-intent ingest examples/valid_ready.sv --top vr_top >/dev/null
+          rtl-intent summary examples/counter.sv >/dev/null
+          rtl-intent schema >/dev/null

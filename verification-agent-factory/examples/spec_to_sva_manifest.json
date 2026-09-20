@@ -1,0 +1,70 @@
+{
+  "agent_id": "spec-to-sva-agent",
+  "display_name": "Spec-to-SVA Agent",
+  "version": "0.1.0",
+  "mission": "Transform structured natural-language hardware requirements and a public RTL symbol table into traceable, statically-checked candidate SystemVerilog Assertions.",
+  "category": "sva_generation",
+  "owner_role": "Verification methodology engineer",
+  "maturity_level": "prototype",
+  "inputs": ["natural_language_requirement", "json_manifest"],
+  "outputs": ["sva", "report"],
+  "supported_design_languages": ["SystemVerilog", "Verilog"],
+  "deterministic_tools": [
+    "temporal-intent parser",
+    "RTL symbol grounding check",
+    "SVA template renderer",
+    "static timing-range validator"
+  ],
+  "optional_llm_roles": [
+    {
+      "role": "Propose structured temporal-intent fields from free-text requirements",
+      "deterministic_check": "All proposed signals must ground to the RTL symbol table; timing ranges validated"
+    }
+  ],
+  "authority_boundary": "This agent proposes candidate assertions and runs deterministic static checks only. It does not modify RTL, assumptions, proof scope, budgets, or signoff conclusions, and it does not run formal proofs.",
+  "prohibited_actions": [
+    "Inventing signals not present in the RTL symbol table",
+    "Emitting an assertion for an ungrounded identifier",
+    "Classifying syntax acceptance as a semantic pass",
+    "Modifying RTL or assumptions"
+  ],
+  "required_human_approvals": [
+    "Accepting a candidate assertion into a verification plan",
+    "Reinterpreting a design guarantee as an environment assumption",
+    "Changing reset polarity semantics"
+  ],
+  "claim_policy": {
+    "may_claim": "that it produced a syntactically-rendered candidate SVA whose every identifier is grounded to the supplied RTL symbol table.",
+    "must_not_claim": "that a generated assertion is semantically correct, formally proven, complete, or signoff-ready.",
+    "passing_result_means": "only that static checks passed and the property compiled; semantic correctness still requires formal/simulation validation and human review.",
+    "timeout_or_unknown_means": "no conclusion was reached and the result must never be treated as a pass.",
+    "human_review_required_when": "any candidate is accepted, reset semantics change, or a guarantee is reclassified as an assumption."
+  },
+  "validation_gates": [
+    {"name": "signal-grounding", "description": "Every referenced identifier exists in the RTL symbol table.", "blocking": true},
+    {"name": "clock-present", "description": "A concrete clock signal is specified and grounded.", "blocking": true},
+    {"name": "timing-range", "description": "min_delay <= max_delay.", "blocking": true}
+  ],
+  "evidence_metrics": [
+    {"name": "grounding_rate", "description": "Fraction of referenced signals grounded to RTL.", "how_measured": "grounded_signals / total_referenced on the bundled example set."},
+    {"name": "render_determinism", "description": "Byte-identical SVA render across runs.", "how_measured": "golden-output test comparison."}
+  ],
+  "benchmark_manifest": {
+    "name": "handshake-req-grant",
+    "description": "Public toy valid/ready-style handshake requirement with a bounded response.",
+    "public_source": "Authored toy example bundled in examples/.",
+    "license": "MIT"
+  },
+  "known_limitations": [
+    "Only bounded-response implication properties are rendered in v0.1.",
+    "No formal or simulation validation is performed.",
+    "Requirement fields must be pre-structured; free-text parsing is out of scope."
+  ],
+  "release_status": "public",
+  "license": "MIT",
+  "provenance": {
+    "author_role": "Verification methodology engineer",
+    "created_utc": "2026-09-20T00:00:00Z",
+    "manifest_schema_version": "1.0.0"
+  }
+}

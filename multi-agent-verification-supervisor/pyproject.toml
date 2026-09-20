@@ -1,0 +1,51 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "multi-agent-verification-supervisor"
+version = "0.1.0"
+description = "State-machine workflow coordinator for RTL/SVA/formal verification agents with deterministic gates, human-approval checkpoints, JSONL audit log, and evidence-packet assembly (mock backends)."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "Multi-Agent Verification Supervisor contributors" }]
+keywords = ["formal-verification", "sva", "rtl", "workflow", "state-machine", "orchestration"]
+dependencies = [
+    "pydantic>=2.6,<3",
+    "typer>=0.12,<1",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.5",
+    "mypy>=1.8",
+]
+
+[project.scripts]
+mav-supervisor = "mav_supervisor.cli:app"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+mav_supervisor = ["py.typed"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "W", "C4", "SIM"]
+ignore = ["B008"]  # Typer uses function-call defaults (Argument/Option) by design.
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.mypy]
+python_version = "3.11"
+warn_unused_ignores = true
+ignore_missing_imports = true

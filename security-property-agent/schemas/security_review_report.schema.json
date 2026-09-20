@@ -1,0 +1,715 @@
+{
+  "$defs": {
+    "CandidateProperty": {
+      "additionalProperties": false,
+      "description": "A rendered candidate SVA property. 'Rendered' != 'verified'.",
+      "properties": {
+        "property_name": {
+          "title": "Property Name",
+          "type": "string"
+        },
+        "requirement_id": {
+          "title": "Requirement Id",
+          "type": "string"
+        },
+        "clause_id": {
+          "title": "Clause Id",
+          "type": "string"
+        },
+        "category": {
+          "$ref": "#/$defs/SecurityCategory"
+        },
+        "property_kind": {
+          "$ref": "#/$defs/PropertyKind"
+        },
+        "property_form": {
+          "$ref": "#/$defs/PropertyForm"
+        },
+        "sva_text": {
+          "title": "Sva Text",
+          "type": "string"
+        },
+        "referenced_symbols": {
+          "items": {
+            "$ref": "#/$defs/SymbolRef"
+          },
+          "title": "Referenced Symbols",
+          "type": "array"
+        },
+        "ambiguities": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Ambiguities",
+          "type": "array"
+        },
+        "status": {
+          "default": "candidate_rendered_offline",
+          "title": "Status",
+          "type": "string"
+        },
+        "provenance": {
+          "$ref": "#/$defs/Provenance"
+        }
+      },
+      "required": [
+        "property_name",
+        "requirement_id",
+        "clause_id",
+        "category",
+        "property_kind",
+        "property_form",
+        "sva_text",
+        "provenance"
+      ],
+      "title": "CandidateProperty",
+      "type": "object"
+    },
+    "Clause": {
+      "additionalProperties": false,
+      "description": "An atomic requirement clause.\n\n``text`` is a VERBATIM slice of the requirement (never paraphrased). The\nspan records where it came from so a reviewer can confirm fidelity.",
+      "properties": {
+        "clause_id": {
+          "title": "Clause Id",
+          "type": "string"
+        },
+        "kind": {
+          "$ref": "#/$defs/ClauseKind"
+        },
+        "text": {
+          "title": "Text",
+          "type": "string"
+        },
+        "span": {
+          "$ref": "#/$defs/SourceSpan"
+        },
+        "rationale": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Rationale",
+          "type": "array"
+        }
+      },
+      "required": [
+        "clause_id",
+        "kind",
+        "text",
+        "span"
+      ],
+      "title": "Clause",
+      "type": "object"
+    },
+    "ClauseKind": {
+      "description": "Classification of an atomic requirement clause.\n\nThe spec is explicit that these categories must be kept distinct:\na *safety property* (something the design must guarantee) is not the same\nas an *environment assumption* (something the surrounding system must\nprovide), which is not the same as a *security test objective* (a scenario\nwe want to demonstrate is reachable / covered).",
+      "enum": [
+        "safety_property",
+        "environment_assumption",
+        "security_test_objective",
+        "ambiguity",
+        "unsupported"
+      ],
+      "title": "ClauseKind",
+      "type": "string"
+    },
+    "DecompositionResult": {
+      "additionalProperties": false,
+      "properties": {
+        "requirement_id": {
+          "title": "Requirement Id",
+          "type": "string"
+        },
+        "original_text": {
+          "title": "Original Text",
+          "type": "string"
+        },
+        "original_text_sha256": {
+          "title": "Original Text Sha256",
+          "type": "string"
+        },
+        "clauses": {
+          "items": {
+            "$ref": "#/$defs/Clause"
+          },
+          "title": "Clauses",
+          "type": "array"
+        },
+        "ambiguities": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Ambiguities",
+          "type": "array"
+        },
+        "provenance": {
+          "$ref": "#/$defs/Provenance"
+        }
+      },
+      "required": [
+        "requirement_id",
+        "original_text",
+        "original_text_sha256",
+        "clauses",
+        "provenance"
+      ],
+      "title": "DecompositionResult",
+      "type": "object"
+    },
+    "GroundingResult": {
+      "additionalProperties": false,
+      "properties": {
+        "requirement_id": {
+          "title": "Requirement Id",
+          "type": "string"
+        },
+        "clock_candidates": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Clock Candidates",
+          "type": "array"
+        },
+        "reset_candidates": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Reset Candidates",
+          "type": "array"
+        },
+        "symbols": {
+          "items": {
+            "$ref": "#/$defs/SymbolRef"
+          },
+          "title": "Symbols",
+          "type": "array"
+        },
+        "unresolved_terms": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Unresolved Terms",
+          "type": "array"
+        },
+        "ambiguities": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Ambiguities",
+          "type": "array"
+        },
+        "provenance": {
+          "$ref": "#/$defs/Provenance"
+        }
+      },
+      "required": [
+        "requirement_id",
+        "provenance"
+      ],
+      "title": "GroundingResult",
+      "type": "object"
+    },
+    "MatchKind": {
+      "enum": [
+        "exact",
+        "alias",
+        "unresolved"
+      ],
+      "title": "MatchKind",
+      "type": "string"
+    },
+    "MutationExample": {
+      "additionalProperties": false,
+      "description": "A deliberately-broken variant of a candidate.\n\nThe intent: if the candidate property is meaningful, the mutated property\n(or the described fault stimulus) SHOULD produce a failure. This gives a\nreviewer a concrete \"sanity witness\". It is NOT proof the original holds.",
+      "properties": {
+        "mutation_id": {
+          "title": "Mutation Id",
+          "type": "string"
+        },
+        "of_property": {
+          "title": "Of Property",
+          "type": "string"
+        },
+        "mutation_kind": {
+          "$ref": "#/$defs/MutationKind"
+        },
+        "description": {
+          "title": "Description",
+          "type": "string"
+        },
+        "mutated_sva_text": {
+          "title": "Mutated Sva Text",
+          "type": "string"
+        },
+        "expected_effect": {
+          "default": "should_fail_if_original_is_meaningful",
+          "title": "Expected Effect",
+          "type": "string"
+        },
+        "provenance": {
+          "$ref": "#/$defs/Provenance"
+        }
+      },
+      "required": [
+        "mutation_id",
+        "of_property",
+        "mutation_kind",
+        "description",
+        "mutated_sva_text",
+        "provenance"
+      ],
+      "title": "MutationExample",
+      "type": "object"
+    },
+    "MutationKind": {
+      "enum": [
+        "negate_antecedent",
+        "negate_consequent",
+        "weaken_bound",
+        "break_lockstep",
+        "drop_guard"
+      ],
+      "title": "MutationKind",
+      "type": "string"
+    },
+    "PropertyForm": {
+      "description": "Whitelisted renderable candidate property forms (security-oriented).",
+      "enum": [
+        "never",
+        "always",
+        "implication",
+        "next_cycle",
+        "bounded_response",
+        "lockstep_equal",
+        "reachable"
+      ],
+      "title": "PropertyForm",
+      "type": "string"
+    },
+    "PropertyKind": {
+      "description": "SVA directive.",
+      "enum": [
+        "assert",
+        "assume",
+        "cover"
+      ],
+      "title": "PropertyKind",
+      "type": "string"
+    },
+    "Provenance": {
+      "additionalProperties": false,
+      "description": "Record of how an artifact was produced (BUILD_STANDARD run ledger).",
+      "properties": {
+        "tool": {
+          "default": "security-property-agent",
+          "title": "Tool",
+          "type": "string"
+        },
+        "tool_version": {
+          "default": "0.1.0",
+          "title": "Tool Version",
+          "type": "string"
+        },
+        "schema_version": {
+          "default": "0.1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "stage": {
+          "title": "Stage",
+          "type": "string"
+        },
+        "git_sha": {
+          "default": "UNKNOWN",
+          "title": "Git Sha",
+          "type": "string"
+        },
+        "input_hashes": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Input Hashes",
+          "type": "object"
+        },
+        "command": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Command"
+        },
+        "seed": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Seed"
+        },
+        "model_provider": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Model Provider"
+        },
+        "model_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Model Name"
+        },
+        "notes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        }
+      },
+      "required": [
+        "stage"
+      ],
+      "title": "Provenance",
+      "type": "object"
+    },
+    "RequirementArtifacts": {
+      "additionalProperties": false,
+      "description": "Everything derived from one requirement.",
+      "properties": {
+        "requirement": {
+          "$ref": "#/$defs/SecurityRequirement"
+        },
+        "decomposition": {
+          "$ref": "#/$defs/DecompositionResult"
+        },
+        "grounding": {
+          "$ref": "#/$defs/GroundingResult"
+        },
+        "candidates": {
+          "items": {
+            "$ref": "#/$defs/CandidateProperty"
+          },
+          "title": "Candidates",
+          "type": "array"
+        },
+        "mutations": {
+          "items": {
+            "$ref": "#/$defs/MutationExample"
+          },
+          "title": "Mutations",
+          "type": "array"
+        },
+        "checks": {
+          "items": {
+            "$ref": "#/$defs/ValidationCheck"
+          },
+          "title": "Checks",
+          "type": "array"
+        },
+        "emitted": {
+          "title": "Emitted",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "requirement",
+        "decomposition",
+        "grounding",
+        "candidates",
+        "mutations",
+        "checks",
+        "emitted"
+      ],
+      "title": "RequirementArtifacts",
+      "type": "object"
+    },
+    "ReviewChecklistItem": {
+      "additionalProperties": false,
+      "properties": {
+        "item": {
+          "title": "Item",
+          "type": "string"
+        },
+        "status": {
+          "default": "pending",
+          "title": "Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "item"
+      ],
+      "title": "ReviewChecklistItem",
+      "type": "object"
+    },
+    "SecurityCategory": {
+      "description": "The security check families this agent supports (spec 6.13).",
+      "enum": [
+        "access_control",
+        "privilege_gating",
+        "debug_lockout",
+        "fault_response",
+        "error_containment",
+        "lockstep_mismatch",
+        "information_flow_adjacent"
+      ],
+      "title": "SecurityCategory",
+      "type": "string"
+    },
+    "SecurityRequirement": {
+      "additionalProperties": false,
+      "description": "A single structured security requirement (the input contract).\n\n``text`` is the human-authored requirement statement and is preserved\nEXACTLY by the whole pipeline. ``signals`` optionally names candidate RTL\nsignals the author already has in mind; the grounding stage still requires\nevidence in the Manifest before treating any of them as resolved.",
+      "properties": {
+        "requirement_id": {
+          "minLength": 1,
+          "title": "Requirement Id",
+          "type": "string"
+        },
+        "category": {
+          "$ref": "#/$defs/SecurityCategory"
+        },
+        "text": {
+          "minLength": 1,
+          "title": "Text",
+          "type": "string"
+        },
+        "signals": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Signals",
+          "type": "array"
+        },
+        "declared_trust_boundary": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Declared Trust Boundary"
+        },
+        "tags": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Tags",
+          "type": "array"
+        }
+      },
+      "required": [
+        "requirement_id",
+        "category",
+        "text"
+      ],
+      "title": "SecurityRequirement",
+      "type": "object"
+    },
+    "Severity": {
+      "enum": [
+        "error",
+        "warning",
+        "info"
+      ],
+      "title": "Severity",
+      "type": "string"
+    },
+    "SourceSpan": {
+      "additionalProperties": false,
+      "description": "Character span into the original requirement text (verbatim slice).",
+      "properties": {
+        "start": {
+          "minimum": 0,
+          "title": "Start",
+          "type": "integer"
+        },
+        "end": {
+          "minimum": 0,
+          "title": "End",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "start",
+        "end"
+      ],
+      "title": "SourceSpan",
+      "type": "object"
+    },
+    "SymbolRef": {
+      "additionalProperties": false,
+      "description": "A resolved-or-not reference to an RTL symbol from the Manifest.",
+      "properties": {
+        "term": {
+          "title": "Term",
+          "type": "string"
+        },
+        "match_kind": {
+          "$ref": "#/$defs/MatchKind"
+        },
+        "module": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Module"
+        },
+        "symbol": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Symbol"
+        },
+        "kind": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Kind"
+        },
+        "evidence": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "term",
+        "match_kind"
+      ],
+      "title": "SymbolRef",
+      "type": "object"
+    },
+    "ValidationCheck": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "passed": {
+          "title": "Passed",
+          "type": "boolean"
+        },
+        "severity": {
+          "$ref": "#/$defs/Severity"
+        },
+        "detail": {
+          "default": "",
+          "title": "Detail",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "passed",
+        "severity"
+      ],
+      "title": "ValidationCheck",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "run_id": {
+      "title": "Run Id",
+      "type": "string"
+    },
+    "design": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Design"
+    },
+    "manifest_top": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Manifest Top"
+    },
+    "artifacts": {
+      "items": {
+        "$ref": "#/$defs/RequirementArtifacts"
+      },
+      "title": "Artifacts",
+      "type": "array"
+    },
+    "checklist": {
+      "items": {
+        "$ref": "#/$defs/ReviewChecklistItem"
+      },
+      "title": "Checklist",
+      "type": "array"
+    },
+    "non_claims": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Non Claims",
+      "type": "array"
+    },
+    "provenance": {
+      "$ref": "#/$defs/Provenance"
+    }
+  },
+  "required": [
+    "run_id",
+    "artifacts",
+    "provenance"
+  ],
+  "title": "SecurityReviewReport",
+  "type": "object"
+}

@@ -1,0 +1,967 @@
+{
+  "hierarchy": [
+    {
+      "child_defined": true,
+      "child_module": "vr_producer",
+      "instance_name": "u_producer",
+      "parent_module": "vr_top"
+    },
+    {
+      "child_defined": true,
+      "child_module": "vr_consumer",
+      "instance_name": "u_consumer",
+      "parent_module": "vr_top"
+    }
+  ],
+  "modules": [
+    {
+      "clock_candidates": [
+        {
+          "confidence": 1.0,
+          "location": {
+            "col": 5,
+            "end_col": 32,
+            "end_line": 8,
+            "file": "valid_ready.sv",
+            "line": 8
+          },
+          "rationale": [
+            "edge-sensitive in always_ff (proc #0)",
+            "name matches clock convention"
+          ],
+          "signal": "clk"
+        }
+      ],
+      "continuous_assigns": [],
+      "instances": [],
+      "location": {
+        "col": 1,
+        "end_col": 18,
+        "end_line": 5,
+        "file": "valid_ready.sv",
+        "line": 5
+      },
+      "name": "vr_producer",
+      "nets": [
+        {
+          "is_memory": false,
+          "location": {
+            "col": 5,
+            "end_col": 27,
+            "end_line": 16,
+            "file": "valid_ready.sv",
+            "line": 16
+          },
+          "name": "counter",
+          "net_kind": "reg",
+          "range": {
+            "lsb": "0",
+            "msb": "WIDTH - 1"
+          },
+          "unpacked_range": null
+        }
+      ],
+      "parameters": [
+        {
+          "default": "8",
+          "is_localparam": false,
+          "location": {
+            "col": 5,
+            "end_col": 23,
+            "end_line": 6,
+            "file": "valid_ready.sv",
+            "line": 6
+          },
+          "name": "WIDTH"
+        }
+      ],
+      "ports": [
+        {
+          "direction": "input",
+          "location": {
+            "col": 5,
+            "end_col": 32,
+            "end_line": 8,
+            "file": "valid_ready.sv",
+            "line": 8
+          },
+          "name": "clk",
+          "net_kind": "wire",
+          "range": null
+        },
+        {
+          "direction": "input",
+          "location": {
+            "col": 5,
+            "end_col": 34,
+            "end_line": 9,
+            "file": "valid_ready.sv",
+            "line": 9
+          },
+          "name": "rst_n",
+          "net_kind": "wire",
+          "range": null
+        },
+        {
+          "direction": "input",
+          "location": {
+            "col": 5,
+            "end_col": 34,
+            "end_line": 10,
+            "file": "valid_ready.sv",
+            "line": 10
+          },
+          "name": "start",
+          "net_kind": "wire",
+          "range": null
+        },
+        {
+          "direction": "output",
+          "location": {
+            "col": 5,
+            "end_col": 38,
+            "end_line": 11,
+            "file": "valid_ready.sv",
+            "line": 11
+          },
+          "name": "out_valid",
+          "net_kind": "reg",
+          "range": null
+        },
+        {
+          "direction": "input",
+          "location": {
+            "col": 5,
+            "end_col": 38,
+            "end_line": 12,
+            "file": "valid_ready.sv",
+            "line": 12
+          },
+          "name": "out_ready",
+          "net_kind": "wire",
+          "range": null
+        },
+        {
+          "direction": "output",
+          "location": {
+            "col": 5,
+            "end_col": 37,
+            "end_line": 13,
+            "file": "valid_ready.sv",
+            "line": 13
+          },
+          "name": "out_data",
+          "net_kind": "reg",
+          "range": {
+            "lsb": "0",
+            "msb": "WIDTH - 1"
+          }
+        }
+      ],
+      "procedure_summary": {
+        "always_comb": 0,
+        "always_ff": 1,
+        "always_other": 0,
+        "continuous_assigns": 0
+      },
+      "procedures": [
+        {
+          "assignment_targets": [
+            "out_valid",
+            "out_data",
+            "counter"
+          ],
+          "assignments": [
+            {
+              "lhs": "out_valid",
+              "location": {
+                "col": 13,
+                "end_col": 29,
+                "end_line": 20,
+                "file": "valid_ready.sv",
+                "line": 20
+              },
+              "nonblocking": true,
+              "rhs": "1'b0"
+            },
+            {
+              "lhs": "out_data",
+              "location": {
+                "col": 13,
+                "end_col": 38,
+                "end_line": 21,
+                "file": "valid_ready.sv",
+                "line": 21
+              },
+              "nonblocking": true,
+              "rhs": "{WIDTH {1'b0}}"
+            },
+            {
+              "lhs": "counter",
+              "location": {
+                "col": 13,
+                "end_col": 38,
+                "end_line": 22,
+                "file": "valid_ready.sv",
+                "line": 22
+              },
+              "nonblocking": true,
+              "rhs": "{WIDTH {1'b0}}"
+            },
+            {
+              "lhs": "out_valid",
+              "location": {
+                "col": 17,
+                "end_col": 33,
+                "end_line": 25,
+                "file": "valid_ready.sv",
+                "line": 25
+              },
+              "nonblocking": true,
+              "rhs": "1'b1"
+            },
+            {
+              "lhs": "out_data",
+              "location": {
+                "col": 17,
+                "end_col": 36,
+                "end_line": 26,
+                "file": "valid_ready.sv",
+                "line": 26
+              },
+              "nonblocking": true,
+              "rhs": "counter"
+            },
+            {
+              "lhs": "out_valid",
+              "location": {
+                "col": 17,
+                "end_col": 33,
+                "end_line": 28,
+                "file": "valid_ready.sv",
+                "line": 28
+              },
+              "nonblocking": true,
+              "rhs": "1'b0"
+            },
+            {
+              "lhs": "counter",
+              "location": {
+                "col": 17,
+                "end_col": 43,
+                "end_line": 29,
+                "file": "valid_ready.sv",
+                "line": 29
+              },
+              "nonblocking": true,
+              "rhs": "counter + 1'b1"
+            }
+          ],
+          "condition_signals": [
+            "rst_n",
+            "start",
+            "out_valid",
+            "out_ready"
+          ],
+          "index": 0,
+          "is_star_sensitivity": false,
+          "kind": "always_ff",
+          "location": {
+            "col": 5,
+            "end_col": 7,
+            "end_line": 32,
+            "file": "valid_ready.sv",
+            "line": 18
+          },
+          "sensitivity": [
+            {
+              "edge": "posedge",
+              "signal": "clk"
+            },
+            {
+              "edge": "negedge",
+              "signal": "rst_n"
+            }
+          ]
+        }
+      ],
+      "registers": [
+        {
+          "driven_in_procedure_index": 0,
+          "location": {
+            "col": 13,
+            "end_col": 29,
+            "end_line": 20,
+            "file": "valid_ready.sv",
+            "line": 20
+          },
+          "name": "out_valid"
+        },
+        {
+          "driven_in_procedure_index": 0,
+          "location": {
+            "col": 13,
+            "end_col": 38,
+            "end_line": 21,
+            "file": "valid_ready.sv",
+            "line": 21
+          },
+          "name": "out_data"
+        },
+        {
+          "driven_in_procedure_index": 0,
+          "location": {
+            "col": 13,
+            "end_col": 38,
+            "end_line": 22,
+            "file": "valid_ready.sv",
+            "line": 22
+          },
+          "name": "counter"
+        }
+      ],
+      "reset_candidates": [
+        {
+          "confidence": 0.9,
+          "location": {
+            "col": 5,
+            "end_col": 34,
+            "end_line": 9,
+            "file": "valid_ready.sv",
+            "line": 9
+          },
+          "polarity": "active_low",
+          "rationale": [
+            "edge-sensitive in always_ff (proc #0) with reset-like name",
+            "name matches reset convention"
+          ],
+          "signal": "rst_n",
+          "sync": "asynchronous"
+        }
+      ]
+    },
+    {
+      "clock_candidates": [
+        {
+          "confidence": 1.0,
+          "location": {
+            "col": 5,
+            "end_col": 32,
+            "end_line": 40,
+            "file": "valid_ready.sv",
+            "line": 40
+          },
+          "rationale": [
+            "edge-sensitive in always_ff (proc #0)",
+            "name matches clock convention"
+          ],
+          "signal": "clk"
+        }
+      ],
+      "continuous_assigns": [],
+      "instances": [],
+      "location": {
+        "col": 1,
+        "end_col": 18,
+        "end_line": 37,
+        "file": "valid_ready.sv",
+        "line": 37
+      },
+      "name": "vr_consumer",
+      "nets": [],
+      "parameters": [
+        {
+          "default": "8",
+          "is_localparam": false,
+          "location": {
+            "col": 5,
+            "end_col": 23,
+            "end_line": 38,
+            "file": "valid_ready.sv",
+            "line": 38
+          },
+          "name": "WIDTH"
+        }
+      ],
+      "ports": [
+        {
+          "direction": "input",
+          "location": {
+            "col": 5,
+            "end_col": 32,
+            "end_line": 40,
+            "file": "valid_ready.sv",
+            "line": 40
+          },
+          "name": "clk",
+          "net_kind": "wire",
+          "range": null
+        },
+        {
+          "direction": "input",
+          "location": {
+            "col": 5,
+            "end_col": 34,
+            "end_line": 41,
+            "file": "valid_ready.sv",
+            "line": 41
+          },
+          "name": "rst_n",
+          "net_kind": "wire",
+          "range": null
+        },
+        {
+          "direction": "input",
+          "location": {
+            "col": 5,
+            "end_col": 37,
+            "end_line": 42,
+            "file": "valid_ready.sv",
+            "line": 42
+          },
+          "name": "in_valid",
+          "net_kind": "wire",
+          "range": null
+        },
+        {
+          "direction": "output",
+          "location": {
+            "col": 5,
+            "end_col": 37,
+            "end_line": 43,
+            "file": "valid_ready.sv",
+            "line": 43
+          },
+          "name": "in_ready",
+          "net_kind": "reg",
+          "range": null
+        },
+        {
+          "direction": "input",
+          "location": {
+            "col": 5,
+            "end_col": 36,
+            "end_line": 44,
+            "file": "valid_ready.sv",
+            "line": 44
+          },
+          "name": "in_data",
+          "net_kind": "wire",
+          "range": {
+            "lsb": "0",
+            "msb": "WIDTH - 1"
+          }
+        },
+        {
+          "direction": "output",
+          "location": {
+            "col": 5,
+            "end_col": 38,
+            "end_line": 45,
+            "file": "valid_ready.sv",
+            "line": 45
+          },
+          "name": "last_data",
+          "net_kind": "reg",
+          "range": {
+            "lsb": "0",
+            "msb": "WIDTH - 1"
+          }
+        }
+      ],
+      "procedure_summary": {
+        "always_comb": 0,
+        "always_ff": 1,
+        "always_other": 0,
+        "continuous_assigns": 0
+      },
+      "procedures": [
+        {
+          "assignment_targets": [
+            "in_ready",
+            "last_data"
+          ],
+          "assignments": [
+            {
+              "lhs": "in_ready",
+              "location": {
+                "col": 13,
+                "end_col": 29,
+                "end_line": 50,
+                "file": "valid_ready.sv",
+                "line": 50
+              },
+              "nonblocking": true,
+              "rhs": "1'b1"
+            },
+            {
+              "lhs": "last_data",
+              "location": {
+                "col": 13,
+                "end_col": 38,
+                "end_line": 51,
+                "file": "valid_ready.sv",
+                "line": 51
+              },
+              "nonblocking": true,
+              "rhs": "{WIDTH {1'b0}}"
+            },
+            {
+              "lhs": "last_data",
+              "location": {
+                "col": 17,
+                "end_col": 36,
+                "end_line": 54,
+                "file": "valid_ready.sv",
+                "line": 54
+              },
+              "nonblocking": true,
+              "rhs": "in_data"
+            }
+          ],
+          "condition_signals": [
+            "rst_n",
+            "in_valid",
+            "in_ready"
+          ],
+          "index": 0,
+          "is_star_sensitivity": false,
+          "kind": "always_ff",
+          "location": {
+            "col": 5,
+            "end_col": 7,
+            "end_line": 57,
+            "file": "valid_ready.sv",
+            "line": 48
+          },
+          "sensitivity": [
+            {
+              "edge": "posedge",
+              "signal": "clk"
+            },
+            {
+              "edge": "negedge",
+              "signal": "rst_n"
+            }
+          ]
+        }
+      ],
+      "registers": [
+        {
+          "driven_in_procedure_index": 0,
+          "location": {
+            "col": 13,
+            "end_col": 29,
+            "end_line": 50,
+            "file": "valid_ready.sv",
+            "line": 50
+          },
+          "name": "in_ready"
+        },
+        {
+          "driven_in_procedure_index": 0,
+          "location": {
+            "col": 13,
+            "end_col": 38,
+            "end_line": 51,
+            "file": "valid_ready.sv",
+            "line": 51
+          },
+          "name": "last_data"
+        }
+      ],
+      "reset_candidates": [
+        {
+          "confidence": 0.9,
+          "location": {
+            "col": 5,
+            "end_col": 34,
+            "end_line": 41,
+            "file": "valid_ready.sv",
+            "line": 41
+          },
+          "polarity": "active_low",
+          "rationale": [
+            "edge-sensitive in always_ff (proc #0) with reset-like name",
+            "name matches reset convention"
+          ],
+          "signal": "rst_n",
+          "sync": "asynchronous"
+        }
+      ]
+    },
+    {
+      "clock_candidates": [
+        {
+          "confidence": 0.4,
+          "location": {
+            "col": 5,
+            "end_col": 32,
+            "end_line": 65,
+            "file": "valid_ready.sv",
+            "line": 65
+          },
+          "rationale": [
+            "name matches clock convention"
+          ],
+          "signal": "clk"
+        }
+      ],
+      "continuous_assigns": [],
+      "instances": [
+        {
+          "connections": [
+            {
+              "actual": "clk",
+              "formal": "clk",
+              "location": {
+                "col": 9,
+                "end_col": 9,
+                "end_line": 76,
+                "file": "valid_ready.sv",
+                "line": 76
+              }
+            },
+            {
+              "actual": "rst_n",
+              "formal": "rst_n",
+              "location": {
+                "col": 9,
+                "end_col": 9,
+                "end_line": 77,
+                "file": "valid_ready.sv",
+                "line": 77
+              }
+            },
+            {
+              "actual": "start",
+              "formal": "start",
+              "location": {
+                "col": 9,
+                "end_col": 9,
+                "end_line": 78,
+                "file": "valid_ready.sv",
+                "line": 78
+              }
+            },
+            {
+              "actual": "valid",
+              "formal": "out_valid",
+              "location": {
+                "col": 9,
+                "end_col": 9,
+                "end_line": 79,
+                "file": "valid_ready.sv",
+                "line": 79
+              }
+            },
+            {
+              "actual": "ready",
+              "formal": "out_ready",
+              "location": {
+                "col": 9,
+                "end_col": 9,
+                "end_line": 80,
+                "file": "valid_ready.sv",
+                "line": 80
+              }
+            },
+            {
+              "actual": "data",
+              "formal": "out_data",
+              "location": {
+                "col": 9,
+                "end_col": 9,
+                "end_line": 81,
+                "file": "valid_ready.sv",
+                "line": 81
+              }
+            }
+          ],
+          "location": {
+            "col": 5,
+            "end_col": 43,
+            "end_line": 75,
+            "file": "valid_ready.sv",
+            "line": 75
+          },
+          "module": "vr_producer",
+          "name": "u_producer"
+        },
+        {
+          "connections": [
+            {
+              "actual": "clk",
+              "formal": "clk",
+              "location": {
+                "col": 9,
+                "end_col": 9,
+                "end_line": 85,
+                "file": "valid_ready.sv",
+                "line": 85
+              }
+            },
+            {
+              "actual": "rst_n",
+              "formal": "rst_n",
+              "location": {
+                "col": 9,
+                "end_col": 9,
+                "end_line": 86,
+                "file": "valid_ready.sv",
+                "line": 86
+              }
+            },
+            {
+              "actual": "valid",
+              "formal": "in_valid",
+              "location": {
+                "col": 9,
+                "end_col": 9,
+                "end_line": 87,
+                "file": "valid_ready.sv",
+                "line": 87
+              }
+            },
+            {
+              "actual": "ready",
+              "formal": "in_ready",
+              "location": {
+                "col": 9,
+                "end_col": 9,
+                "end_line": 88,
+                "file": "valid_ready.sv",
+                "line": 88
+              }
+            },
+            {
+              "actual": "data",
+              "formal": "in_data",
+              "location": {
+                "col": 9,
+                "end_col": 9,
+                "end_line": 89,
+                "file": "valid_ready.sv",
+                "line": 89
+              }
+            },
+            {
+              "actual": "observed",
+              "formal": "last_data",
+              "location": {
+                "col": 9,
+                "end_col": 9,
+                "end_line": 90,
+                "file": "valid_ready.sv",
+                "line": 90
+              }
+            }
+          ],
+          "location": {
+            "col": 5,
+            "end_col": 43,
+            "end_line": 84,
+            "file": "valid_ready.sv",
+            "line": 84
+          },
+          "module": "vr_consumer",
+          "name": "u_consumer"
+        }
+      ],
+      "location": {
+        "col": 1,
+        "end_col": 13,
+        "end_line": 62,
+        "file": "valid_ready.sv",
+        "line": 62
+      },
+      "name": "vr_top",
+      "nets": [
+        {
+          "is_memory": false,
+          "location": {
+            "col": 5,
+            "end_col": 27,
+            "end_line": 71,
+            "file": "valid_ready.sv",
+            "line": 71
+          },
+          "name": "valid",
+          "net_kind": "wire",
+          "range": null,
+          "unpacked_range": null
+        },
+        {
+          "is_memory": false,
+          "location": {
+            "col": 5,
+            "end_col": 27,
+            "end_line": 72,
+            "file": "valid_ready.sv",
+            "line": 72
+          },
+          "name": "ready",
+          "net_kind": "wire",
+          "range": null,
+          "unpacked_range": null
+        },
+        {
+          "is_memory": false,
+          "location": {
+            "col": 5,
+            "end_col": 26,
+            "end_line": 73,
+            "file": "valid_ready.sv",
+            "line": 73
+          },
+          "name": "data",
+          "net_kind": "wire",
+          "range": {
+            "lsb": "0",
+            "msb": "WIDTH - 1"
+          },
+          "unpacked_range": null
+        }
+      ],
+      "parameters": [
+        {
+          "default": "8",
+          "is_localparam": false,
+          "location": {
+            "col": 5,
+            "end_col": 23,
+            "end_line": 63,
+            "file": "valid_ready.sv",
+            "line": 63
+          },
+          "name": "WIDTH"
+        }
+      ],
+      "ports": [
+        {
+          "direction": "input",
+          "location": {
+            "col": 5,
+            "end_col": 32,
+            "end_line": 65,
+            "file": "valid_ready.sv",
+            "line": 65
+          },
+          "name": "clk",
+          "net_kind": "wire",
+          "range": null
+        },
+        {
+          "direction": "input",
+          "location": {
+            "col": 5,
+            "end_col": 34,
+            "end_line": 66,
+            "file": "valid_ready.sv",
+            "line": 66
+          },
+          "name": "rst_n",
+          "net_kind": "wire",
+          "range": null
+        },
+        {
+          "direction": "input",
+          "location": {
+            "col": 5,
+            "end_col": 34,
+            "end_line": 67,
+            "file": "valid_ready.sv",
+            "line": 67
+          },
+          "name": "start",
+          "net_kind": "wire",
+          "range": null
+        },
+        {
+          "direction": "output",
+          "location": {
+            "col": 5,
+            "end_col": 37,
+            "end_line": 68,
+            "file": "valid_ready.sv",
+            "line": 68
+          },
+          "name": "observed",
+          "net_kind": "wire",
+          "range": {
+            "lsb": "0",
+            "msb": "WIDTH - 1"
+          }
+        }
+      ],
+      "procedure_summary": {
+        "always_comb": 0,
+        "always_ff": 0,
+        "always_other": 0,
+        "continuous_assigns": 0
+      },
+      "procedures": [],
+      "registers": [],
+      "reset_candidates": [
+        {
+          "confidence": 0.4,
+          "location": {
+            "col": 5,
+            "end_col": 34,
+            "end_line": 66,
+            "file": "valid_ready.sv",
+            "line": 66
+          },
+          "polarity": "active_low",
+          "rationale": [
+            "name matches reset convention"
+          ],
+          "signal": "rst_n",
+          "sync": "unknown"
+        }
+      ]
+    }
+  ],
+  "parser": {
+    "adapter": "builtin",
+    "adapter_version": "0.1.0",
+    "supported_constructs": [
+      "module/endmodule",
+      "ANSI and non-ANSI port lists",
+      "parameter/localparam",
+      "input/output/inout ports with width",
+      "wire/reg/logic declarations",
+      "continuous assign",
+      "always/always_ff/always_comb blocks",
+      "blocking and nonblocking assignments",
+      "basic module instances (named and positional)"
+    ],
+    "unsupported_constructs": [
+      "generate/for-generate blocks",
+      "functions and tasks",
+      "structs/unions/enums/typedefs",
+      "interfaces/modports/packages",
+      "SystemVerilog assertions (SVA)",
+      "preprocessor macros beyond raw passthrough",
+      "case/casez/casex statement bodies (recorded, body not modeled)",
+      "hierarchical/dotted assignment targets",
+      "parameter expression evaluation (ranges kept as text)"
+    ]
+  },
+  "provenance": {
+    "command": "rtl-intent ingest examples/valid_ready.sv",
+    "git_sha": "UNKNOWN",
+    "input_files": [
+      "valid_ready.sv"
+    ],
+    "input_sha256": {
+      "valid_ready.sv": "edb5efb8c7fb609d085abe33755a79478a4257c8646a2255f6ba568742b80b8f"
+    },
+    "schema_version": "0.1.0",
+    "tool": "rtl-intent",
+    "tool_version": "0.1.0"
+  },
+  "schema_version": "0.1.0",
+  "top": "vr_top",
+  "unresolved": []
+}

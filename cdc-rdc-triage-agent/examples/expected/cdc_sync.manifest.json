@@ -1,0 +1,647 @@
+{
+  "hierarchy": [],
+  "modules": [
+    {
+      "clock_candidates": [
+        {
+          "confidence": 1.0,
+          "location": {
+            "col": 5,
+            "end_col": 27,
+            "end_line": 13,
+            "file": "cdc_sync.sv",
+            "line": 13
+          },
+          "rationale": [
+            "edge-sensitive in always_ff (proc #0)",
+            "name matches clock convention"
+          ],
+          "signal": "clk_a"
+        },
+        {
+          "confidence": 1.0,
+          "location": {
+            "col": 5,
+            "end_col": 27,
+            "end_line": 15,
+            "file": "cdc_sync.sv",
+            "line": 15
+          },
+          "rationale": [
+            "edge-sensitive in always_ff (proc #1)",
+            "edge-sensitive in always_ff (proc #2)",
+            "edge-sensitive in always_ff (proc #3)",
+            "name matches clock convention"
+          ],
+          "signal": "clk_b"
+        }
+      ],
+      "continuous_assigns": [],
+      "instances": [],
+      "location": {
+        "col": 1,
+        "end_col": 15,
+        "end_line": 12,
+        "file": "cdc_sync.sv",
+        "line": 12
+      },
+      "name": "cdc_sync",
+      "nets": [
+        {
+          "is_memory": false,
+          "location": {
+            "col": 5,
+            "end_col": 20,
+            "end_line": 23,
+            "file": "cdc_sync.sv",
+            "line": 23
+          },
+          "name": "flag_a",
+          "net_kind": "reg",
+          "range": null,
+          "unpacked_range": null
+        },
+        {
+          "is_memory": false,
+          "location": {
+            "col": 5,
+            "end_col": 19,
+            "end_line": 24,
+            "file": "cdc_sync.sv",
+            "line": 24
+          },
+          "name": "bus_a",
+          "net_kind": "reg",
+          "range": {
+            "lsb": "0",
+            "msb": "7"
+          },
+          "unpacked_range": null
+        },
+        {
+          "is_memory": false,
+          "location": {
+            "col": 5,
+            "end_col": 22,
+            "end_line": 25,
+            "file": "cdc_sync.sv",
+            "line": 25
+          },
+          "name": "sync_ff1",
+          "net_kind": "reg",
+          "range": null,
+          "unpacked_range": null
+        },
+        {
+          "is_memory": false,
+          "location": {
+            "col": 5,
+            "end_col": 22,
+            "end_line": 26,
+            "file": "cdc_sync.sv",
+            "line": 26
+          },
+          "name": "sync_ff2",
+          "net_kind": "reg",
+          "range": null,
+          "unpacked_range": null
+        }
+      ],
+      "parameters": [],
+      "ports": [
+        {
+          "direction": "input",
+          "location": {
+            "col": 5,
+            "end_col": 27,
+            "end_line": 13,
+            "file": "cdc_sync.sv",
+            "line": 13
+          },
+          "name": "clk_a",
+          "net_kind": "wire",
+          "range": null
+        },
+        {
+          "direction": "input",
+          "location": {
+            "col": 5,
+            "end_col": 27,
+            "end_line": 14,
+            "file": "cdc_sync.sv",
+            "line": 14
+          },
+          "name": "rst_a",
+          "net_kind": "wire",
+          "range": null
+        },
+        {
+          "direction": "input",
+          "location": {
+            "col": 5,
+            "end_col": 27,
+            "end_line": 15,
+            "file": "cdc_sync.sv",
+            "line": 15
+          },
+          "name": "clk_b",
+          "net_kind": "wire",
+          "range": null
+        },
+        {
+          "direction": "input",
+          "location": {
+            "col": 5,
+            "end_col": 27,
+            "end_line": 16,
+            "file": "cdc_sync.sv",
+            "line": 16
+          },
+          "name": "rst_b",
+          "net_kind": "wire",
+          "range": null
+        },
+        {
+          "direction": "input",
+          "location": {
+            "col": 5,
+            "end_col": 25,
+            "end_line": 17,
+            "file": "cdc_sync.sv",
+            "line": 17
+          },
+          "name": "d_a",
+          "net_kind": "wire",
+          "range": null
+        },
+        {
+          "direction": "input",
+          "location": {
+            "col": 5,
+            "end_col": 28,
+            "end_line": 18,
+            "file": "cdc_sync.sv",
+            "line": 18
+          },
+          "name": "data_a",
+          "net_kind": "wire",
+          "range": {
+            "lsb": "0",
+            "msb": "7"
+          }
+        },
+        {
+          "direction": "output",
+          "location": {
+            "col": 5,
+            "end_col": 28,
+            "end_line": 19,
+            "file": "cdc_sync.sv",
+            "line": 19
+          },
+          "name": "flag_b",
+          "net_kind": "reg",
+          "range": null
+        },
+        {
+          "direction": "output",
+          "location": {
+            "col": 5,
+            "end_col": 27,
+            "end_line": 20,
+            "file": "cdc_sync.sv",
+            "line": 20
+          },
+          "name": "bus_b",
+          "net_kind": "reg",
+          "range": {
+            "lsb": "0",
+            "msb": "7"
+          }
+        }
+      ],
+      "procedure_summary": {
+        "always_comb": 0,
+        "always_ff": 4,
+        "always_other": 0,
+        "continuous_assigns": 0
+      },
+      "procedures": [
+        {
+          "assignment_targets": [
+            "flag_a",
+            "bus_a"
+          ],
+          "assignments": [
+            {
+              "lhs": "flag_a",
+              "location": {
+                "col": 13,
+                "end_col": 26,
+                "end_line": 31,
+                "file": "cdc_sync.sv",
+                "line": 31
+              },
+              "nonblocking": true,
+              "rhs": "1'b0"
+            },
+            {
+              "lhs": "bus_a",
+              "location": {
+                "col": 13,
+                "end_col": 27,
+                "end_line": 32,
+                "file": "cdc_sync.sv",
+                "line": 32
+              },
+              "nonblocking": true,
+              "rhs": "8'h00"
+            },
+            {
+              "lhs": "flag_a",
+              "location": {
+                "col": 13,
+                "end_col": 25,
+                "end_line": 34,
+                "file": "cdc_sync.sv",
+                "line": 34
+              },
+              "nonblocking": true,
+              "rhs": "d_a"
+            },
+            {
+              "lhs": "bus_a",
+              "location": {
+                "col": 13,
+                "end_col": 28,
+                "end_line": 35,
+                "file": "cdc_sync.sv",
+                "line": 35
+              },
+              "nonblocking": true,
+              "rhs": "data_a"
+            }
+          ],
+          "condition_signals": [
+            "rst_a"
+          ],
+          "index": 0,
+          "is_star_sensitivity": false,
+          "kind": "always_ff",
+          "location": {
+            "col": 5,
+            "end_col": 7,
+            "end_line": 37,
+            "file": "cdc_sync.sv",
+            "line": 29
+          },
+          "sensitivity": [
+            {
+              "edge": "posedge",
+              "signal": "clk_a"
+            },
+            {
+              "edge": "posedge",
+              "signal": "rst_a"
+            }
+          ]
+        },
+        {
+          "assignment_targets": [
+            "sync_ff1",
+            "sync_ff2"
+          ],
+          "assignments": [
+            {
+              "lhs": "sync_ff1",
+              "location": {
+                "col": 13,
+                "end_col": 28,
+                "end_line": 42,
+                "file": "cdc_sync.sv",
+                "line": 42
+              },
+              "nonblocking": true,
+              "rhs": "1'b0"
+            },
+            {
+              "lhs": "sync_ff2",
+              "location": {
+                "col": 13,
+                "end_col": 28,
+                "end_line": 43,
+                "file": "cdc_sync.sv",
+                "line": 43
+              },
+              "nonblocking": true,
+              "rhs": "1'b0"
+            },
+            {
+              "lhs": "sync_ff1",
+              "location": {
+                "col": 13,
+                "end_col": 30,
+                "end_line": 45,
+                "file": "cdc_sync.sv",
+                "line": 45
+              },
+              "nonblocking": true,
+              "rhs": "flag_a"
+            },
+            {
+              "lhs": "sync_ff2",
+              "location": {
+                "col": 13,
+                "end_col": 32,
+                "end_line": 46,
+                "file": "cdc_sync.sv",
+                "line": 46
+              },
+              "nonblocking": true,
+              "rhs": "sync_ff1"
+            }
+          ],
+          "condition_signals": [
+            "rst_b"
+          ],
+          "index": 1,
+          "is_star_sensitivity": false,
+          "kind": "always_ff",
+          "location": {
+            "col": 5,
+            "end_col": 7,
+            "end_line": 48,
+            "file": "cdc_sync.sv",
+            "line": 40
+          },
+          "sensitivity": [
+            {
+              "edge": "posedge",
+              "signal": "clk_b"
+            },
+            {
+              "edge": "posedge",
+              "signal": "rst_b"
+            }
+          ]
+        },
+        {
+          "assignment_targets": [
+            "flag_b"
+          ],
+          "assignments": [
+            {
+              "lhs": "flag_b",
+              "location": {
+                "col": 13,
+                "end_col": 26,
+                "end_line": 52,
+                "file": "cdc_sync.sv",
+                "line": 52
+              },
+              "nonblocking": true,
+              "rhs": "1'b0"
+            },
+            {
+              "lhs": "flag_b",
+              "location": {
+                "col": 13,
+                "end_col": 30,
+                "end_line": 54,
+                "file": "cdc_sync.sv",
+                "line": 54
+              },
+              "nonblocking": true,
+              "rhs": "sync_ff2"
+            }
+          ],
+          "condition_signals": [
+            "rst_b"
+          ],
+          "index": 2,
+          "is_star_sensitivity": false,
+          "kind": "always_ff",
+          "location": {
+            "col": 5,
+            "end_col": 7,
+            "end_line": 56,
+            "file": "cdc_sync.sv",
+            "line": 50
+          },
+          "sensitivity": [
+            {
+              "edge": "posedge",
+              "signal": "clk_b"
+            },
+            {
+              "edge": "posedge",
+              "signal": "rst_b"
+            }
+          ]
+        },
+        {
+          "assignment_targets": [
+            "bus_b"
+          ],
+          "assignments": [
+            {
+              "lhs": "bus_b",
+              "location": {
+                "col": 13,
+                "end_col": 26,
+                "end_line": 61,
+                "file": "cdc_sync.sv",
+                "line": 61
+              },
+              "nonblocking": true,
+              "rhs": "8'h00"
+            },
+            {
+              "lhs": "bus_b",
+              "location": {
+                "col": 13,
+                "end_col": 26,
+                "end_line": 63,
+                "file": "cdc_sync.sv",
+                "line": 63
+              },
+              "nonblocking": true,
+              "rhs": "bus_a"
+            }
+          ],
+          "condition_signals": [
+            "rst_b"
+          ],
+          "index": 3,
+          "is_star_sensitivity": false,
+          "kind": "always_ff",
+          "location": {
+            "col": 5,
+            "end_col": 7,
+            "end_line": 65,
+            "file": "cdc_sync.sv",
+            "line": 59
+          },
+          "sensitivity": [
+            {
+              "edge": "posedge",
+              "signal": "clk_b"
+            },
+            {
+              "edge": "posedge",
+              "signal": "rst_b"
+            }
+          ]
+        }
+      ],
+      "registers": [
+        {
+          "driven_in_procedure_index": 0,
+          "location": {
+            "col": 13,
+            "end_col": 26,
+            "end_line": 31,
+            "file": "cdc_sync.sv",
+            "line": 31
+          },
+          "name": "flag_a"
+        },
+        {
+          "driven_in_procedure_index": 0,
+          "location": {
+            "col": 13,
+            "end_col": 27,
+            "end_line": 32,
+            "file": "cdc_sync.sv",
+            "line": 32
+          },
+          "name": "bus_a"
+        },
+        {
+          "driven_in_procedure_index": 1,
+          "location": {
+            "col": 13,
+            "end_col": 28,
+            "end_line": 42,
+            "file": "cdc_sync.sv",
+            "line": 42
+          },
+          "name": "sync_ff1"
+        },
+        {
+          "driven_in_procedure_index": 1,
+          "location": {
+            "col": 13,
+            "end_col": 28,
+            "end_line": 43,
+            "file": "cdc_sync.sv",
+            "line": 43
+          },
+          "name": "sync_ff2"
+        },
+        {
+          "driven_in_procedure_index": 2,
+          "location": {
+            "col": 13,
+            "end_col": 26,
+            "end_line": 52,
+            "file": "cdc_sync.sv",
+            "line": 52
+          },
+          "name": "flag_b"
+        },
+        {
+          "driven_in_procedure_index": 3,
+          "location": {
+            "col": 13,
+            "end_col": 26,
+            "end_line": 61,
+            "file": "cdc_sync.sv",
+            "line": 61
+          },
+          "name": "bus_b"
+        }
+      ],
+      "reset_candidates": [
+        {
+          "confidence": 1.0,
+          "location": {
+            "col": 5,
+            "end_col": 27,
+            "end_line": 16,
+            "file": "cdc_sync.sv",
+            "line": 16
+          },
+          "polarity": "active_low",
+          "rationale": [
+            "edge-sensitive in always_ff (proc #1) with reset-like name",
+            "edge-sensitive in always_ff (proc #2) with reset-like name",
+            "edge-sensitive in always_ff (proc #3) with reset-like name",
+            "name matches reset convention"
+          ],
+          "signal": "rst_b",
+          "sync": "asynchronous"
+        },
+        {
+          "confidence": 0.9,
+          "location": {
+            "col": 5,
+            "end_col": 27,
+            "end_line": 14,
+            "file": "cdc_sync.sv",
+            "line": 14
+          },
+          "polarity": "unknown",
+          "rationale": [
+            "edge-sensitive in always_ff (proc #0) with reset-like name",
+            "name matches reset convention"
+          ],
+          "signal": "rst_a",
+          "sync": "asynchronous"
+        }
+      ]
+    }
+  ],
+  "parser": {
+    "adapter": "builtin",
+    "adapter_version": "0.1.0",
+    "supported_constructs": [
+      "module/endmodule",
+      "ANSI and non-ANSI port lists",
+      "parameter/localparam",
+      "input/output/inout ports with width",
+      "wire/reg/logic declarations",
+      "continuous assign",
+      "always/always_ff/always_comb blocks",
+      "blocking and nonblocking assignments",
+      "basic module instances (named and positional)"
+    ],
+    "unsupported_constructs": [
+      "generate/for-generate blocks",
+      "functions and tasks",
+      "structs/unions/enums/typedefs",
+      "interfaces/modports/packages",
+      "SystemVerilog assertions (SVA)",
+      "preprocessor macros beyond raw passthrough",
+      "case/casez/casex statement bodies (recorded, body not modeled)",
+      "hierarchical/dotted assignment targets",
+      "parameter expression evaluation (ranges kept as text)"
+    ]
+  },
+  "provenance": {
+    "command": "rtl-intent ingest examples/cdc_sync.sv",
+    "git_sha": "UNKNOWN",
+    "input_files": [
+      "cdc_sync.sv"
+    ],
+    "input_sha256": {
+      "cdc_sync.sv": "2203a4254dd17867ba520a4a721e1536c786c4916fa190dfa1ce39e8ef3e669d"
+    },
+    "schema_version": "0.1.0",
+    "tool": "rtl-intent",
+    "tool_version": "0.1.0"
+  },
+  "schema_version": "0.1.0",
+  "top": "cdc_sync",
+  "unresolved": []
+}

@@ -1,0 +1,22 @@
+// Property bound to counter.v. Public toy example.
+//
+// p_inc: when `en` is asserted (antecedent), then on the NEXT clock the
+// counter must advance. We model "advanced" with the helper signal
+// `count_advanced`, which the testbench drives to 1 exactly when
+// count == $past(count) + 1. The trace dumps this helper so the triage tool
+// can reason about the consequent deterministically.
+
+module counter_props (
+    input logic       clk,
+    input logic       rst,
+    input logic       en,
+    input logic       count_advanced
+);
+
+    // Non-overlapping implication: en |=> count advanced next cycle.
+    p_inc: assert property (
+        @(posedge clk) disable iff (rst)
+        en |=> count_advanced
+    );
+
+endmodule

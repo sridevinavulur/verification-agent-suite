@@ -1,0 +1,623 @@
+{
+  "candidate_commands": [
+    {
+      "command": "sudo apt-get update",
+      "destructive": false,
+      "evidence": [
+        {
+          "file": ".github/workflows/ci.yml",
+          "line": 15,
+          "snippet": "sudo apt-get update",
+          "source_kind": "ci_workflow"
+        }
+      ],
+      "phase": "setup",
+      "provenance": "extracted",
+      "rationale": null,
+      "target_name": "ci:verilate",
+      "tools": [],
+      "working_dir": null
+    },
+    {
+      "command": "sudo apt-get install -y verilator iverilog",
+      "destructive": false,
+      "evidence": [
+        {
+          "file": ".github/workflows/ci.yml",
+          "line": 16,
+          "snippet": "sudo apt-get install -y verilator iverilog",
+          "source_kind": "ci_workflow"
+        }
+      ],
+      "phase": "setup",
+      "provenance": "extracted",
+      "rationale": null,
+      "target_name": "ci:verilate",
+      "tools": [
+        "verilator",
+        "icarus-verilog"
+      ],
+      "working_dir": null
+    },
+    {
+      "command": "verilator --lint-only -Wall -f rtl/counter.f",
+      "destructive": false,
+      "evidence": [
+        {
+          "file": ".github/workflows/ci.yml",
+          "line": 18,
+          "snippet": "verilator --lint-only -Wall -f rtl/counter.f",
+          "source_kind": "ci_workflow"
+        },
+        {
+          "file": "Makefile",
+          "line": 14,
+          "snippet": "verilator --lint-only -Wall -f $(FILELIST)",
+          "source_kind": "makefile"
+        },
+        {
+          "file": "README.md",
+          "line": 18,
+          "snippet": "verilator --lint-only -Wall -f rtl/counter.f",
+          "source_kind": "readme"
+        }
+      ],
+      "phase": "analyze",
+      "provenance": "extracted",
+      "rationale": null,
+      "target_name": "ci:verilate",
+      "tools": [
+        "verilator"
+      ],
+      "working_dir": null
+    },
+    {
+      "command": "make build",
+      "destructive": false,
+      "evidence": [
+        {
+          "file": ".github/workflows/ci.yml",
+          "line": 21,
+          "snippet": "make build",
+          "source_kind": "ci_workflow"
+        },
+        {
+          "file": "Makefile",
+          "line": 16,
+          "snippet": "build:",
+          "source_kind": "makefile"
+        },
+        {
+          "file": "README.md",
+          "line": 24,
+          "snippet": "make build",
+          "source_kind": "readme"
+        }
+      ],
+      "phase": "build",
+      "provenance": "extracted",
+      "rationale": null,
+      "target_name": "ci:verilate",
+      "tools": [
+        "make"
+      ],
+      "working_dir": null
+    },
+    {
+      "command": "make run",
+      "destructive": false,
+      "evidence": [
+        {
+          "file": ".github/workflows/ci.yml",
+          "line": 22,
+          "snippet": "make run",
+          "source_kind": "ci_workflow"
+        },
+        {
+          "file": "Makefile",
+          "line": 19,
+          "snippet": "run:",
+          "source_kind": "makefile"
+        },
+        {
+          "file": "README.md",
+          "line": 25,
+          "snippet": "make run",
+          "source_kind": "readme"
+        }
+      ],
+      "phase": "run",
+      "provenance": "extracted",
+      "rationale": null,
+      "target_name": "ci:verilate",
+      "tools": [
+        "make"
+      ],
+      "working_dir": null
+    },
+    {
+      "command": "sudo apt-get install -y iverilog",
+      "destructive": false,
+      "evidence": [
+        {
+          "file": ".github/workflows/ci.yml",
+          "line": 29,
+          "snippet": "sudo apt-get install -y iverilog",
+          "source_kind": "ci_workflow"
+        }
+      ],
+      "phase": "setup",
+      "provenance": "extracted",
+      "rationale": null,
+      "target_name": "ci:icarus",
+      "tools": [
+        "icarus-verilog"
+      ],
+      "working_dir": null
+    },
+    {
+      "command": "make test",
+      "destructive": false,
+      "evidence": [
+        {
+          "file": ".github/workflows/ci.yml",
+          "line": 31,
+          "snippet": "make test",
+          "source_kind": "ci_workflow"
+        },
+        {
+          "file": "Makefile",
+          "line": 23,
+          "snippet": "test:",
+          "source_kind": "makefile"
+        },
+        {
+          "file": "README.md",
+          "line": 31,
+          "snippet": "make test",
+          "source_kind": "readme"
+        }
+      ],
+      "phase": "run",
+      "provenance": "extracted",
+      "rationale": null,
+      "target_name": "ci:icarus",
+      "tools": [
+        "make"
+      ],
+      "working_dir": null
+    },
+    {
+      "command": "make all",
+      "destructive": false,
+      "evidence": [
+        {
+          "file": "Makefile",
+          "line": 11,
+          "snippet": "all:",
+          "source_kind": "makefile"
+        }
+      ],
+      "phase": "unknown",
+      "provenance": "extracted",
+      "rationale": null,
+      "target_name": "all",
+      "tools": [],
+      "working_dir": null
+    },
+    {
+      "command": "make lint",
+      "destructive": false,
+      "evidence": [
+        {
+          "file": "Makefile",
+          "line": 13,
+          "snippet": "lint:",
+          "source_kind": "makefile"
+        }
+      ],
+      "phase": "analyze",
+      "provenance": "extracted",
+      "rationale": null,
+      "target_name": "lint",
+      "tools": [
+        "verilator"
+      ],
+      "working_dir": null
+    },
+    {
+      "command": "verilator --binary -j 0 -f rtl/counter.f --top-module counter -o counter_sim",
+      "destructive": false,
+      "evidence": [
+        {
+          "file": "Makefile",
+          "line": 17,
+          "snippet": "verilator --binary -j 0 -f $(FILELIST) --top-module $(TOP) -o $(TOP)_sim",
+          "source_kind": "makefile"
+        }
+      ],
+      "phase": "build",
+      "provenance": "extracted",
+      "rationale": null,
+      "target_name": "build",
+      "tools": [
+        "verilator"
+      ],
+      "working_dir": null
+    },
+    {
+      "command": "./build/counter_sim",
+      "destructive": false,
+      "evidence": [
+        {
+          "file": "Makefile",
+          "line": 20,
+          "snippet": "./$(BUILD)/$(TOP)_sim",
+          "source_kind": "makefile"
+        }
+      ],
+      "phase": "run",
+      "provenance": "extracted",
+      "rationale": null,
+      "target_name": "run",
+      "tools": [],
+      "working_dir": null
+    },
+    {
+      "command": "iverilog -g2012 -o build/counter_tb tb/counter_tb.sv rtl/counter.sv",
+      "destructive": false,
+      "evidence": [
+        {
+          "file": "Makefile",
+          "line": 24,
+          "snippet": "iverilog -g2012 -o $(BUILD)/$(TOP)_tb tb/counter_tb.sv rtl/counter.sv",
+          "source_kind": "makefile"
+        }
+      ],
+      "phase": "run",
+      "provenance": "extracted",
+      "rationale": null,
+      "target_name": "test",
+      "tools": [
+        "icarus-verilog"
+      ],
+      "working_dir": null
+    },
+    {
+      "command": "vvp build/counter_tb",
+      "destructive": false,
+      "evidence": [
+        {
+          "file": "Makefile",
+          "line": 25,
+          "snippet": "vvp $(BUILD)/$(TOP)_tb",
+          "source_kind": "makefile"
+        }
+      ],
+      "phase": "run",
+      "provenance": "extracted",
+      "rationale": null,
+      "target_name": "test",
+      "tools": [
+        "icarus-verilog"
+      ],
+      "working_dir": null
+    },
+    {
+      "command": "make clean",
+      "destructive": true,
+      "evidence": [
+        {
+          "file": "Makefile",
+          "line": 27,
+          "snippet": "clean:",
+          "source_kind": "makefile"
+        },
+        {
+          "file": "README.md",
+          "line": 37,
+          "snippet": "make clean",
+          "source_kind": "readme"
+        }
+      ],
+      "phase": "clean",
+      "provenance": "extracted",
+      "rationale": null,
+      "target_name": "clean",
+      "tools": [],
+      "working_dir": null
+    },
+    {
+      "command": "rm -rf build",
+      "destructive": true,
+      "evidence": [
+        {
+          "file": "Makefile",
+          "line": 28,
+          "snippet": "rm -rf $(BUILD)",
+          "source_kind": "makefile"
+        }
+      ],
+      "phase": "clean",
+      "provenance": "extracted",
+      "rationale": null,
+      "target_name": "clean",
+      "tools": [],
+      "working_dir": null
+    }
+  ],
+  "dependencies": [
+    {
+      "evidence": [
+        {
+          "file": ".github/workflows/ci.yml",
+          "line": 16,
+          "snippet": "sudo apt-get install -y verilator iverilog",
+          "source_kind": "ci_workflow"
+        },
+        {
+          "file": ".github/workflows/ci.yml",
+          "line": 29,
+          "snippet": "sudo apt-get install -y iverilog",
+          "source_kind": "ci_workflow"
+        }
+      ],
+      "manager": "apt",
+      "name": "iverilog",
+      "provenance": "extracted",
+      "version": null
+    },
+    {
+      "evidence": [
+        {
+          "file": ".github/workflows/ci.yml",
+          "line": 16,
+          "snippet": "sudo apt-get install -y verilator iverilog",
+          "source_kind": "ci_workflow"
+        }
+      ],
+      "manager": "apt",
+      "name": "verilator",
+      "provenance": "extracted",
+      "version": null
+    }
+  ],
+  "recommended_smoke_test": {
+    "command": "make run",
+    "destructive": false,
+    "evidence": [
+      {
+        "file": ".github/workflows/ci.yml",
+        "line": 22,
+        "snippet": "make run",
+        "source_kind": "ci_workflow"
+      },
+      {
+        "file": "Makefile",
+        "line": 19,
+        "snippet": "run:",
+        "source_kind": "makefile"
+      },
+      {
+        "file": "README.md",
+        "line": 25,
+        "snippet": "make run",
+        "source_kind": "readme"
+      }
+    ],
+    "phase": "run",
+    "provenance": "extracted",
+    "rationale": null,
+    "target_name": "ci:verilate",
+    "tools": [
+      "make"
+    ],
+    "working_dir": null
+  },
+  "repro": {
+    "command": "tb-recover inspect examples/toy_repo",
+    "file_hashes": {},
+    "git_sha": null,
+    "inspected_files": [
+      ".github/workflows/ci.yml",
+      "Makefile",
+      "README.md",
+      "rtl/counter.f"
+    ],
+    "repo_root": ".",
+    "tool_name": "testbench-recovery-agent",
+    "tool_version": "0.1.0"
+  },
+  "schema_version": "1.0",
+  "setup_issues": [],
+  "target_source_map": [
+    {
+      "evidence": [
+        {
+          "file": "Makefile",
+          "line": 16,
+          "snippet": "build:",
+          "source_kind": "makefile"
+        }
+      ],
+      "filelists": [
+        "rtl/counter.f"
+      ],
+      "provenance": "extracted",
+      "sources": [],
+      "target_name": "build"
+    },
+    {
+      "evidence": [
+        {
+          "file": "Makefile",
+          "line": 13,
+          "snippet": "lint:",
+          "source_kind": "makefile"
+        }
+      ],
+      "filelists": [
+        "rtl/counter.f"
+      ],
+      "provenance": "extracted",
+      "sources": [],
+      "target_name": "lint"
+    },
+    {
+      "evidence": [
+        {
+          "file": "rtl/counter.f",
+          "line": 4,
+          "snippet": "2 source(s), 1 incdir(s)",
+          "source_kind": "filelist"
+        }
+      ],
+      "filelists": [],
+      "provenance": "extracted",
+      "sources": [
+        "rtl/counter.sv",
+        "tb/counter_tb.sv"
+      ],
+      "target_name": "rtl/counter.f"
+    },
+    {
+      "evidence": [
+        {
+          "file": "Makefile",
+          "line": 23,
+          "snippet": "test:",
+          "source_kind": "makefile"
+        }
+      ],
+      "filelists": [],
+      "provenance": "extracted",
+      "sources": [
+        "rtl/counter.sv",
+        "tb/counter_tb.sv"
+      ],
+      "target_name": "test"
+    }
+  ],
+  "tool_requirements": [
+    {
+      "category": "build",
+      "evidence": [
+        {
+          "file": ".github/workflows/ci.yml",
+          "line": 21,
+          "snippet": "make build",
+          "source_kind": "ci_workflow"
+        },
+        {
+          "file": ".github/workflows/ci.yml",
+          "line": 22,
+          "snippet": "make run",
+          "source_kind": "ci_workflow"
+        },
+        {
+          "file": ".github/workflows/ci.yml",
+          "line": 31,
+          "snippet": "make test",
+          "source_kind": "ci_workflow"
+        },
+        {
+          "file": "README.md",
+          "line": 24,
+          "snippet": "make build",
+          "source_kind": "readme"
+        },
+        {
+          "file": "README.md",
+          "line": 25,
+          "snippet": "make run",
+          "source_kind": "readme"
+        },
+        {
+          "file": "README.md",
+          "line": 31,
+          "snippet": "make test",
+          "source_kind": "readme"
+        },
+        {
+          "file": "README.md",
+          "line": 37,
+          "snippet": "make clean",
+          "source_kind": "readme"
+        }
+      ],
+      "name": "make",
+      "note": null,
+      "provenance": "extracted"
+    },
+    {
+      "category": "simulator",
+      "evidence": [
+        {
+          "file": ".github/workflows/ci.yml",
+          "line": 16,
+          "snippet": "sudo apt-get install -y verilator iverilog",
+          "source_kind": "ci_workflow"
+        },
+        {
+          "file": ".github/workflows/ci.yml",
+          "line": 29,
+          "snippet": "sudo apt-get install -y iverilog",
+          "source_kind": "ci_workflow"
+        },
+        {
+          "file": "Makefile",
+          "line": 24,
+          "snippet": "iverilog -g2012 -o $(BUILD)/$(TOP)_tb tb/counter_tb.sv rtl/counter.sv",
+          "source_kind": "makefile"
+        },
+        {
+          "file": "Makefile",
+          "line": 25,
+          "snippet": "vvp $(BUILD)/$(TOP)_tb",
+          "source_kind": "makefile"
+        }
+      ],
+      "name": "icarus-verilog",
+      "note": null,
+      "provenance": "extracted"
+    },
+    {
+      "category": "simulator",
+      "evidence": [
+        {
+          "file": ".github/workflows/ci.yml",
+          "line": 16,
+          "snippet": "sudo apt-get install -y verilator iverilog",
+          "source_kind": "ci_workflow"
+        },
+        {
+          "file": ".github/workflows/ci.yml",
+          "line": 18,
+          "snippet": "verilator --lint-only -Wall -f rtl/counter.f",
+          "source_kind": "ci_workflow"
+        },
+        {
+          "file": "Makefile",
+          "line": 14,
+          "snippet": "verilator --lint-only -Wall -f $(FILELIST)",
+          "source_kind": "makefile"
+        },
+        {
+          "file": "Makefile",
+          "line": 17,
+          "snippet": "verilator --binary -j 0 -f $(FILELIST) --top-module $(TOP) -o $(TOP)_sim",
+          "source_kind": "makefile"
+        },
+        {
+          "file": "README.md",
+          "line": 18,
+          "snippet": "verilator --lint-only -Wall -f rtl/counter.f",
+          "source_kind": "readme"
+        }
+      ],
+      "name": "verilator",
+      "note": null,
+      "provenance": "extracted"
+    }
+  ]
+}

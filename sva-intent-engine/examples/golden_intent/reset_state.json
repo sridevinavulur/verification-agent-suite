@@ -1,0 +1,34 @@
+[
+  {
+    "ambiguities": [],
+    "antecedent": null,
+    "clause_id": "reset_state.c0",
+    "clock_signal": "clk",
+    "confidence": 0.85,
+    "consequent": "count == 0",
+    "design_top": "counter",
+    "disable_condition": null,
+    "environmental_assumptions": [],
+    "implication_style": "overlapping",
+    "max_delay": null,
+    "min_delay": null,
+    "property_form": "reset_state",
+    "property_kind": "assert",
+    "referenced_symbols": [
+      {
+        "file": "counter.sv",
+        "line": 10,
+        "name": "count",
+        "symbol_id": "s_count"
+      }
+    ],
+    "render_template_id": "reset_state",
+    "requirement_id": "reset_state",
+    "reset_polarity": "active_low",
+    "reset_signal": "rst_n",
+    "reviewer_status": "unreviewed",
+    "source_text": "The count value must be zero during reset.",
+    "temporal_strength": "weak",
+    "validation_checks": []
+  }
+]

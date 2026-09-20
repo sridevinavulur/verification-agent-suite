@@ -1,0 +1,11 @@
+{
+  "design_top": "fifo",
+  "clock_candidates": ["clk"],
+  "reset_candidates": ["rst_n"],
+  "symbols": [
+    {"symbol_id": "s_clk", "name": "clk", "kind": "clock", "file": "fifo.sv", "line": 3},
+    {"symbol_id": "s_rstn", "name": "rst_n", "kind": "reset", "signal_type": "active_low", "file": "fifo.sv", "line": 4},
+    {"symbol_id": "s_empty", "name": "empty", "kind": "port", "direction": "output", "width": 1, "file": "fifo.sv", "line": 9},
+    {"symbol_id": "s_unf", "name": "underflow", "kind": "reg", "width": 1, "file": "fifo.sv", "line": 21}
+  ]
+}

@@ -1,0 +1,28 @@
+"""Typer CLI for {{ display_name }} (generic skeleton)."""
+
+from __future__ import annotations
+
+import json
+from pathlib import Path
+
+import typer
+
+from .agent import analyze
+from .models import SymbolTable
+
+app = typer.Typer(help="{{ mission }}", no_args_is_help=True)
+
+
+@app.command()
+def run(
+    symbols: Path = typer.Argument(..., help="RTL symbol table JSON."),
+    seed: int = typer.Option(0, help="Deterministic seed."),
+) -> None:
+    """Analyze an input symbol table deterministically."""
+    table = SymbolTable.model_validate_json(symbols.read_text(encoding="utf-8"))
+    result = analyze(table, seed=seed, command=f"run {symbols}")
+    typer.echo(json.dumps(result.to_dict(), indent=2, sort_keys=True))
+
+
+if __name__ == "__main__":
+    app()

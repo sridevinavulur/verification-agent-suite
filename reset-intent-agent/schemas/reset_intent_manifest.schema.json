@@ -1,0 +1,774 @@
+{
+  "$defs": {
+    "Ambiguity": {
+      "additionalProperties": false,
+      "description": "A place where the tool refused to infer silently.",
+      "properties": {
+        "ambiguity_id": {
+          "title": "Ambiguity Id",
+          "type": "string"
+        },
+        "signal": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Signal"
+        },
+        "detail": {
+          "title": "Detail",
+          "type": "string"
+        },
+        "severity": {
+          "$ref": "#/$defs/Severity",
+          "default": "medium"
+        },
+        "location": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SourceLocation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "ambiguity_id",
+        "detail"
+      ],
+      "title": "Ambiguity",
+      "type": "object"
+    },
+    "CandidateSVA": {
+      "additionalProperties": false,
+      "description": "A candidate reset-behavior property.\n\nEmitted in sva-intent-engine style: ``status`` is always ``candidate``. This\ntool does *not* validate semantics, run formal, or claim correctness.",
+      "properties": {
+        "property_id": {
+          "title": "Property Id",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "kind": {
+          "$ref": "#/$defs/PropertyKind",
+          "default": "assert"
+        },
+        "sva_text": {
+          "title": "Sva Text",
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/$defs/SvaStatus",
+          "default": "candidate"
+        },
+        "clock": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Clock"
+        },
+        "reset_signal": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reset Signal"
+        },
+        "reset_polarity": {
+          "$ref": "#/$defs/ResetPolarity",
+          "default": "unknown"
+        },
+        "rationale": {
+          "default": "",
+          "title": "Rationale",
+          "type": "string"
+        },
+        "referenced_signals": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Referenced Signals",
+          "type": "array"
+        },
+        "review_notes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Review Notes",
+          "type": "array"
+        }
+      },
+      "required": [
+        "property_id",
+        "name",
+        "sva_text"
+      ],
+      "title": "CandidateSVA",
+      "type": "object"
+    },
+    "PolarityEvidence": {
+      "additionalProperties": false,
+      "description": "A single piece of evidence for a polarity decision.\n\n``votes_polarity`` is what this evidence, on its own, would suggest. The\naggregate decision is made in :mod:`analyzer` and recorded on\n:class:`ResetCandidate`. Keeping per-evidence votes visible means a reviewer\ncan see *why* a polarity was chosen and where the votes conflict.",
+      "properties": {
+        "kind": {
+          "title": "Kind",
+          "type": "string"
+        },
+        "detail": {
+          "title": "Detail",
+          "type": "string"
+        },
+        "votes_polarity": {
+          "$ref": "#/$defs/ResetPolarity",
+          "default": "unknown"
+        },
+        "location": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SourceLocation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "kind",
+        "detail"
+      ],
+      "title": "PolarityEvidence",
+      "type": "object"
+    },
+    "PropertyKind": {
+      "enum": [
+        "assert",
+        "assume",
+        "cover"
+      ],
+      "title": "PropertyKind",
+      "type": "string"
+    },
+    "Provenance": {
+      "additionalProperties": false,
+      "properties": {
+        "tool": {
+          "default": "reset-intent-agent",
+          "title": "Tool",
+          "type": "string"
+        },
+        "tool_version": {
+          "title": "Tool Version",
+          "type": "string"
+        },
+        "schema_version": {
+          "default": "0.1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "git_sha": {
+          "default": "UNKNOWN",
+          "title": "Git Sha",
+          "type": "string"
+        },
+        "command": {
+          "default": "",
+          "title": "Command",
+          "type": "string"
+        },
+        "input_files": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Input Files",
+          "type": "array"
+        },
+        "input_sha256": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Input Sha256",
+          "type": "object"
+        }
+      },
+      "required": [
+        "tool_version"
+      ],
+      "title": "Provenance",
+      "type": "object"
+    },
+    "ResetCandidate": {
+      "additionalProperties": false,
+      "description": "A structurally detected reset signal.\n\nSTRUCTURAL: presence in reset position of an always block or a\nmanifest reset entry. Not a proof that the signal is a reset.",
+      "properties": {
+        "signal": {
+          "title": "Signal",
+          "type": "string"
+        },
+        "polarity": {
+          "$ref": "#/$defs/ResetPolarity",
+          "default": "unknown"
+        },
+        "sync": {
+          "$ref": "#/$defs/ResetSync",
+          "default": "unknown"
+        },
+        "confidence": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Confidence",
+          "type": "number"
+        },
+        "polarity_evidence": {
+          "items": {
+            "$ref": "#/$defs/PolarityEvidence"
+          },
+          "title": "Polarity Evidence",
+          "type": "array"
+        },
+        "rationale": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Rationale",
+          "type": "array"
+        },
+        "location": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SourceLocation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "fanout_registers": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Fanout Registers",
+          "type": "array"
+        },
+        "is_port": {
+          "default": false,
+          "title": "Is Port",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "signal",
+        "confidence"
+      ],
+      "title": "ResetCandidate",
+      "type": "object"
+    },
+    "ResetDomain": {
+      "additionalProperties": false,
+      "description": "A group of registers reset by the same reset signal.\n\nHEURISTIC: grouping by shared reset signal name. This is structural and is\nNOT a verified reset-domain definition.",
+      "properties": {
+        "domain_id": {
+          "title": "Domain Id",
+          "type": "string"
+        },
+        "reset_signal": {
+          "title": "Reset Signal",
+          "type": "string"
+        },
+        "polarity": {
+          "$ref": "#/$defs/ResetPolarity",
+          "default": "unknown"
+        },
+        "sync": {
+          "$ref": "#/$defs/ResetSync",
+          "default": "unknown"
+        },
+        "members": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Members",
+          "type": "array"
+        },
+        "heuristic": {
+          "default": true,
+          "title": "Heuristic",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "domain_id",
+        "reset_signal"
+      ],
+      "title": "ResetDomain",
+      "type": "object"
+    },
+    "ResetDomainCrossing": {
+      "additionalProperties": false,
+      "description": "A possible reset-domain crossing.\n\nHEURISTIC: a register in domain A feeds (via combinational logic or a\nread in a procedure) a register in domain B. Flagged for review, not proven\nto be a real RDC hazard.",
+      "properties": {
+        "from_domain": {
+          "title": "From Domain",
+          "type": "string"
+        },
+        "to_domain": {
+          "title": "To Domain",
+          "type": "string"
+        },
+        "from_register": {
+          "title": "From Register",
+          "type": "string"
+        },
+        "to_register": {
+          "title": "To Register",
+          "type": "string"
+        },
+        "severity": {
+          "$ref": "#/$defs/Severity",
+          "default": "medium"
+        },
+        "rationale": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Rationale",
+          "type": "array"
+        },
+        "heuristic": {
+          "default": true,
+          "title": "Heuristic",
+          "type": "boolean"
+        },
+        "location": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SourceLocation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "from_domain",
+        "to_domain",
+        "from_register",
+        "to_register"
+      ],
+      "title": "ResetDomainCrossing",
+      "type": "object"
+    },
+    "ResetGraph": {
+      "additionalProperties": false,
+      "properties": {
+        "nodes": {
+          "items": {
+            "$ref": "#/$defs/ResetGraphNode"
+          },
+          "title": "Nodes",
+          "type": "array"
+        },
+        "edges": {
+          "items": {
+            "$ref": "#/$defs/ResetGraphEdge"
+          },
+          "title": "Edges",
+          "type": "array"
+        }
+      },
+      "title": "ResetGraph",
+      "type": "object"
+    },
+    "ResetGraphEdge": {
+      "additionalProperties": false,
+      "properties": {
+        "src": {
+          "title": "Src",
+          "type": "string"
+        },
+        "dst": {
+          "title": "Dst",
+          "type": "string"
+        },
+        "kind": {
+          "title": "Kind",
+          "type": "string"
+        },
+        "heuristic": {
+          "default": false,
+          "title": "Heuristic",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "src",
+        "dst",
+        "kind"
+      ],
+      "title": "ResetGraphEdge",
+      "type": "object"
+    },
+    "ResetGraphNode": {
+      "additionalProperties": false,
+      "properties": {
+        "node_id": {
+          "title": "Node Id",
+          "type": "string"
+        },
+        "kind": {
+          "title": "Kind",
+          "type": "string"
+        },
+        "label": {
+          "title": "Label",
+          "type": "string"
+        }
+      },
+      "required": [
+        "node_id",
+        "kind",
+        "label"
+      ],
+      "title": "ResetGraphNode",
+      "type": "object"
+    },
+    "ResetPolarity": {
+      "description": "Reset polarity. ``UNKNOWN`` is used whenever evidence is ambiguous.",
+      "enum": [
+        "active_high",
+        "active_low",
+        "unknown"
+      ],
+      "title": "ResetPolarity",
+      "type": "string"
+    },
+    "ResetSync": {
+      "description": "Synchronous vs asynchronous reset usage (structural).",
+      "enum": [
+        "synchronous",
+        "asynchronous",
+        "unknown"
+      ],
+      "title": "ResetSync",
+      "type": "string"
+    },
+    "ResetTarget": {
+      "additionalProperties": false,
+      "description": "A register reset by a reset candidate, with its reset value if extracted.\n\nThe field is named ``register_name`` (not ``register``) to avoid shadowing a\nPydantic ``BaseModel`` internal.",
+      "properties": {
+        "register_name": {
+          "title": "Register Name",
+          "type": "string"
+        },
+        "reset_signal": {
+          "title": "Reset Signal",
+          "type": "string"
+        },
+        "reset_value": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reset Value"
+        },
+        "sync": {
+          "$ref": "#/$defs/ResetSync",
+          "default": "unknown"
+        },
+        "location": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SourceLocation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "register_name",
+        "reset_signal"
+      ],
+      "title": "ResetTarget",
+      "type": "object"
+    },
+    "Risk": {
+      "additionalProperties": false,
+      "properties": {
+        "risk_id": {
+          "title": "Risk Id",
+          "type": "string"
+        },
+        "category": {
+          "title": "Category",
+          "type": "string"
+        },
+        "detail": {
+          "title": "Detail",
+          "type": "string"
+        },
+        "severity": {
+          "$ref": "#/$defs/Severity",
+          "default": "medium"
+        },
+        "heuristic": {
+          "default": true,
+          "title": "Heuristic",
+          "type": "boolean"
+        },
+        "location": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SourceLocation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "risk_id",
+        "category",
+        "detail"
+      ],
+      "title": "Risk",
+      "type": "object"
+    },
+    "Severity": {
+      "enum": [
+        "info",
+        "low",
+        "medium",
+        "high"
+      ],
+      "title": "Severity",
+      "type": "string"
+    },
+    "SourceLocation": {
+      "additionalProperties": false,
+      "description": "1-based location of an extracted item.\n\nWhen the input is a manifest without column data, ``col``/``end_*`` may be\nabsent and only ``file``/``line`` are populated.",
+      "properties": {
+        "file": {
+          "title": "File",
+          "type": "string"
+        },
+        "line": {
+          "minimum": 1,
+          "title": "Line",
+          "type": "integer"
+        },
+        "col": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Col"
+        },
+        "end_line": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "End Line"
+        },
+        "end_col": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "End Col"
+        }
+      },
+      "required": [
+        "file",
+        "line"
+      ],
+      "title": "SourceLocation",
+      "type": "object"
+    },
+    "SvaStatus": {
+      "description": "SVA lifecycle. This tool only ever emits ``CANDIDATE``.",
+      "enum": [
+        "candidate"
+      ],
+      "title": "SvaStatus",
+      "type": "string"
+    },
+    "TestRecommendation": {
+      "additionalProperties": false,
+      "properties": {
+        "rec_id": {
+          "title": "Rec Id",
+          "type": "string"
+        },
+        "kind": {
+          "title": "Kind",
+          "type": "string"
+        },
+        "detail": {
+          "title": "Detail",
+          "type": "string"
+        },
+        "target_signal": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Target Signal"
+        }
+      },
+      "required": [
+        "rec_id",
+        "kind",
+        "detail"
+      ],
+      "title": "TestRecommendation",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Top-level reset intent manifest.",
+  "properties": {
+    "schema_version": {
+      "default": "0.1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "design_top": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Design Top"
+    },
+    "provenance": {
+      "$ref": "#/$defs/Provenance"
+    },
+    "reset_candidates": {
+      "items": {
+        "$ref": "#/$defs/ResetCandidate"
+      },
+      "title": "Reset Candidates",
+      "type": "array"
+    },
+    "reset_targets": {
+      "items": {
+        "$ref": "#/$defs/ResetTarget"
+      },
+      "title": "Reset Targets",
+      "type": "array"
+    },
+    "reset_domains": {
+      "items": {
+        "$ref": "#/$defs/ResetDomain"
+      },
+      "title": "Reset Domains",
+      "type": "array"
+    },
+    "domain_crossings": {
+      "items": {
+        "$ref": "#/$defs/ResetDomainCrossing"
+      },
+      "title": "Domain Crossings",
+      "type": "array"
+    },
+    "reset_graph": {
+      "$ref": "#/$defs/ResetGraph"
+    },
+    "candidate_sva": {
+      "items": {
+        "$ref": "#/$defs/CandidateSVA"
+      },
+      "title": "Candidate Sva",
+      "type": "array"
+    },
+    "risks": {
+      "items": {
+        "$ref": "#/$defs/Risk"
+      },
+      "title": "Risks",
+      "type": "array"
+    },
+    "ambiguities": {
+      "items": {
+        "$ref": "#/$defs/Ambiguity"
+      },
+      "title": "Ambiguities",
+      "type": "array"
+    },
+    "recommendations": {
+      "items": {
+        "$ref": "#/$defs/TestRecommendation"
+      },
+      "title": "Recommendations",
+      "type": "array"
+    }
+  },
+  "required": [
+    "provenance"
+  ],
+  "title": "ResetIntentManifest",
+  "type": "object"
+}

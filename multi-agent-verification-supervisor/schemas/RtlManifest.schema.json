@@ -1,0 +1,112 @@
+{
+  "$defs": {
+    "SignalInfo": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "direction": {
+          "enum": [
+            "input",
+            "output",
+            "inout",
+            "internal"
+          ],
+          "title": "Direction",
+          "type": "string"
+        },
+        "width": {
+          "default": 1,
+          "minimum": 1,
+          "title": "Width",
+          "type": "integer"
+        },
+        "source_loc": {
+          "description": "file:line evidence for the symbol.",
+          "title": "Source Loc",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "direction",
+        "source_loc"
+      ],
+      "title": "SignalInfo",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Deterministic extraction result from the RTL Intent Ingestor.",
+  "properties": {
+    "task_id": {
+      "title": "Task Id",
+      "type": "string"
+    },
+    "repo_revision": {
+      "title": "Repo Revision",
+      "type": "string"
+    },
+    "design_top": {
+      "minLength": 1,
+      "title": "Design Top",
+      "type": "string"
+    },
+    "signals": {
+      "items": {
+        "$ref": "#/$defs/SignalInfo"
+      },
+      "title": "Signals",
+      "type": "array"
+    },
+    "clock_candidates": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Clock Candidates",
+      "type": "array"
+    },
+    "reset_candidates": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Reset Candidates",
+      "type": "array"
+    },
+    "reset_polarity": {
+      "additionalProperties": {
+        "enum": [
+          "active_high",
+          "active_low",
+          "unknown"
+        ],
+        "type": "string"
+      },
+      "title": "Reset Polarity",
+      "type": "object"
+    },
+    "unresolved_constructs": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Unresolved Constructs",
+      "type": "array"
+    },
+    "manifest_hash": {
+      "minLength": 1,
+      "title": "Manifest Hash",
+      "type": "string"
+    }
+  },
+  "required": [
+    "task_id",
+    "repo_revision",
+    "design_top",
+    "manifest_hash"
+  ],
+  "title": "RtlManifest",
+  "type": "object"
+}

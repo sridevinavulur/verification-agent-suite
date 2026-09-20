@@ -1,0 +1,37 @@
+// GOOD constraint-hygiene corpus for `handshake_dut`.
+//
+// These are patterns a hygiene review SHOULD pass cleanly:
+//   * assumptions only constrain ENVIRONMENT INPUTS (in_valid, in_data, mode, rst_n);
+//   * no assumption constrains a DUT output or internal state;
+//   * every assumed signal is actually used by an assertion or cover;
+//   * assumptions are mutually consistent (no signal forced to two values);
+//   * each assertion has a paired cover exercising its signals.
+//
+// NOTE: passing this file is NOT a soundness claim. It only means the static
+// structural checks found nothing suspicious.
+
+// --- Environment assumptions: constrain DUT INPUTS only. ---
+
+// Legal input protocol: stable data while stalled is enforced elsewhere; here we
+// simply bound the mode input to a legal encoding used by the environment.
+am_mode_legal: assume property (@(posedge clk) mode == 2'b01);
+
+// Reset is driven by the environment for the first cycle model.
+am_reset_input: assume property (@(posedge clk) rst_n);
+
+// in_valid is an input; assuming a legal producer is fine.
+am_valid_input: assume property (@(posedge clk) disable iff (!rst_n) in_valid);
+
+// --- Assertions: check DUT OUTPUTS (this is correct - assert, not assume). ---
+
+as_ready_when_valid: assert property (@(posedge clk) disable iff (!rst_n)
+    in_valid |-> in_ready);
+
+as_out_valid_stable: assert property (@(posedge clk) disable iff (!rst_n)
+    out_valid && mode |-> out_valid);
+
+// --- Covers: reachability guards paired with the assertions above. ---
+
+co_ready_seen: cover property (@(posedge clk) rst_n && in_valid && in_ready);
+
+co_out_valid_seen: cover property (@(posedge clk) out_valid && mode);

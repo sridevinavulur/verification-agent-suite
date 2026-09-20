@@ -1,0 +1,40 @@
+[
+  {
+    "ambiguities": [],
+    "antecedent": "sat",
+    "clause_id": "counter_saturate.c0",
+    "clock_signal": "clk",
+    "confidence": 0.85,
+    "consequent": "!wrap",
+    "design_top": "sat_counter",
+    "disable_condition": null,
+    "environmental_assumptions": [],
+    "implication_style": "non_overlapping",
+    "max_delay": 1,
+    "min_delay": 1,
+    "property_form": "next_cycle",
+    "property_kind": "assert",
+    "referenced_symbols": [
+      {
+        "file": "sat_counter.sv",
+        "line": 15,
+        "name": "sat",
+        "symbol_id": "s_sat"
+      },
+      {
+        "file": "sat_counter.sv",
+        "line": 16,
+        "name": "wrap",
+        "symbol_id": "s_wrap"
+      }
+    ],
+    "render_template_id": "next_cycle",
+    "requirement_id": "counter_saturate",
+    "reset_polarity": "active_low",
+    "reset_signal": "rst_n",
+    "reviewer_status": "unreviewed",
+    "source_text": "When sat is high, wrap must be low on the next cycle.",
+    "temporal_strength": "weak",
+    "validation_checks": []
+  }
+]

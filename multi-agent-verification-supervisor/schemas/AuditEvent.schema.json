@@ -1,0 +1,79 @@
+{
+  "$defs": {
+    "WorkflowState": {
+      "description": "States of the supervisor state machine.\n\nThe order here also documents the nominal happy-path progression, but the\nonly authoritative source of allowed transitions is ``ALLOWED_TRANSITIONS``\nin ``state_machine.py``.",
+      "enum": [
+        "CREATED",
+        "RTL_INGESTION",
+        "SVA_PROPOSAL",
+        "PROPERTY_REVIEW",
+        "PARTITION_ANALYSIS",
+        "PLAN_EXPERIMENT",
+        "AWAITING_HUMAN_APPROVAL",
+        "EXECUTION",
+        "EVIDENCE_ASSEMBLY",
+        "DONE",
+        "REJECTED",
+        "FAILED"
+      ],
+      "title": "WorkflowState",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "One append-only JSONL audit record.",
+  "properties": {
+    "seq": {
+      "minimum": 0,
+      "title": "Seq",
+      "type": "integer"
+    },
+    "task_id": {
+      "title": "Task Id",
+      "type": "string"
+    },
+    "timestamp": {
+      "format": "date-time",
+      "title": "Timestamp",
+      "type": "string"
+    },
+    "from_state": {
+      "$ref": "#/$defs/WorkflowState"
+    },
+    "to_state": {
+      "$ref": "#/$defs/WorkflowState"
+    },
+    "event": {
+      "minLength": 1,
+      "title": "Event",
+      "type": "string"
+    },
+    "detail": {
+      "default": "",
+      "title": "Detail",
+      "type": "string"
+    },
+    "actor": {
+      "default": "supervisor",
+      "enum": [
+        "supervisor",
+        "rtl_ingestor",
+        "sva_agent",
+        "partition_agent",
+        "orchestrator",
+        "human"
+      ],
+      "title": "Actor",
+      "type": "string"
+    }
+  },
+  "required": [
+    "seq",
+    "task_id",
+    "from_state",
+    "to_state",
+    "event"
+  ],
+  "title": "AuditEvent",
+  "type": "object"
+}

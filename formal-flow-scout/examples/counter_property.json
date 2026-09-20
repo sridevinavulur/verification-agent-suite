@@ -1,0 +1,13 @@
+{
+  "schema_version": "0.1.0",
+  "properties": [
+    {
+      "name": "counter_saturates",
+      "description": "Counter must saturate at max, never wrap.",
+      "signals": [
+        {"name": "at_max", "role": "asserted"},
+        {"name": "value", "role": "referenced"}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,80 @@
+"""Behavioural tests for the {{ display_name }} spec-to-SVA core."""
+
+from __future__ import annotations
+
+import json
+from pathlib import Path
+
+import pytest
+from pydantic import ValidationError
+
+from {{ package_name }}.agent import TemporalIntent, generate_candidate
+from {{ package_name }}.models import ResultStatus, SymbolTable
+
+EXAMPLES = Path(__file__).resolve().parent.parent / "examples"
+
+
+def _load_symbols() -> SymbolTable:
+    return SymbolTable.model_validate_json((EXAMPLES / "rtl_symbols.json").read_text())
+
+
+def _load_intent() -> TemporalIntent:
+    return TemporalIntent.model_validate_json(
+        (EXAMPLES / "requirement_handshake.json").read_text()
+    )
+
+
+def test_golden_sva_render():
+    intent = _load_intent()
+    candidate = generate_candidate(intent, _load_symbols(), seed=0)
+    assert candidate.status is ResultStatus.COMPILED_ONLY
+    expected = (
+        "property p_req_grant;\n"
+        "  @(posedge clk) disable iff (!rst_n)\n"
+        "  req |-> ##[1:3] gnt;\n"
+        "endproperty\n"
+        "assert property (p_req_grant);"
+    )
+    assert candidate.sva_text == expected
+
+
+def test_never_returns_pass():
+    # Syntax acceptance is COMPILED_ONLY, never PASS.
+    candidate = generate_candidate(_load_intent(), _load_symbols(), seed=0)
+    assert candidate.status is not ResultStatus.PASS
+
+
+def test_reject_ungrounded_signal():
+    intent = _load_intent().model_copy(update={"referenced_signals": ["req", "ghost"]})
+    candidate = generate_candidate(intent, _load_symbols(), seed=0)
+    assert candidate.status is ResultStatus.ERROR
+    assert candidate.sva_text == ""
+    assert any("ghost" in i for i in candidate.static_checks.issues)
+
+
+def test_reject_missing_clock():
+    intent = _load_intent().model_copy(update={"clock_signal": "not_a_clock"})
+    candidate = generate_candidate(intent, _load_symbols(), seed=0)
+    assert candidate.status is ResultStatus.ERROR
+    assert any("clock" in i for i in candidate.static_checks.issues)
+
+
+def test_delay_range_validation():
+    with pytest.raises(ValidationError):
+        TemporalIntent(
+            requirement_id="R", source_text="x", property_name="p",
+            clock_signal="clk", antecedent="req", consequent="gnt",
+            min_delay=3, max_delay=1, referenced_signals=["req", "gnt"],
+        )
+
+
+def test_provenance_is_deterministic():
+    a = generate_candidate(_load_intent(), _load_symbols(), seed=7)
+    b = generate_candidate(_load_intent(), _load_symbols(), seed=7)
+    assert a.provenance.input_sha256 == b.provenance.input_sha256
+
+
+def test_to_dict_serialisable():
+    candidate = generate_candidate(_load_intent(), _load_symbols(), seed=0)
+    # must be JSON-serialisable
+    json.dumps(candidate.to_dict())

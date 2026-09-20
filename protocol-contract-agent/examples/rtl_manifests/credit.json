@@ -1,0 +1,38 @@
+{
+  "schema_version": "0.1.0",
+  "top": "credit_src",
+  "parser": { "adapter": "builtin", "adapter_version": "0.1.0" },
+  "provenance": { "tool_version": "0.1.0" },
+  "modules": [
+    {
+      "name": "credit_src",
+      "location": { "file": "credit_src.sv", "line": 1, "col": 1, "end_line": 50, "end_col": 10 },
+      "clock_candidates": [
+        { "signal": "clk", "confidence": 1.0, "rationale": ["edge-sensitive in always_ff"],
+          "location": { "file": "credit_src.sv", "line": 2, "col": 5, "end_line": 2, "end_col": 20 } }
+      ],
+      "reset_candidates": [
+        { "signal": "rst_n", "confidence": 0.9, "polarity": "active_low", "sync": "synchronous",
+          "rationale": ["reset-like name"],
+          "location": { "file": "credit_src.sv", "line": 3, "col": 5, "end_line": 3, "end_col": 22 } }
+      ],
+      "ports": [
+        { "name": "clk", "direction": "input", "net_kind": "wire",
+          "location": { "file": "credit_src.sv", "line": 2, "col": 5, "end_line": 2, "end_col": 20 } },
+        { "name": "rst_n", "direction": "input", "net_kind": "wire",
+          "location": { "file": "credit_src.sv", "line": 3, "col": 5, "end_line": 3, "end_col": 22 } },
+        { "name": "send", "direction": "output", "net_kind": "reg",
+          "location": { "file": "credit_src.sv", "line": 4, "col": 5, "end_line": 4, "end_col": 20 } },
+        { "name": "credit_ret", "direction": "input", "net_kind": "wire",
+          "location": { "file": "credit_src.sv", "line": 5, "col": 5, "end_line": 5, "end_col": 22 } },
+        { "name": "credits", "direction": "output", "net_kind": "reg",
+          "range": { "msb": "CW-1", "lsb": "0" },
+          "location": { "file": "credit_src.sv", "line": 6, "col": 5, "end_line": 6, "end_col": 30 } }
+      ],
+      "registers": [
+        { "name": "send", "location": { "file": "credit_src.sv", "line": 15, "col": 9, "end_line": 15, "end_col": 20 } },
+        { "name": "credits", "location": { "file": "credit_src.sv", "line": 16, "col": 9, "end_line": 16, "end_col": 25 } }
+      ]
+    }
+  ]
+}

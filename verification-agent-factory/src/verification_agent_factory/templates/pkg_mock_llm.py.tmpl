@@ -1,0 +1,38 @@
+"""Deterministic mock LLM adapter (default in tests/CI).
+
+Same prompt + seed -> same output. No network calls.
+"""
+
+from __future__ import annotations
+
+import hashlib
+from dataclasses import dataclass
+
+
+@dataclass(frozen=True)
+class LlmResponse:
+    text: str
+    model: str
+    seed: int
+    prompt_sha256: str
+
+
+class MockLlmAdapter:
+    model_name = "mock-llm-deterministic-v1"
+
+    def __init__(self, seed: int = 0) -> None:
+        self.seed = seed
+
+    def complete(self, prompt: str) -> LlmResponse:
+        digest = hashlib.sha256(f"{self.seed}:{prompt}".encode()).hexdigest()
+        text = (
+            "[MOCK-LLM] deterministic proposal "
+            f"(seed={self.seed}, token={digest[:12]}). "
+            "Placeholder hypothesis; must be validated deterministically."
+        )
+        return LlmResponse(
+            text=text,
+            model=self.model_name,
+            seed=self.seed,
+            prompt_sha256=hashlib.sha256(prompt.encode()).hexdigest(),
+        )

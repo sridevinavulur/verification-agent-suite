@@ -1,0 +1,21 @@
+"""Deterministic validators (generic skeleton)."""
+
+from __future__ import annotations
+
+from dataclasses import dataclass, field
+
+from .models import SymbolTable
+
+
+@dataclass
+class StaticCheckResult:
+    ok: bool = True
+    issues: list[str] = field(default_factory=list)
+
+
+def run_static_checks(symbols: SymbolTable) -> StaticCheckResult:
+    result = StaticCheckResult()
+    if not symbols.symbols:
+        result.ok = False
+        result.issues.append("empty symbol table")
+    return result

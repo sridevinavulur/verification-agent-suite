@@ -1,0 +1,712 @@
+{
+  "$defs": {
+    "ApprovalDecision": {
+      "additionalProperties": false,
+      "properties": {
+        "task_id": {
+          "title": "Task Id",
+          "type": "string"
+        },
+        "approver": {
+          "minLength": 1,
+          "title": "Approver",
+          "type": "string"
+        },
+        "approved": {
+          "title": "Approved",
+          "type": "boolean"
+        },
+        "reason": {
+          "default": "",
+          "title": "Reason",
+          "type": "string"
+        },
+        "decided_at": {
+          "format": "date-time",
+          "title": "Decided At",
+          "type": "string"
+        }
+      },
+      "required": [
+        "task_id",
+        "approver",
+        "approved"
+      ],
+      "title": "ApprovalDecision",
+      "type": "object"
+    },
+    "CandidateProperty": {
+      "additionalProperties": false,
+      "description": "A candidate SVA property. It is a *candidate* until reviewed AND validated.\n\nThe SVA Intent Agent proposes; deterministic validators + human review gate\nit. No field here means \"proven\" or \"signoff\".",
+      "properties": {
+        "property_id": {
+          "minLength": 1,
+          "title": "Property Id",
+          "type": "string"
+        },
+        "task_id": {
+          "title": "Task Id",
+          "type": "string"
+        },
+        "requirement_text": {
+          "title": "Requirement Text",
+          "type": "string"
+        },
+        "sva_text": {
+          "minLength": 1,
+          "title": "Sva Text",
+          "type": "string"
+        },
+        "property_kind": {
+          "default": "assert",
+          "enum": [
+            "assert",
+            "assume",
+            "cover"
+          ],
+          "title": "Property Kind",
+          "type": "string"
+        },
+        "clock_signal": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Clock Signal"
+        },
+        "reset_signal": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reset Signal"
+        },
+        "reset_polarity": {
+          "anyOf": [
+            {
+              "enum": [
+                "active_high",
+                "active_low",
+                "unknown"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reset Polarity"
+        },
+        "groundings": {
+          "items": {
+            "$ref": "#/$defs/SymbolMapping"
+          },
+          "title": "Groundings",
+          "type": "array"
+        },
+        "syntax_ok": {
+          "default": false,
+          "title": "Syntax Ok",
+          "type": "boolean"
+        },
+        "review_state": {
+          "$ref": "#/$defs/ReviewState",
+          "default": "UNREVIEWED"
+        }
+      },
+      "required": [
+        "property_id",
+        "task_id",
+        "requirement_text",
+        "sva_text"
+      ],
+      "title": "CandidateProperty",
+      "type": "object"
+    },
+    "ExperimentConfig": {
+      "additionalProperties": false,
+      "description": "A single config from the finite, versioned approved catalog.",
+      "properties": {
+        "config_id": {
+          "minLength": 1,
+          "title": "Config Id",
+          "type": "string"
+        },
+        "engine": {
+          "minLength": 1,
+          "title": "Engine",
+          "type": "string"
+        },
+        "bmc_depth": {
+          "minimum": 1,
+          "title": "Bmc Depth",
+          "type": "integer"
+        },
+        "timeout_s": {
+          "minimum": 1,
+          "title": "Timeout S",
+          "type": "integer"
+        },
+        "preprocessing": {
+          "default": "basic",
+          "enum": [
+            "none",
+            "basic",
+            "aggressive"
+          ],
+          "title": "Preprocessing",
+          "type": "string"
+        }
+      },
+      "required": [
+        "config_id",
+        "engine",
+        "bmc_depth",
+        "timeout_s"
+      ],
+      "title": "ExperimentConfig",
+      "type": "object"
+    },
+    "ExperimentPlan": {
+      "additionalProperties": false,
+      "properties": {
+        "task_id": {
+          "title": "Task Id",
+          "type": "string"
+        },
+        "property_id": {
+          "title": "Property Id",
+          "type": "string"
+        },
+        "config": {
+          "$ref": "#/$defs/ExperimentConfig"
+        },
+        "needs_human_approval": {
+          "default": false,
+          "title": "Needs Human Approval",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "task_id",
+        "property_id",
+        "config"
+      ],
+      "title": "ExperimentPlan",
+      "type": "object"
+    },
+    "FormalResult": {
+      "description": "Formal result vocabulary. Never map TIMEOUT/ERROR/UNKNOWN to PASS.",
+      "enum": [
+        "PASS",
+        "FAIL",
+        "TIMEOUT",
+        "ERROR",
+        "UNKNOWN",
+        "COMPILED"
+      ],
+      "title": "FormalResult",
+      "type": "string"
+    },
+    "PartitionReport": {
+      "additionalProperties": false,
+      "description": "COI / partition analysis. Every partition is labeled heuristic.",
+      "properties": {
+        "task_id": {
+          "title": "Task Id",
+          "type": "string"
+        },
+        "property_id": {
+          "title": "Property Id",
+          "type": "string"
+        },
+        "coi_signals": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Coi Signals",
+          "type": "array"
+        },
+        "excluded_signals": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Excluded Signals",
+          "type": "array"
+        },
+        "partitions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Partitions",
+          "type": "array"
+        },
+        "cut_signals": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Cut Signals",
+          "type": "array"
+        },
+        "cut_assumptions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Cut Assumptions",
+          "type": "array"
+        },
+        "soundness_risk_flags": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Soundness Risk Flags",
+          "type": "array"
+        },
+        "heuristic": {
+          "default": true,
+          "title": "Heuristic",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "task_id",
+        "property_id"
+      ],
+      "title": "PartitionReport",
+      "type": "object"
+    },
+    "ReviewState": {
+      "description": "Review state of a candidate property.",
+      "enum": [
+        "UNREVIEWED",
+        "REVIEWED_OK",
+        "REVIEWED_REJECTED"
+      ],
+      "title": "ReviewState",
+      "type": "string"
+    },
+    "RtlManifest": {
+      "additionalProperties": false,
+      "description": "Deterministic extraction result from the RTL Intent Ingestor.",
+      "properties": {
+        "task_id": {
+          "title": "Task Id",
+          "type": "string"
+        },
+        "repo_revision": {
+          "title": "Repo Revision",
+          "type": "string"
+        },
+        "design_top": {
+          "minLength": 1,
+          "title": "Design Top",
+          "type": "string"
+        },
+        "signals": {
+          "items": {
+            "$ref": "#/$defs/SignalInfo"
+          },
+          "title": "Signals",
+          "type": "array"
+        },
+        "clock_candidates": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Clock Candidates",
+          "type": "array"
+        },
+        "reset_candidates": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Reset Candidates",
+          "type": "array"
+        },
+        "reset_polarity": {
+          "additionalProperties": {
+            "enum": [
+              "active_high",
+              "active_low",
+              "unknown"
+            ],
+            "type": "string"
+          },
+          "title": "Reset Polarity",
+          "type": "object"
+        },
+        "unresolved_constructs": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Unresolved Constructs",
+          "type": "array"
+        },
+        "manifest_hash": {
+          "minLength": 1,
+          "title": "Manifest Hash",
+          "type": "string"
+        }
+      },
+      "required": [
+        "task_id",
+        "repo_revision",
+        "design_top",
+        "manifest_hash"
+      ],
+      "title": "RtlManifest",
+      "type": "object"
+    },
+    "RunRecord": {
+      "additionalProperties": false,
+      "description": "Provenance record for one formal run (mirrors the orchestrator ledger).",
+      "properties": {
+        "task_id": {
+          "title": "Task Id",
+          "type": "string"
+        },
+        "property_id": {
+          "title": "Property Id",
+          "type": "string"
+        },
+        "config_id": {
+          "title": "Config Id",
+          "type": "string"
+        },
+        "repo_revision": {
+          "title": "Repo Revision",
+          "type": "string"
+        },
+        "manifest_hash": {
+          "title": "Manifest Hash",
+          "type": "string"
+        },
+        "tool_name": {
+          "default": "mock-formal",
+          "title": "Tool Name",
+          "type": "string"
+        },
+        "tool_version": {
+          "default": "0.0.0-mock",
+          "title": "Tool Version",
+          "type": "string"
+        },
+        "command": {
+          "default": "",
+          "title": "Command",
+          "type": "string"
+        },
+        "seed": {
+          "default": 0,
+          "title": "Seed",
+          "type": "integer"
+        },
+        "start_time": {
+          "format": "date-time",
+          "title": "Start Time",
+          "type": "string"
+        },
+        "end_time": {
+          "format": "date-time",
+          "title": "End Time",
+          "type": "string"
+        },
+        "cpu_time_s": {
+          "default": 0.0,
+          "title": "Cpu Time S",
+          "type": "number"
+        },
+        "wall_time_s": {
+          "default": 0.0,
+          "title": "Wall Time S",
+          "type": "number"
+        },
+        "peak_mem_mb": {
+          "default": 0.0,
+          "title": "Peak Mem Mb",
+          "type": "number"
+        },
+        "return_code": {
+          "default": 0,
+          "title": "Return Code",
+          "type": "integer"
+        },
+        "result": {
+          "$ref": "#/$defs/FormalResult",
+          "default": "UNKNOWN"
+        },
+        "artifact_paths": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Artifact Paths",
+          "type": "array"
+        },
+        "rationale": {
+          "default": "",
+          "title": "Rationale",
+          "type": "string"
+        }
+      },
+      "required": [
+        "task_id",
+        "property_id",
+        "config_id",
+        "repo_revision",
+        "manifest_hash"
+      ],
+      "title": "RunRecord",
+      "type": "object"
+    },
+    "SignalInfo": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "direction": {
+          "enum": [
+            "input",
+            "output",
+            "inout",
+            "internal"
+          ],
+          "title": "Direction",
+          "type": "string"
+        },
+        "width": {
+          "default": 1,
+          "minimum": 1,
+          "title": "Width",
+          "type": "integer"
+        },
+        "source_loc": {
+          "description": "file:line evidence for the symbol.",
+          "title": "Source Loc",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "direction",
+        "source_loc"
+      ],
+      "title": "SignalInfo",
+      "type": "object"
+    },
+    "SymbolMapping": {
+      "additionalProperties": false,
+      "description": "Grounding of a requirement term to an RTL symbol.",
+      "properties": {
+        "term": {
+          "minLength": 1,
+          "title": "Term",
+          "type": "string"
+        },
+        "symbol": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Symbol"
+        },
+        "source_loc": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Loc"
+        },
+        "confidence": {
+          "default": 0.0,
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Confidence",
+          "type": "number"
+        }
+      },
+      "required": [
+        "term"
+      ],
+      "title": "SymbolMapping",
+      "type": "object"
+    },
+    "WorkflowState": {
+      "description": "States of the supervisor state machine.\n\nThe order here also documents the nominal happy-path progression, but the\nonly authoritative source of allowed transitions is ``ALLOWED_TRANSITIONS``\nin ``state_machine.py``.",
+      "enum": [
+        "CREATED",
+        "RTL_INGESTION",
+        "SVA_PROPOSAL",
+        "PROPERTY_REVIEW",
+        "PARTITION_ANALYSIS",
+        "PLAN_EXPERIMENT",
+        "AWAITING_HUMAN_APPROVAL",
+        "EXECUTION",
+        "EVIDENCE_ASSEMBLY",
+        "DONE",
+        "REJECTED",
+        "FAILED"
+      ],
+      "title": "WorkflowState",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Complete evidence packet returned at the end of a workflow.\n\nNote the explicit non-claims: the packet reports the backend's classified\nresult and never asserts proof completeness or signoff.",
+  "properties": {
+    "task_id": {
+      "title": "Task Id",
+      "type": "string"
+    },
+    "final_state": {
+      "$ref": "#/$defs/WorkflowState"
+    },
+    "requirement_text": {
+      "title": "Requirement Text",
+      "type": "string"
+    },
+    "repo_revision": {
+      "title": "Repo Revision",
+      "type": "string"
+    },
+    "rtl_manifest": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/RtlManifest"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "candidate_property": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/CandidateProperty"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "validation_findings": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Validation Findings",
+      "type": "array"
+    },
+    "partition_report": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/PartitionReport"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "experiment_plan": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ExperimentPlan"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "approval": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ApprovalDecision"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "run_record": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/RunRecord"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "result_classification": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/FormalResult"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "limitations": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Limitations",
+      "type": "array"
+    },
+    "next_recommended_action": {
+      "default": "",
+      "title": "Next Recommended Action",
+      "type": "string"
+    },
+    "audit_log_path": {
+      "default": "",
+      "title": "Audit Log Path",
+      "type": "string"
+    },
+    "non_claims": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Non Claims",
+      "type": "array"
+    }
+  },
+  "required": [
+    "task_id",
+    "final_state",
+    "requirement_text",
+    "repo_revision"
+  ],
+  "title": "EvidencePacket",
+  "type": "object"
+}

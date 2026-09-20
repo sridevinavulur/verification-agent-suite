@@ -1,0 +1,3 @@
+p_counter_saturate_c0_next_cycle: assert property (
+  @(posedge clk) disable iff (!rst_n) (sat) |=> (!wrap)
+);

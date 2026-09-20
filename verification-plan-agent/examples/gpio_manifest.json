@@ -1,0 +1,47 @@
+{
+  "schema_version": "0.1.0",
+  "top": "gpio_ctrl",
+  "hierarchy": [],
+  "modules": [
+    {
+      "name": "gpio_ctrl",
+      "location": { "file": "gpio_ctrl.sv", "line": 1, "col": 1, "end_line": 1, "end_col": 20 },
+      "ports": [
+        { "name": "pclk", "direction": "input", "net_kind": "wire", "range": null,
+          "location": { "file": "gpio_ctrl.sv", "line": 2, "col": 5, "end_line": 2, "end_col": 20 } },
+        { "name": "gclk", "direction": "input", "net_kind": "wire", "range": null,
+          "location": { "file": "gpio_ctrl.sv", "line": 3, "col": 5, "end_line": 3, "end_col": 20 } },
+        { "name": "presetn", "direction": "input", "net_kind": "wire", "range": null,
+          "location": { "file": "gpio_ctrl.sv", "line": 4, "col": 5, "end_line": 4, "end_col": 20 } },
+        { "name": "gpio_out", "direction": "output", "net_kind": "reg", "range": { "msb": "7", "lsb": "0" },
+          "location": { "file": "gpio_ctrl.sv", "line": 5, "col": 5, "end_line": 5, "end_col": 20 } }
+      ],
+      "parameters": [],
+      "nets": [],
+      "instances": [],
+      "continuous_assigns": [],
+      "procedures": [],
+      "registers": [
+        { "name": "data_reg", "driven_in_procedure_index": 0,
+          "location": { "file": "gpio_ctrl.sv", "line": 10, "col": 5, "end_line": 10, "end_col": 20 } },
+        { "name": "sync_ff", "driven_in_procedure_index": 1,
+          "location": { "file": "gpio_ctrl.sv", "line": 11, "col": 5, "end_line": 11, "end_col": 20 } }
+      ],
+      "clock_candidates": [
+        { "signal": "pclk", "confidence": 1.0, "rationale": ["name matches clock convention"],
+          "location": { "file": "gpio_ctrl.sv", "line": 2, "col": 5, "end_line": 2, "end_col": 20 } },
+        { "signal": "gclk", "confidence": 0.8, "rationale": ["name matches clock convention"],
+          "location": { "file": "gpio_ctrl.sv", "line": 3, "col": 5, "end_line": 3, "end_col": 20 } }
+      ],
+      "reset_candidates": [
+        { "signal": "presetn", "confidence": 1.0, "polarity": "active_low", "sync": "asynchronous",
+          "rationale": ["name matches reset convention"],
+          "location": { "file": "gpio_ctrl.sv", "line": 4, "col": 5, "end_line": 4, "end_col": 20 } }
+      ],
+      "procedure_summary": { "always_ff": 2, "always_comb": 0, "always_other": 0, "continuous_assigns": 0 }
+    }
+  ],
+  "unresolved": [],
+  "parser": { "adapter": "builtin", "adapter_version": "0.1.0" },
+  "provenance": { "tool_version": "0.1.0" }
+}

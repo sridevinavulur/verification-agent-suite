@@ -1,0 +1,372 @@
+{
+  "provenance": {
+    "tool": "eq-triage",
+    "tool_version": "0.1.0",
+    "schema_version": "0.1.0",
+    "command": "eq-triage demo toy_counter",
+    "git_sha": "GOLDEN",
+    "input_files": [],
+    "input_sha256": {}
+  },
+  "reported_status": "NOT_EQUIVALENT",
+  "status_evidence": [
+    "examples/toy_counter/equivalence.eqlog: status: NOT_EQUIVALENT",
+    "examples/toy_counter/equivalence.eqlog: compare_points: 3/5"
+  ],
+  "reference_design": "ref_fsm",
+  "revised_design": "rev_fsm",
+  "compare_points_total": 5,
+  "compare_points_matched": 3,
+  "mismatch_count": 3,
+  "config_deltas": [
+    {
+      "key": "abstraction",
+      "reference_value": "none",
+      "revised_value": "none"
+    }
+  ],
+  "reset_comparison": {
+    "reference": {
+      "signal": "rst_n",
+      "polarity": "active_low",
+      "sync": "asynchronous",
+      "init_values": {
+        "state_r": "00"
+      }
+    },
+    "revised": {
+      "signal": "rst_n",
+      "polarity": "active_low",
+      "sync": "asynchronous",
+      "init_values": {
+        "state_r": "001"
+      }
+    },
+    "polarity_differs": false,
+    "sync_differs": false,
+    "init_value_diffs": {
+      "state_r": "ref=00 != rev=001"
+    },
+    "notes": []
+  },
+  "groups": [
+    {
+      "signature": "output|same|state|state|en,state_r",
+      "members": [
+        "state[0]",
+        "state[1]"
+      ],
+      "kind": "output",
+      "cone_signals": [
+        "en",
+        "state_r",
+        "state[0]",
+        "state[1]"
+      ],
+      "width_ref": null,
+      "width_rev": null,
+      "likely_causes": [
+        {
+          "category": "polarity",
+          "confidence": 0.75,
+          "rationale": [
+            "Counterexample shows consistently inverted values (1 bit-pairs inverted); suggests polarity/inversion mismatch."
+          ],
+          "is_heuristic": true,
+          "evidence_refs": [
+            "cex:state[0]"
+          ]
+        },
+        {
+          "category": "state_encoding",
+          "confidence": 0.65,
+          "rationale": [
+            "State signal 'state_r' encoding differs: ref=binary, rev=onehot."
+          ],
+          "is_heuristic": true,
+          "evidence_refs": [
+            "manifest:state_encoding"
+          ]
+        },
+        {
+          "category": "gating",
+          "confidence": 0.55,
+          "rationale": [
+            "Enable/gating-like signal(s) in cone: en -- check clock-gating / enable-condition changes."
+          ],
+          "is_heuristic": true,
+          "evidence_refs": [
+            "cone:en"
+          ]
+        }
+      ],
+      "ranked_locations": [
+        {
+          "signal": "state[0]",
+          "design": "reference",
+          "location": null,
+          "module": null,
+          "score": 4.0,
+          "reasons": [
+            "direct compare point",
+            "in mismatch cone"
+          ]
+        },
+        {
+          "signal": "state[1]",
+          "design": "reference",
+          "location": null,
+          "module": null,
+          "score": 4.0,
+          "reasons": [
+            "direct compare point",
+            "in mismatch cone"
+          ]
+        },
+        {
+          "signal": "state[0]",
+          "design": "revised",
+          "location": null,
+          "module": null,
+          "score": 4.0,
+          "reasons": [
+            "direct compare point",
+            "in mismatch cone"
+          ]
+        },
+        {
+          "signal": "state[1]",
+          "design": "revised",
+          "location": null,
+          "module": null,
+          "score": 4.0,
+          "reasons": [
+            "direct compare point",
+            "in mismatch cone"
+          ]
+        },
+        {
+          "signal": "en",
+          "design": "reference",
+          "location": {
+            "file": "ref_fsm.v",
+            "line": 7,
+            "col": 18
+          },
+          "module": "ref_fsm",
+          "score": 1.5,
+          "reasons": [
+            "in mismatch cone",
+            "implicated by gating"
+          ]
+        },
+        {
+          "signal": "en",
+          "design": "revised",
+          "location": {
+            "file": "rev_fsm.v",
+            "line": 7,
+            "col": 18
+          },
+          "module": "rev_fsm",
+          "score": 1.5,
+          "reasons": [
+            "in mismatch cone",
+            "implicated by gating"
+          ]
+        },
+        {
+          "signal": "state_r",
+          "design": "reference",
+          "location": {
+            "file": "ref_fsm.v",
+            "line": 10,
+            "col": 5
+          },
+          "module": "ref_fsm",
+          "score": 1.0,
+          "reasons": [
+            "in mismatch cone"
+          ]
+        },
+        {
+          "signal": "state_r",
+          "design": "revised",
+          "location": {
+            "file": "rev_fsm.v",
+            "line": 10,
+            "col": 5
+          },
+          "module": "rev_fsm",
+          "score": 1.0,
+          "reasons": [
+            "in mismatch cone"
+          ]
+        }
+      ]
+    },
+    {
+      "signature": "state|w2!=w3|state_r|state|en,rst_n",
+      "members": [
+        "state_r"
+      ],
+      "kind": "state",
+      "cone_signals": [
+        "en",
+        "rst_n",
+        "state"
+      ],
+      "width_ref": 2,
+      "width_rev": 3,
+      "likely_causes": [
+        {
+          "category": "width",
+          "confidence": 0.9,
+          "rationale": [
+            "Compare point width differs: ref=2 bits vs rev=3 bits."
+          ],
+          "is_heuristic": true,
+          "evidence_refs": [
+            "log:mismatch:state_r"
+          ]
+        },
+        {
+          "category": "state_encoding",
+          "confidence": 0.65,
+          "rationale": [
+            "State signal 'state' encoding differs: ref=binary, rev=onehot."
+          ],
+          "is_heuristic": true,
+          "evidence_refs": [
+            "manifest:state_encoding"
+          ]
+        },
+        {
+          "category": "reset_init",
+          "confidence": 0.6,
+          "rationale": [
+            "Reset/init behavior differs between designs and first difference occurs at t=0."
+          ],
+          "is_heuristic": true,
+          "evidence_refs": [
+            "reset_comparison"
+          ]
+        },
+        {
+          "category": "gating",
+          "confidence": 0.55,
+          "rationale": [
+            "Enable/gating-like signal(s) in cone: en -- check clock-gating / enable-condition changes."
+          ],
+          "is_heuristic": true,
+          "evidence_refs": [
+            "cone:en"
+          ]
+        }
+      ],
+      "ranked_locations": [
+        {
+          "signal": "state",
+          "design": "reference",
+          "location": {
+            "file": "ref_fsm.v",
+            "line": 8,
+            "col": 18
+          },
+          "module": "ref_fsm",
+          "score": 4.0,
+          "reasons": [
+            "direct compare point",
+            "in mismatch cone"
+          ]
+        },
+        {
+          "signal": "state",
+          "design": "revised",
+          "location": {
+            "file": "rev_fsm.v",
+            "line": 8,
+            "col": 18
+          },
+          "module": "rev_fsm",
+          "score": 4.0,
+          "reasons": [
+            "direct compare point",
+            "in mismatch cone"
+          ]
+        },
+        {
+          "signal": "en",
+          "design": "reference",
+          "location": {
+            "file": "ref_fsm.v",
+            "line": 7,
+            "col": 18
+          },
+          "module": "ref_fsm",
+          "score": 1.5,
+          "reasons": [
+            "in mismatch cone",
+            "implicated by gating"
+          ]
+        },
+        {
+          "signal": "en",
+          "design": "revised",
+          "location": {
+            "file": "rev_fsm.v",
+            "line": 7,
+            "col": 18
+          },
+          "module": "rev_fsm",
+          "score": 1.5,
+          "reasons": [
+            "in mismatch cone",
+            "implicated by gating"
+          ]
+        },
+        {
+          "signal": "rst_n",
+          "design": "reference",
+          "location": null,
+          "module": null,
+          "score": 1.0,
+          "reasons": [
+            "in mismatch cone"
+          ]
+        },
+        {
+          "signal": "rst_n",
+          "design": "revised",
+          "location": null,
+          "module": null,
+          "score": 1.0,
+          "reasons": [
+            "in mismatch cone"
+          ]
+        }
+      ]
+    }
+  ],
+  "debug_packet": {
+    "repro_command": "eq-triage demo toy_counter",
+    "input_files": [],
+    "focus_compare_points": [
+      "state[0]",
+      "state[1]",
+      "state_r"
+    ],
+    "focus_signals": [
+      "state[0]",
+      "state[1]",
+      "state",
+      "en"
+    ],
+    "suggested_next_steps": [
+      "Re-run equivalence check with the same tool/version to confirm reproducibility.",
+      "Inspect the ranked source locations for the top mismatch group.",
+      "Compare reset/init sequences of both designs on the failing compare points."
+    ]
+  },
+  "warnings": []
+}

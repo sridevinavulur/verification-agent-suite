@@ -1,0 +1,65 @@
+"""Typer CLI for {{ display_name }}."""
+
+from __future__ import annotations
+
+import json
+from pathlib import Path
+
+import typer
+
+from .agent import TemporalIntent, generate_candidate
+from .models import SymbolTable
+
+app = typer.Typer(help="{{ mission }}", no_args_is_help=True)
+
+
+@app.command()
+def generate(
+    requirement: Path = typer.Argument(..., help="Structured requirement JSON (temporal intent)."),
+    symbols: Path = typer.Argument(..., help="RTL symbol table JSON."),
+    seed: int = typer.Option(0, help="Deterministic seed for provenance."),
+) -> None:
+    """Render and statically validate a candidate SVA from a requirement."""
+    intent = TemporalIntent.model_validate_json(requirement.read_text(encoding="utf-8"))
+    table = SymbolTable.model_validate_json(symbols.read_text(encoding="utf-8"))
+    candidate = generate_candidate(
+        intent, table, seed=seed, command=f"generate {requirement} {symbols}"
+    )
+    typer.echo(json.dumps(candidate.to_dict(), indent=2, sort_keys=True))
+    if candidate.status.value == "ERROR":
+        raise typer.Exit(code=1)
+
+
+@app.command()
+def demo() -> None:
+    """Run a deterministic demo on a bundled-in-code example."""
+    table = SymbolTable(
+        design_top="handshake",
+        clock_candidates=["clk"],
+        reset_candidates=["rst_n"],
+        symbols=[
+            {"name": "clk", "direction": "input"},
+            {"name": "rst_n", "direction": "input"},
+            {"name": "req", "direction": "input"},
+            {"name": "gnt", "direction": "output"},
+        ],
+    )
+    intent = TemporalIntent(
+        requirement_id="R1",
+        source_text="Whenever req is accepted, gnt must arrive within 1 to 3 cycles unless reset.",
+        property_name="p_req_gnt",
+        clock_signal="clk",
+        reset_signal="rst_n",
+        reset_active_high=False,
+        antecedent="req",
+        consequent="gnt",
+        min_delay=1,
+        max_delay=3,
+        referenced_signals=["req", "gnt"],
+    )
+    candidate = generate_candidate(intent, table, seed=0, command="demo")
+    typer.echo(json.dumps(candidate.to_dict(), indent=2, sort_keys=True))
+
+
+if __name__ == "__main__":
+    app()

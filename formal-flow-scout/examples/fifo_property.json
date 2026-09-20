@@ -1,0 +1,21 @@
+{
+  "schema_version": "0.1.0",
+  "properties": [
+    {
+      "name": "no_overflow",
+      "description": "FIFO must never signal full and accept a push (safety).",
+      "signals": [
+        {"name": "full", "role": "asserted"},
+        {"name": "push", "role": "referenced"},
+        {"name": "occ", "role": "referenced"}
+      ]
+    },
+    {
+      "name": "empty_flag_correct",
+      "description": "empty must reflect occupancy.",
+      "signals": [
+        {"name": "empty", "role": "asserted"}
+      ]
+    }
+  ]
+}

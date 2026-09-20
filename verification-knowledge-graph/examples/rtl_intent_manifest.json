@@ -1,0 +1,42 @@
+{
+  "schema_version": "0.1.0",
+  "note": "Public toy RTL manifest (compatible subset of rtl-intent-ingestor output).",
+  "modules": [
+    {
+      "name": "fifo",
+      "reset_domains": [{"name": "por_rst"}],
+      "interfaces": [
+        {"name": "wr", "signals": ["wr_en", "full"]},
+        {"name": "rd", "signals": ["rd_en", "empty"]}
+      ],
+      "signals": [
+        {"name": "wr_en"},
+        {"name": "rd_en"},
+        {"name": "full"},
+        {"name": "empty"},
+        {"name": "count"}
+      ],
+      "signal_reset_domain": {
+        "count": "por_rst",
+        "full": "por_rst",
+        "empty": "por_rst"
+      }
+    },
+    {
+      "name": "arbiter",
+      "reset_domains": [{"name": "arb_rst"}],
+      "interfaces": [
+        {"name": "req_grant", "signals": ["req", "grant"]}
+      ],
+      "signals": [
+        {"name": "req"},
+        {"name": "grant"},
+        {"name": "state"}
+      ],
+      "signal_reset_domain": {
+        "grant": "arb_rst",
+        "state": "arb_rst"
+      }
+    }
+  ]
+}

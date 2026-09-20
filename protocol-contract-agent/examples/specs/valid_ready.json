@@ -1,0 +1,12 @@
+{
+  "protocol": "valid_ready",
+  "module": "vr_producer",
+  "instance_label": "out_stream",
+  "roles": {
+    "valid": "out_valid",
+    "ready": "out_ready",
+    "data": "out_data"
+  },
+  "clock": "clk",
+  "reset": "rst_n"
+}

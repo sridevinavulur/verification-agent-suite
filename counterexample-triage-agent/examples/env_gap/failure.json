@@ -1,0 +1,16 @@
+{
+  "property_name": "p_req_gnt",
+  "property_text": "@(posedge clk) disable iff (rst) req |=> gnt",
+  "source_file": "examples/env_gap/arb.sva",
+  "source_line": 12,
+  "clock": "tb.clk",
+  "clock_edge": "posedge",
+  "reset": "tb.rst",
+  "reset_active_high": true,
+  "antecedent_signal": "tb.req",
+  "consequent_signal": "tb.gnt",
+  "implication": "non_overlapping",
+  "delay_min": 1,
+  "delay_max": 1,
+  "failure_time": null
+}

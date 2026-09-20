@@ -1,0 +1,58 @@
+{
+  "labels": [
+    {
+      "coverage_id": "cov.arb.fsm.error",
+      "true_category": "no_linked_test",
+      "proposals_accepted": ["add_directed_test", "add_cover_property"],
+      "proposals_rejected": []
+    },
+    {
+      "coverage_id": "cov.arb.fsm.grant2",
+      "true_category": "test_ran_but_failed",
+      "proposals_accepted": ["run_existing_test"],
+      "proposals_rejected": []
+    },
+    {
+      "coverage_id": "cov.cnt.stmt.dead",
+      "true_category": "likely_unreachable",
+      "proposals_accepted": ["inspect_unreachable_code"],
+      "proposals_rejected": []
+    },
+    {
+      "coverage_id": "cov.cnt.toggle.msb",
+      "true_category": "test_ran_still_uncovered",
+      "proposals_accepted": ["add_directed_test"],
+      "proposals_rejected": ["add_constrained_random_scenario"]
+    },
+    {
+      "coverage_id": "cov.dbg.stmt.excluded",
+      "true_category": "likely_unreachable",
+      "proposals_accepted": ["inspect_unreachable_code", "request_waiver_review"],
+      "proposals_rejected": []
+    },
+    {
+      "coverage_id": "cov.fifo.branch.empty",
+      "true_category": "test_ran_still_uncovered",
+      "proposals_accepted": ["add_directed_test"],
+      "proposals_rejected": []
+    },
+    {
+      "coverage_id": "cov.fifo.branch.overflow_guard",
+      "true_category": "test_exists_not_run",
+      "proposals_accepted": ["run_existing_test"],
+      "proposals_rejected": []
+    },
+    {
+      "coverage_id": "cov.hs.assert.req_grant",
+      "true_category": "test_ran_still_uncovered",
+      "proposals_accepted": ["add_directed_test", "propose_assertion_candidate"],
+      "proposals_rejected": []
+    },
+    {
+      "coverage_id": "cov.misc.bin.orphan",
+      "true_category": "no_linked_test",
+      "proposals_accepted": ["add_directed_test"],
+      "proposals_rejected": []
+    }
+  ]
+}

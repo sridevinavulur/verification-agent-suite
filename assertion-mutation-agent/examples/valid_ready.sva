@@ -1,0 +1,14 @@
+// SVA property suite for the `valid_ready` toy benchmark. Candidate properties.
+
+// After reset, the output is not asserting valid.
+property p_reset_not_valid;
+    @(posedge clk) disable iff (rst_n) (out_valid == 1'b0);
+endproperty
+a_reset_not_valid : assert property (p_reset_not_valid);
+
+// When a beat is accepted, out_valid rises next cycle.
+property p_accept_sets_valid;
+    @(posedge clk) disable iff (!rst_n)
+        (in_valid && out_ready) |=> out_valid;
+endproperty
+a_accept_sets_valid : assert property (p_accept_sets_valid);

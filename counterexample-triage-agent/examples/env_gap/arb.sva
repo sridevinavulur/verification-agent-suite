@@ -1,0 +1,8 @@
+// Public toy example. A req/gnt property whose counterexample turns out to be
+// an ENVIRONMENT gap (the stimulus never asserts req), not a design bug.
+module arb_props (input logic clk, input logic rst, input logic req, input logic gnt);
+    p_req_gnt: assert property (
+        @(posedge clk) disable iff (rst)
+        req |=> gnt
+    );
+endmodule

@@ -1,0 +1,202 @@
+{
+  "schema_version": "1.0",
+  "module": "counter",
+  "rtl_file": "examples/counter.v",
+  "property_files": [
+    "examples/counter.sva"
+  ],
+  "executor": "mock",
+  "provenance": {
+    "tool": "assertion-mutation-agent",
+    "tool_version": "0.1.0",
+    "git_sha": "PLACEHOLDER",
+    "executor": "mock",
+    "rtl_sha256_16": "aba53383c2345f76",
+    "property_sha256_16": "30e58d4e0c39e492",
+    "operators": "relational_flip,boolean_negation,enable_removal,reset_polarity_flip,reset_value_change,counter_incdec_change,assign_operand_swap,valid_ready_gating_removal,width_truncation",
+    "seed": "deterministic"
+  },
+  "score": {
+    "total": 11,
+    "detected": 7,
+    "survived": 4,
+    "invalid": 0,
+    "timeout": 0,
+    "error": 0,
+    "inconclusive": 0,
+    "scored": 11,
+    "mutation_score": 0.636364
+  },
+  "results": [
+    {
+      "mutant_id": "counter.relational_flip.16.6f25d046",
+      "operator": "relational_flip",
+      "status": "detected",
+      "detected_by": [
+        "p_saturate"
+      ],
+      "detail": "Property(ies) reference a mutated signal (MAX_COUNT, at_max).",
+      "executor": "mock"
+    },
+    {
+      "mutant_id": "counter.reset_polarity_flip.18.a3a9702d",
+      "operator": "reset_polarity_flip",
+      "status": "detected",
+      "detected_by": [
+        "p_no_overflow",
+        "p_reset_zero"
+      ],
+      "detail": "Property(ies) reference a mutated signal (rst_n).",
+      "executor": "mock"
+    },
+    {
+      "mutant_id": "counter.boolean_negation.19.7eb0925b",
+      "operator": "boolean_negation",
+      "status": "detected",
+      "detected_by": [
+        "p_no_overflow",
+        "p_reset_zero"
+      ],
+      "detail": "Property(ies) reference a mutated signal (rst_n).",
+      "executor": "mock"
+    },
+    {
+      "mutant_id": "counter.reset_value_change.20.45b3c71e",
+      "operator": "reset_value_change",
+      "status": "detected",
+      "detected_by": [
+        "p_no_overflow",
+        "p_reset_zero",
+        "p_saturate"
+      ],
+      "detail": "Property(ies) reference a mutated signal (count).",
+      "executor": "mock"
+    },
+    {
+      "mutant_id": "counter.boolean_negation.22.fec45a66",
+      "operator": "boolean_negation",
+      "status": "survived",
+      "detected_by": [],
+      "detail": "No property references any mutated signal (load); undetected mutation requiring investigation.",
+      "executor": "mock"
+    },
+    {
+      "mutant_id": "counter.width_truncation.23.8991437f",
+      "operator": "width_truncation",
+      "status": "detected",
+      "detected_by": [
+        "p_no_overflow",
+        "p_reset_zero",
+        "p_saturate"
+      ],
+      "detail": "Property(ies) reference a mutated signal (count, load_val).",
+      "executor": "mock"
+    },
+    {
+      "mutant_id": "counter.boolean_negation.24.829acd6b",
+      "operator": "boolean_negation",
+      "status": "survived",
+      "detected_by": [],
+      "detail": "No property references any mutated signal (en); undetected mutation requiring investigation.",
+      "executor": "mock"
+    },
+    {
+      "mutant_id": "counter.enable_removal.24.63d00eda",
+      "operator": "enable_removal",
+      "status": "survived",
+      "detected_by": [],
+      "detail": "No property references any mutated signal (en); undetected mutation requiring investigation.",
+      "executor": "mock"
+    },
+    {
+      "mutant_id": "counter.boolean_negation.25.e9f02795",
+      "operator": "boolean_negation",
+      "status": "detected",
+      "detected_by": [
+        "p_no_overflow",
+        "p_reset_zero",
+        "p_saturate"
+      ],
+      "detail": "Property(ies) reference a mutated signal (MAX_COUNT, count).",
+      "executor": "mock"
+    },
+    {
+      "mutant_id": "counter.relational_flip.25.61871fd5",
+      "operator": "relational_flip",
+      "status": "survived",
+      "detected_by": [],
+      "detail": "No property references any mutated signal (MAX_COUNT); undetected mutation requiring investigation.",
+      "executor": "mock"
+    },
+    {
+      "mutant_id": "counter.counter_incdec_change.26.20e77174",
+      "operator": "counter_incdec_change",
+      "status": "detected",
+      "detected_by": [
+        "p_no_overflow",
+        "p_reset_zero",
+        "p_saturate"
+      ],
+      "detail": "Property(ies) reference a mutated signal (count).",
+      "executor": "mock"
+    }
+  ],
+  "surviving_by_property": {
+    "p_reset_zero": [
+      "counter.boolean_negation.22.fec45a66",
+      "counter.boolean_negation.24.829acd6b",
+      "counter.enable_removal.24.63d00eda",
+      "counter.relational_flip.25.61871fd5"
+    ],
+    "p_saturate": [
+      "counter.boolean_negation.22.fec45a66",
+      "counter.boolean_negation.24.829acd6b",
+      "counter.enable_removal.24.63d00eda",
+      "counter.relational_flip.25.61871fd5"
+    ],
+    "p_no_overflow": [
+      "counter.boolean_negation.22.fec45a66",
+      "counter.boolean_negation.24.829acd6b",
+      "counter.enable_removal.24.63d00eda",
+      "counter.relational_flip.25.61871fd5"
+    ]
+  },
+  "surviving_by_operator": {
+    "boolean_negation": [
+      "counter.boolean_negation.22.fec45a66",
+      "counter.boolean_negation.24.829acd6b"
+    ],
+    "enable_removal": [
+      "counter.enable_removal.24.63d00eda"
+    ],
+    "relational_flip": [
+      "counter.relational_flip.25.61871fd5"
+    ]
+  },
+  "surviving_mutants": [
+    {
+      "mutant_id": "counter.boolean_negation.22.fec45a66",
+      "operator": "boolean_negation",
+      "description": "Negate if-condition: cond -> !(cond)",
+      "diff_summary": "@@ counter:22 @@\n-             if (load) begin\n+             if (!(load)) begin"
+    },
+    {
+      "mutant_id": "counter.boolean_negation.24.829acd6b",
+      "operator": "boolean_negation",
+      "description": "Negate if-condition: cond -> !(cond)",
+      "diff_summary": "@@ counter:24 @@\n-             end else if (en) begin\n+             end else if (!(en)) begin"
+    },
+    {
+      "mutant_id": "counter.enable_removal.24.63d00eda",
+      "operator": "enable_removal",
+      "description": "Remove enable guard 'en' (force condition true)",
+      "diff_summary": "@@ counter:24 @@\n-             end else if (en) begin\n+             end else if (1'b1) begin"
+    },
+    {
+      "mutant_id": "counter.relational_flip.25.61871fd5",
+      "operator": "relational_flip",
+      "description": "Flip relational operator '<' -> '>'",
+      "diff_summary": "@@ counter:25 @@\n-                 if (count < MAX_COUNT) begin\n+                 if (count > MAX_COUNT) begin"
+    }
+  ]
+}

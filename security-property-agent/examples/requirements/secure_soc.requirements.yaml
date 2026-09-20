@@ -1,0 +1,54 @@
+# Public toy security requirements for examples/rtl/secure_soc.sv
+# Illustrative only. No proprietary content.
+#
+# Each requirement's `text` is preserved EXACTLY by the tool (verbatim clause
+# slicing + sha256). Signal hints under `signals` are still checked against the
+# Manifest before being trusted.
+
+schema_version: "0.1.0"
+design: secure_soc
+
+requirements:
+  - requirement_id: SEC-AC-001
+    category: access_control
+    text: "A committed write must never occur unless wr_grant is asserted."
+    signals: [wr_commit, wr_grant, mem_wr_en]
+    declared_trust_boundary: "permission unit grants access via wr_grant"
+
+  - requirement_id: SEC-PRIV-001
+    category: privilege_gating
+    text: "A secure_op shall only proceed when priv_mode is set."
+    signals: [secure_op, priv_mode]
+
+  - requirement_id: SEC-DBG-001
+    category: debug_lockout
+    text: "When dbg_locked is asserted, dbg_enable must never be high."
+    signals: [dbg_locked, dbg_enable]
+
+  - requirement_id: SEC-FAULT-001
+    category: fault_response
+    text: "When fault_detected is high, safe_halt must assert within a few cycles."
+    signals: [fault_detected, safe_halt]
+
+  - requirement_id: SEC-ERR-001
+    category: error_containment
+    text: "If ecc_error is set then data_valid_out must not be driven high."
+    signals: [ecc_error, data_valid_out]
+
+  - requirement_id: SEC-LS-001
+    category: lockstep_mismatch
+    text: "The redundant cores core_a_result and core_b_result must always match."
+    signals: [core_a_result, core_b_result]
+
+  # Demonstrates classification: this is an environment assumption, not a
+  # property to assert. The tool must refuse to emit it as an assert.
+  - requirement_id: SEC-ENV-001
+    category: access_control
+    text: "The tester assumes wr_grant is only ever asserted by the permission unit."
+    signals: [wr_grant]
+
+  # Demonstrates a security test objective (cover), not a guarantee.
+  - requirement_id: SEC-OBJ-001
+    category: privilege_gating
+    text: "Demonstrate a reachable scenario where secure_op fires while priv_mode is set."
+    signals: [secure_op, priv_mode]

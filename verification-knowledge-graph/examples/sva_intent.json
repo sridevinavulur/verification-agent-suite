@@ -1,0 +1,30 @@
+{
+  "schema_version": "0.1.0",
+  "note": "Public toy SVA Intent output (candidate properties). Compatible subset of sva-intent-engine output.",
+  "properties": [
+    {
+      "id": "P_no_overflow",
+      "name": "fifo_no_overflow",
+      "module": "fifo",
+      "requirement_ids": ["REQ-FIFO-001"],
+      "reset_domains": ["por_rst"],
+      "interfaces": ["wr"]
+    },
+    {
+      "id": "P_no_underflow",
+      "name": "fifo_no_underflow",
+      "module": "fifo",
+      "requirement_ids": ["REQ-FIFO-002"],
+      "reset_domains": ["por_rst"],
+      "interfaces": ["rd"]
+    },
+    {
+      "id": "P_grant_onehot",
+      "name": "arbiter_grant_onehot",
+      "module": "arbiter",
+      "requirement_ids": ["REQ-ARB-001"],
+      "reset_domains": ["arb_rst"],
+      "interfaces": ["req_grant"]
+    }
+  ]
+}

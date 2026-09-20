@@ -1,0 +1,616 @@
+{
+  "classifications": [
+    {
+      "coverage_id": "cov.arb.fsm.error",
+      "kind": "fsm_state",
+      "module": "arbiter",
+      "category": "no_linked_test",
+      "is_heuristic": true,
+      "root_cause_hypotheses": [
+        "No test is even intended to reach this point (testplan gap).",
+        "No requirement maps to this point either (spec/plan gap)."
+      ],
+      "evidence": [
+        {
+          "source": "coverage_db",
+          "detail": "cov.arb.fsm.error has hits=0 (goal=1) -> uncovered",
+          "ref": "cov.arb.fsm.error"
+        },
+        {
+          "source": "test_manifest",
+          "detail": "No test lists cov.arb.fsm.error in its 'covers' set",
+          "ref": "cov.arb.fsm.error"
+        },
+        {
+          "source": "requirement_matrix",
+          "detail": "No requirement maps to cov.arb.fsm.error",
+          "ref": "cov.arb.fsm.error"
+        }
+      ],
+      "recommendations": [
+        {
+          "action": "add_directed_test",
+          "rationale": "No test targets this point; add a directed test to close the plan gap.",
+          "priority_score": 0.7,
+          "expected_impact_items": 1,
+          "expected_impact_note": "Hypothesis only; must be confirmed by independent coverage re-measurement.",
+          "requires_human_approval": true,
+          "detail": "Create a directed test for arbiter ERROR state reached."
+        },
+        {
+          "action": "add_cover_property",
+          "rationale": "Add a cover property to make reaching this point observable.",
+          "priority_score": 0.65,
+          "expected_impact_items": 1,
+          "expected_impact_note": "Hypothesis only; must be confirmed by independent coverage re-measurement.",
+          "requires_human_approval": true,
+          "detail": "Add a cover for cov.arb.fsm.error in arbiter."
+        },
+        {
+          "action": "request_spec_clarification",
+          "rationale": "No requirement maps here; confirm whether the point should be covered.",
+          "priority_score": 0.3,
+          "expected_impact_items": 0,
+          "expected_impact_note": "Hypothesis only; must be confirmed by independent coverage re-measurement.",
+          "requires_human_approval": true,
+          "detail": "Ask whether cov.arb.fsm.error is in scope for this release."
+        }
+      ],
+      "provenance_complete": true
+    },
+    {
+      "coverage_id": "cov.arb.fsm.grant2",
+      "kind": "fsm_state",
+      "module": "arbiter",
+      "category": "test_ran_but_failed",
+      "is_heuristic": true,
+      "root_cause_hypotheses": [
+        "Coverage may be blocked by a failing/aborted test; fix the failure first."
+      ],
+      "evidence": [
+        {
+          "source": "coverage_db",
+          "detail": "cov.arb.fsm.grant2 has hits=0 (goal=1) -> uncovered",
+          "ref": "cov.arb.fsm.grant2"
+        },
+        {
+          "source": "test_manifest",
+          "detail": "Linked test t_arb_grant finished with status=fail (not a pass)",
+          "ref": "t_arb_grant"
+        },
+        {
+          "source": "failure_log",
+          "detail": "t_arb_grant: failure: assertion arb_grant_within_3 failed at cycle 118",
+          "ref": "rtl/arbiter.sv:34"
+        },
+        {
+          "source": "requirement_matrix",
+          "detail": "cov.arb.fsm.grant2 maps to requirements ['REQ-ARB-1']",
+          "ref": "cov.arb.fsm.grant2"
+        }
+      ],
+      "recommendations": [
+        {
+          "action": "run_existing_test",
+          "rationale": "Re-run the failing linked test after the failure is triaged (by a human).",
+          "priority_score": 0.9,
+          "expected_impact_items": 1,
+          "expected_impact_note": "Hypothesis only; must be confirmed by independent coverage re-measurement.",
+          "requires_human_approval": true,
+          "detail": "After fix, re-run t_arb_grant and re-measure coverage."
+        },
+        {
+          "action": "request_spec_clarification",
+          "rationale": "If the failure is a spec ambiguity, clarify intent before re-testing.",
+          "priority_score": 0.3,
+          "expected_impact_items": 0,
+          "expected_impact_note": "Hypothesis only; must be confirmed by independent coverage re-measurement.",
+          "requires_human_approval": true,
+          "detail": "Ask spec owner whether cov.arb.fsm.grant2 behavior is as intended."
+        }
+      ],
+      "provenance_complete": true
+    },
+    {
+      "coverage_id": "cov.cnt.stmt.dead",
+      "kind": "statement",
+      "module": "counter",
+      "category": "likely_unreachable",
+      "is_heuristic": true,
+      "root_cause_hypotheses": [
+        "Point may be structurally unreachable; inspect before proposing tests."
+      ],
+      "evidence": [
+        {
+          "source": "coverage_db",
+          "detail": "cov.cnt.stmt.dead has hits=0 (goal=1) -> uncovered",
+          "ref": "cov.cnt.stmt.dead"
+        },
+        {
+          "source": "rtl_intent_manifest",
+          "detail": "counter:90 flagged as likely-unreachable",
+          "ref": "counter:90"
+        },
+        {
+          "source": "requirement_matrix",
+          "detail": "No requirement maps to cov.cnt.stmt.dead",
+          "ref": "cov.cnt.stmt.dead"
+        }
+      ],
+      "recommendations": [
+        {
+          "action": "inspect_unreachable_code",
+          "rationale": "Point is flagged likely-unreachable; confirm before spending test effort.",
+          "priority_score": 0.8,
+          "expected_impact_items": 0,
+          "expected_impact_note": "Hypothesis only; must be confirmed by independent coverage re-measurement.",
+          "requires_human_approval": true,
+          "detail": "Inspect counter around line 90 for reachability."
+        },
+        {
+          "action": "request_waiver_review",
+          "rationale": "If confirmed unreachable, a human may review a waiver (agent never waives).",
+          "priority_score": 0.4,
+          "expected_impact_items": 1,
+          "expected_impact_note": "Hypothesis only; must be confirmed by independent coverage re-measurement.",
+          "requires_human_approval": true,
+          "detail": "Route cov.cnt.stmt.dead to a waiver reviewer with the reachability finding."
+        }
+      ],
+      "provenance_complete": true
+    },
+    {
+      "coverage_id": "cov.cnt.toggle.msb",
+      "kind": "toggle",
+      "module": "counter",
+      "category": "test_ran_still_uncovered",
+      "is_heuristic": true,
+      "root_cause_hypotheses": [
+        "Stimulus does not exercise this point; needs directed/constrained-random work."
+      ],
+      "evidence": [
+        {
+          "source": "coverage_db",
+          "detail": "cov.cnt.toggle.msb has hits=0 (goal=1) -> uncovered",
+          "ref": "cov.cnt.toggle.msb"
+        },
+        {
+          "source": "test_manifest",
+          "detail": "Linked test t_cnt_random passed but cov.cnt.toggle.msb still uncovered",
+          "ref": "t_cnt_random"
+        },
+        {
+          "source": "requirement_matrix",
+          "detail": "cov.cnt.toggle.msb maps to requirements ['REQ-CNT-1']",
+          "ref": "cov.cnt.toggle.msb"
+        }
+      ],
+      "recommendations": [
+        {
+          "action": "add_directed_test",
+          "rationale": "Passing test does not reach this point; a directed test likely will.",
+          "priority_score": 0.7,
+          "expected_impact_items": 1,
+          "expected_impact_note": "Hypothesis only; must be confirmed by independent coverage re-measurement.",
+          "requires_human_approval": true,
+          "detail": "Draft a directed test hitting counter MSB toggle."
+        },
+        {
+          "action": "add_constrained_random_scenario",
+          "rationale": "Alternatively widen constrained-random stimulus to reach the point.",
+          "priority_score": 0.55,
+          "expected_impact_items": 1,
+          "expected_impact_note": "Hypothesis only; must be confirmed by independent coverage re-measurement.",
+          "requires_human_approval": true,
+          "detail": "Add a CR scenario biasing toward toggle in counter."
+        }
+      ],
+      "provenance_complete": true
+    },
+    {
+      "coverage_id": "cov.dbg.stmt.excluded",
+      "kind": "statement",
+      "module": "counter",
+      "category": "likely_unreachable",
+      "is_heuristic": true,
+      "root_cause_hypotheses": [
+        "Point may be structurally unreachable; inspect before proposing tests."
+      ],
+      "evidence": [
+        {
+          "source": "coverage_db",
+          "detail": "cov.dbg.stmt.excluded has hits=0 (goal=1) -> uncovered",
+          "ref": "cov.dbg.stmt.excluded"
+        },
+        {
+          "source": "coverage_db",
+          "detail": "cov.dbg.stmt.excluded carries a coverage-exclusion pragma",
+          "ref": "cov.dbg.stmt.excluded"
+        },
+        {
+          "source": "requirement_matrix",
+          "detail": "No requirement maps to cov.dbg.stmt.excluded",
+          "ref": "cov.dbg.stmt.excluded"
+        }
+      ],
+      "recommendations": [
+        {
+          "action": "inspect_unreachable_code",
+          "rationale": "Point is flagged likely-unreachable; confirm before spending test effort.",
+          "priority_score": 0.8,
+          "expected_impact_items": 0,
+          "expected_impact_note": "Hypothesis only; must be confirmed by independent coverage re-measurement.",
+          "requires_human_approval": true,
+          "detail": "Inspect counter around line 95 for reachability."
+        },
+        {
+          "action": "request_waiver_review",
+          "rationale": "If confirmed unreachable, a human may review a waiver (agent never waives).",
+          "priority_score": 0.4,
+          "expected_impact_items": 1,
+          "expected_impact_note": "Hypothesis only; must be confirmed by independent coverage re-measurement.",
+          "requires_human_approval": true,
+          "detail": "Route cov.dbg.stmt.excluded to a waiver reviewer with the reachability finding."
+        }
+      ],
+      "provenance_complete": true
+    },
+    {
+      "coverage_id": "cov.fifo.branch.empty",
+      "kind": "branch",
+      "module": "fifo",
+      "category": "test_ran_still_uncovered",
+      "is_heuristic": true,
+      "root_cause_hypotheses": [
+        "Stimulus does not exercise this point; needs directed/constrained-random work."
+      ],
+      "evidence": [
+        {
+          "source": "coverage_db",
+          "detail": "cov.fifo.branch.empty has hits=0 (goal=1) -> uncovered",
+          "ref": "cov.fifo.branch.empty"
+        },
+        {
+          "source": "test_manifest",
+          "detail": "Linked test t_fifo_full passed but cov.fifo.branch.empty still uncovered",
+          "ref": "t_fifo_full"
+        },
+        {
+          "source": "requirement_matrix",
+          "detail": "cov.fifo.branch.empty maps to requirements ['REQ-FIFO-1']",
+          "ref": "cov.fifo.branch.empty"
+        }
+      ],
+      "recommendations": [
+        {
+          "action": "add_directed_test",
+          "rationale": "Passing test does not reach this point; a directed test likely will.",
+          "priority_score": 0.7,
+          "expected_impact_items": 1,
+          "expected_impact_note": "Hypothesis only; must be confirmed by independent coverage re-measurement.",
+          "requires_human_approval": true,
+          "detail": "Draft a directed test hitting fifo empty branch taken."
+        },
+        {
+          "action": "add_constrained_random_scenario",
+          "rationale": "Alternatively widen constrained-random stimulus to reach the point.",
+          "priority_score": 0.55,
+          "expected_impact_items": 1,
+          "expected_impact_note": "Hypothesis only; must be confirmed by independent coverage re-measurement.",
+          "requires_human_approval": true,
+          "detail": "Add a CR scenario biasing toward branch in fifo."
+        }
+      ],
+      "provenance_complete": true
+    },
+    {
+      "coverage_id": "cov.fifo.branch.overflow_guard",
+      "kind": "branch",
+      "module": "fifo",
+      "category": "test_exists_not_run",
+      "is_heuristic": true,
+      "root_cause_hypotheses": [
+        "A test targeting this point exists but was never executed."
+      ],
+      "evidence": [
+        {
+          "source": "coverage_db",
+          "detail": "cov.fifo.branch.overflow_guard has hits=0 (goal=1) -> uncovered",
+          "ref": "cov.fifo.branch.overflow_guard"
+        },
+        {
+          "source": "test_manifest",
+          "detail": "Linked test t_fifo_overflow has status=not_run",
+          "ref": "t_fifo_overflow"
+        },
+        {
+          "source": "requirement_matrix",
+          "detail": "cov.fifo.branch.overflow_guard maps to requirements ['REQ-FIFO-2']",
+          "ref": "cov.fifo.branch.overflow_guard"
+        }
+      ],
+      "recommendations": [
+        {
+          "action": "run_existing_test",
+          "rationale": "Test t_fifo_overflow targets this point but was never run.",
+          "priority_score": 0.9,
+          "expected_impact_items": 1,
+          "expected_impact_note": "Hypothesis only; must be confirmed by independent coverage re-measurement.",
+          "requires_human_approval": true,
+          "detail": "Run test t_fifo_overflow with seed=7 config=sim_default."
+        }
+      ],
+      "provenance_complete": true
+    },
+    {
+      "coverage_id": "cov.hs.assert.req_grant",
+      "kind": "assertion",
+      "module": "handshake",
+      "category": "test_ran_still_uncovered",
+      "is_heuristic": true,
+      "root_cause_hypotheses": [
+        "Stimulus does not exercise this point; needs directed/constrained-random work."
+      ],
+      "evidence": [
+        {
+          "source": "coverage_db",
+          "detail": "cov.hs.assert.req_grant has hits=0 (goal=1) -> uncovered",
+          "ref": "cov.hs.assert.req_grant"
+        },
+        {
+          "source": "test_manifest",
+          "detail": "Linked test t_hs_basic passed but cov.hs.assert.req_grant still uncovered",
+          "ref": "t_hs_basic"
+        },
+        {
+          "source": "requirement_matrix",
+          "detail": "cov.hs.assert.req_grant maps to requirements ['REQ-HS-1']",
+          "ref": "cov.hs.assert.req_grant"
+        }
+      ],
+      "recommendations": [
+        {
+          "action": "add_directed_test",
+          "rationale": "Passing test does not reach this point; a directed test likely will.",
+          "priority_score": 0.7,
+          "expected_impact_items": 1,
+          "expected_impact_note": "Hypothesis only; must be confirmed by independent coverage re-measurement.",
+          "requires_human_approval": true,
+          "detail": "Draft a directed test hitting req eventually granted assertion cover."
+        },
+        {
+          "action": "add_constrained_random_scenario",
+          "rationale": "Alternatively widen constrained-random stimulus to reach the point.",
+          "priority_score": 0.55,
+          "expected_impact_items": 1,
+          "expected_impact_note": "Hypothesis only; must be confirmed by independent coverage re-measurement.",
+          "requires_human_approval": true,
+          "detail": "Add a CR scenario biasing toward assertion in handshake."
+        },
+        {
+          "action": "propose_assertion_candidate",
+          "rationale": "Assertion coverage suggests a candidate property for human review.",
+          "priority_score": 0.5,
+          "expected_impact_items": 1,
+          "expected_impact_note": "Hypothesis only; must be confirmed by independent coverage re-measurement.",
+          "requires_human_approval": true,
+          "detail": "Propose an assertion for req eventually granted assertion cover."
+        }
+      ],
+      "provenance_complete": true
+    },
+    {
+      "coverage_id": "cov.misc.bin.orphan",
+      "kind": "covergroup_bin",
+      "module": "misc",
+      "category": "no_linked_test",
+      "is_heuristic": true,
+      "root_cause_hypotheses": [
+        "No test is even intended to reach this point (testplan gap).",
+        "No requirement maps to this point either (spec/plan gap)."
+      ],
+      "evidence": [
+        {
+          "source": "coverage_db",
+          "detail": "cov.misc.bin.orphan has hits=0 (goal=1) -> uncovered",
+          "ref": "cov.misc.bin.orphan"
+        },
+        {
+          "source": "test_manifest",
+          "detail": "No test lists cov.misc.bin.orphan in its 'covers' set",
+          "ref": "cov.misc.bin.orphan"
+        },
+        {
+          "source": "requirement_matrix",
+          "detail": "No requirement maps to cov.misc.bin.orphan",
+          "ref": "cov.misc.bin.orphan"
+        }
+      ],
+      "recommendations": [
+        {
+          "action": "add_directed_test",
+          "rationale": "No test targets this point; add a directed test to close the plan gap.",
+          "priority_score": 0.7,
+          "expected_impact_items": 1,
+          "expected_impact_note": "Hypothesis only; must be confirmed by independent coverage re-measurement.",
+          "requires_human_approval": true,
+          "detail": "Create a directed test for orphan covergroup bin with no plan mapping."
+        },
+        {
+          "action": "add_cover_property",
+          "rationale": "Add a cover property to make reaching this point observable.",
+          "priority_score": 0.65,
+          "expected_impact_items": 1,
+          "expected_impact_note": "Hypothesis only; must be confirmed by independent coverage re-measurement.",
+          "requires_human_approval": true,
+          "detail": "Add a cover for cov.misc.bin.orphan in misc."
+        },
+        {
+          "action": "request_spec_clarification",
+          "rationale": "No requirement maps here; confirm whether the point should be covered.",
+          "priority_score": 0.3,
+          "expected_impact_items": 0,
+          "expected_impact_note": "Hypothesis only; must be confirmed by independent coverage re-measurement.",
+          "requires_human_approval": true,
+          "detail": "Ask whether cov.misc.bin.orphan is in scope for this release."
+        }
+      ],
+      "provenance_complete": true
+    }
+  ],
+  "independent_measurement": [
+    {
+      "coverage_id": "cov.arb.fsm.error",
+      "instruction": "After approved actions for cov.arb.fsm.error, re-export the coverage DB and confirm the item is covered. The agent does not and cannot mark it closed.",
+      "verify_covered_when": "hits >= goal in a fresh coverage export"
+    },
+    {
+      "coverage_id": "cov.arb.fsm.grant2",
+      "instruction": "After approved actions for cov.arb.fsm.grant2, re-export the coverage DB and confirm the item is covered. The agent does not and cannot mark it closed.",
+      "verify_covered_when": "hits >= goal in a fresh coverage export"
+    },
+    {
+      "coverage_id": "cov.cnt.stmt.dead",
+      "instruction": "After approved actions for cov.cnt.stmt.dead, re-export the coverage DB and confirm the item is covered. The agent does not and cannot mark it closed.",
+      "verify_covered_when": "hits >= goal in a fresh coverage export"
+    },
+    {
+      "coverage_id": "cov.cnt.toggle.msb",
+      "instruction": "After approved actions for cov.cnt.toggle.msb, re-export the coverage DB and confirm the item is covered. The agent does not and cannot mark it closed.",
+      "verify_covered_when": "hits >= goal in a fresh coverage export"
+    },
+    {
+      "coverage_id": "cov.dbg.stmt.excluded",
+      "instruction": "After approved actions for cov.dbg.stmt.excluded, re-export the coverage DB and confirm the item is covered. The agent does not and cannot mark it closed.",
+      "verify_covered_when": "hits >= goal in a fresh coverage export"
+    },
+    {
+      "coverage_id": "cov.fifo.branch.empty",
+      "instruction": "After approved actions for cov.fifo.branch.empty, re-export the coverage DB and confirm the item is covered. The agent does not and cannot mark it closed.",
+      "verify_covered_when": "hits >= goal in a fresh coverage export"
+    },
+    {
+      "coverage_id": "cov.fifo.branch.overflow_guard",
+      "instruction": "After approved actions for cov.fifo.branch.overflow_guard, re-export the coverage DB and confirm the item is covered. The agent does not and cannot mark it closed.",
+      "verify_covered_when": "hits >= goal in a fresh coverage export"
+    },
+    {
+      "coverage_id": "cov.hs.assert.req_grant",
+      "instruction": "After approved actions for cov.hs.assert.req_grant, re-export the coverage DB and confirm the item is covered. The agent does not and cannot mark it closed.",
+      "verify_covered_when": "hits >= goal in a fresh coverage export"
+    },
+    {
+      "coverage_id": "cov.misc.bin.orphan",
+      "instruction": "After approved actions for cov.misc.bin.orphan, re-export the coverage DB and confirm the item is covered. The agent does not and cannot mark it closed.",
+      "verify_covered_when": "hits >= goal in a fresh coverage export"
+    }
+  ],
+  "human_review_queue": [
+    {
+      "coverage_id": "cov.arb.fsm.error",
+      "reason": "Heuristic category 'no_linked_test' with 3 proposed action(s) require human approval.",
+      "recommendations": [
+        "add_directed_test",
+        "add_cover_property",
+        "request_spec_clarification"
+      ]
+    },
+    {
+      "coverage_id": "cov.arb.fsm.grant2",
+      "reason": "Heuristic category 'test_ran_but_failed' with 2 proposed action(s) require human approval.",
+      "recommendations": [
+        "run_existing_test",
+        "request_spec_clarification"
+      ]
+    },
+    {
+      "coverage_id": "cov.cnt.stmt.dead",
+      "reason": "Heuristic category 'likely_unreachable' with 2 proposed action(s) require human approval.",
+      "recommendations": [
+        "inspect_unreachable_code",
+        "request_waiver_review"
+      ]
+    },
+    {
+      "coverage_id": "cov.cnt.toggle.msb",
+      "reason": "Heuristic category 'test_ran_still_uncovered' with 2 proposed action(s) require human approval.",
+      "recommendations": [
+        "add_directed_test",
+        "add_constrained_random_scenario"
+      ]
+    },
+    {
+      "coverage_id": "cov.dbg.stmt.excluded",
+      "reason": "Heuristic category 'likely_unreachable' with 2 proposed action(s) require human approval.",
+      "recommendations": [
+        "inspect_unreachable_code",
+        "request_waiver_review"
+      ]
+    },
+    {
+      "coverage_id": "cov.fifo.branch.empty",
+      "reason": "Heuristic category 'test_ran_still_uncovered' with 2 proposed action(s) require human approval.",
+      "recommendations": [
+        "add_directed_test",
+        "add_constrained_random_scenario"
+      ]
+    },
+    {
+      "coverage_id": "cov.fifo.branch.overflow_guard",
+      "reason": "Heuristic category 'test_exists_not_run' with 1 proposed action(s) require human approval.",
+      "recommendations": [
+        "run_existing_test"
+      ]
+    },
+    {
+      "coverage_id": "cov.hs.assert.req_grant",
+      "reason": "Heuristic category 'test_ran_still_uncovered' with 3 proposed action(s) require human approval.",
+      "recommendations": [
+        "add_directed_test",
+        "add_constrained_random_scenario",
+        "propose_assertion_candidate"
+      ]
+    },
+    {
+      "coverage_id": "cov.misc.bin.orphan",
+      "reason": "Heuristic category 'no_linked_test' with 3 proposed action(s) require human approval.",
+      "recommendations": [
+        "add_directed_test",
+        "add_cover_property",
+        "request_spec_clarification"
+      ]
+    }
+  ],
+  "scope_provenance": {
+    "tool_version": "0.1.0",
+    "input_hashes": {
+      "coverage": "sha256:8b167f79e12d5f0c",
+      "tests": "sha256:24ffa438ed6ede5d",
+      "rtl": "sha256:8f53667caf8abb7a",
+      "requirements": "sha256:57490b7f3330f8ef",
+      "logs": "sha256:81cb3f65e86e2a37"
+    },
+    "seed": 0,
+    "coverage_format": "mock-cov-1.0",
+    "total_items": 10,
+    "total_holes": 9,
+    "scope_note": "Triage is heuristic; coverage-tool measurement remains authoritative. This run did not modify RTL, tests, constraints, scope, or waivers."
+  },
+  "metrics": {
+    "total_holes": 9,
+    "total_recommendations": 20,
+    "valid_proposal_rate": 1.0,
+    "provenance_completeness": 1.0,
+    "sample_size": 0,
+    "accepted_proposal_rate": null,
+    "false_positive_proposal_rate": null,
+    "category_precision": null
+  },
+  "prohibited_actions_enforced": [
+    "modify_rtl",
+    "auto_waive_coverage",
+    "change_coverage_scope",
+    "claim_closure_without_measurement",
+    "alter_tests_or_constraints"
+  ]
+}

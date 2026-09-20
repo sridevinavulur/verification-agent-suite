@@ -1,0 +1,330 @@
+{
+  "$defs": {
+    "Crossing": {
+      "additionalProperties": false,
+      "description": "A single candidate clock- or reset-domain crossing.\n\nAll fields are structural observations.  ``heuristic`` is always True.",
+      "properties": {
+        "dst_domain": {
+          "$ref": "#/$defs/Domain"
+        },
+        "dst_location": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SourceLocation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "dst_signal": {
+          "title": "Dst Signal",
+          "type": "string"
+        },
+        "heuristic": {
+          "default": true,
+          "title": "Heuristic",
+          "type": "boolean"
+        },
+        "kind": {
+          "$ref": "#/$defs/CrossingKind"
+        },
+        "module": {
+          "title": "Module",
+          "type": "string"
+        },
+        "multi_bit": {
+          "default": false,
+          "title": "Multi Bit",
+          "type": "boolean"
+        },
+        "rationale": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Rationale",
+          "type": "array"
+        },
+        "risk_score": {
+          "maximum": 100,
+          "minimum": 0,
+          "title": "Risk Score",
+          "type": "integer"
+        },
+        "severity": {
+          "$ref": "#/$defs/Severity"
+        },
+        "src_domain": {
+          "$ref": "#/$defs/Domain"
+        },
+        "src_location": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SourceLocation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "src_signal": {
+          "title": "Src Signal",
+          "type": "string"
+        },
+        "sync_depth": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sync Depth"
+        },
+        "sync_evidence": {
+          "$ref": "#/$defs/SyncEvidence"
+        },
+        "width_bits": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Width Bits"
+        }
+      },
+      "required": [
+        "kind",
+        "module",
+        "src_signal",
+        "dst_signal",
+        "src_domain",
+        "dst_domain",
+        "sync_evidence",
+        "severity",
+        "risk_score"
+      ],
+      "title": "Crossing",
+      "type": "object"
+    },
+    "CrossingKind": {
+      "enum": [
+        "CDC",
+        "RDC"
+      ],
+      "title": "CrossingKind",
+      "type": "string"
+    },
+    "Domain": {
+      "additionalProperties": false,
+      "description": "A structural clock (or reset) domain identity for a signal/register.",
+      "properties": {
+        "clock": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Clock"
+        },
+        "reset": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reset"
+        }
+      },
+      "title": "Domain",
+      "type": "object"
+    },
+    "ModuleTriage": {
+      "additionalProperties": false,
+      "properties": {
+        "clock_domains": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Clock Domains",
+          "type": "array"
+        },
+        "crossings": {
+          "items": {
+            "$ref": "#/$defs/Crossing"
+          },
+          "title": "Crossings",
+          "type": "array"
+        },
+        "module": {
+          "title": "Module",
+          "type": "string"
+        },
+        "notes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        },
+        "reset_domains": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Reset Domains",
+          "type": "array"
+        }
+      },
+      "required": [
+        "module"
+      ],
+      "title": "ModuleTriage",
+      "type": "object"
+    },
+    "Severity": {
+      "description": "Heuristic review priority -- NOT a signoff verdict.",
+      "enum": [
+        "HIGH",
+        "MEDIUM",
+        "LOW",
+        "INFO"
+      ],
+      "title": "Severity",
+      "type": "string"
+    },
+    "SourceLocation": {
+      "properties": {
+        "col": {
+          "minimum": 1,
+          "title": "Col",
+          "type": "integer"
+        },
+        "end_col": {
+          "minimum": 1,
+          "title": "End Col",
+          "type": "integer"
+        },
+        "end_line": {
+          "minimum": 1,
+          "title": "End Line",
+          "type": "integer"
+        },
+        "file": {
+          "title": "File",
+          "type": "string"
+        },
+        "line": {
+          "minimum": 1,
+          "title": "Line",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "file",
+        "line",
+        "col",
+        "end_line",
+        "end_col"
+      ],
+      "title": "SourceLocation",
+      "type": "object"
+    },
+    "SyncEvidence": {
+      "description": "What structural synchronizer evidence, if any, was found on a crossing.",
+      "enum": [
+        "two_ff_synchronizer_candidate",
+        "multi_ff_synchronizer_candidate",
+        "synchronizer_cell_from_glossary",
+        "no_synchronizer_evidence",
+        "not_applicable"
+      ],
+      "title": "SyncEvidence",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "disclaimer": {
+      "default": "STRUCTURAL HEURISTIC TRIAGE ONLY. This is NOT a CDC/RDC signoff tool and does not prove any crossing safe or unsafe. Use commercial CDC/RDC signoff for verification-quality results.",
+      "title": "Disclaimer",
+      "type": "string"
+    },
+    "limitations": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Limitations",
+      "type": "array"
+    },
+    "modules": {
+      "items": {
+        "$ref": "#/$defs/ModuleTriage"
+      },
+      "title": "Modules",
+      "type": "array"
+    },
+    "non_claims": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Non Claims",
+      "type": "array"
+    },
+    "reviewer_checklist": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Reviewer Checklist",
+      "type": "array"
+    },
+    "summary": {
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "title": "Summary",
+      "type": "object"
+    },
+    "tool": {
+      "default": "cdc-rdc-triage-agent",
+      "title": "Tool",
+      "type": "string"
+    },
+    "tool_version": {
+      "title": "Tool Version",
+      "type": "string"
+    },
+    "top": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Top"
+    }
+  },
+  "required": [
+    "tool_version"
+  ],
+  "title": "TriageReport",
+  "type": "object"
+}

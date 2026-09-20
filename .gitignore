@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+*.egg
+.eggs/
+build/
+dist/
+.venv/
+.venv_check/
+venv/
+env/
+.Python
+
+# Test / lint / type caches
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+.tox/
+
+# Tool run artifacts (generated at runtime, not source).
+# NOTE: committed golden/sample reports under */reports/ are intentionally kept;
+# per-package .gitignore files handle each tool's own runtime artifacts.
+*.db
+*.sqlite
+*.sqlite3
+vf_out/
+
+# Editor / OS
+.DS_Store
+*.swp
+*~
+.idea/
+.vscode/
+
+# Secrets (never commit)
+.env
+*.pem
+*.key
+
+# Personal design doc — not part of the published repo
+verification_ai_agent_prompt_pack.md

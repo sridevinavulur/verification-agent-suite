@@ -1,0 +1,13 @@
+# SystemC::Coverage-3
+C 'top.dut.fifo.wr_ptr__0' 42
+C 'top.dut.fifo.wr_ptr__1' 40
+C 'top.dut.fifo.full__0' 5
+C 'top.dut.fifo.full__1' 0
+C 'top.dut.counter.to_cnt__0' 0
+C 'top.dut.counter.to_cnt__1' 0
+C 'top.dut.pad.PREADY__0' 0
+C 'top.dut.pad.PREADY__1' 0
+C 'top.dut.misc.reserved__0' 0
+C 'top.dut.arbiter.clksel__0' 0
+C 'top.dut.arbiter.state_line' 7
+C 'top.dut.arbiter.dead_branch' 0

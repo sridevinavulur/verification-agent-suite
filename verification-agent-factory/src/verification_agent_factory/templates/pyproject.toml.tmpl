@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "{{ agent_id }}"
+version = "{{ version }}"
+description = "{{ mission }}"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "{{ license }}" }
+authors = [{ name = "{{ owner_role }}" }]
+dependencies = [
+    "pydantic>=2.6",
+    "typer>=0.12",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "ruff>=0.5"]
+
+[project.scripts]
+{{ agent_id }} = "{{ package_name }}.cli:app"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"{{ package_name }}" = ["py.typed"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["E501"]
+# Typer idiomatically uses function calls (typer.Argument/Option) as defaults.
+"src/{{ package_name }}/cli.py" = ["B008", "E501"]
+# The module docstring embeds the (possibly long) mission statement.
+"src/{{ package_name }}/__init__.py" = ["E501"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"

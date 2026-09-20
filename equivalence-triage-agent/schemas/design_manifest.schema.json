@@ -1,0 +1,93 @@
+{
+  "$defs": {
+    "ResetInfo": {
+      "additionalProperties": false,
+      "description": "Reset/init behavior for one design (extracted from a manifest).",
+      "properties": {
+        "signal": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Signal"
+        },
+        "polarity": {
+          "$ref": "#/$defs/ResetPolarity",
+          "default": "unknown"
+        },
+        "sync": {
+          "$ref": "#/$defs/ResetSync",
+          "default": "unknown"
+        },
+        "init_values": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Init Values",
+          "type": "object"
+        }
+      },
+      "title": "ResetInfo",
+      "type": "object"
+    },
+    "ResetPolarity": {
+      "enum": [
+        "active_high",
+        "active_low",
+        "unknown"
+      ],
+      "title": "ResetPolarity",
+      "type": "string"
+    },
+    "ResetSync": {
+      "enum": [
+        "synchronous",
+        "asynchronous",
+        "unknown"
+      ],
+      "title": "ResetSync",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "A minimal, validation-only mirror of the canonical manifest.\n\nWe intentionally consume only the fields the triage needs and IGNORE the\nrest via ``model_validate`` with a permissive loader (see parser). This\nkeeps interop with rtl-intent-ingestor without re-implementing its parser.",
+  "properties": {
+    "top": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Top"
+    },
+    "signal_widths": {
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "title": "Signal Widths",
+      "type": "object"
+    },
+    "reset": {
+      "$ref": "#/$defs/ResetInfo"
+    },
+    "state_encoding": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "description": "signal -> encoding style, e.g. 'onehot' / 'binary'.",
+      "title": "State Encoding",
+      "type": "object"
+    }
+  },
+  "title": "DesignManifest",
+  "type": "object"
+}

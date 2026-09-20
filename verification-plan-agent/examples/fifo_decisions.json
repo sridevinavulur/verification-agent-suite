@@ -1,0 +1,5 @@
+[
+  { "item_id": "FEAT-003", "decision": "approved", "approver": "lead_dv", "note": "Reset behavior is critical; approve." },
+  { "item_id": "PLAN-003", "decision": "approved", "approver": "lead_dv", "note": "" },
+  { "item_id": "FEAT-006", "decision": "rejected", "approver": "lead_dv", "note": "Unverifiable requirement; send back to spec author." }
+]

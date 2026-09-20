@@ -1,0 +1,278 @@
+{
+  "schema_version": "0.1.0",
+  "provenance": {
+    "tool": "formal-flow-scout",
+    "tool_version": "0.1.0",
+    "schema_version": "0.1.0",
+    "git_sha": "UNKNOWN",
+    "input_files": [
+      "fifo_ctrl.v",
+      "fifo_property.json"
+    ],
+    "input_sha256": {
+      "fifo_ctrl.v": "82c6d48a2af4b9e02a05d00b8f2f6f9e70722275c8034d337fd157f4c1db48b6",
+      "fifo_property.json": "9a1412b76cb3b4aef9fe9f1451eb47534f000a9e8eba6de514e78065895207cc"
+    },
+    "command": "formal-flow-scout analyze analyze fifo_property.json --rtl fifo_ctrl.v -o fifo_report.json --dot fifo_coi.dot --quiet",
+    "graph_core": "python"
+  },
+  "property_name": "no_overflow",
+  "top": "fifo_ctrl",
+  "seed_node_ids": [
+    2,
+    4,
+    9
+  ],
+  "unresolved_seed_signals": [],
+  "coi_node_ids": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    9,
+    10,
+    11
+  ],
+  "excluded_logic": [
+    {
+      "node_id": 6,
+      "name": "fifo_ctrl.count",
+      "kind": "port_out",
+      "reason": "not_in_coi",
+      "detail": "Not reachable via fan-in from any property seed signal."
+    },
+    {
+      "node_id": 7,
+      "name": "fifo_ctrl.wr_ptr",
+      "kind": "reg",
+      "reason": "not_in_coi",
+      "detail": "Not reachable via fan-in from any property seed signal."
+    },
+    {
+      "node_id": 8,
+      "name": "fifo_ctrl.rd_ptr",
+      "kind": "reg",
+      "reason": "not_in_coi",
+      "detail": "Not reachable via fan-in from any property seed signal."
+    }
+  ],
+  "sccs": [
+    {
+      "scc_id": 0,
+      "node_ids": [
+        0
+      ],
+      "is_cyclic": false
+    },
+    {
+      "scc_id": 1,
+      "node_ids": [
+        1
+      ],
+      "is_cyclic": false
+    },
+    {
+      "scc_id": 2,
+      "node_ids": [
+        2
+      ],
+      "is_cyclic": false
+    },
+    {
+      "scc_id": 3,
+      "node_ids": [
+        3
+      ],
+      "is_cyclic": false
+    },
+    {
+      "scc_id": 4,
+      "node_ids": [
+        4,
+        5,
+        9,
+        10,
+        11
+      ],
+      "is_cyclic": true
+    }
+  ],
+  "domains": {
+    "clock_domains": {
+      "fifo_ctrl.clk": [
+        9
+      ]
+    },
+    "reset_domains": {
+      "fifo_ctrl.rst_n": [
+        9
+      ]
+    },
+    "multi_clock": false
+  },
+  "candidate_partitions": [
+    {
+      "partition_id": "scc::4",
+      "strategy": "scc",
+      "soundness": "HEURISTIC",
+      "included_nodes": [
+        4,
+        5,
+        9,
+        10,
+        11
+      ],
+      "cut_signals": [
+        {
+          "node_id": 2,
+          "name": "fifo_ctrl.push",
+          "kind": "port_in",
+          "direction": "into_partition"
+        },
+        {
+          "node_id": 3,
+          "name": "fifo_ctrl.pop",
+          "kind": "port_in",
+          "direction": "into_partition"
+        }
+      ],
+      "environment_assumptions": [
+        {
+          "cut_signal": "fifo_ctrl.push",
+          "node_id": 2,
+          "obligation": "Constrain 'fifo_ctrl.push' at the partition boundary to over-approximate all values it can take in the full design (free input, or a proven envelope).",
+          "soundness": "UNPROVEN",
+          "rationale": "Severing this dependency drops the driving logic; without a discharged assumption the reduced proof may be UNSOUND (false PASS)."
+        },
+        {
+          "cut_signal": "fifo_ctrl.pop",
+          "node_id": 3,
+          "obligation": "Constrain 'fifo_ctrl.pop' at the partition boundary to over-approximate all values it can take in the full design (free input, or a proven envelope).",
+          "soundness": "UNPROVEN",
+          "rationale": "Severing this dependency drops the driving logic; without a discharged assumption the reduced proof may be UNSOUND (false PASS)."
+        }
+      ],
+      "soundness_risks": [
+        {
+          "severity": "medium",
+          "kind": "unproven_cut_assumptions",
+          "detail": "Partition 'scc::4' introduces 2 cut signal(s) whose environment assumptions are UNPROVEN. The reduction is NOT valid until they are discharged.",
+          "node_ids": [
+            2,
+            3
+          ]
+        }
+      ],
+      "rationale": "HEURISTIC: strongly-connected feedback cluster kept intact so a cut does not split a loop. Proving it in isolation still needs assume-guarantee obligations.",
+      "estimated_state_bits": 1
+    },
+    {
+      "partition_id": "interface::seq_boundary",
+      "strategy": "interface_cut",
+      "soundness": "HEURISTIC",
+      "included_nodes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        9,
+        10,
+        11
+      ],
+      "cut_signals": [
+        {
+          "node_id": 9,
+          "name": "fifo_ctrl.occ",
+          "kind": "reg",
+          "direction": "into_partition"
+        },
+        {
+          "node_id": 10,
+          "name": "fifo_ctrl.do_push",
+          "kind": "net",
+          "direction": "into_partition"
+        },
+        {
+          "node_id": 11,
+          "name": "fifo_ctrl.do_pop",
+          "kind": "net",
+          "direction": "into_partition"
+        }
+      ],
+      "environment_assumptions": [
+        {
+          "cut_signal": "fifo_ctrl.occ",
+          "node_id": 9,
+          "obligation": "Constrain 'fifo_ctrl.occ' at the partition boundary to over-approximate all values it can take in the full design (free input, or a proven envelope).",
+          "soundness": "UNPROVEN",
+          "rationale": "Severing this dependency drops the driving logic; without a discharged assumption the reduced proof may be UNSOUND (false PASS)."
+        },
+        {
+          "cut_signal": "fifo_ctrl.do_push",
+          "node_id": 10,
+          "obligation": "Constrain 'fifo_ctrl.do_push' at the partition boundary to over-approximate all values it can take in the full design (free input, or a proven envelope).",
+          "soundness": "UNPROVEN",
+          "rationale": "Severing this dependency drops the driving logic; without a discharged assumption the reduced proof may be UNSOUND (false PASS)."
+        },
+        {
+          "cut_signal": "fifo_ctrl.do_pop",
+          "node_id": 11,
+          "obligation": "Constrain 'fifo_ctrl.do_pop' at the partition boundary to over-approximate all values it can take in the full design (free input, or a proven envelope).",
+          "soundness": "UNPROVEN",
+          "rationale": "Severing this dependency drops the driving logic; without a discharged assumption the reduced proof may be UNSOUND (false PASS)."
+        }
+      ],
+      "soundness_risks": [
+        {
+          "severity": "medium",
+          "kind": "unproven_cut_assumptions",
+          "detail": "Partition 'interface::seq_boundary' introduces 3 cut signal(s) whose environment assumptions are UNPROVEN. The reduction is NOT valid until they are discharged.",
+          "node_ids": [
+            9,
+            10,
+            11
+          ]
+        }
+      ],
+      "rationale": "HEURISTIC: cut placed at sequential (register) boundaries. Each register's next-state inputs crossing the boundary become free inputs requiring an assumption.",
+      "estimated_state_bits": 1
+    }
+  ],
+  "soundness_risks": [
+    {
+      "severity": "medium",
+      "kind": "combinational_or_sequential_cycle",
+      "detail": "1 cyclic SCC(s) in the COI. Cutting inside a feedback loop requires an inductive/assume-guarantee argument; a plain cut is UNSOUND.",
+      "node_ids": [
+        4,
+        5,
+        9,
+        10,
+        11
+      ]
+    }
+  ],
+  "stats": {
+    "total_nodes": 12,
+    "total_edges": 22,
+    "coi_nodes": 9,
+    "coi_registers": 1,
+    "coi_combinational": 2,
+    "excluded_nodes": 3,
+    "scc_count": 5,
+    "cyclic_scc_count": 1,
+    "largest_scc_size": 5,
+    "clock_domain_count": 1,
+    "reset_domain_count": 1,
+    "seed_signals": 3,
+    "unresolved_seed_signals": 0
+  },
+  "notes": [
+    "Cone-of-influence is a SOUND structural over-approximation for the supported Verilog subset (see ARCHITECTURE.md).",
+    "All candidate_partitions are HEURISTIC. A cut is a valid formal reduction ONLY if every listed environment_assumption (UNPROVEN) is discharged by a human or formal tool."
+  ]
+}

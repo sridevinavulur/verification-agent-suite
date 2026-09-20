@@ -1,0 +1,3 @@
+p_fifo_underflow_c0_no_underflow: assert property (
+  @(posedge clk) disable iff (!rst_n) (empty) |=> (!underflow)
+);

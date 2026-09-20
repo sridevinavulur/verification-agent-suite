@@ -1,0 +1,43 @@
+{
+  "schema_version": "0.1.0",
+  "top": "sync_fifo",
+  "parser": { "adapter": "builtin", "adapter_version": "0.1.0" },
+  "provenance": { "tool_version": "0.1.0" },
+  "modules": [
+    {
+      "name": "sync_fifo",
+      "location": { "file": "sync_fifo.sv", "line": 1, "col": 1, "end_line": 60, "end_col": 10 },
+      "clock_candidates": [
+        { "signal": "clk", "confidence": 1.0, "rationale": ["edge-sensitive in always_ff"],
+          "location": { "file": "sync_fifo.sv", "line": 3, "col": 5, "end_line": 3, "end_col": 20 } }
+      ],
+      "reset_candidates": [
+        { "signal": "rst_n", "confidence": 0.9, "polarity": "active_low", "sync": "asynchronous",
+          "rationale": ["reset-like name", "negedge in always_ff"],
+          "location": { "file": "sync_fifo.sv", "line": 4, "col": 5, "end_line": 4, "end_col": 22 } }
+      ],
+      "ports": [
+        { "name": "clk", "direction": "input", "net_kind": "wire",
+          "location": { "file": "sync_fifo.sv", "line": 3, "col": 5, "end_line": 3, "end_col": 20 } },
+        { "name": "rst_n", "direction": "input", "net_kind": "wire",
+          "location": { "file": "sync_fifo.sv", "line": 4, "col": 5, "end_line": 4, "end_col": 22 } },
+        { "name": "wr_en", "direction": "input", "net_kind": "wire",
+          "location": { "file": "sync_fifo.sv", "line": 5, "col": 5, "end_line": 5, "end_col": 20 } },
+        { "name": "rd_en", "direction": "input", "net_kind": "wire",
+          "location": { "file": "sync_fifo.sv", "line": 6, "col": 5, "end_line": 6, "end_col": 20 } },
+        { "name": "full", "direction": "output", "net_kind": "reg",
+          "location": { "file": "sync_fifo.sv", "line": 7, "col": 5, "end_line": 7, "end_col": 20 } },
+        { "name": "empty", "direction": "output", "net_kind": "reg",
+          "location": { "file": "sync_fifo.sv", "line": 8, "col": 5, "end_line": 8, "end_col": 20 } },
+        { "name": "count", "direction": "output", "net_kind": "reg",
+          "range": { "msb": "PTR_W", "lsb": "0" },
+          "location": { "file": "sync_fifo.sv", "line": 9, "col": 5, "end_line": 9, "end_col": 30 } }
+      ],
+      "registers": [
+        { "name": "count", "location": { "file": "sync_fifo.sv", "line": 20, "col": 9, "end_line": 20, "end_col": 25 } },
+        { "name": "full", "location": { "file": "sync_fifo.sv", "line": 21, "col": 9, "end_line": 21, "end_col": 25 } },
+        { "name": "empty", "location": { "file": "sync_fifo.sv", "line": 22, "col": 9, "end_line": 22, "end_col": 25 } }
+      ]
+    }
+  ]
+}

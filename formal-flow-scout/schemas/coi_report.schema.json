@@ -1,0 +1,509 @@
+{
+  "$defs": {
+    "CandidatePartition": {
+      "additionalProperties": false,
+      "description": "A HEURISTIC proof-partition proposal.\n\n``soundness`` is ``HEURISTIC`` unless every assumption in\n``environment_assumptions`` is discharged - which this tool cannot do.",
+      "properties": {
+        "partition_id": {
+          "title": "Partition Id",
+          "type": "string"
+        },
+        "strategy": {
+          "title": "Strategy",
+          "type": "string"
+        },
+        "soundness": {
+          "$ref": "#/$defs/Soundness",
+          "default": "HEURISTIC"
+        },
+        "included_nodes": {
+          "items": {
+            "type": "integer"
+          },
+          "title": "Included Nodes",
+          "type": "array"
+        },
+        "cut_signals": {
+          "items": {
+            "$ref": "#/$defs/CutSignal"
+          },
+          "title": "Cut Signals",
+          "type": "array"
+        },
+        "environment_assumptions": {
+          "items": {
+            "$ref": "#/$defs/EnvironmentAssumption"
+          },
+          "title": "Environment Assumptions",
+          "type": "array"
+        },
+        "soundness_risks": {
+          "items": {
+            "$ref": "#/$defs/SoundnessRisk"
+          },
+          "title": "Soundness Risks",
+          "type": "array"
+        },
+        "rationale": {
+          "default": "",
+          "title": "Rationale",
+          "type": "string"
+        },
+        "estimated_state_bits": {
+          "default": 0,
+          "title": "Estimated State Bits",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "partition_id",
+        "strategy"
+      ],
+      "title": "CandidatePartition",
+      "type": "object"
+    },
+    "CoiStats": {
+      "additionalProperties": false,
+      "properties": {
+        "total_nodes": {
+          "title": "Total Nodes",
+          "type": "integer"
+        },
+        "total_edges": {
+          "title": "Total Edges",
+          "type": "integer"
+        },
+        "coi_nodes": {
+          "title": "Coi Nodes",
+          "type": "integer"
+        },
+        "coi_registers": {
+          "title": "Coi Registers",
+          "type": "integer"
+        },
+        "coi_combinational": {
+          "title": "Coi Combinational",
+          "type": "integer"
+        },
+        "excluded_nodes": {
+          "title": "Excluded Nodes",
+          "type": "integer"
+        },
+        "scc_count": {
+          "title": "Scc Count",
+          "type": "integer"
+        },
+        "cyclic_scc_count": {
+          "title": "Cyclic Scc Count",
+          "type": "integer"
+        },
+        "largest_scc_size": {
+          "title": "Largest Scc Size",
+          "type": "integer"
+        },
+        "clock_domain_count": {
+          "title": "Clock Domain Count",
+          "type": "integer"
+        },
+        "reset_domain_count": {
+          "title": "Reset Domain Count",
+          "type": "integer"
+        },
+        "seed_signals": {
+          "title": "Seed Signals",
+          "type": "integer"
+        },
+        "unresolved_seed_signals": {
+          "title": "Unresolved Seed Signals",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "total_nodes",
+        "total_edges",
+        "coi_nodes",
+        "coi_registers",
+        "coi_combinational",
+        "excluded_nodes",
+        "scc_count",
+        "cyclic_scc_count",
+        "largest_scc_size",
+        "clock_domain_count",
+        "reset_domain_count",
+        "seed_signals",
+        "unresolved_seed_signals"
+      ],
+      "title": "CoiStats",
+      "type": "object"
+    },
+    "CutSignal": {
+      "additionalProperties": false,
+      "description": "A signal on a partition boundary that must be constrained at the cut.",
+      "properties": {
+        "node_id": {
+          "title": "Node Id",
+          "type": "integer"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "kind": {
+          "$ref": "#/$defs/NodeKind"
+        },
+        "direction": {
+          "title": "Direction",
+          "type": "string"
+        }
+      },
+      "required": [
+        "node_id",
+        "name",
+        "kind",
+        "direction"
+      ],
+      "title": "CutSignal",
+      "type": "object"
+    },
+    "DomainInfo": {
+      "additionalProperties": false,
+      "properties": {
+        "clock_domains": {
+          "additionalProperties": {
+            "items": {
+              "type": "integer"
+            },
+            "type": "array"
+          },
+          "title": "Clock Domains",
+          "type": "object"
+        },
+        "reset_domains": {
+          "additionalProperties": {
+            "items": {
+              "type": "integer"
+            },
+            "type": "array"
+          },
+          "title": "Reset Domains",
+          "type": "object"
+        },
+        "multi_clock": {
+          "default": false,
+          "title": "Multi Clock",
+          "type": "boolean"
+        }
+      },
+      "title": "DomainInfo",
+      "type": "object"
+    },
+    "EnvironmentAssumption": {
+      "additionalProperties": false,
+      "description": "An UNPROVEN obligation that must hold for a cut to be a valid reduction.\n\nEmitting this does NOT make the slice sound. It records precisely what a\nhuman/formal tool must discharge. ``soundness`` is always ``UNPROVEN``.",
+      "properties": {
+        "cut_signal": {
+          "title": "Cut Signal",
+          "type": "string"
+        },
+        "node_id": {
+          "title": "Node Id",
+          "type": "integer"
+        },
+        "obligation": {
+          "title": "Obligation",
+          "type": "string"
+        },
+        "soundness": {
+          "$ref": "#/$defs/Soundness",
+          "default": "UNPROVEN"
+        },
+        "rationale": {
+          "title": "Rationale",
+          "type": "string"
+        }
+      },
+      "required": [
+        "cut_signal",
+        "node_id",
+        "obligation",
+        "rationale"
+      ],
+      "title": "EnvironmentAssumption",
+      "type": "object"
+    },
+    "ExcludedLogic": {
+      "additionalProperties": false,
+      "properties": {
+        "node_id": {
+          "title": "Node Id",
+          "type": "integer"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "kind": {
+          "$ref": "#/$defs/NodeKind"
+        },
+        "reason": {
+          "$ref": "#/$defs/ExclusionReason"
+        },
+        "detail": {
+          "title": "Detail",
+          "type": "string"
+        }
+      },
+      "required": [
+        "node_id",
+        "name",
+        "kind",
+        "reason",
+        "detail"
+      ],
+      "title": "ExcludedLogic",
+      "type": "object"
+    },
+    "ExclusionReason": {
+      "enum": [
+        "not_in_coi",
+        "outside_partition"
+      ],
+      "title": "ExclusionReason",
+      "type": "string"
+    },
+    "NodeKind": {
+      "description": "Kind of a graph node.\n\n``PORT_IN``/``PORT_OUT`` are module boundary signals; ``NET`` is a\ncombinational wire; ``REG`` is a state element (target of ``<=`` under a\nclock edge); ``CLOCK``/``RESET`` are control signals; ``CONST`` is a\nliteral source; ``BLACKBOX`` is an output of an undefined child instance.",
+      "enum": [
+        "port_in",
+        "port_out",
+        "net",
+        "reg",
+        "clock",
+        "reset",
+        "const",
+        "blackbox"
+      ],
+      "title": "NodeKind",
+      "type": "string"
+    },
+    "Provenance": {
+      "additionalProperties": false,
+      "properties": {
+        "tool": {
+          "default": "formal-flow-scout",
+          "title": "Tool",
+          "type": "string"
+        },
+        "tool_version": {
+          "title": "Tool Version",
+          "type": "string"
+        },
+        "schema_version": {
+          "default": "0.1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "git_sha": {
+          "default": "UNKNOWN",
+          "title": "Git Sha",
+          "type": "string"
+        },
+        "input_files": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Input Files",
+          "type": "array"
+        },
+        "input_sha256": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Input Sha256",
+          "type": "object"
+        },
+        "command": {
+          "default": "",
+          "title": "Command",
+          "type": "string"
+        },
+        "graph_core": {
+          "default": "python",
+          "title": "Graph Core",
+          "type": "string"
+        }
+      },
+      "required": [
+        "tool_version"
+      ],
+      "title": "Provenance",
+      "type": "object"
+    },
+    "SCCInfo": {
+      "additionalProperties": false,
+      "properties": {
+        "scc_id": {
+          "title": "Scc Id",
+          "type": "integer"
+        },
+        "node_ids": {
+          "items": {
+            "type": "integer"
+          },
+          "title": "Node Ids",
+          "type": "array"
+        },
+        "is_cyclic": {
+          "title": "Is Cyclic",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "scc_id",
+        "node_ids",
+        "is_cyclic"
+      ],
+      "title": "SCCInfo",
+      "type": "object"
+    },
+    "Soundness": {
+      "description": "Soundness label attached to every result element.",
+      "enum": [
+        "SOUND",
+        "HEURISTIC",
+        "UNPROVEN"
+      ],
+      "title": "Soundness",
+      "type": "string"
+    },
+    "SoundnessRisk": {
+      "additionalProperties": false,
+      "description": "A flagged risk that could make a partition an *unsound* reduction.",
+      "properties": {
+        "severity": {
+          "title": "Severity",
+          "type": "string"
+        },
+        "kind": {
+          "title": "Kind",
+          "type": "string"
+        },
+        "detail": {
+          "title": "Detail",
+          "type": "string"
+        },
+        "node_ids": {
+          "items": {
+            "type": "integer"
+          },
+          "title": "Node Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "severity",
+        "kind",
+        "detail"
+      ],
+      "title": "SoundnessRisk",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Top-level machine-readable COI / partition analysis report.",
+  "properties": {
+    "schema_version": {
+      "default": "0.1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "provenance": {
+      "$ref": "#/$defs/Provenance"
+    },
+    "property_name": {
+      "title": "Property Name",
+      "type": "string"
+    },
+    "top": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Top"
+    },
+    "seed_node_ids": {
+      "items": {
+        "type": "integer"
+      },
+      "title": "Seed Node Ids",
+      "type": "array"
+    },
+    "unresolved_seed_signals": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Unresolved Seed Signals",
+      "type": "array"
+    },
+    "coi_node_ids": {
+      "items": {
+        "type": "integer"
+      },
+      "title": "Coi Node Ids",
+      "type": "array"
+    },
+    "excluded_logic": {
+      "items": {
+        "$ref": "#/$defs/ExcludedLogic"
+      },
+      "title": "Excluded Logic",
+      "type": "array"
+    },
+    "sccs": {
+      "items": {
+        "$ref": "#/$defs/SCCInfo"
+      },
+      "title": "Sccs",
+      "type": "array"
+    },
+    "domains": {
+      "$ref": "#/$defs/DomainInfo"
+    },
+    "candidate_partitions": {
+      "items": {
+        "$ref": "#/$defs/CandidatePartition"
+      },
+      "title": "Candidate Partitions",
+      "type": "array"
+    },
+    "soundness_risks": {
+      "items": {
+        "$ref": "#/$defs/SoundnessRisk"
+      },
+      "title": "Soundness Risks",
+      "type": "array"
+    },
+    "stats": {
+      "$ref": "#/$defs/CoiStats"
+    },
+    "notes": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Notes",
+      "type": "array"
+    }
+  },
+  "required": [
+    "provenance",
+    "property_name",
+    "stats"
+  ],
+  "title": "CoiReport",
+  "type": "object"
+}

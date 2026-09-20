@@ -1,0 +1,437 @@
+{
+  "$defs": {
+    "CandidateCommand": {
+      "description": "A build/elaborate/run/analyze command recovered from the repo.",
+      "properties": {
+        "command": {
+          "description": "The shell command as recovered.",
+          "title": "Command",
+          "type": "string"
+        },
+        "destructive": {
+          "default": false,
+          "description": "True if the command deletes/overwrites (e.g. 'make clean').",
+          "title": "Destructive",
+          "type": "boolean"
+        },
+        "evidence": {
+          "description": "Empty only for HYPOTHESIS commands.",
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "phase": {
+          "$ref": "#/$defs/TargetPhase"
+        },
+        "provenance": {
+          "$ref": "#/$defs/Provenance"
+        },
+        "rationale": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Why a HYPOTHESIS was proposed (empty for EXTRACTED).",
+          "title": "Rationale"
+        },
+        "target_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Makefile target / CI job / script name if known.",
+          "title": "Target Name"
+        },
+        "tools": {
+          "description": "Tool names referenced by this command.",
+          "items": {
+            "type": "string"
+          },
+          "title": "Tools",
+          "type": "array"
+        },
+        "working_dir": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Directory the command should run from, if known.",
+          "title": "Working Dir"
+        }
+      },
+      "required": [
+        "command",
+        "phase",
+        "provenance"
+      ],
+      "title": "CandidateCommand",
+      "type": "object"
+    },
+    "Dependency": {
+      "description": "A software dependency (package, language runtime, apt/pip install, etc.).",
+      "properties": {
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "manager": {
+          "description": "e.g. pip, apt, brew, submodule, env, unknown.",
+          "title": "Manager",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "provenance": {
+          "$ref": "#/$defs/Provenance"
+        },
+        "version": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Version"
+        }
+      },
+      "required": [
+        "name",
+        "manager",
+        "provenance"
+      ],
+      "title": "Dependency",
+      "type": "object"
+    },
+    "Evidence": {
+      "description": "A pointer back to the exact source location that justified a claim.",
+      "properties": {
+        "file": {
+          "description": "Repo-relative path of the source file.",
+          "title": "File",
+          "type": "string"
+        },
+        "line": {
+          "description": "1-based line number.",
+          "minimum": 1,
+          "title": "Line",
+          "type": "integer"
+        },
+        "snippet": {
+          "description": "Verbatim (stripped) source line.",
+          "title": "Snippet",
+          "type": "string"
+        },
+        "source_kind": {
+          "$ref": "#/$defs/SourceKind"
+        }
+      },
+      "required": [
+        "file",
+        "line",
+        "snippet",
+        "source_kind"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "Provenance": {
+      "description": "Where a candidate/fact came from.",
+      "enum": [
+        "extracted",
+        "hypothesis"
+      ],
+      "title": "Provenance",
+      "type": "string"
+    },
+    "ReproManifest": {
+      "description": "Reproducibility manifest: what was inspected and with what tool.",
+      "properties": {
+        "command": {
+          "description": "The CLI invocation that produced this run.",
+          "title": "Command",
+          "type": "string"
+        },
+        "file_hashes": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "sha256 of each inspected file.",
+          "title": "File Hashes",
+          "type": "object"
+        },
+        "git_sha": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "git HEAD SHA if the checkout is a git repo, else None.",
+          "title": "Git Sha"
+        },
+        "inspected_files": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Inspected Files",
+          "type": "array"
+        },
+        "repo_root": {
+          "title": "Repo Root",
+          "type": "string"
+        },
+        "tool_name": {
+          "default": "testbench-recovery-agent",
+          "title": "Tool Name",
+          "type": "string"
+        },
+        "tool_version": {
+          "title": "Tool Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "tool_version",
+        "repo_root",
+        "command"
+      ],
+      "title": "ReproManifest",
+      "type": "object"
+    },
+    "SetupIssue": {
+      "description": "An unresolved problem that would block reproducing a target.",
+      "properties": {
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "message": {
+          "title": "Message",
+          "type": "string"
+        },
+        "severity": {
+          "$ref": "#/$defs/Severity"
+        }
+      },
+      "required": [
+        "severity",
+        "message"
+      ],
+      "title": "SetupIssue",
+      "type": "object"
+    },
+    "Severity": {
+      "enum": [
+        "info",
+        "warning",
+        "blocker"
+      ],
+      "title": "Severity",
+      "type": "string"
+    },
+    "SourceKind": {
+      "description": "The kind of repository artifact an extractor consumed.",
+      "enum": [
+        "makefile",
+        "shell",
+        "ci_workflow",
+        "filelist",
+        "readme"
+      ],
+      "title": "SourceKind",
+      "type": "string"
+    },
+    "TargetPhase": {
+      "description": "Classification of what a recovered command is for.",
+      "enum": [
+        "build",
+        "elaborate",
+        "run",
+        "analyze",
+        "clean",
+        "setup",
+        "unknown"
+      ],
+      "title": "TargetPhase",
+      "type": "string"
+    },
+    "TargetSourceMap": {
+      "description": "Maps a named target to the source/filelist files it consumes.",
+      "properties": {
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "filelists": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Filelists",
+          "type": "array"
+        },
+        "provenance": {
+          "$ref": "#/$defs/Provenance"
+        },
+        "sources": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Sources",
+          "type": "array"
+        },
+        "target_name": {
+          "title": "Target Name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "target_name",
+        "provenance"
+      ],
+      "title": "TargetSourceMap",
+      "type": "object"
+    },
+    "ToolRequirement": {
+      "description": "A simulator / formal / build tool the repo appears to need.",
+      "properties": {
+        "category": {
+          "description": "One of: simulator, formal, synthesis, build, lint, python, other.",
+          "title": "Category",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "name": {
+          "description": "Canonical tool name, e.g. 'verilator'.",
+          "title": "Name",
+          "type": "string"
+        },
+        "note": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Note"
+        },
+        "provenance": {
+          "$ref": "#/$defs/Provenance"
+        }
+      },
+      "required": [
+        "name",
+        "category",
+        "provenance"
+      ],
+      "title": "ToolRequirement",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Top-level output contract for a single repository inspection.",
+  "properties": {
+    "candidate_commands": {
+      "items": {
+        "$ref": "#/$defs/CandidateCommand"
+      },
+      "title": "Candidate Commands",
+      "type": "array"
+    },
+    "dependencies": {
+      "items": {
+        "$ref": "#/$defs/Dependency"
+      },
+      "title": "Dependencies",
+      "type": "array"
+    },
+    "recommended_smoke_test": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/CandidateCommand"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "The minimal, non-destructive command most likely to work."
+    },
+    "repro": {
+      "$ref": "#/$defs/ReproManifest"
+    },
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "setup_issues": {
+      "items": {
+        "$ref": "#/$defs/SetupIssue"
+      },
+      "title": "Setup Issues",
+      "type": "array"
+    },
+    "target_source_map": {
+      "items": {
+        "$ref": "#/$defs/TargetSourceMap"
+      },
+      "title": "Target Source Map",
+      "type": "array"
+    },
+    "tool_requirements": {
+      "items": {
+        "$ref": "#/$defs/ToolRequirement"
+      },
+      "title": "Tool Requirements",
+      "type": "array"
+    }
+  },
+  "required": [
+    "repro"
+  ],
+  "title": "RecoveryReport",
+  "type": "object"
+}

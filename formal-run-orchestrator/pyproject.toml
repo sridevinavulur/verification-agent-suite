@@ -1,0 +1,54 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "formal-run-orchestrator"
+version = "0.1.0"
+description = "Reproducible, provenance-tracked orchestrator for formal-verification experiments on public RTL/SVA (mock executor, deterministic planner, offline policy evaluation)."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "Formal Run Orchestrator contributors" }]
+keywords = ["formal-verification", "orchestration", "reproducibility", "sva", "rtl"]
+dependencies = [
+    "pydantic>=2.6,<3",
+    "typer>=0.12,<1",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.5",
+    "mypy>=1.8",
+]
+
+[project.scripts]
+formal-orchestrator = "formal_run_orchestrator.cli:app"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+formal_run_orchestrator = ["py.typed"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "W", "C4", "SIM"]
+ignore = [
+    "B008",   # Typer uses function-call defaults (Argument/Option) by design.
+    "UP042",  # str+Enum is an intentional, portable JSON-serializable enum choice.
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.mypy]
+python_version = "3.11"
+warn_unused_ignores = true
+ignore_missing_imports = true

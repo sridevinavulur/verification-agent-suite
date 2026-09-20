@@ -1,0 +1,418 @@
+{
+  "hierarchy": [],
+  "modules": [
+    {
+      "clock_candidates": [
+        {
+          "confidence": 1.0,
+          "location": {
+            "col": 5,
+            "end_col": 19,
+            "end_line": 12,
+            "file": "rdc_example.sv",
+            "line": 12
+          },
+          "rationale": [
+            "edge-sensitive in always_ff (proc #0)",
+            "edge-sensitive in always_ff (proc #1)",
+            "edge-sensitive in always_ff (proc #2)",
+            "name matches clock convention"
+          ],
+          "signal": "clk"
+        }
+      ],
+      "continuous_assigns": [],
+      "instances": [],
+      "location": {
+        "col": 1,
+        "end_col": 18,
+        "end_line": 11,
+        "file": "rdc_example.sv",
+        "line": 11
+      },
+      "name": "rdc_example",
+      "nets": [
+        {
+          "is_memory": false,
+          "location": {
+            "col": 5,
+            "end_col": 15,
+            "end_line": 19,
+            "file": "rdc_example.sv",
+            "line": 19
+          },
+          "name": "src_reg",
+          "net_kind": "reg",
+          "range": null,
+          "unpacked_range": null
+        },
+        {
+          "is_memory": false,
+          "location": {
+            "col": 5,
+            "end_col": 15,
+            "end_line": 20,
+            "file": "rdc_example.sv",
+            "line": 20
+          },
+          "name": "dst_reg",
+          "net_kind": "reg",
+          "range": null,
+          "unpacked_range": null
+        }
+      ],
+      "parameters": [],
+      "ports": [
+        {
+          "direction": "input",
+          "location": {
+            "col": 5,
+            "end_col": 19,
+            "end_line": 12,
+            "file": "rdc_example.sv",
+            "line": 12
+          },
+          "name": "clk",
+          "net_kind": "wire",
+          "range": null
+        },
+        {
+          "direction": "input",
+          "location": {
+            "col": 5,
+            "end_col": 21,
+            "end_line": 13,
+            "file": "rdc_example.sv",
+            "line": 13
+          },
+          "name": "rst_x",
+          "net_kind": "wire",
+          "range": null
+        },
+        {
+          "direction": "input",
+          "location": {
+            "col": 5,
+            "end_col": 21,
+            "end_line": 14,
+            "file": "rdc_example.sv",
+            "line": 14
+          },
+          "name": "rst_y",
+          "net_kind": "wire",
+          "range": null
+        },
+        {
+          "direction": "input",
+          "location": {
+            "col": 5,
+            "end_col": 17,
+            "end_line": 15,
+            "file": "rdc_example.sv",
+            "line": 15
+          },
+          "name": "d",
+          "net_kind": "wire",
+          "range": null
+        },
+        {
+          "direction": "output",
+          "location": {
+            "col": 5,
+            "end_col": 17,
+            "end_line": 16,
+            "file": "rdc_example.sv",
+            "line": 16
+          },
+          "name": "q",
+          "net_kind": "reg",
+          "range": null
+        }
+      ],
+      "procedure_summary": {
+        "always_comb": 0,
+        "always_ff": 3,
+        "always_other": 0,
+        "continuous_assigns": 0
+      },
+      "procedures": [
+        {
+          "assignment_targets": [
+            "src_reg"
+          ],
+          "assignments": [
+            {
+              "lhs": "src_reg",
+              "location": {
+                "col": 13,
+                "end_col": 27,
+                "end_line": 25,
+                "file": "rdc_example.sv",
+                "line": 25
+              },
+              "nonblocking": true,
+              "rhs": "1'b0"
+            },
+            {
+              "lhs": "src_reg",
+              "location": {
+                "col": 13,
+                "end_col": 24,
+                "end_line": 27,
+                "file": "rdc_example.sv",
+                "line": 27
+              },
+              "nonblocking": true,
+              "rhs": "d"
+            }
+          ],
+          "condition_signals": [
+            "rst_x"
+          ],
+          "index": 0,
+          "is_star_sensitivity": false,
+          "kind": "always_ff",
+          "location": {
+            "col": 5,
+            "end_col": 7,
+            "end_line": 28,
+            "file": "rdc_example.sv",
+            "line": 23
+          },
+          "sensitivity": [
+            {
+              "edge": "posedge",
+              "signal": "clk"
+            },
+            {
+              "edge": "posedge",
+              "signal": "rst_x"
+            }
+          ]
+        },
+        {
+          "assignment_targets": [
+            "dst_reg"
+          ],
+          "assignments": [
+            {
+              "lhs": "dst_reg",
+              "location": {
+                "col": 13,
+                "end_col": 27,
+                "end_line": 33,
+                "file": "rdc_example.sv",
+                "line": 33
+              },
+              "nonblocking": true,
+              "rhs": "1'b0"
+            },
+            {
+              "lhs": "dst_reg",
+              "location": {
+                "col": 13,
+                "end_col": 30,
+                "end_line": 35,
+                "file": "rdc_example.sv",
+                "line": 35
+              },
+              "nonblocking": true,
+              "rhs": "src_reg"
+            }
+          ],
+          "condition_signals": [
+            "rst_y"
+          ],
+          "index": 1,
+          "is_star_sensitivity": false,
+          "kind": "always_ff",
+          "location": {
+            "col": 5,
+            "end_col": 7,
+            "end_line": 36,
+            "file": "rdc_example.sv",
+            "line": 31
+          },
+          "sensitivity": [
+            {
+              "edge": "posedge",
+              "signal": "clk"
+            },
+            {
+              "edge": "posedge",
+              "signal": "rst_y"
+            }
+          ]
+        },
+        {
+          "assignment_targets": [
+            "q"
+          ],
+          "assignments": [
+            {
+              "lhs": "q",
+              "location": {
+                "col": 13,
+                "end_col": 21,
+                "end_line": 40,
+                "file": "rdc_example.sv",
+                "line": 40
+              },
+              "nonblocking": true,
+              "rhs": "1'b0"
+            },
+            {
+              "lhs": "q",
+              "location": {
+                "col": 13,
+                "end_col": 24,
+                "end_line": 42,
+                "file": "rdc_example.sv",
+                "line": 42
+              },
+              "nonblocking": true,
+              "rhs": "dst_reg"
+            }
+          ],
+          "condition_signals": [
+            "rst_y"
+          ],
+          "index": 2,
+          "is_star_sensitivity": false,
+          "kind": "always_ff",
+          "location": {
+            "col": 5,
+            "end_col": 7,
+            "end_line": 43,
+            "file": "rdc_example.sv",
+            "line": 38
+          },
+          "sensitivity": [
+            {
+              "edge": "posedge",
+              "signal": "clk"
+            },
+            {
+              "edge": "posedge",
+              "signal": "rst_y"
+            }
+          ]
+        }
+      ],
+      "registers": [
+        {
+          "driven_in_procedure_index": 0,
+          "location": {
+            "col": 13,
+            "end_col": 27,
+            "end_line": 25,
+            "file": "rdc_example.sv",
+            "line": 25
+          },
+          "name": "src_reg"
+        },
+        {
+          "driven_in_procedure_index": 1,
+          "location": {
+            "col": 13,
+            "end_col": 27,
+            "end_line": 33,
+            "file": "rdc_example.sv",
+            "line": 33
+          },
+          "name": "dst_reg"
+        },
+        {
+          "driven_in_procedure_index": 2,
+          "location": {
+            "col": 13,
+            "end_col": 21,
+            "end_line": 40,
+            "file": "rdc_example.sv",
+            "line": 40
+          },
+          "name": "q"
+        }
+      ],
+      "reset_candidates": [
+        {
+          "confidence": 1.0,
+          "location": {
+            "col": 5,
+            "end_col": 21,
+            "end_line": 14,
+            "file": "rdc_example.sv",
+            "line": 14
+          },
+          "polarity": "unknown",
+          "rationale": [
+            "edge-sensitive in always_ff (proc #1) with reset-like name",
+            "edge-sensitive in always_ff (proc #2) with reset-like name",
+            "name matches reset convention"
+          ],
+          "signal": "rst_y",
+          "sync": "asynchronous"
+        },
+        {
+          "confidence": 0.9,
+          "location": {
+            "col": 5,
+            "end_col": 21,
+            "end_line": 13,
+            "file": "rdc_example.sv",
+            "line": 13
+          },
+          "polarity": "unknown",
+          "rationale": [
+            "edge-sensitive in always_ff (proc #0) with reset-like name",
+            "name matches reset convention"
+          ],
+          "signal": "rst_x",
+          "sync": "asynchronous"
+        }
+      ]
+    }
+  ],
+  "parser": {
+    "adapter": "builtin",
+    "adapter_version": "0.1.0",
+    "supported_constructs": [
+      "module/endmodule",
+      "ANSI and non-ANSI port lists",
+      "parameter/localparam",
+      "input/output/inout ports with width",
+      "wire/reg/logic declarations",
+      "continuous assign",
+      "always/always_ff/always_comb blocks",
+      "blocking and nonblocking assignments",
+      "basic module instances (named and positional)"
+    ],
+    "unsupported_constructs": [
+      "generate/for-generate blocks",
+      "functions and tasks",
+      "structs/unions/enums/typedefs",
+      "interfaces/modports/packages",
+      "SystemVerilog assertions (SVA)",
+      "preprocessor macros beyond raw passthrough",
+      "case/casez/casex statement bodies (recorded, body not modeled)",
+      "hierarchical/dotted assignment targets",
+      "parameter expression evaluation (ranges kept as text)"
+    ]
+  },
+  "provenance": {
+    "command": "rtl-intent ingest examples/rdc_example.sv",
+    "git_sha": "UNKNOWN",
+    "input_files": [
+      "rdc_example.sv"
+    ],
+    "input_sha256": {
+      "rdc_example.sv": "f0cfc43be012d0cce1bef7c378fe7afbfd71f6d278ea8e3d6609777ccbee986f"
+    },
+    "schema_version": "0.1.0",
+    "tool": "rtl-intent",
+    "tool_version": "0.1.0"
+  },
+  "schema_version": "0.1.0",
+  "top": "rdc_example",
+  "unresolved": []
+}

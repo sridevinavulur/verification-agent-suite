@@ -1,0 +1,74 @@
+{
+  "$defs": {
+    "ExperimentConfig": {
+      "additionalProperties": false,
+      "description": "A single config from the finite, versioned approved catalog.",
+      "properties": {
+        "config_id": {
+          "minLength": 1,
+          "title": "Config Id",
+          "type": "string"
+        },
+        "engine": {
+          "minLength": 1,
+          "title": "Engine",
+          "type": "string"
+        },
+        "bmc_depth": {
+          "minimum": 1,
+          "title": "Bmc Depth",
+          "type": "integer"
+        },
+        "timeout_s": {
+          "minimum": 1,
+          "title": "Timeout S",
+          "type": "integer"
+        },
+        "preprocessing": {
+          "default": "basic",
+          "enum": [
+            "none",
+            "basic",
+            "aggressive"
+          ],
+          "title": "Preprocessing",
+          "type": "string"
+        }
+      },
+      "required": [
+        "config_id",
+        "engine",
+        "bmc_depth",
+        "timeout_s"
+      ],
+      "title": "ExperimentConfig",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "task_id": {
+      "title": "Task Id",
+      "type": "string"
+    },
+    "property_id": {
+      "title": "Property Id",
+      "type": "string"
+    },
+    "config": {
+      "$ref": "#/$defs/ExperimentConfig"
+    },
+    "needs_human_approval": {
+      "default": false,
+      "title": "Needs Human Approval",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "task_id",
+    "property_id",
+    "config"
+  ],
+  "title": "ExperimentPlan",
+  "type": "object"
+}

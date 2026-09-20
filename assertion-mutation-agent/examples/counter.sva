@@ -1,0 +1,23 @@
+// SVA property suite for the toy `counter` benchmark.
+// These are CANDIDATE properties for demonstration; they are not proven correct.
+// Deliberately incomplete so the mutation report shows realistic survivors:
+//   - `load_val` and `en` are intentionally NOT referenced by any property,
+//     so mutations that touch only those signals SURVIVE (undetected).
+
+// Reset behavior: after async reset deasserts, count is zero.
+property p_reset_zero;
+    @(posedge clk) disable iff (rst_n) (count == 8'h00);
+endproperty
+a_reset_zero : assert property (p_reset_zero);
+
+// Saturation: at_max is high exactly when count equals MAX.
+property p_saturate;
+    @(posedge clk) (at_max == (count == 8'hFF));
+endproperty
+a_saturate : assert property (p_saturate);
+
+// Count never exceeds the maximum.
+property p_no_overflow;
+    @(posedge clk) disable iff (!rst_n) (count <= 8'hFF);
+endproperty
+a_no_overflow : assert property (p_no_overflow);

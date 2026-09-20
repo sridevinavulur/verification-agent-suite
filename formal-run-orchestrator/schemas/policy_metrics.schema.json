@@ -1,0 +1,127 @@
+{
+  "$defs": {
+    "StatusCounts": {
+      "additionalProperties": false,
+      "properties": {
+        "PASS": {
+          "default": 0,
+          "title": "Pass",
+          "type": "integer"
+        },
+        "FAIL": {
+          "default": 0,
+          "title": "Fail",
+          "type": "integer"
+        },
+        "TIMEOUT": {
+          "default": 0,
+          "title": "Timeout",
+          "type": "integer"
+        },
+        "ERROR": {
+          "default": 0,
+          "title": "Error",
+          "type": "integer"
+        },
+        "INCONCLUSIVE": {
+          "default": 0,
+          "title": "Inconclusive",
+          "type": "integer"
+        }
+      },
+      "title": "StatusCounts",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Offline-evaluable metrics for one policy over a benchmark split.",
+  "properties": {
+    "policy_name": {
+      "title": "Policy Name",
+      "type": "string"
+    },
+    "split": {
+      "description": "'train', 'test', or 'all'.",
+      "title": "Split",
+      "type": "string"
+    },
+    "n_designs": {
+      "title": "N Designs",
+      "type": "integer"
+    },
+    "n_attempts": {
+      "title": "N Attempts",
+      "type": "integer"
+    },
+    "status_counts": {
+      "$ref": "#/$defs/StatusCounts"
+    },
+    "solved_within_budget_pct": {
+      "maximum": 100.0,
+      "minimum": 0.0,
+      "title": "Solved Within Budget Pct",
+      "type": "number"
+    },
+    "total_cpu_time_s": {
+      "minimum": 0.0,
+      "title": "Total Cpu Time S",
+      "type": "number"
+    },
+    "total_wall_time_s": {
+      "minimum": 0.0,
+      "title": "Total Wall Time S",
+      "type": "number"
+    },
+    "peak_memory_mb": {
+      "minimum": 0.0,
+      "title": "Peak Memory Mb",
+      "type": "number"
+    },
+    "mean_reward": {
+      "title": "Mean Reward",
+      "type": "number"
+    },
+    "per_design_reward_variance": {
+      "minimum": 0.0,
+      "title": "Per Design Reward Variance",
+      "type": "number"
+    },
+    "reward_ci95": {
+      "anyOf": [
+        {
+          "maxItems": 2,
+          "minItems": 2,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Reward Ci95"
+    }
+  },
+  "required": [
+    "policy_name",
+    "split",
+    "n_designs",
+    "n_attempts",
+    "status_counts",
+    "solved_within_budget_pct",
+    "total_cpu_time_s",
+    "total_wall_time_s",
+    "peak_memory_mb",
+    "mean_reward",
+    "per_design_reward_variance"
+  ],
+  "title": "PolicyMetrics",
+  "type": "object"
+}

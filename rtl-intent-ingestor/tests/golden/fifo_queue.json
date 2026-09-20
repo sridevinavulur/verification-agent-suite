@@ -1,0 +1,560 @@
+{
+  "hierarchy": [],
+  "modules": [
+    {
+      "clock_candidates": [
+        {
+          "confidence": 1.0,
+          "location": {
+            "col": 5,
+            "end_col": 32,
+            "end_line": 8,
+            "file": "fifo_queue.sv",
+            "line": 8
+          },
+          "rationale": [
+            "edge-sensitive in always_ff (proc #0)",
+            "edge-sensitive in always_ff (proc #1)",
+            "edge-sensitive in always_ff (proc #2)",
+            "name matches clock convention"
+          ],
+          "signal": "clk"
+        }
+      ],
+      "continuous_assigns": [
+        {
+          "lhs": "do_write",
+          "location": {
+            "col": 5,
+            "end_col": 35,
+            "end_line": 25,
+            "file": "fifo_queue.sv",
+            "line": 25
+          },
+          "rhs": "wr_en & ~full"
+        },
+        {
+          "lhs": "do_read",
+          "location": {
+            "col": 5,
+            "end_col": 36,
+            "end_line": 26,
+            "file": "fifo_queue.sv",
+            "line": 26
+          },
+          "rhs": "rd_en & ~empty"
+        },
+        {
+          "lhs": "full",
+          "location": {
+            "col": 5,
+            "end_col": 60,
+            "end_line": 28,
+            "file": "fifo_queue.sv",
+            "line": 27
+          },
+          "rhs": "(wr_ptr[ADDR] != rd_ptr[ADDR]) && (wr_ptr[ADDR - 1 : 0] == rd_ptr[ADDR - 1 : 0])"
+        },
+        {
+          "lhs": "empty",
+          "location": {
+            "col": 5,
+            "end_col": 40,
+            "end_line": 29,
+            "file": "fifo_queue.sv",
+            "line": 29
+          },
+          "rhs": "(wr_ptr == rd_ptr)"
+        }
+      ],
+      "instances": [],
+      "location": {
+        "col": 1,
+        "end_col": 17,
+        "end_line": 3,
+        "file": "fifo_queue.sv",
+        "line": 3
+      },
+      "name": "fifo_queue",
+      "nets": [
+        {
+          "is_memory": true,
+          "location": {
+            "col": 5,
+            "end_col": 23,
+            "end_line": 18,
+            "file": "fifo_queue.sv",
+            "line": 18
+          },
+          "name": "mem",
+          "net_kind": "reg",
+          "range": {
+            "lsb": "0",
+            "msb": "WIDTH - 1"
+          },
+          "unpacked_range": {
+            "lsb": "DEPTH - 1",
+            "msb": "0"
+          }
+        },
+        {
+          "is_memory": false,
+          "location": {
+            "col": 5,
+            "end_col": 26,
+            "end_line": 19,
+            "file": "fifo_queue.sv",
+            "line": 19
+          },
+          "name": "wr_ptr",
+          "net_kind": "reg",
+          "range": {
+            "lsb": "0",
+            "msb": "ADDR"
+          },
+          "unpacked_range": null
+        },
+        {
+          "is_memory": false,
+          "location": {
+            "col": 5,
+            "end_col": 26,
+            "end_line": 20,
+            "file": "fifo_queue.sv",
+            "line": 20
+          },
+          "name": "rd_ptr",
+          "net_kind": "reg",
+          "range": {
+            "lsb": "0",
+            "msb": "ADDR"
+          },
+          "unpacked_range": null
+        },
+        {
+          "is_memory": false,
+          "location": {
+            "col": 5,
+            "end_col": 17,
+            "end_line": 22,
+            "file": "fifo_queue.sv",
+            "line": 22
+          },
+          "name": "do_write",
+          "net_kind": "wire",
+          "range": null,
+          "unpacked_range": null
+        },
+        {
+          "is_memory": false,
+          "location": {
+            "col": 5,
+            "end_col": 16,
+            "end_line": 23,
+            "file": "fifo_queue.sv",
+            "line": 23
+          },
+          "name": "do_read",
+          "net_kind": "wire",
+          "range": null,
+          "unpacked_range": null
+        }
+      ],
+      "parameters": [
+        {
+          "default": "8",
+          "is_localparam": false,
+          "location": {
+            "col": 5,
+            "end_col": 23,
+            "end_line": 4,
+            "file": "fifo_queue.sv",
+            "line": 4
+          },
+          "name": "WIDTH"
+        },
+        {
+          "default": "4",
+          "is_localparam": false,
+          "location": {
+            "col": 5,
+            "end_col": 23,
+            "end_line": 5,
+            "file": "fifo_queue.sv",
+            "line": 4
+          },
+          "name": "DEPTH"
+        },
+        {
+          "default": "2",
+          "is_localparam": false,
+          "location": {
+            "col": 5,
+            "end_col": 23,
+            "end_line": 6,
+            "file": "fifo_queue.sv",
+            "line": 4
+          },
+          "name": "ADDR"
+        }
+      ],
+      "ports": [
+        {
+          "direction": "input",
+          "location": {
+            "col": 5,
+            "end_col": 32,
+            "end_line": 8,
+            "file": "fifo_queue.sv",
+            "line": 8
+          },
+          "name": "clk",
+          "net_kind": "wire",
+          "range": null
+        },
+        {
+          "direction": "input",
+          "location": {
+            "col": 5,
+            "end_col": 32,
+            "end_line": 9,
+            "file": "fifo_queue.sv",
+            "line": 9
+          },
+          "name": "rst",
+          "net_kind": "wire",
+          "range": null
+        },
+        {
+          "direction": "input",
+          "location": {
+            "col": 5,
+            "end_col": 34,
+            "end_line": 10,
+            "file": "fifo_queue.sv",
+            "line": 10
+          },
+          "name": "wr_en",
+          "net_kind": "wire",
+          "range": null
+        },
+        {
+          "direction": "input",
+          "location": {
+            "col": 5,
+            "end_col": 36,
+            "end_line": 11,
+            "file": "fifo_queue.sv",
+            "line": 11
+          },
+          "name": "wr_data",
+          "net_kind": "wire",
+          "range": {
+            "lsb": "0",
+            "msb": "WIDTH - 1"
+          }
+        },
+        {
+          "direction": "input",
+          "location": {
+            "col": 5,
+            "end_col": 34,
+            "end_line": 12,
+            "file": "fifo_queue.sv",
+            "line": 12
+          },
+          "name": "rd_en",
+          "net_kind": "wire",
+          "range": null
+        },
+        {
+          "direction": "output",
+          "location": {
+            "col": 5,
+            "end_col": 36,
+            "end_line": 13,
+            "file": "fifo_queue.sv",
+            "line": 13
+          },
+          "name": "rd_data",
+          "net_kind": "reg",
+          "range": {
+            "lsb": "0",
+            "msb": "WIDTH - 1"
+          }
+        },
+        {
+          "direction": "output",
+          "location": {
+            "col": 5,
+            "end_col": 33,
+            "end_line": 14,
+            "file": "fifo_queue.sv",
+            "line": 14
+          },
+          "name": "full",
+          "net_kind": "wire",
+          "range": null
+        },
+        {
+          "direction": "output",
+          "location": {
+            "col": 5,
+            "end_col": 34,
+            "end_line": 15,
+            "file": "fifo_queue.sv",
+            "line": 15
+          },
+          "name": "empty",
+          "net_kind": "wire",
+          "range": null
+        }
+      ],
+      "procedure_summary": {
+        "always_comb": 0,
+        "always_ff": 3,
+        "always_other": 0,
+        "continuous_assigns": 4
+      },
+      "procedures": [
+        {
+          "assignment_targets": [
+            "wr_ptr"
+          ],
+          "assignments": [
+            {
+              "lhs": "wr_ptr",
+              "location": {
+                "col": 13,
+                "end_col": 38,
+                "end_line": 33,
+                "file": "fifo_queue.sv",
+                "line": 33
+              },
+              "nonblocking": true,
+              "rhs": "{(ADDR + 1) {1'b0}}"
+            },
+            {
+              "lhs": "wr_ptr",
+              "location": {
+                "col": 13,
+                "end_col": 35,
+                "end_line": 35,
+                "file": "fifo_queue.sv",
+                "line": 35
+              },
+              "nonblocking": true,
+              "rhs": "wr_ptr + 1'b1"
+            }
+          ],
+          "condition_signals": [
+            "rst",
+            "do_write"
+          ],
+          "index": 0,
+          "is_star_sensitivity": false,
+          "kind": "always_ff",
+          "location": {
+            "col": 5,
+            "end_col": 7,
+            "end_line": 37,
+            "file": "fifo_queue.sv",
+            "line": 31
+          },
+          "sensitivity": [
+            {
+              "edge": "posedge",
+              "signal": "clk"
+            }
+          ]
+        },
+        {
+          "assignment_targets": [
+            "rd_ptr"
+          ],
+          "assignments": [
+            {
+              "lhs": "rd_ptr",
+              "location": {
+                "col": 13,
+                "end_col": 38,
+                "end_line": 41,
+                "file": "fifo_queue.sv",
+                "line": 41
+              },
+              "nonblocking": true,
+              "rhs": "{(ADDR + 1) {1'b0}}"
+            },
+            {
+              "lhs": "rd_ptr",
+              "location": {
+                "col": 13,
+                "end_col": 35,
+                "end_line": 43,
+                "file": "fifo_queue.sv",
+                "line": 43
+              },
+              "nonblocking": true,
+              "rhs": "rd_ptr + 1'b1"
+            }
+          ],
+          "condition_signals": [
+            "rst",
+            "do_read"
+          ],
+          "index": 1,
+          "is_star_sensitivity": false,
+          "kind": "always_ff",
+          "location": {
+            "col": 5,
+            "end_col": 7,
+            "end_line": 45,
+            "file": "fifo_queue.sv",
+            "line": 39
+          },
+          "sensitivity": [
+            {
+              "edge": "posedge",
+              "signal": "clk"
+            }
+          ]
+        },
+        {
+          "assignment_targets": [
+            "rd_data"
+          ],
+          "assignments": [
+            {
+              "lhs": "rd_data",
+              "location": {
+                "col": 13,
+                "end_col": 44,
+                "end_line": 49,
+                "file": "fifo_queue.sv",
+                "line": 49
+              },
+              "nonblocking": true,
+              "rhs": "mem[rd_ptr[ADDR - 1 : 0]]"
+            }
+          ],
+          "condition_signals": [
+            "do_read"
+          ],
+          "index": 2,
+          "is_star_sensitivity": false,
+          "kind": "always_ff",
+          "location": {
+            "col": 5,
+            "end_col": 7,
+            "end_line": 51,
+            "file": "fifo_queue.sv",
+            "line": 47
+          },
+          "sensitivity": [
+            {
+              "edge": "posedge",
+              "signal": "clk"
+            }
+          ]
+        }
+      ],
+      "registers": [
+        {
+          "driven_in_procedure_index": 0,
+          "location": {
+            "col": 13,
+            "end_col": 38,
+            "end_line": 33,
+            "file": "fifo_queue.sv",
+            "line": 33
+          },
+          "name": "wr_ptr"
+        },
+        {
+          "driven_in_procedure_index": 1,
+          "location": {
+            "col": 13,
+            "end_col": 38,
+            "end_line": 41,
+            "file": "fifo_queue.sv",
+            "line": 41
+          },
+          "name": "rd_ptr"
+        },
+        {
+          "driven_in_procedure_index": 2,
+          "location": {
+            "col": 13,
+            "end_col": 44,
+            "end_line": 49,
+            "file": "fifo_queue.sv",
+            "line": 49
+          },
+          "name": "rd_data"
+        }
+      ],
+      "reset_candidates": [
+        {
+          "confidence": 1.0,
+          "location": {
+            "col": 5,
+            "end_col": 32,
+            "end_line": 9,
+            "file": "fifo_queue.sv",
+            "line": 9
+          },
+          "polarity": "unknown",
+          "rationale": [
+            "name matches reset convention",
+            "reset-like name in always_ff control condition (proc #0)",
+            "reset-like name in always_ff control condition (proc #1)"
+          ],
+          "signal": "rst",
+          "sync": "synchronous"
+        }
+      ]
+    }
+  ],
+  "parser": {
+    "adapter": "builtin",
+    "adapter_version": "0.1.0",
+    "supported_constructs": [
+      "module/endmodule",
+      "ANSI and non-ANSI port lists",
+      "parameter/localparam",
+      "input/output/inout ports with width",
+      "wire/reg/logic declarations",
+      "continuous assign",
+      "always/always_ff/always_comb blocks",
+      "blocking and nonblocking assignments",
+      "basic module instances (named and positional)"
+    ],
+    "unsupported_constructs": [
+      "generate/for-generate blocks",
+      "functions and tasks",
+      "structs/unions/enums/typedefs",
+      "interfaces/modports/packages",
+      "SystemVerilog assertions (SVA)",
+      "preprocessor macros beyond raw passthrough",
+      "case/casez/casex statement bodies (recorded, body not modeled)",
+      "hierarchical/dotted assignment targets",
+      "parameter expression evaluation (ranges kept as text)"
+    ]
+  },
+  "provenance": {
+    "command": "rtl-intent ingest examples/fifo_queue.sv",
+    "git_sha": "UNKNOWN",
+    "input_files": [
+      "fifo_queue.sv"
+    ],
+    "input_sha256": {
+      "fifo_queue.sv": "6e3b8b55b3f31dc1145fd5624f5d981a2ea78815dec9a33c92dd766d9a30e804"
+    },
+    "schema_version": "0.1.0",
+    "tool": "rtl-intent",
+    "tool_version": "0.1.0"
+  },
+  "schema_version": "0.1.0",
+  "top": "fifo_queue",
+  "unresolved": []
+}

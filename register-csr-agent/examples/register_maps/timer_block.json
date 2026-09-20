@@ -1,0 +1,17 @@
+{
+  "name": "timer_block",
+  "data_width_bits": 32,
+  "address_unit_bytes": 1,
+  "registers": [
+    {
+      "name": "CTRL", "address": "0x00", "width_bits": 32, "access": "RW", "reset": "0x0",
+      "fields": [
+        { "name": "ENABLE", "bits": "0", "access": "RW", "reset": "0", "side_effect": "starts the timer counter" },
+        { "name": "MODE", "bits": "2:1", "access": "RW", "reset": "0" },
+        { "name": "RSVD", "bits": "31:3", "access": "RESERVED", "reset": "0" }
+      ]
+    },
+    { "name": "LOAD", "address": "0x04", "width_bits": 32, "access": "RW", "reset": "0xFFFFFFFF" },
+    { "name": "COUNT", "address": "0x08", "width_bits": 32, "access": "RO", "reset": "0x0" }
+  ]
+}

@@ -1,0 +1,40 @@
+[
+  {
+    "ambiguities": [],
+    "antecedent": "full",
+    "clause_id": "fifo_overflow.c0",
+    "clock_signal": "clk",
+    "confidence": 0.85,
+    "consequent": "!overflow",
+    "design_top": "fifo",
+    "disable_condition": null,
+    "environmental_assumptions": [],
+    "implication_style": "non_overlapping",
+    "max_delay": 1,
+    "min_delay": 1,
+    "property_form": "no_overflow",
+    "property_kind": "assert",
+    "referenced_symbols": [
+      {
+        "file": "fifo.sv",
+        "line": 8,
+        "name": "full",
+        "symbol_id": "s_full"
+      },
+      {
+        "file": "fifo.sv",
+        "line": 20,
+        "name": "overflow",
+        "symbol_id": "s_ovf"
+      }
+    ],
+    "render_template_id": "no_overflow",
+    "requirement_id": "fifo_overflow",
+    "reset_polarity": "active_low",
+    "reset_signal": "rst_n",
+    "reviewer_status": "unreviewed",
+    "source_text": "When full is high, overflow must be low on the next cycle.",
+    "temporal_strength": "weak",
+    "validation_checks": []
+  }
+]

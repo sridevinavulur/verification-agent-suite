@@ -1,0 +1,126 @@
+{
+  "source": "bad/fifo_bad.sv",
+  "manifest": "manifests/fifo.manifest.json",
+  "property_count": 5,
+  "counts": {
+    "ERROR": 4,
+    "WARNING": 2,
+    "INFO": 10
+  },
+  "score": 42.0,
+  "grade": "D",
+  "findings": [
+    {
+      "line": 7,
+      "check_id": "MISSING_CLOCK",
+      "severity": "ERROR",
+      "property": "no_clock",
+      "heuristic": false
+    },
+    {
+      "line": 7,
+      "check_id": "NAME_SEMANTICS",
+      "severity": "INFO",
+      "property": "no_clock",
+      "heuristic": true
+    },
+    {
+      "line": 7,
+      "check_id": "REQ_TRACEABILITY",
+      "severity": "INFO",
+      "property": "no_clock",
+      "heuristic": false
+    },
+    {
+      "line": 13,
+      "check_id": "TRIVIALLY_PASSING",
+      "severity": "ERROR",
+      "property": "always_true",
+      "heuristic": false
+    },
+    {
+      "line": 13,
+      "check_id": "NAME_SEMANTICS",
+      "severity": "INFO",
+      "property": "always_true",
+      "heuristic": true
+    },
+    {
+      "line": 13,
+      "check_id": "REQ_TRACEABILITY",
+      "severity": "INFO",
+      "property": "always_true",
+      "heuristic": false
+    },
+    {
+      "line": 19,
+      "check_id": "TRIVIALLY_PASSING",
+      "severity": "ERROR",
+      "property": "never_fires",
+      "heuristic": false
+    },
+    {
+      "line": 19,
+      "check_id": "NAME_SEMANTICS",
+      "severity": "INFO",
+      "property": "never_fires",
+      "heuristic": true
+    },
+    {
+      "line": 19,
+      "check_id": "REQ_TRACEABILITY",
+      "severity": "INFO",
+      "property": "never_fires",
+      "heuristic": false
+    },
+    {
+      "line": 25,
+      "check_id": "IMPLICATION_STYLE_RISK",
+      "severity": "WARNING",
+      "property": "style_risk",
+      "heuristic": true
+    },
+    {
+      "line": 25,
+      "check_id": "NAME_SEMANTICS",
+      "severity": "INFO",
+      "property": "style_risk",
+      "heuristic": true
+    },
+    {
+      "line": 25,
+      "check_id": "REQ_TRACEABILITY",
+      "severity": "INFO",
+      "property": "style_risk",
+      "heuristic": false
+    },
+    {
+      "line": 32,
+      "check_id": "ASSUME_CONSTRAINS_OUTPUT",
+      "severity": "ERROR",
+      "property": "assume_count",
+      "heuristic": false
+    },
+    {
+      "line": 32,
+      "check_id": "WIDTH_MISMATCH",
+      "severity": "WARNING",
+      "property": "assume_count",
+      "heuristic": false
+    },
+    {
+      "line": 32,
+      "check_id": "NAME_SEMANTICS",
+      "severity": "INFO",
+      "property": "assume_count",
+      "heuristic": true
+    },
+    {
+      "line": 32,
+      "check_id": "REQ_TRACEABILITY",
+      "severity": "INFO",
+      "property": "assume_count",
+      "heuristic": false
+    }
+  ]
+}

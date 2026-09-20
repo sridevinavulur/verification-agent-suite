@@ -1,0 +1,13 @@
+{
+  "protocol": "req_grant",
+  "module": "arbiter",
+  "instance_label": "port0",
+  "roles": {
+    "req": "req0",
+    "grant": "gnt0"
+  },
+  "clock": "clk",
+  "reset": "rst",
+  "min_delay": 1,
+  "max_delay": 3
+}

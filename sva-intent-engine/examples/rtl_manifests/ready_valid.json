@@ -1,0 +1,12 @@
+{
+  "design_top": "handshake",
+  "clock_candidates": ["clk"],
+  "reset_candidates": ["rst_n"],
+  "symbols": [
+    {"symbol_id": "s_clk", "name": "clk", "kind": "clock", "file": "handshake.sv", "line": 3},
+    {"symbol_id": "s_rstn", "name": "rst_n", "kind": "reset", "signal_type": "active_low", "file": "handshake.sv", "line": 4},
+    {"symbol_id": "s_valid", "name": "valid", "kind": "port", "direction": "input", "width": 1, "file": "handshake.sv", "line": 5},
+    {"symbol_id": "s_ready", "name": "ready", "kind": "port", "direction": "input", "width": 1, "file": "handshake.sv", "line": 6},
+    {"symbol_id": "s_grant", "name": "grant", "kind": "port", "direction": "output", "width": 1, "file": "handshake.sv", "line": 7}
+  ]
+}

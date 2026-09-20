@@ -1,0 +1,432 @@
+{
+  "$defs": {
+    "CoverageDB": {
+      "additionalProperties": false,
+      "description": "A normalized coverage DB export -- the mock coverage format.",
+      "properties": {
+        "format_version": {
+          "default": "mock-cov-1.0",
+          "title": "Format Version",
+          "type": "string"
+        },
+        "tool": {
+          "default": "mock",
+          "description": "Originating coverage tool (labelled 'mock').",
+          "title": "Tool",
+          "type": "string"
+        },
+        "items": {
+          "items": {
+            "$ref": "#/$defs/CoverageItem"
+          },
+          "title": "Items",
+          "type": "array"
+        }
+      },
+      "required": [
+        "items"
+      ],
+      "title": "CoverageDB",
+      "type": "object"
+    },
+    "CoverageItem": {
+      "additionalProperties": false,
+      "description": "A single coverage point in the normalized (mock) coverage DB export.\n\n``hits`` is an integer count; an item is considered covered when\n``hits >= 1``. ``goal`` documents the required hit count for context but the\nbaseline classifier treats ``hits == 0`` as the hole condition.",
+      "properties": {
+        "coverage_id": {
+          "description": "Stable unique id, e.g. 'cov.fifo.branch.12'.",
+          "title": "Coverage Id",
+          "type": "string"
+        },
+        "kind": {
+          "$ref": "#/$defs/CoverageKind"
+        },
+        "hits": {
+          "description": "Observed hit count (0 == uncovered).",
+          "minimum": 0,
+          "title": "Hits",
+          "type": "integer"
+        },
+        "goal": {
+          "default": 1,
+          "description": "Required hit count to consider covered.",
+          "minimum": 1,
+          "title": "Goal",
+          "type": "integer"
+        },
+        "module": {
+          "description": "RTL module the item belongs to.",
+          "title": "Module",
+          "type": "string"
+        },
+        "source_file": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Source file path (public toy RTL).",
+          "title": "Source File"
+        },
+        "source_line": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Line"
+        },
+        "description": {
+          "default": "",
+          "description": "Human-readable name of the coverage point.",
+          "title": "Description",
+          "type": "string"
+        },
+        "exclusion_pragma": {
+          "default": false,
+          "description": "True if RTL carries a coverage-exclusion pragma near this point.",
+          "title": "Exclusion Pragma",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "coverage_id",
+        "kind",
+        "hits",
+        "module"
+      ],
+      "title": "CoverageItem",
+      "type": "object"
+    },
+    "CoverageKind": {
+      "description": "Kinds of coverage items supported by the mock coverage format.",
+      "enum": [
+        "statement",
+        "branch",
+        "toggle",
+        "fsm_state",
+        "fsm_transition",
+        "covergroup_bin",
+        "assertion"
+      ],
+      "title": "CoverageKind",
+      "type": "string"
+    },
+    "LogBundle": {
+      "additionalProperties": false,
+      "properties": {
+        "entries": {
+          "items": {
+            "$ref": "#/$defs/LogEntry"
+          },
+          "title": "Entries",
+          "type": "array"
+        }
+      },
+      "title": "LogBundle",
+      "type": "object"
+    },
+    "LogEntry": {
+      "additionalProperties": false,
+      "description": "A failure or compile log record associated with a test.",
+      "properties": {
+        "test_id": {
+          "title": "Test Id",
+          "type": "string"
+        },
+        "kind": {
+          "default": "failure",
+          "description": "'failure' or 'compile'.",
+          "title": "Kind",
+          "type": "string"
+        },
+        "message": {
+          "default": "",
+          "title": "Message",
+          "type": "string"
+        },
+        "source_file": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source File"
+        },
+        "source_line": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Line"
+        }
+      },
+      "required": [
+        "test_id"
+      ],
+      "title": "LogEntry",
+      "type": "object"
+    },
+    "RTLIntentManifest": {
+      "additionalProperties": false,
+      "properties": {
+        "top": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Top"
+        },
+        "modules": {
+          "items": {
+            "$ref": "#/$defs/RTLModule"
+          },
+          "title": "Modules",
+          "type": "array"
+        }
+      },
+      "required": [
+        "modules"
+      ],
+      "title": "RTLIntentManifest",
+      "type": "object"
+    },
+    "RTLModule": {
+      "additionalProperties": false,
+      "description": "A module entry from the RTL Intent Manifest (subset used for triage).",
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "source_file": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source File"
+        },
+        "dead_code_hints": {
+          "description": "Source lines flagged by upstream tools as likely unreachable.",
+          "items": {
+            "type": "integer"
+          },
+          "title": "Dead Code Hints",
+          "type": "array"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "title": "RTLModule",
+      "type": "object"
+    },
+    "RequirementLink": {
+      "additionalProperties": false,
+      "description": "One row of the requirement-to-test matrix.",
+      "properties": {
+        "requirement_id": {
+          "title": "Requirement Id",
+          "type": "string"
+        },
+        "description": {
+          "default": "",
+          "title": "Description",
+          "type": "string"
+        },
+        "tests": {
+          "description": "Test ids satisfying the req.",
+          "items": {
+            "type": "string"
+          },
+          "title": "Tests",
+          "type": "array"
+        },
+        "covers": {
+          "description": "Coverage ids the requirement is expected to exercise.",
+          "items": {
+            "type": "string"
+          },
+          "title": "Covers",
+          "type": "array"
+        }
+      },
+      "required": [
+        "requirement_id"
+      ],
+      "title": "RequirementLink",
+      "type": "object"
+    },
+    "RequirementMatrix": {
+      "additionalProperties": false,
+      "properties": {
+        "links": {
+          "items": {
+            "$ref": "#/$defs/RequirementLink"
+          },
+          "title": "Links",
+          "type": "array"
+        }
+      },
+      "required": [
+        "links"
+      ],
+      "title": "RequirementMatrix",
+      "type": "object"
+    },
+    "TestEntry": {
+      "additionalProperties": false,
+      "description": "A test in the test manifest.",
+      "properties": {
+        "test_id": {
+          "title": "Test Id",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/$defs/TestStatus",
+          "default": "not_run"
+        },
+        "seed": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Seed"
+        },
+        "config": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Named config/build used to run the test.",
+          "title": "Config"
+        },
+        "covers": {
+          "description": "Coverage ids this test is *intended* to hit (from testplan).",
+          "items": {
+            "type": "string"
+          },
+          "title": "Covers",
+          "type": "array"
+        },
+        "last_run_iso": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Last Run Iso"
+        }
+      },
+      "required": [
+        "test_id",
+        "name"
+      ],
+      "title": "TestEntry",
+      "type": "object"
+    },
+    "TestManifest": {
+      "additionalProperties": false,
+      "properties": {
+        "tests": {
+          "items": {
+            "$ref": "#/$defs/TestEntry"
+          },
+          "title": "Tests",
+          "type": "array"
+        }
+      },
+      "required": [
+        "tests"
+      ],
+      "title": "TestManifest",
+      "type": "object"
+    },
+    "TestStatus": {
+      "description": "Result vocabulary from BUILD_STANDARD; a TIMEOUT/ERROR/UNKNOWN is never a PASS.",
+      "enum": [
+        "pass",
+        "fail",
+        "timeout",
+        "error",
+        "unknown",
+        "not_run"
+      ],
+      "title": "TestStatus",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "The complete bundle the agent ingests.",
+  "properties": {
+    "coverage": {
+      "$ref": "#/$defs/CoverageDB"
+    },
+    "tests": {
+      "$ref": "#/$defs/TestManifest"
+    },
+    "rtl": {
+      "$ref": "#/$defs/RTLIntentManifest"
+    },
+    "requirements": {
+      "$ref": "#/$defs/RequirementMatrix"
+    },
+    "logs": {
+      "$ref": "#/$defs/LogBundle"
+    }
+  },
+  "required": [
+    "coverage",
+    "tests",
+    "rtl",
+    "requirements"
+  ],
+  "title": "TriageInputs",
+  "type": "object"
+}

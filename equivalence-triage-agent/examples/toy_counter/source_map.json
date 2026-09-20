@@ -1,0 +1,16 @@
+{
+  "entries": [
+    { "signal": "state_r", "design": "reference", "module": "ref_fsm",
+      "location": { "file": "ref_fsm.v", "line": 10, "col": 5 } },
+    { "signal": "state_r", "design": "revised", "module": "rev_fsm",
+      "location": { "file": "rev_fsm.v", "line": 10, "col": 5 } },
+    { "signal": "en", "design": "reference", "module": "ref_fsm",
+      "location": { "file": "ref_fsm.v", "line": 7, "col": 18 } },
+    { "signal": "en", "design": "revised", "module": "rev_fsm",
+      "location": { "file": "rev_fsm.v", "line": 7, "col": 18 } },
+    { "signal": "state", "design": "reference", "module": "ref_fsm",
+      "location": { "file": "ref_fsm.v", "line": 8, "col": 18 } },
+    { "signal": "state", "design": "revised", "module": "rev_fsm",
+      "location": { "file": "rev_fsm.v", "line": 8, "col": 18 } }
+  ]
+}

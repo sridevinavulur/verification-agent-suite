@@ -1,0 +1,67 @@
+{
+  "additionalProperties": false,
+  "description": "COI / partition analysis. Every partition is labeled heuristic.",
+  "properties": {
+    "task_id": {
+      "title": "Task Id",
+      "type": "string"
+    },
+    "property_id": {
+      "title": "Property Id",
+      "type": "string"
+    },
+    "coi_signals": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Coi Signals",
+      "type": "array"
+    },
+    "excluded_signals": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Excluded Signals",
+      "type": "array"
+    },
+    "partitions": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Partitions",
+      "type": "array"
+    },
+    "cut_signals": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Cut Signals",
+      "type": "array"
+    },
+    "cut_assumptions": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Cut Assumptions",
+      "type": "array"
+    },
+    "soundness_risk_flags": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Soundness Risk Flags",
+      "type": "array"
+    },
+    "heuristic": {
+      "default": true,
+      "title": "Heuristic",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "task_id",
+    "property_id"
+  ],
+  "title": "PartitionReport",
+  "type": "object"
+}

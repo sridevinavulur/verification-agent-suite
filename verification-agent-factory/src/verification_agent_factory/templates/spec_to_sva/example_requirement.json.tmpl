@@ -1,0 +1,13 @@
+{
+  "requirement_id": "R1",
+  "source_text": "Whenever req is accepted, grant must arrive within 1 to 3 cycles unless reset is asserted.",
+  "property_name": "p_req_grant",
+  "clock_signal": "clk",
+  "reset_signal": "rst_n",
+  "reset_active_high": false,
+  "antecedent": "req",
+  "consequent": "gnt",
+  "min_delay": 1,
+  "max_delay": 3,
+  "referenced_signals": ["req", "gnt"]
+}

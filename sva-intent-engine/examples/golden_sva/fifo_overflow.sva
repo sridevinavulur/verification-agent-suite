@@ -1,0 +1,3 @@
+p_fifo_overflow_c0_no_overflow: assert property (
+  @(posedge clk) disable iff (!rst_n) (full) |=> (!overflow)
+);

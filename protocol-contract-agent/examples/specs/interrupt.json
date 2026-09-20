@@ -1,0 +1,13 @@
+{
+  "protocol": "interrupt",
+  "module": "irq_ctrl",
+  "roles": {
+    "irq": "irq",
+    "source": "event_in",
+    "clear": "irq_clear"
+  },
+  "clock": "clk",
+  "reset": "rst_n",
+  "min_delay": 1,
+  "max_delay": 2
+}

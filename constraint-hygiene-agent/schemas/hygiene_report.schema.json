@@ -1,0 +1,396 @@
+{
+  "$defs": {
+    "Confidence": {
+      "description": "Deliberately labels everything as static, never formal.\n\nThe build standard forbids presenting heuristic results as sound. These\nvalues make the distinction impossible to lose in the report.",
+      "enum": [
+        "static_suspicion",
+        "static_fact"
+      ],
+      "title": "Confidence",
+      "type": "string"
+    },
+    "DependencyEdge": {
+      "additionalProperties": false,
+      "description": "A dependency edge: ``property`` depends on ``signal`` (and any assume that\nalso drives that signal).",
+      "properties": {
+        "property": {
+          "title": "Property",
+          "type": "string"
+        },
+        "signal": {
+          "title": "Signal",
+          "type": "string"
+        },
+        "constrained_by_assumptions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Constrained By Assumptions",
+          "type": "array"
+        }
+      },
+      "required": [
+        "property",
+        "signal"
+      ],
+      "title": "DependencyEdge",
+      "type": "object"
+    },
+    "Finding": {
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "$ref": "#/$defs/FindingCode"
+        },
+        "severity": {
+          "$ref": "#/$defs/Severity"
+        },
+        "confidence": {
+          "$ref": "#/$defs/Confidence"
+        },
+        "message": {
+          "title": "Message",
+          "type": "string"
+        },
+        "evidence": {
+          "title": "Evidence",
+          "type": "string"
+        },
+        "properties": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Property names involved.",
+          "title": "Properties"
+        },
+        "signals": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Signals",
+          "type": "array"
+        },
+        "needs_human_review": {
+          "default": true,
+          "title": "Needs Human Review",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "code",
+        "severity",
+        "confidence",
+        "message",
+        "evidence"
+      ],
+      "title": "Finding",
+      "type": "object"
+    },
+    "FindingCode": {
+      "enum": [
+        "CONTRADICTION",
+        "CONSTANT_CONFLICT",
+        "UNUSED_ASSUMPTION",
+        "OUTPUT_CONSTRAINT",
+        "INTERNAL_STATE_CONSTRAINT",
+        "UNKNOWN_SIGNAL",
+        "VACUITY_RISK",
+        "REACHABILITY_RISK"
+      ],
+      "title": "FindingCode",
+      "type": "string"
+    },
+    "Ownership": {
+      "description": "Who owns a signal, from the DUT's point of view.\n\nThe classification is grounded in RTL Intent Manifest *port directions* of\nthe top module (the DUT boundary):\n\n* ``ENVIRONMENT_INPUT`` - a DUT input.  Legal to constrain with ``assume``.\n* ``DUT_OUTPUT``        - a DUT output.  Constraining it is overconstraint.\n* ``INTERNAL_STATE``    - a register/net inside the DUT.  Constraining it is\n  suspicious white-box overconstraint.\n* ``UNKNOWN``           - not found in the manifest; needs human review.",
+      "enum": [
+        "environment_input",
+        "dut_output",
+        "internal_state",
+        "unknown"
+      ],
+      "title": "Ownership",
+      "type": "string"
+    },
+    "Property": {
+      "additionalProperties": false,
+      "description": "A single parsed SVA directive (assume / assert / cover).",
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "kind": {
+          "$ref": "#/$defs/SvaKind"
+        },
+        "expr": {
+          "description": "Raw property expression text (best-effort).",
+          "title": "Expr",
+          "type": "string"
+        },
+        "signals": {
+          "description": "Identifiers referenced in the expression (deterministic extraction).",
+          "items": {
+            "type": "string"
+          },
+          "title": "Signals",
+          "type": "array"
+        },
+        "equalities": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Equalities",
+          "type": "object"
+        },
+        "boolean_facts": {
+          "additionalProperties": {
+            "type": "boolean"
+          },
+          "title": "Boolean Facts",
+          "type": "object"
+        },
+        "file": {
+          "default": "<input>",
+          "title": "File",
+          "type": "string"
+        },
+        "line": {
+          "default": 0,
+          "title": "Line",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "name",
+        "kind",
+        "expr"
+      ],
+      "title": "Property",
+      "type": "object"
+    },
+    "Provenance": {
+      "additionalProperties": false,
+      "properties": {
+        "tool": {
+          "default": "constraint-hygiene-agent",
+          "title": "Tool",
+          "type": "string"
+        },
+        "tool_version": {
+          "title": "Tool Version",
+          "type": "string"
+        },
+        "command": {
+          "default": "",
+          "title": "Command",
+          "type": "string"
+        },
+        "git_sha": {
+          "default": "UNKNOWN",
+          "title": "Git Sha",
+          "type": "string"
+        },
+        "input_files": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Input Files",
+          "type": "array"
+        },
+        "input_sha256": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Input Sha256",
+          "type": "object"
+        }
+      },
+      "required": [
+        "tool_version"
+      ],
+      "title": "Provenance",
+      "type": "object"
+    },
+    "ReviewItem": {
+      "additionalProperties": false,
+      "properties": {
+        "priority": {
+          "description": "1 = highest.",
+          "maximum": 3,
+          "minimum": 1,
+          "title": "Priority",
+          "type": "integer"
+        },
+        "reason": {
+          "title": "Reason",
+          "type": "string"
+        },
+        "related_findings": {
+          "items": {
+            "$ref": "#/$defs/FindingCode"
+          },
+          "title": "Related Findings",
+          "type": "array"
+        },
+        "subject": {
+          "title": "Subject",
+          "type": "string"
+        }
+      },
+      "required": [
+        "priority",
+        "reason",
+        "subject"
+      ],
+      "title": "ReviewItem",
+      "type": "object"
+    },
+    "Severity": {
+      "enum": [
+        "error",
+        "warning",
+        "info"
+      ],
+      "title": "Severity",
+      "type": "string"
+    },
+    "SignalClassification": {
+      "additionalProperties": false,
+      "properties": {
+        "signal": {
+          "title": "Signal",
+          "type": "string"
+        },
+        "ownership": {
+          "$ref": "#/$defs/Ownership"
+        },
+        "rationale": {
+          "title": "Rationale",
+          "type": "string"
+        }
+      },
+      "required": [
+        "signal",
+        "ownership",
+        "rationale"
+      ],
+      "title": "SignalClassification",
+      "type": "object"
+    },
+    "SvaKind": {
+      "description": "The three SVA directive kinds this tool reasons about.",
+      "enum": [
+        "assume",
+        "assert",
+        "cover"
+      ],
+      "title": "SvaKind",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "The top-level deterministic output of the agent.",
+  "properties": {
+    "schema_version": {
+      "default": "0.1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "provenance": {
+      "$ref": "#/$defs/Provenance"
+    },
+    "top_module": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Top Module"
+    },
+    "assumption_inventory": {
+      "items": {
+        "$ref": "#/$defs/Property"
+      },
+      "title": "Assumption Inventory",
+      "type": "array"
+    },
+    "assertion_inventory": {
+      "items": {
+        "$ref": "#/$defs/Property"
+      },
+      "title": "Assertion Inventory",
+      "type": "array"
+    },
+    "cover_inventory": {
+      "items": {
+        "$ref": "#/$defs/Property"
+      },
+      "title": "Cover Inventory",
+      "type": "array"
+    },
+    "signal_ownership": {
+      "items": {
+        "$ref": "#/$defs/SignalClassification"
+      },
+      "title": "Signal Ownership",
+      "type": "array"
+    },
+    "contradiction_candidates": {
+      "items": {
+        "$ref": "#/$defs/Finding"
+      },
+      "title": "Contradiction Candidates",
+      "type": "array"
+    },
+    "unused_assumption_candidates": {
+      "items": {
+        "$ref": "#/$defs/Finding"
+      },
+      "title": "Unused Assumption Candidates",
+      "type": "array"
+    },
+    "output_constraint_warnings": {
+      "items": {
+        "$ref": "#/$defs/Finding"
+      },
+      "title": "Output Constraint Warnings",
+      "type": "array"
+    },
+    "dependency_map": {
+      "items": {
+        "$ref": "#/$defs/DependencyEdge"
+      },
+      "title": "Dependency Map",
+      "type": "array"
+    },
+    "vacuity_recommendations": {
+      "items": {
+        "$ref": "#/$defs/Finding"
+      },
+      "title": "Vacuity Recommendations",
+      "type": "array"
+    },
+    "human_review_queue": {
+      "items": {
+        "$ref": "#/$defs/ReviewItem"
+      },
+      "title": "Human Review Queue",
+      "type": "array"
+    },
+    "disclaimer": {
+      "default": "STATIC HYGIENE ONLY. Absence of a flagged contradiction does NOT mean the constraint set is sound or that any proof is valid. All findings are static suspicions requiring human review; no assumption may be changed without human approval.",
+      "title": "Disclaimer",
+      "type": "string"
+    }
+  },
+  "required": [
+    "provenance"
+  ],
+  "title": "HygieneReport",
+  "type": "object"
+}

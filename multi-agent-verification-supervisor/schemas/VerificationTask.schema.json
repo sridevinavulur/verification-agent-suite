@@ -1,0 +1,57 @@
+{
+  "additionalProperties": false,
+  "description": "The verification task handed to the supervisor.",
+  "properties": {
+    "task_id": {
+      "minLength": 1,
+      "title": "Task Id",
+      "type": "string"
+    },
+    "repo_revision": {
+      "description": "Git SHA/tag placeholder of the RTL repo.",
+      "minLength": 1,
+      "title": "Repo Revision",
+      "type": "string"
+    },
+    "requirement_text": {
+      "description": "Natural-language requirement.",
+      "minLength": 1,
+      "title": "Requirement Text",
+      "type": "string"
+    },
+    "rtl_files": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Rtl Files",
+      "type": "array"
+    },
+    "affects_assumptions": {
+      "default": false,
+      "title": "Affects Assumptions",
+      "type": "boolean"
+    },
+    "affects_abstraction": {
+      "default": false,
+      "title": "Affects Abstraction",
+      "type": "boolean"
+    },
+    "affects_budget": {
+      "default": false,
+      "title": "Affects Budget",
+      "type": "boolean"
+    },
+    "affects_proof_scope": {
+      "default": false,
+      "title": "Affects Proof Scope",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "task_id",
+    "repo_revision",
+    "requirement_text"
+  ],
+  "title": "VerificationTask",
+  "type": "object"
+}

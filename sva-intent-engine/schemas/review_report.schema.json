@@ -1,0 +1,1090 @@
+{
+  "$defs": {
+    "AtomicClause": {
+      "additionalProperties": false,
+      "description": "One atomic clause extracted from a requirement (spec 5.4).\n\nFields that cannot be determined deterministically are left ``None`` and\nthe term is recorded in ``referenced_terms`` / ``ambiguities`` instead of\nbeing guessed.",
+      "properties": {
+        "clause_id": {
+          "title": "Clause Id",
+          "type": "string"
+        },
+        "requirement_id": {
+          "title": "Requirement Id",
+          "type": "string"
+        },
+        "kind": {
+          "$ref": "#/$defs/ClauseKind"
+        },
+        "source_span": {
+          "$ref": "#/$defs/SourceSpan"
+        },
+        "trigger": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Trigger"
+        },
+        "consequent": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Consequent"
+        },
+        "timing_relation": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Timing Relation"
+        },
+        "min_delay": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Min Delay"
+        },
+        "max_delay": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Max Delay"
+        },
+        "clock": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Clock"
+        },
+        "reset_behavior": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reset Behavior"
+        },
+        "guard": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Guard"
+        },
+        "severity": {
+          "$ref": "#/$defs/Severity",
+          "default": "info"
+        },
+        "referenced_terms": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Referenced Terms",
+          "type": "array"
+        },
+        "vague_terms": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Vague Terms",
+          "type": "array"
+        },
+        "confidence": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Confidence",
+          "type": "number"
+        },
+        "rationale": {
+          "title": "Rationale",
+          "type": "string"
+        }
+      },
+      "required": [
+        "clause_id",
+        "requirement_id",
+        "kind",
+        "source_span",
+        "confidence",
+        "rationale"
+      ],
+      "title": "AtomicClause",
+      "type": "object"
+    },
+    "CandidateProperty": {
+      "additionalProperties": false,
+      "description": "A rendered SVA property. 'Rendered' != 'verified'.",
+      "properties": {
+        "property_name": {
+          "title": "Property Name",
+          "type": "string"
+        },
+        "requirement_id": {
+          "title": "Requirement Id",
+          "type": "string"
+        },
+        "clause_id": {
+          "title": "Clause Id",
+          "type": "string"
+        },
+        "property_kind": {
+          "$ref": "#/$defs/PropertyKind"
+        },
+        "property_form": {
+          "$ref": "#/$defs/PropertyForm"
+        },
+        "sva_text": {
+          "title": "Sva Text",
+          "type": "string"
+        },
+        "referenced_symbols": {
+          "items": {
+            "$ref": "#/$defs/SymbolRef"
+          },
+          "title": "Referenced Symbols",
+          "type": "array"
+        },
+        "ambiguities": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Ambiguities",
+          "type": "array"
+        },
+        "status": {
+          "default": "candidate_compiled_offline",
+          "title": "Status",
+          "type": "string"
+        },
+        "provenance": {
+          "$ref": "#/$defs/Provenance"
+        }
+      },
+      "required": [
+        "property_name",
+        "requirement_id",
+        "clause_id",
+        "property_kind",
+        "property_form",
+        "sva_text",
+        "provenance"
+      ],
+      "title": "CandidateProperty",
+      "type": "object"
+    },
+    "ClauseKind": {
+      "description": "Classification of an atomic requirement clause (spec 5.4).",
+      "enum": [
+        "design_guarantee",
+        "environment_assumption",
+        "cover_objective",
+        "ambiguity",
+        "unsupported"
+      ],
+      "title": "ClauseKind",
+      "type": "string"
+    },
+    "ClockResetSelection": {
+      "additionalProperties": false,
+      "properties": {
+        "clock_signal": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Clock Signal"
+        },
+        "clock_evidence": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Clock Evidence"
+        },
+        "reset_signal": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reset Signal"
+        },
+        "reset_evidence": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reset Evidence"
+        },
+        "reset_polarity": {
+          "$ref": "#/$defs/ResetPolarity",
+          "default": "unknown"
+        }
+      },
+      "title": "ClockResetSelection",
+      "type": "object"
+    },
+    "DecompositionResult": {
+      "additionalProperties": false,
+      "properties": {
+        "requirement": {
+          "$ref": "#/$defs/Requirement"
+        },
+        "clauses": {
+          "items": {
+            "$ref": "#/$defs/AtomicClause"
+          },
+          "title": "Clauses",
+          "type": "array"
+        },
+        "provenance": {
+          "$ref": "#/$defs/Provenance"
+        }
+      },
+      "required": [
+        "requirement",
+        "clauses",
+        "provenance"
+      ],
+      "title": "DecompositionResult",
+      "type": "object"
+    },
+    "GroundingResult": {
+      "additionalProperties": false,
+      "description": "Output of the grounding engine for one clause (spec 5.5).",
+      "properties": {
+        "clause_id": {
+          "title": "Clause Id",
+          "type": "string"
+        },
+        "requirement_id": {
+          "title": "Requirement Id",
+          "type": "string"
+        },
+        "design_top": {
+          "title": "Design Top",
+          "type": "string"
+        },
+        "term_groundings": {
+          "items": {
+            "$ref": "#/$defs/TermGrounding"
+          },
+          "title": "Term Groundings",
+          "type": "array"
+        },
+        "unresolved_terms": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Unresolved Terms",
+          "type": "array"
+        },
+        "clock_reset": {
+          "$ref": "#/$defs/ClockResetSelection"
+        },
+        "provenance": {
+          "$ref": "#/$defs/Provenance"
+        }
+      },
+      "required": [
+        "clause_id",
+        "requirement_id",
+        "design_top",
+        "term_groundings",
+        "provenance"
+      ],
+      "title": "GroundingResult",
+      "type": "object"
+    },
+    "ImplicationStyle": {
+      "description": "Overlapping (|->) vs non-overlapping (|=>) implication.",
+      "enum": [
+        "overlapping",
+        "non_overlapping"
+      ],
+      "title": "ImplicationStyle",
+      "type": "string"
+    },
+    "MatchKind": {
+      "enum": [
+        "exact",
+        "alias"
+      ],
+      "title": "MatchKind",
+      "type": "string"
+    },
+    "PropertyForm": {
+      "description": "Renderable candidate property forms (spec 5.6).",
+      "enum": [
+        "invariant",
+        "implication",
+        "bounded_response",
+        "next_cycle",
+        "no_overflow",
+        "no_underflow",
+        "one_hot",
+        "stable_while_stalled",
+        "reset_state",
+        "eventually_within_bound"
+      ],
+      "title": "PropertyForm",
+      "type": "string"
+    },
+    "PropertyKind": {
+      "description": "SVA property directive.",
+      "enum": [
+        "assert",
+        "assume",
+        "cover"
+      ],
+      "title": "PropertyKind",
+      "type": "string"
+    },
+    "Provenance": {
+      "additionalProperties": false,
+      "description": "Immutable-ish record of how an artifact was produced.",
+      "properties": {
+        "tool": {
+          "default": "sva-intent-engine",
+          "title": "Tool",
+          "type": "string"
+        },
+        "tool_version": {
+          "default": "0.1.0",
+          "title": "Tool Version",
+          "type": "string"
+        },
+        "stage": {
+          "title": "Stage",
+          "type": "string"
+        },
+        "git_sha": {
+          "default": "UNKNOWN",
+          "title": "Git Sha",
+          "type": "string"
+        },
+        "input_hashes": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Input Hashes",
+          "type": "object"
+        },
+        "command": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Command"
+        },
+        "seed": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Seed"
+        },
+        "model_provider": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Model Provider"
+        },
+        "model_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Model Name"
+        },
+        "notes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        }
+      },
+      "required": [
+        "stage"
+      ],
+      "title": "Provenance",
+      "type": "object"
+    },
+    "Requirement": {
+      "additionalProperties": false,
+      "description": "A raw natural-language requirement as ingested.",
+      "properties": {
+        "requirement_id": {
+          "title": "Requirement Id",
+          "type": "string"
+        },
+        "source_text": {
+          "title": "Source Text",
+          "type": "string"
+        },
+        "design_top": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Design Top"
+        },
+        "origin_path": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Origin Path"
+        }
+      },
+      "required": [
+        "requirement_id",
+        "source_text"
+      ],
+      "title": "Requirement",
+      "type": "object"
+    },
+    "ResetPolarity": {
+      "enum": [
+        "active_high",
+        "active_low",
+        "unknown"
+      ],
+      "title": "ResetPolarity",
+      "type": "string"
+    },
+    "ReviewChecklistItem": {
+      "additionalProperties": false,
+      "properties": {
+        "item": {
+          "title": "Item",
+          "type": "string"
+        },
+        "status": {
+          "default": "pending",
+          "title": "Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "item"
+      ],
+      "title": "ReviewChecklistItem",
+      "type": "object"
+    },
+    "Severity": {
+      "enum": [
+        "error",
+        "warning",
+        "info"
+      ],
+      "title": "Severity",
+      "type": "string"
+    },
+    "SourceSpan": {
+      "additionalProperties": false,
+      "description": "Character span into the original requirement text.",
+      "properties": {
+        "start": {
+          "minimum": 0,
+          "title": "Start",
+          "type": "integer"
+        },
+        "end": {
+          "minimum": 0,
+          "title": "End",
+          "type": "integer"
+        },
+        "text": {
+          "title": "Text",
+          "type": "string"
+        }
+      },
+      "required": [
+        "start",
+        "end",
+        "text"
+      ],
+      "title": "SourceSpan",
+      "type": "object"
+    },
+    "SymbolMatch": {
+      "additionalProperties": false,
+      "description": "A ranked candidate mapping from a requirement term to an RTL symbol.",
+      "properties": {
+        "symbol_id": {
+          "title": "Symbol Id",
+          "type": "string"
+        },
+        "symbol_name": {
+          "title": "Symbol Name",
+          "type": "string"
+        },
+        "match_kind": {
+          "$ref": "#/$defs/MatchKind"
+        },
+        "score": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Score",
+          "type": "number"
+        },
+        "evidence": {
+          "title": "Evidence",
+          "type": "string"
+        },
+        "file": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "File"
+        },
+        "line": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Line"
+        }
+      },
+      "required": [
+        "symbol_id",
+        "symbol_name",
+        "match_kind",
+        "score",
+        "evidence"
+      ],
+      "title": "SymbolMatch",
+      "type": "object"
+    },
+    "SymbolRef": {
+      "additionalProperties": false,
+      "description": "A grounded symbol reference with source evidence.",
+      "properties": {
+        "symbol_id": {
+          "title": "Symbol Id",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "file": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "File"
+        },
+        "line": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Line"
+        }
+      },
+      "required": [
+        "symbol_id",
+        "name"
+      ],
+      "title": "SymbolRef",
+      "type": "object"
+    },
+    "TemporalIntent": {
+      "additionalProperties": false,
+      "description": "Typed temporal-intent intermediate representation (spec 5.3).\n\nThis is the deterministic contract handed to the renderer. It carries an\nexplicit clock (or the renderer rejects it), explicit bounds, and the exact\ngrounded symbols used.",
+      "properties": {
+        "requirement_id": {
+          "title": "Requirement Id",
+          "type": "string"
+        },
+        "clause_id": {
+          "title": "Clause Id",
+          "type": "string"
+        },
+        "source_text": {
+          "title": "Source Text",
+          "type": "string"
+        },
+        "design_top": {
+          "title": "Design Top",
+          "type": "string"
+        },
+        "property_kind": {
+          "$ref": "#/$defs/PropertyKind"
+        },
+        "property_form": {
+          "$ref": "#/$defs/PropertyForm"
+        },
+        "render_template_id": {
+          "title": "Render Template Id",
+          "type": "string"
+        },
+        "clock_signal": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Clock Signal"
+        },
+        "reset_signal": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reset Signal"
+        },
+        "reset_polarity": {
+          "$ref": "#/$defs/ResetPolarity",
+          "default": "unknown"
+        },
+        "disable_condition": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Disable Condition"
+        },
+        "antecedent": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Antecedent"
+        },
+        "consequent": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Consequent"
+        },
+        "implication_style": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ImplicationStyle"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "min_delay": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Min Delay"
+        },
+        "max_delay": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Max Delay"
+        },
+        "temporal_strength": {
+          "$ref": "#/$defs/TemporalStrength",
+          "default": "weak"
+        },
+        "environmental_assumptions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Environmental Assumptions",
+          "type": "array"
+        },
+        "referenced_symbols": {
+          "items": {
+            "$ref": "#/$defs/SymbolRef"
+          },
+          "title": "Referenced Symbols",
+          "type": "array"
+        },
+        "ambiguities": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Ambiguities",
+          "type": "array"
+        },
+        "confidence": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Confidence",
+          "type": "number"
+        },
+        "reviewer_status": {
+          "default": "unreviewed",
+          "title": "Reviewer Status",
+          "type": "string"
+        },
+        "validation_checks": {
+          "items": {
+            "$ref": "#/$defs/ValidationCheck"
+          },
+          "title": "Validation Checks",
+          "type": "array"
+        },
+        "provenance": {
+          "$ref": "#/$defs/Provenance"
+        }
+      },
+      "required": [
+        "requirement_id",
+        "clause_id",
+        "source_text",
+        "design_top",
+        "property_kind",
+        "property_form",
+        "render_template_id",
+        "confidence",
+        "provenance"
+      ],
+      "title": "TemporalIntent",
+      "type": "object"
+    },
+    "TemporalStrength": {
+      "enum": [
+        "strong",
+        "weak"
+      ],
+      "title": "TemporalStrength",
+      "type": "string"
+    },
+    "TermGrounding": {
+      "additionalProperties": false,
+      "description": "All ranked matches for a single requirement term.",
+      "properties": {
+        "term": {
+          "title": "Term",
+          "type": "string"
+        },
+        "matches": {
+          "items": {
+            "$ref": "#/$defs/SymbolMatch"
+          },
+          "title": "Matches",
+          "type": "array"
+        },
+        "resolved": {
+          "default": false,
+          "title": "Resolved",
+          "type": "boolean"
+        },
+        "ambiguous": {
+          "default": false,
+          "title": "Ambiguous",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "term"
+      ],
+      "title": "TermGrounding",
+      "type": "object"
+    },
+    "ValidationCheck": {
+      "additionalProperties": false,
+      "properties": {
+        "check": {
+          "title": "Check",
+          "type": "string"
+        },
+        "passed": {
+          "title": "Passed",
+          "type": "boolean"
+        },
+        "severity": {
+          "$ref": "#/$defs/Severity",
+          "default": "error"
+        },
+        "detail": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Detail"
+        }
+      },
+      "required": [
+        "check",
+        "passed"
+      ],
+      "title": "ValidationCheck",
+      "type": "object"
+    },
+    "ValidationReport": {
+      "additionalProperties": false,
+      "description": "Result of static validation of a temporal intent / candidate.",
+      "properties": {
+        "requirement_id": {
+          "title": "Requirement Id",
+          "type": "string"
+        },
+        "clause_id": {
+          "title": "Clause Id",
+          "type": "string"
+        },
+        "checks": {
+          "items": {
+            "$ref": "#/$defs/ValidationCheck"
+          },
+          "title": "Checks",
+          "type": "array"
+        },
+        "emitted": {
+          "title": "Emitted",
+          "type": "boolean"
+        },
+        "candidate": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/CandidateProperty"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "provenance": {
+          "$ref": "#/$defs/Provenance"
+        }
+      },
+      "required": [
+        "requirement_id",
+        "clause_id",
+        "checks",
+        "emitted",
+        "provenance"
+      ],
+      "title": "ValidationReport",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "run_id": {
+      "title": "Run Id",
+      "type": "string"
+    },
+    "requirement": {
+      "$ref": "#/$defs/Requirement"
+    },
+    "decomposition": {
+      "$ref": "#/$defs/DecompositionResult"
+    },
+    "groundings": {
+      "items": {
+        "$ref": "#/$defs/GroundingResult"
+      },
+      "title": "Groundings",
+      "type": "array"
+    },
+    "intents": {
+      "items": {
+        "$ref": "#/$defs/TemporalIntent"
+      },
+      "title": "Intents",
+      "type": "array"
+    },
+    "validations": {
+      "items": {
+        "$ref": "#/$defs/ValidationReport"
+      },
+      "title": "Validations",
+      "type": "array"
+    },
+    "checklist": {
+      "items": {
+        "$ref": "#/$defs/ReviewChecklistItem"
+      },
+      "title": "Checklist",
+      "type": "array"
+    },
+    "non_claims": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Non Claims",
+      "type": "array"
+    },
+    "provenance": {
+      "$ref": "#/$defs/Provenance"
+    }
+  },
+  "required": [
+    "run_id",
+    "requirement",
+    "decomposition",
+    "groundings",
+    "intents",
+    "validations",
+    "checklist",
+    "provenance"
+  ],
+  "title": "ReviewReport",
+  "type": "object"
+}

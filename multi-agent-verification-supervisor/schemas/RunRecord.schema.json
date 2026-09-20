@@ -1,0 +1,116 @@
+{
+  "$defs": {
+    "FormalResult": {
+      "description": "Formal result vocabulary. Never map TIMEOUT/ERROR/UNKNOWN to PASS.",
+      "enum": [
+        "PASS",
+        "FAIL",
+        "TIMEOUT",
+        "ERROR",
+        "UNKNOWN",
+        "COMPILED"
+      ],
+      "title": "FormalResult",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Provenance record for one formal run (mirrors the orchestrator ledger).",
+  "properties": {
+    "task_id": {
+      "title": "Task Id",
+      "type": "string"
+    },
+    "property_id": {
+      "title": "Property Id",
+      "type": "string"
+    },
+    "config_id": {
+      "title": "Config Id",
+      "type": "string"
+    },
+    "repo_revision": {
+      "title": "Repo Revision",
+      "type": "string"
+    },
+    "manifest_hash": {
+      "title": "Manifest Hash",
+      "type": "string"
+    },
+    "tool_name": {
+      "default": "mock-formal",
+      "title": "Tool Name",
+      "type": "string"
+    },
+    "tool_version": {
+      "default": "0.0.0-mock",
+      "title": "Tool Version",
+      "type": "string"
+    },
+    "command": {
+      "default": "",
+      "title": "Command",
+      "type": "string"
+    },
+    "seed": {
+      "default": 0,
+      "title": "Seed",
+      "type": "integer"
+    },
+    "start_time": {
+      "format": "date-time",
+      "title": "Start Time",
+      "type": "string"
+    },
+    "end_time": {
+      "format": "date-time",
+      "title": "End Time",
+      "type": "string"
+    },
+    "cpu_time_s": {
+      "default": 0.0,
+      "title": "Cpu Time S",
+      "type": "number"
+    },
+    "wall_time_s": {
+      "default": 0.0,
+      "title": "Wall Time S",
+      "type": "number"
+    },
+    "peak_mem_mb": {
+      "default": 0.0,
+      "title": "Peak Mem Mb",
+      "type": "number"
+    },
+    "return_code": {
+      "default": 0,
+      "title": "Return Code",
+      "type": "integer"
+    },
+    "result": {
+      "$ref": "#/$defs/FormalResult",
+      "default": "UNKNOWN"
+    },
+    "artifact_paths": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Artifact Paths",
+      "type": "array"
+    },
+    "rationale": {
+      "default": "",
+      "title": "Rationale",
+      "type": "string"
+    }
+  },
+  "required": [
+    "task_id",
+    "property_id",
+    "config_id",
+    "repo_revision",
+    "manifest_hash"
+  ],
+  "title": "RunRecord",
+  "type": "object"
+}

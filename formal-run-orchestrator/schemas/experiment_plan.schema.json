@@ -1,0 +1,92 @@
+{
+  "$defs": {
+    "PlannedRun": {
+      "additionalProperties": false,
+      "description": "A single (benchmark, config) unit of work with a rationale and seed.",
+      "properties": {
+        "plan_run_id": {
+          "title": "Plan Run Id",
+          "type": "string"
+        },
+        "benchmark_id": {
+          "title": "Benchmark Id",
+          "type": "string"
+        },
+        "config_id": {
+          "title": "Config Id",
+          "type": "string"
+        },
+        "seed": {
+          "minimum": 0,
+          "title": "Seed",
+          "type": "integer"
+        },
+        "rationale": {
+          "description": "Why the planner/policy chose this config (heuristic).",
+          "title": "Rationale",
+          "type": "string"
+        },
+        "policy_name": {
+          "title": "Policy Name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "plan_run_id",
+        "benchmark_id",
+        "config_id",
+        "seed",
+        "rationale",
+        "policy_name"
+      ],
+      "title": "PlannedRun",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "default": "0.1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "plan_id": {
+      "title": "Plan Id",
+      "type": "string"
+    },
+    "suite_id": {
+      "title": "Suite Id",
+      "type": "string"
+    },
+    "catalog_version": {
+      "title": "Catalog Version",
+      "type": "string"
+    },
+    "policy_name": {
+      "title": "Policy Name",
+      "type": "string"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "planned_runs": {
+      "items": {
+        "$ref": "#/$defs/PlannedRun"
+      },
+      "title": "Planned Runs",
+      "type": "array"
+    }
+  },
+  "required": [
+    "plan_id",
+    "suite_id",
+    "catalog_version",
+    "policy_name",
+    "created_at",
+    "planned_runs"
+  ],
+  "title": "ExperimentPlan",
+  "type": "object"
+}

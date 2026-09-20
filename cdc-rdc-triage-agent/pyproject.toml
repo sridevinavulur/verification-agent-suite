@@ -1,0 +1,59 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "cdc-rdc-triage-agent"
+version = "0.1.0"
+description = "Deterministic structural HEURISTIC triage of clock/reset-domain crossings from an RTL Intent Manifest. Not a CDC/RDC signoff tool."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "CDC/RDC Triage Agent contributors" }]
+keywords = ["cdc", "rdc", "clock-domain-crossing", "rtl", "verification", "formal"]
+classifiers = [
+    "Programming Language :: Python :: 3.11",
+    "License :: OSI Approved :: MIT License",
+    "Topic :: Scientific/Engineering :: Electronic Design Automation (EDA)",
+]
+dependencies = [
+    "pydantic>=2.6,<3",
+    "typer>=0.12,<1",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.5",
+    "mypy>=1.8",
+]
+
+[project.scripts]
+cdc-rdc-triage = "cdc_rdc_triage.cli:run"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/cdc_rdc_triage"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "W", "C4"]
+ignore = ["B008"]  # typer uses function-call defaults for Option/Argument
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["E501"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["cdc_rdc_triage", "conftest"]
+
+[tool.mypy]
+python_version = "3.11"
+packages = ["cdc_rdc_triage"]
+ignore_missing_imports = true

@@ -1,0 +1,12 @@
+{
+  "protocol": "credit",
+  "module": "credit_src",
+  "roles": {
+    "send": "send",
+    "credit_return": "credit_ret",
+    "credit_count": "credits"
+  },
+  "clock": "clk",
+  "reset": "rst_n",
+  "max_credits": 8
+}

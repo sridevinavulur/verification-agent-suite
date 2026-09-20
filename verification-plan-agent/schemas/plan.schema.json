@@ -1,0 +1,485 @@
+{
+  "$defs": {
+    "Ambiguity": {
+      "additionalProperties": false,
+      "properties": {
+        "detail": {
+          "title": "Detail",
+          "type": "string"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "kind": {
+          "$ref": "#/$defs/AmbiguityKind"
+        },
+        "ref": {
+          "default": "",
+          "description": "Related requirement/signal/module id.",
+          "title": "Ref",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "detail"
+      ],
+      "title": "Ambiguity",
+      "type": "object"
+    },
+    "AmbiguityKind": {
+      "enum": [
+        "missing_requirement",
+        "unverifiable_requirement",
+        "assumption",
+        "undefined_interface_signal",
+        "unmapped_manifest_reset",
+        "unmapped_manifest_clock"
+      ],
+      "title": "AmbiguityKind",
+      "type": "string"
+    },
+    "ApprovalState": {
+      "description": "Human-approval workflow states.\n\nThe agent never emits ``APPROVED``; only a human decision (applied via the\n``approve`` command / a decisions file) promotes an item.",
+      "enum": [
+        "proposed",
+        "approved",
+        "rejected"
+      ],
+      "title": "ApprovalState",
+      "type": "string"
+    },
+    "AssertionCandidate": {
+      "additionalProperties": false,
+      "description": "A proposed assertion (SVA-ish sketch).\n\nNON-CLAIM: this is a *sketch* proposed by deterministic templates + a mock\nLLM. It is not guaranteed to compile, be complete, or be correct.",
+      "properties": {
+        "approval": {
+          "$ref": "#/$defs/ApprovalState",
+          "default": "proposed"
+        },
+        "feature_id": {
+          "title": "Feature Id",
+          "type": "string"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "rationale": {
+          "title": "Rationale",
+          "type": "string"
+        },
+        "sva_sketch": {
+          "title": "Sva Sketch",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "feature_id",
+        "sva_sketch",
+        "rationale"
+      ],
+      "title": "AssertionCandidate",
+      "type": "object"
+    },
+    "Category": {
+      "description": "Verification concern categories (spec 6.2).",
+      "enum": [
+        "functional",
+        "performance",
+        "reset",
+        "error_handling",
+        "security",
+        "low_power",
+        "cdc_rdc",
+        "integration"
+      ],
+      "title": "Category",
+      "type": "string"
+    },
+    "CoverageTarget": {
+      "additionalProperties": false,
+      "properties": {
+        "approval": {
+          "$ref": "#/$defs/ApprovalState",
+          "default": "proposed"
+        },
+        "description": {
+          "title": "Description",
+          "type": "string"
+        },
+        "feature_id": {
+          "title": "Feature Id",
+          "type": "string"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "metric": {
+          "description": "e.g. cover_group, functional_bin, toggle.",
+          "title": "Metric",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "feature_id",
+        "metric",
+        "description"
+      ],
+      "title": "CoverageTarget",
+      "type": "object"
+    },
+    "Feature": {
+      "additionalProperties": false,
+      "description": "A verifiable feature decomposed from one or more requirements.",
+      "properties": {
+        "approval": {
+          "$ref": "#/$defs/ApprovalState",
+          "default": "proposed"
+        },
+        "category": {
+          "$ref": "#/$defs/Category"
+        },
+        "description": {
+          "title": "Description",
+          "type": "string"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "source_requirements": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Source Requirements",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "category",
+        "description"
+      ],
+      "title": "Feature",
+      "type": "object"
+    },
+    "PlanItem": {
+      "additionalProperties": false,
+      "description": "A risk-ranked verification-plan item tying a feature to techniques.",
+      "properties": {
+        "approval": {
+          "$ref": "#/$defs/ApprovalState",
+          "default": "proposed"
+        },
+        "assertion_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Assertion Ids",
+          "type": "array"
+        },
+        "category": {
+          "$ref": "#/$defs/Category"
+        },
+        "coverage_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Coverage Ids",
+          "type": "array"
+        },
+        "feature_id": {
+          "title": "Feature Id",
+          "type": "string"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "priority": {
+          "$ref": "#/$defs/Priority"
+        },
+        "risk_rationale": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Risk Rationale",
+          "type": "array"
+        },
+        "risk_score": {
+          "maximum": 100,
+          "minimum": 0,
+          "title": "Risk Score",
+          "type": "integer"
+        },
+        "scenario_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Scenario Ids",
+          "type": "array"
+        },
+        "techniques": {
+          "items": {
+            "$ref": "#/$defs/Technique"
+          },
+          "title": "Techniques",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "feature_id",
+        "category",
+        "priority",
+        "risk_score"
+      ],
+      "title": "PlanItem",
+      "type": "object"
+    },
+    "Priority": {
+      "enum": [
+        "P0",
+        "P1",
+        "P2",
+        "P3"
+      ],
+      "title": "Priority",
+      "type": "string"
+    },
+    "Provenance": {
+      "additionalProperties": false,
+      "properties": {
+        "command": {
+          "default": "",
+          "title": "Command",
+          "type": "string"
+        },
+        "git_sha": {
+          "default": "UNKNOWN",
+          "title": "Git Sha",
+          "type": "string"
+        },
+        "input_files": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Input Files",
+          "type": "array"
+        },
+        "input_sha256": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Input Sha256",
+          "type": "object"
+        },
+        "llm_adapter": {
+          "default": "mock",
+          "title": "Llm Adapter",
+          "type": "string"
+        },
+        "schema_version": {
+          "default": "0.1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "tool": {
+          "default": "verification-plan-agent",
+          "title": "Tool",
+          "type": "string"
+        },
+        "tool_version": {
+          "default": "0.1.0",
+          "title": "Tool Version",
+          "type": "string"
+        }
+      },
+      "title": "Provenance",
+      "type": "object"
+    },
+    "Technique": {
+      "description": "Proposed verification techniques (spec 6.2).",
+      "enum": [
+        "directed_sim",
+        "constrained_random",
+        "sva",
+        "formal",
+        "cover",
+        "emulation",
+        "post_silicon"
+      ],
+      "title": "Technique",
+      "type": "string"
+    },
+    "TestScenario": {
+      "additionalProperties": false,
+      "properties": {
+        "approval": {
+          "$ref": "#/$defs/ApprovalState",
+          "default": "proposed"
+        },
+        "description": {
+          "title": "Description",
+          "type": "string"
+        },
+        "feature_id": {
+          "title": "Feature Id",
+          "type": "string"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "technique": {
+          "$ref": "#/$defs/Technique"
+        }
+      },
+      "required": [
+        "id",
+        "feature_id",
+        "technique",
+        "description"
+      ],
+      "title": "TestScenario",
+      "type": "object"
+    },
+    "TraceRow": {
+      "additionalProperties": false,
+      "description": "One requirement -> tests -> coverage traceability row.",
+      "properties": {
+        "assertion_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Assertion Ids",
+          "type": "array"
+        },
+        "coverage_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Coverage Ids",
+          "type": "array"
+        },
+        "covered": {
+          "default": false,
+          "title": "Covered",
+          "type": "boolean"
+        },
+        "existing_testplan_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Existing Testplan Ids",
+          "type": "array"
+        },
+        "feature_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Feature Ids",
+          "type": "array"
+        },
+        "requirement_id": {
+          "title": "Requirement Id",
+          "type": "string"
+        },
+        "scenario_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Scenario Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "requirement_id"
+      ],
+      "title": "TraceRow",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "The complete verification-plan draft (the agent's top-level output).",
+  "properties": {
+    "ambiguities": {
+      "items": {
+        "$ref": "#/$defs/Ambiguity"
+      },
+      "title": "Ambiguities",
+      "type": "array"
+    },
+    "assertions": {
+      "items": {
+        "$ref": "#/$defs/AssertionCandidate"
+      },
+      "title": "Assertions",
+      "type": "array"
+    },
+    "coverage_targets": {
+      "items": {
+        "$ref": "#/$defs/CoverageTarget"
+      },
+      "title": "Coverage Targets",
+      "type": "array"
+    },
+    "design_name": {
+      "title": "Design Name",
+      "type": "string"
+    },
+    "features": {
+      "items": {
+        "$ref": "#/$defs/Feature"
+      },
+      "title": "Features",
+      "type": "array"
+    },
+    "plan_items": {
+      "items": {
+        "$ref": "#/$defs/PlanItem"
+      },
+      "title": "Plan Items",
+      "type": "array"
+    },
+    "provenance": {
+      "$ref": "#/$defs/Provenance"
+    },
+    "scenarios": {
+      "items": {
+        "$ref": "#/$defs/TestScenario"
+      },
+      "title": "Scenarios",
+      "type": "array"
+    },
+    "schema_version": {
+      "default": "0.1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "traceability": {
+      "items": {
+        "$ref": "#/$defs/TraceRow"
+      },
+      "title": "Traceability",
+      "type": "array"
+    }
+  },
+  "required": [
+    "design_name",
+    "provenance"
+  ],
+  "title": "VerificationPlan",
+  "type": "object"
+}

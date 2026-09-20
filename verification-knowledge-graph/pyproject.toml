@@ -1,0 +1,49 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "verification-knowledge-graph"
+version = "0.1.0"
+description = "A lightweight SQLite-backed knowledge graph over verification artifacts (requirements, assertions, tests, coverage, runs, evidence)."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "Verification Agent portfolio" }]
+keywords = ["verification", "knowledge-graph", "sva", "coverage", "formal", "rtl"]
+dependencies = [
+    "pydantic>=2.5,<3",
+    "typer>=0.9",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4",
+    "ruff>=0.4",
+]
+
+[project.scripts]
+vkg = "vkg.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+vkg = ["py.typed"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "W"]
+
+[tool.ruff.lint.per-file-ignores]
+# Typer's idiomatic API uses function calls (Argument/Option) as parameter
+# defaults, which B008 flags. This is intentional for the CLI module.
+"src/vkg/cli.py" = ["B008"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"

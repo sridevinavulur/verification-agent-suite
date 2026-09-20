@@ -1,0 +1,40 @@
+{
+  "agent_id": "Bad_ID With Spaces",
+  "display_name": "X",
+  "version": "1.0",
+  "mission": "too short",
+  "category": "sva_generation",
+  "owner_role": "eng",
+  "maturity_level": "prototype",
+  "inputs": [],
+  "outputs": ["sva"],
+  "supported_design_languages": ["SystemVerilog"],
+  "deterministic_tools": ["renderer"],
+  "optional_llm_roles": [],
+  "authority_boundary": "short",
+  "prohibited_actions": ["none"],
+  "required_human_approvals": ["approve"],
+  "claim_policy": {
+    "may_claim": "TBD",
+    "must_not_claim": "TBD",
+    "passing_result_means": "TBD",
+    "timeout_or_unknown_means": "TBD",
+    "human_review_required_when": "TBD"
+  },
+  "validation_gates": [],
+  "evidence_metrics": [],
+  "benchmark_manifest": {
+    "name": "b",
+    "description": "d",
+    "public_source": "s",
+    "license": "MIT"
+  },
+  "known_limitations": [],
+  "release_status": "public",
+  "license": "MIT",
+  "provenance": {
+    "author_role": "eng",
+    "created_utc": "not-a-date",
+    "manifest_schema_version": "1.0.0"
+  }
+}

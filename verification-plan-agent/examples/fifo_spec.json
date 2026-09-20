@@ -1,0 +1,36 @@
+{
+  "design_name": "sync_fifo",
+  "version": "1.0.0",
+  "requirements": [
+    {
+      "id": "REQ-FIFO-01",
+      "text": "The FIFO shall accept a write when wr_en is asserted and full is deasserted.",
+      "tags": ["datapath"]
+    },
+    {
+      "id": "REQ-FIFO-02",
+      "text": "The FIFO shall present valid read data when rd_en is asserted and empty is deasserted.",
+      "tags": ["datapath"]
+    },
+    {
+      "id": "REQ-FIFO-03",
+      "text": "On reset the FIFO must clear its occupancy so that empty is asserted and full is deasserted.",
+      "tags": ["reset"]
+    },
+    {
+      "id": "REQ-FIFO-04",
+      "text": "A write when full or a read when empty is an illegal operation and must be flagged as an error.",
+      "tags": ["error"]
+    },
+    {
+      "id": "REQ-FIFO-05",
+      "text": "The FIFO shall sustain back-to-back writes at one word per cycle at the target throughput.",
+      "tags": ["performance"]
+    },
+    {
+      "id": "REQ-FIFO-06",
+      "text": "The FIFO is easy to use.",
+      "tags": []
+    }
+  ]
+}

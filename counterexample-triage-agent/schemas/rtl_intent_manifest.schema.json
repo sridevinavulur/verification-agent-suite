@@ -1,0 +1,90 @@
+{
+  "$defs": {
+    "RTLSymbol": {
+      "description": "One net/register/port in the design, with dependency + source info.",
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "kind": {
+          "description": "port_in|port_out|reg|wire|const",
+          "title": "Kind",
+          "type": "string"
+        },
+        "width": {
+          "default": 1,
+          "minimum": 1,
+          "title": "Width",
+          "type": "integer"
+        },
+        "location": {
+          "$ref": "#/$defs/SourceLocation"
+        },
+        "drivers": {
+          "description": "Names of symbols in this symbol's combinational/sequential fan-in.",
+          "items": {
+            "type": "string"
+          },
+          "title": "Drivers",
+          "type": "array"
+        },
+        "is_reset": {
+          "default": false,
+          "title": "Is Reset",
+          "type": "boolean"
+        },
+        "is_clock": {
+          "default": false,
+          "title": "Is Clock",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "name",
+        "kind",
+        "location"
+      ],
+      "title": "RTLSymbol",
+      "type": "object"
+    },
+    "SourceLocation": {
+      "properties": {
+        "file": {
+          "title": "File",
+          "type": "string"
+        },
+        "line": {
+          "minimum": 1,
+          "title": "Line",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "file",
+        "line"
+      ],
+      "title": "SourceLocation",
+      "type": "object"
+    }
+  },
+  "description": "Minimal RTL Intent Manifest fixture consumed for cone-of-influence.",
+  "properties": {
+    "design_top": {
+      "title": "Design Top",
+      "type": "string"
+    },
+    "symbols": {
+      "additionalProperties": {
+        "$ref": "#/$defs/RTLSymbol"
+      },
+      "title": "Symbols",
+      "type": "object"
+    }
+  },
+  "required": [
+    "design_top"
+  ],
+  "title": "RTLIntentManifest",
+  "type": "object"
+}

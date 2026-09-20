@@ -1,0 +1,133 @@
+{
+  "$defs": {
+    "ImplicationStyle": {
+      "enum": [
+        "overlapping",
+        "non_overlapping"
+      ],
+      "title": "ImplicationStyle",
+      "type": "string"
+    }
+  },
+  "description": "A structured record of an assertion failure emitted by a backend tool.\n\nThe clock/reset/antecedent/consequent fields are *signal names* that must be\nresolvable against the trace. They are how we deterministically find the\nantecedent-activation cycle and the failure cycle.",
+  "properties": {
+    "property_name": {
+      "description": "Name of the failing property.",
+      "title": "Property Name",
+      "type": "string"
+    },
+    "property_text": {
+      "default": "",
+      "description": "Source SVA / property text, verbatim.",
+      "title": "Property Text",
+      "type": "string"
+    },
+    "source_file": {
+      "description": "RTL/property source file path.",
+      "title": "Source File",
+      "type": "string"
+    },
+    "source_line": {
+      "description": "1-based source line of the property.",
+      "minimum": 1,
+      "title": "Source Line",
+      "type": "integer"
+    },
+    "clock": {
+      "description": "Clock signal name.",
+      "title": "Clock",
+      "type": "string"
+    },
+    "clock_edge": {
+      "default": "posedge",
+      "description": "posedge or negedge.",
+      "title": "Clock Edge",
+      "type": "string"
+    },
+    "reset": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Reset signal name, if any.",
+      "title": "Reset"
+    },
+    "reset_active_high": {
+      "default": true,
+      "description": "Reset polarity.",
+      "title": "Reset Active High",
+      "type": "boolean"
+    },
+    "antecedent_signal": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Signal whose truth activates the antecedent.",
+      "title": "Antecedent Signal"
+    },
+    "consequent_signal": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Signal that must hold for the consequent.",
+      "title": "Consequent Signal"
+    },
+    "implication": {
+      "$ref": "#/$defs/ImplicationStyle",
+      "default": "non_overlapping"
+    },
+    "delay_min": {
+      "default": 1,
+      "description": "Min cycles from antecedent to consequent.",
+      "minimum": 0,
+      "title": "Delay Min",
+      "type": "integer"
+    },
+    "delay_max": {
+      "default": 1,
+      "description": "Max cycles from antecedent to consequent.",
+      "minimum": 0,
+      "title": "Delay Max",
+      "type": "integer"
+    },
+    "failure_time": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Tool-reported failure time, if provided.",
+      "title": "Failure Time"
+    }
+  },
+  "required": [
+    "property_name",
+    "source_file",
+    "source_line",
+    "clock"
+  ],
+  "title": "AssertionFailure",
+  "type": "object"
+}

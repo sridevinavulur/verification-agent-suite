@@ -1,0 +1,22 @@
+{
+  "entries": [
+    { "signal": "result", "design": "reference", "module": "ref_alu",
+      "location": { "file": "ref_alu.v", "line": 10, "col": 22 } },
+    { "signal": "result", "design": "revised", "module": "rev_alu",
+      "location": { "file": "rev_alu.v", "line": 12, "col": 22 } },
+    { "signal": "result[7]", "design": "reference", "module": "ref_alu",
+      "location": { "file": "ref_alu.v", "line": 10, "col": 22 } },
+    { "signal": "result[6]", "design": "reference", "module": "ref_alu",
+      "location": { "file": "ref_alu.v", "line": 10, "col": 22 } },
+    { "signal": "rst_n", "design": "reference", "module": "ref_alu",
+      "location": { "file": "ref_alu.v", "line": 7, "col": 23 } },
+    { "signal": "rst", "design": "revised", "module": "rev_alu",
+      "location": { "file": "rev_alu.v", "line": 8, "col": 23 } },
+    { "signal": "a", "design": "reference", "module": "ref_alu",
+      "location": { "file": "ref_alu.v", "line": 8, "col": 23 } },
+    { "signal": "b", "design": "reference", "module": "ref_alu",
+      "location": { "file": "ref_alu.v", "line": 9, "col": 23 } },
+    { "signal": "op", "design": "reference", "module": "ref_alu",
+      "location": { "file": "ref_alu.v", "line": 10, "col": 23 } }
+  ]
+}

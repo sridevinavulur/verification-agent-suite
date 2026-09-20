@@ -1,0 +1,10 @@
+{
+  "task_id": "req-grant-001",
+  "repo_revision": "deadbeef1234",
+  "requirement_text": "Whenever req is accepted, grant must arrive within 1 to 3 cycles unless reset is asserted.",
+  "rtl_files": ["examples/handshake.sv"],
+  "affects_assumptions": false,
+  "affects_abstraction": false,
+  "affects_budget": false,
+  "affects_proof_scope": false
+}

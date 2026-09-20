@@ -1,0 +1,38 @@
+{
+  "schema_version": "0.1.0",
+  "top": "vr_producer",
+  "parser": { "adapter": "builtin", "adapter_version": "0.1.0" },
+  "provenance": { "tool_version": "0.1.0" },
+  "modules": [
+    {
+      "name": "vr_producer",
+      "location": { "file": "valid_ready.sv", "line": 1, "col": 1, "end_line": 30, "end_col": 10 },
+      "clock_candidates": [
+        { "signal": "clk", "confidence": 1.0, "rationale": ["edge-sensitive in always_ff"],
+          "location": { "file": "valid_ready.sv", "line": 3, "col": 5, "end_line": 3, "end_col": 20 } }
+      ],
+      "reset_candidates": [
+        { "signal": "rst_n", "confidence": 0.9, "polarity": "active_low", "sync": "asynchronous",
+          "rationale": ["reset-like name", "negedge in always_ff"],
+          "location": { "file": "valid_ready.sv", "line": 4, "col": 5, "end_line": 4, "end_col": 22 } }
+      ],
+      "ports": [
+        { "name": "clk", "direction": "input", "net_kind": "wire",
+          "location": { "file": "valid_ready.sv", "line": 3, "col": 5, "end_line": 3, "end_col": 20 } },
+        { "name": "rst_n", "direction": "input", "net_kind": "wire",
+          "location": { "file": "valid_ready.sv", "line": 4, "col": 5, "end_line": 4, "end_col": 22 } },
+        { "name": "out_valid", "direction": "output", "net_kind": "reg",
+          "location": { "file": "valid_ready.sv", "line": 5, "col": 5, "end_line": 5, "end_col": 26 } },
+        { "name": "out_ready", "direction": "input", "net_kind": "wire",
+          "location": { "file": "valid_ready.sv", "line": 6, "col": 5, "end_line": 6, "end_col": 26 } },
+        { "name": "out_data", "direction": "output", "net_kind": "reg",
+          "range": { "msb": "WIDTH-1", "lsb": "0" },
+          "location": { "file": "valid_ready.sv", "line": 7, "col": 5, "end_line": 7, "end_col": 40 } }
+      ],
+      "registers": [
+        { "name": "out_valid", "location": { "file": "valid_ready.sv", "line": 12, "col": 9, "end_line": 12, "end_col": 25 } },
+        { "name": "out_data", "location": { "file": "valid_ready.sv", "line": 13, "col": 9, "end_line": 13, "end_col": 25 } }
+      ]
+    }
+  ]
+}

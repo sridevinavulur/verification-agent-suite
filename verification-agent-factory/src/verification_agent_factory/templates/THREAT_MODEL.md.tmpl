@@ -1,0 +1,24 @@
+# Threat model — {{ display_name }}
+
+## Hallucination
+The optional LLM may propose signals, bounds, or properties that do not exist.
+Mitigation: every identifier is grounded against a supplied symbol table; ungrounded
+identifiers are rejected by `validators.py`, never emitted.
+
+## Unsafe assumptions
+An LLM might turn a design guarantee into an environment assumption. Mitigation:
+property kind (assume/assert/cover) is explicit in the typed IR and changes require
+human review (see manifest `required_human_approvals`).
+
+## Data leakage
+Only public, non-proprietary inputs are permitted. `audit-public-release` in the
+factory scans for secrets and proprietary markers before release.
+
+## Reproducibility risks
+Non-deterministic LLM output would break reproducibility. Mitigation: the default
+adapter is the deterministic mock; real providers are opt-in and their versions
+are recorded in provenance.
+
+## Result-classification risks
+A timeout/error/unknown must never be reported as PASS. The result vocabulary is
+enforced: PASS, FAIL, TIMEOUT, ERROR, UNKNOWN, "property compiled" (syntax only).

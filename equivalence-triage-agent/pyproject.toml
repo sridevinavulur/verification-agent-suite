@@ -1,0 +1,45 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "eq-triage"
+version = "0.1.0"
+description = "Equivalence Triage Agent: deterministic, evidence-grounded triage of RTL equivalence-checking (LEC/SEC) mismatch results."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "Equivalence Triage Agent contributors" }]
+keywords = ["formal-verification", "equivalence-checking", "lec", "sec", "triage", "eda"]
+dependencies = [
+    "pydantic>=2.5",
+    "typer>=0.12",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4",
+    "ruff>=0.4",
+]
+
+[project.scripts]
+eq-triage = "eq_triage.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+eq_triage = ["py.typed"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "W"]
+ignore = ["B008"]  # Typer uses function-call defaults (Option/Argument) by design.
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"

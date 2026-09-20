@@ -1,0 +1,175 @@
+{
+  "$defs": {
+    "AccessType": {
+      "description": "Closed set of supported field/register access semantics.\n\nThe tool refuses to invent semantics; any source token that does not map\nonto one of these members is reported as an ``UNKNOWN_ACCESS`` discrepancy.",
+      "enum": [
+        "RO",
+        "RW",
+        "WO",
+        "W1C",
+        "W1S",
+        "RC",
+        "RESERVED"
+      ],
+      "title": "AccessType",
+      "type": "string"
+    },
+    "Field_": {
+      "additionalProperties": false,
+      "description": "A named bit field inside a register.\n\n``bit_offset``/``bit_width`` are the normalized bit range. Source formats\nthat give ``[msb:lsb]`` are converted to offset/width by the parser.",
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "bit_offset": {
+          "minimum": 0,
+          "title": "Bit Offset",
+          "type": "integer"
+        },
+        "bit_width": {
+          "minimum": 1,
+          "title": "Bit Width",
+          "type": "integer"
+        },
+        "access": {
+          "$ref": "#/$defs/AccessType"
+        },
+        "reset_value": {
+          "minimum": 0,
+          "title": "Reset Value",
+          "type": "integer"
+        },
+        "description": {
+          "default": "",
+          "title": "Description",
+          "type": "string"
+        },
+        "side_effect": {
+          "default": "",
+          "title": "Side Effect",
+          "type": "string"
+        },
+        "interrupt_related": {
+          "default": false,
+          "title": "Interrupt Related",
+          "type": "boolean"
+        },
+        "privilege": {
+          "$ref": "#/$defs/Privilege",
+          "default": "ANY"
+        }
+      },
+      "required": [
+        "name",
+        "bit_offset",
+        "bit_width",
+        "access",
+        "reset_value"
+      ],
+      "title": "Field_",
+      "type": "object"
+    },
+    "Privilege": {
+      "description": "Optional access-privilege annotation for security-sensitive registers.",
+      "enum": [
+        "USER",
+        "SUPERVISOR",
+        "MACHINE",
+        "SECURE",
+        "ANY"
+      ],
+      "title": "Privilege",
+      "type": "string"
+    },
+    "Register": {
+      "additionalProperties": false,
+      "description": "A single addressable register.",
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "address": {
+          "minimum": 0,
+          "title": "Address",
+          "type": "integer"
+        },
+        "width_bits": {
+          "minimum": 1,
+          "title": "Width Bits",
+          "type": "integer"
+        },
+        "access": {
+          "$ref": "#/$defs/AccessType",
+          "default": "RW"
+        },
+        "reset_value": {
+          "minimum": 0,
+          "title": "Reset Value",
+          "type": "integer"
+        },
+        "description": {
+          "default": "",
+          "title": "Description",
+          "type": "string"
+        },
+        "fields": {
+          "items": {
+            "$ref": "#/$defs/Field_"
+          },
+          "title": "Fields",
+          "type": "array"
+        }
+      },
+      "required": [
+        "name",
+        "address",
+        "width_bits",
+        "reset_value"
+      ],
+      "title": "Register",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Normalized register manifest (the tool's canonical intermediate form).",
+  "properties": {
+    "name": {
+      "default": "csr_block",
+      "title": "Name",
+      "type": "string"
+    },
+    "data_width_bits": {
+      "default": 32,
+      "minimum": 1,
+      "title": "Data Width Bits",
+      "type": "integer"
+    },
+    "address_unit_bytes": {
+      "default": 1,
+      "minimum": 1,
+      "title": "Address Unit Bytes",
+      "type": "integer"
+    },
+    "registers": {
+      "items": {
+        "$ref": "#/$defs/Register"
+      },
+      "title": "Registers",
+      "type": "array"
+    },
+    "source_format": {
+      "default": "unknown",
+      "title": "Source Format",
+      "type": "string"
+    },
+    "source_file": {
+      "default": "",
+      "title": "Source File",
+      "type": "string"
+    }
+  },
+  "title": "RegisterMap",
+  "type": "object"
+}

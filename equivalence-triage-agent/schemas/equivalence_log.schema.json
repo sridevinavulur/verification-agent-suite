@@ -1,0 +1,313 @@
+{
+  "$defs": {
+    "CexVector": {
+      "additionalProperties": false,
+      "description": "One signal's value at one time step of a counterexample.",
+      "properties": {
+        "signal": {
+          "title": "Signal",
+          "type": "string"
+        },
+        "time": {
+          "minimum": 0,
+          "title": "Time",
+          "type": "integer"
+        },
+        "ref_value": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Ref Value"
+        },
+        "rev_value": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Rev Value"
+        }
+      },
+      "required": [
+        "signal",
+        "time"
+      ],
+      "title": "CexVector",
+      "type": "object"
+    },
+    "ConfigDelta": {
+      "additionalProperties": false,
+      "description": "A single configuration/constraint difference between the two runs.\n\nSurfacing these is mandatory (never conceal configuration differences).",
+      "properties": {
+        "key": {
+          "title": "Key",
+          "type": "string"
+        },
+        "reference_value": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reference Value"
+        },
+        "revised_value": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Revised Value"
+        }
+      },
+      "required": [
+        "key"
+      ],
+      "title": "ConfigDelta",
+      "type": "object"
+    },
+    "Counterexample": {
+      "additionalProperties": false,
+      "description": "A CEX witnessing a single compare-point mismatch.",
+      "properties": {
+        "compare_point": {
+          "title": "Compare Point",
+          "type": "string"
+        },
+        "first_diff_time": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "First Diff Time"
+        },
+        "vectors": {
+          "items": {
+            "$ref": "#/$defs/CexVector"
+          },
+          "title": "Vectors",
+          "type": "array"
+        }
+      },
+      "required": [
+        "compare_point"
+      ],
+      "title": "Counterexample",
+      "type": "object"
+    },
+    "EquivalenceStatus": {
+      "description": "The equivalence-checker's own verdict. Echoed, never invented.",
+      "enum": [
+        "EQUIVALENT",
+        "NOT_EQUIVALENT",
+        "INCONCLUSIVE",
+        "TIMEOUT",
+        "ERROR",
+        "ABORTED"
+      ],
+      "title": "EquivalenceStatus",
+      "type": "string"
+    },
+    "MismatchKind": {
+      "description": "Structural classification of a mismatched compare point.",
+      "enum": [
+        "output",
+        "state",
+        "cutpoint",
+        "blackbox",
+        "unknown"
+      ],
+      "title": "MismatchKind",
+      "type": "string"
+    },
+    "MismatchPoint": {
+      "additionalProperties": false,
+      "description": "A single non-equivalent compare point reported by the tool.",
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "kind": {
+          "$ref": "#/$defs/MismatchKind",
+          "default": "unknown"
+        },
+        "ref_signal": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Ref Signal"
+        },
+        "rev_signal": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Rev Signal"
+        },
+        "ref_width": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Ref Width"
+        },
+        "rev_width": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Rev Width"
+        },
+        "fanin_signals": {
+          "description": "Support (cone-of-influence) signals from the tool report.",
+          "items": {
+            "type": "string"
+          },
+          "title": "Fanin Signals",
+          "type": "array"
+        },
+        "counterexample": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Counterexample"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "title": "MismatchPoint",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Parsed, normalized equivalence-checker log.",
+  "properties": {
+    "tool": {
+      "title": "Tool",
+      "type": "string"
+    },
+    "tool_version": {
+      "default": "unknown",
+      "title": "Tool Version",
+      "type": "string"
+    },
+    "status": {
+      "$ref": "#/$defs/EquivalenceStatus"
+    },
+    "reference_design": {
+      "title": "Reference Design",
+      "type": "string"
+    },
+    "revised_design": {
+      "title": "Revised Design",
+      "type": "string"
+    },
+    "compare_points_total": {
+      "default": 0,
+      "minimum": 0,
+      "title": "Compare Points Total",
+      "type": "integer"
+    },
+    "compare_points_matched": {
+      "default": 0,
+      "minimum": 0,
+      "title": "Compare Points Matched",
+      "type": "integer"
+    },
+    "mismatches": {
+      "items": {
+        "$ref": "#/$defs/MismatchPoint"
+      },
+      "title": "Mismatches",
+      "type": "array"
+    },
+    "config_deltas": {
+      "items": {
+        "$ref": "#/$defs/ConfigDelta"
+      },
+      "title": "Config Deltas",
+      "type": "array"
+    },
+    "raw_log_path": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Raw Log Path"
+    },
+    "messages": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Messages",
+      "type": "array"
+    }
+  },
+  "required": [
+    "tool",
+    "status",
+    "reference_design",
+    "revised_design"
+  ],
+  "title": "EquivalenceLog",
+  "type": "object"
+}

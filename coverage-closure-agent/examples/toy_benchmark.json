@@ -1,0 +1,209 @@
+{
+  "coverage": {
+    "format_version": "mock-cov-1.0",
+    "tool": "mock",
+    "items": [
+      {
+        "coverage_id": "cov.fifo.branch.full",
+        "kind": "branch",
+        "hits": 12,
+        "goal": 1,
+        "module": "fifo",
+        "source_file": "rtl/fifo.sv",
+        "source_line": 44,
+        "description": "fifo full branch taken"
+      },
+      {
+        "coverage_id": "cov.fifo.branch.empty",
+        "kind": "branch",
+        "hits": 0,
+        "goal": 1,
+        "module": "fifo",
+        "source_file": "rtl/fifo.sv",
+        "source_line": 51,
+        "description": "fifo empty branch taken"
+      },
+      {
+        "coverage_id": "cov.fifo.branch.overflow_guard",
+        "kind": "branch",
+        "hits": 0,
+        "goal": 1,
+        "module": "fifo",
+        "source_file": "rtl/fifo.sv",
+        "source_line": 60,
+        "description": "overflow guard branch"
+      },
+      {
+        "coverage_id": "cov.arb.fsm.grant2",
+        "kind": "fsm_state",
+        "hits": 0,
+        "goal": 1,
+        "module": "arbiter",
+        "source_file": "rtl/arbiter.sv",
+        "source_line": 30,
+        "description": "arbiter GRANT2 state reached"
+      },
+      {
+        "coverage_id": "cov.arb.fsm.error",
+        "kind": "fsm_state",
+        "hits": 0,
+        "goal": 1,
+        "module": "arbiter",
+        "source_file": "rtl/arbiter.sv",
+        "source_line": 38,
+        "description": "arbiter ERROR state reached"
+      },
+      {
+        "coverage_id": "cov.cnt.toggle.msb",
+        "kind": "toggle",
+        "hits": 0,
+        "goal": 1,
+        "module": "counter",
+        "source_file": "rtl/counter.sv",
+        "source_line": 12,
+        "description": "counter MSB toggle"
+      },
+      {
+        "coverage_id": "cov.cnt.stmt.dead",
+        "kind": "statement",
+        "hits": 0,
+        "goal": 1,
+        "module": "counter",
+        "source_file": "rtl/counter.sv",
+        "source_line": 90,
+        "description": "counter debug-only statement",
+        "exclusion_pragma": false
+      },
+      {
+        "coverage_id": "cov.dbg.stmt.excluded",
+        "kind": "statement",
+        "hits": 0,
+        "goal": 1,
+        "module": "counter",
+        "source_file": "rtl/counter.sv",
+        "source_line": 95,
+        "description": "counter synthesis-off region",
+        "exclusion_pragma": true
+      },
+      {
+        "coverage_id": "cov.hs.assert.req_grant",
+        "kind": "assertion",
+        "hits": 0,
+        "goal": 1,
+        "module": "handshake",
+        "source_file": "rtl/handshake.sv",
+        "source_line": 22,
+        "description": "req eventually granted assertion cover"
+      },
+      {
+        "coverage_id": "cov.misc.bin.orphan",
+        "kind": "covergroup_bin",
+        "hits": 0,
+        "goal": 1,
+        "module": "misc",
+        "source_file": "rtl/misc.sv",
+        "source_line": 5,
+        "description": "orphan covergroup bin with no plan mapping"
+      }
+    ]
+  },
+  "tests": {
+    "tests": [
+      {
+        "test_id": "t_fifo_full",
+        "name": "fifo full/empty smoke",
+        "status": "pass",
+        "seed": 1,
+        "config": "sim_default",
+        "covers": ["cov.fifo.branch.full", "cov.fifo.branch.empty"]
+      },
+      {
+        "test_id": "t_fifo_overflow",
+        "name": "fifo overflow guard directed",
+        "status": "not_run",
+        "seed": 7,
+        "config": "sim_default",
+        "covers": ["cov.fifo.branch.overflow_guard"]
+      },
+      {
+        "test_id": "t_arb_grant",
+        "name": "arbiter grant sequence",
+        "status": "fail",
+        "seed": 3,
+        "config": "sim_default",
+        "covers": ["cov.arb.fsm.grant2"]
+      },
+      {
+        "test_id": "t_cnt_random",
+        "name": "counter constrained random",
+        "status": "pass",
+        "seed": 42,
+        "config": "sim_default",
+        "covers": ["cov.cnt.toggle.msb"]
+      },
+      {
+        "test_id": "t_hs_basic",
+        "name": "handshake basic",
+        "status": "pass",
+        "seed": 5,
+        "config": "sim_default",
+        "covers": ["cov.hs.assert.req_grant"]
+      }
+    ]
+  },
+  "rtl": {
+    "top": "soc_top",
+    "modules": [
+      {"name": "fifo", "source_file": "rtl/fifo.sv", "dead_code_hints": []},
+      {"name": "arbiter", "source_file": "rtl/arbiter.sv", "dead_code_hints": []},
+      {"name": "counter", "source_file": "rtl/counter.sv", "dead_code_hints": [90]},
+      {"name": "handshake", "source_file": "rtl/handshake.sv", "dead_code_hints": []},
+      {"name": "misc", "source_file": "rtl/misc.sv", "dead_code_hints": []}
+    ]
+  },
+  "requirements": {
+    "links": [
+      {
+        "requirement_id": "REQ-FIFO-1",
+        "description": "FIFO must signal full and empty correctly",
+        "tests": ["t_fifo_full"],
+        "covers": ["cov.fifo.branch.full", "cov.fifo.branch.empty"]
+      },
+      {
+        "requirement_id": "REQ-FIFO-2",
+        "description": "FIFO must never overflow",
+        "tests": ["t_fifo_overflow"],
+        "covers": ["cov.fifo.branch.overflow_guard"]
+      },
+      {
+        "requirement_id": "REQ-ARB-1",
+        "description": "Arbiter grants each requester",
+        "tests": ["t_arb_grant"],
+        "covers": ["cov.arb.fsm.grant2"]
+      },
+      {
+        "requirement_id": "REQ-CNT-1",
+        "description": "Counter wraps at max",
+        "tests": ["t_cnt_random"],
+        "covers": ["cov.cnt.toggle.msb"]
+      },
+      {
+        "requirement_id": "REQ-HS-1",
+        "description": "Every request is eventually granted",
+        "tests": ["t_hs_basic"],
+        "covers": ["cov.hs.assert.req_grant"]
+      }
+    ]
+  },
+  "logs": {
+    "entries": [
+      {
+        "test_id": "t_arb_grant",
+        "kind": "failure",
+        "message": "assertion arb_grant_within_3 failed at cycle 118",
+        "source_file": "rtl/arbiter.sv",
+        "source_line": 34
+      }
+    ]
+  }
+}

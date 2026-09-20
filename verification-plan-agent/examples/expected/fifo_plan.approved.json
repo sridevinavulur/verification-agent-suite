@@ -1,0 +1,642 @@
+{
+  "ambiguities": [
+    {
+      "detail": "Requirement lacks a measurable/temporal condition; hard to turn into a check.",
+      "id": "AMB-001",
+      "kind": "unverifiable_requirement",
+      "ref": "REQ-FIFO-06"
+    },
+    {
+      "detail": "Interface signal 'din' is not mentioned by any requirement; assuming it is out of verification scope unless a reviewer says otherwise.",
+      "id": "AMB-002",
+      "kind": "assumption",
+      "ref": "din"
+    },
+    {
+      "detail": "Interface signal 'dout' is not mentioned by any requirement; assuming it is out of verification scope unless a reviewer says otherwise.",
+      "id": "AMB-003",
+      "kind": "assumption",
+      "ref": "dout"
+    },
+    {
+      "detail": "Interface signal 'dbg_level' is not mentioned by any requirement; assuming it is out of verification scope unless a reviewer says otherwise.",
+      "id": "AMB-004",
+      "kind": "assumption",
+      "ref": "dbg_level"
+    }
+  ],
+  "assertions": [
+    {
+      "approval": "proposed",
+      "feature_id": "FEAT-001",
+      "id": "ASRT-001-01",
+      "rationale": "Guards the intended behavior of The FIFO shall accept a write when wr_en…; derived from the interface handshake.",
+      "sva_sketch": "assert property (@(posedge clk) disable iff (!rst_n) wr_en && !rd_en |-> ##[0:$] rd_en);  // handshake progress (review bound)"
+    },
+    {
+      "approval": "proposed",
+      "feature_id": "FEAT-002",
+      "id": "ASRT-002-01",
+      "rationale": "Captures the liveness expectation for The FIFO shall present valid read data when…; refine bounds during review.",
+      "sva_sketch": "assert property (@(posedge clk) disable iff (!rst_n) wr_en && !rd_en |-> ##[0:$] rd_en);  // handshake progress (review bound)"
+    },
+    {
+      "approval": "proposed",
+      "feature_id": "FEAT-003",
+      "id": "ASRT-003-01",
+      "rationale": "Sketch for On reset the FIFO must clear its occupancy…; a reviewer must confirm the temporal window and signals.",
+      "sva_sketch": "assert property (@(posedge clk) !rst_n |-> ##1 <state> == RESET_VALUE);  // review reset value/polarity"
+    },
+    {
+      "approval": "proposed",
+      "feature_id": "FEAT-004",
+      "id": "ASRT-004-01",
+      "rationale": "Encodes the safety invariant implied by A write when full or a read when…; check under reset de-assertion.",
+      "sva_sketch": "assert property (@(posedge clk) disable iff (!rst_n) <error_cond> |-> <error_response>);  // review error signals"
+    },
+    {
+      "approval": "proposed",
+      "feature_id": "FEAT-006",
+      "id": "ASRT-006-01",
+      "rationale": "Sketch for The FIFO is easy to use; a reviewer must confirm the temporal window and signals.",
+      "sva_sketch": "assert property (@(posedge clk) disable iff (!rst_n) wr_en && !rd_en |-> ##[0:$] rd_en);  // handshake progress (review bound)"
+    }
+  ],
+  "coverage_targets": [
+    {
+      "approval": "proposed",
+      "description": "Cover key states/transitions of: The FIFO shall accept a write when wr_en…",
+      "feature_id": "FEAT-001",
+      "id": "COV-001-01",
+      "metric": "functional_bin"
+    },
+    {
+      "approval": "proposed",
+      "description": "Cover key states/transitions of: The FIFO shall present valid read data when…",
+      "feature_id": "FEAT-002",
+      "id": "COV-002-01",
+      "metric": "functional_bin"
+    },
+    {
+      "approval": "proposed",
+      "description": "Cover key states/transitions of: A write when full or a read when…",
+      "feature_id": "FEAT-004",
+      "id": "COV-004-01",
+      "metric": "functional_bin"
+    },
+    {
+      "approval": "proposed",
+      "description": "Cover key states/transitions of: The FIFO shall sustain back-to-back writes at one…",
+      "feature_id": "FEAT-005",
+      "id": "COV-005-01",
+      "metric": "functional_bin"
+    },
+    {
+      "approval": "proposed",
+      "description": "Cover key states/transitions of: The FIFO is easy to use",
+      "feature_id": "FEAT-006",
+      "id": "COV-006-01",
+      "metric": "functional_bin"
+    }
+  ],
+  "design_name": "sync_fifo",
+  "features": [
+    {
+      "approval": "proposed",
+      "category": "functional",
+      "description": "The FIFO shall accept a write when wr_en is asserted and full is deasserted.",
+      "id": "FEAT-001",
+      "name": "The FIFO shall accept a write when wr_en…",
+      "source_requirements": [
+        "REQ-FIFO-01"
+      ]
+    },
+    {
+      "approval": "proposed",
+      "category": "functional",
+      "description": "The FIFO shall present valid read data when rd_en is asserted and empty is deasserted.",
+      "id": "FEAT-002",
+      "name": "The FIFO shall present valid read data when…",
+      "source_requirements": [
+        "REQ-FIFO-02"
+      ]
+    },
+    {
+      "approval": "approved",
+      "category": "reset",
+      "description": "On reset the FIFO must clear its occupancy so that empty is asserted and full is deasserted.",
+      "id": "FEAT-003",
+      "name": "On reset the FIFO must clear its occupancy…",
+      "source_requirements": [
+        "REQ-FIFO-03"
+      ]
+    },
+    {
+      "approval": "proposed",
+      "category": "error_handling",
+      "description": "A write when full or a read when empty is an illegal operation and must be flagged as an error.",
+      "id": "FEAT-004",
+      "name": "A write when full or a read when…",
+      "source_requirements": [
+        "REQ-FIFO-04"
+      ]
+    },
+    {
+      "approval": "proposed",
+      "category": "performance",
+      "description": "The FIFO shall sustain back-to-back writes at one word per cycle at the target throughput.",
+      "id": "FEAT-005",
+      "name": "The FIFO shall sustain back-to-back writes at one…",
+      "source_requirements": [
+        "REQ-FIFO-05"
+      ]
+    },
+    {
+      "approval": "rejected",
+      "category": "functional",
+      "description": "The FIFO is easy to use.",
+      "id": "FEAT-006",
+      "name": "The FIFO is easy to use",
+      "source_requirements": [
+        "REQ-FIFO-06"
+      ]
+    }
+  ],
+  "plan_items": [
+    {
+      "approval": "proposed",
+      "assertion_ids": [
+        "ASRT-004-01"
+      ],
+      "category": "error_handling",
+      "coverage_ids": [
+        "COV-004-01"
+      ],
+      "feature_id": "FEAT-004",
+      "id": "PLAN-004",
+      "priority": "P0",
+      "risk_rationale": [
+        "base risk for category 'error_handling' = 45",
+        "strong obligation keyword (+10)",
+        "design contains memory array (+7)"
+      ],
+      "risk_score": 62,
+      "scenario_ids": [
+        "SCN-004-01",
+        "SCN-004-02",
+        "SCN-004-03",
+        "SCN-004-04"
+      ],
+      "techniques": [
+        "directed_sim",
+        "constrained_random",
+        "sva",
+        "formal"
+      ]
+    },
+    {
+      "approval": "proposed",
+      "assertion_ids": [
+        "ASRT-001-01"
+      ],
+      "category": "functional",
+      "coverage_ids": [
+        "COV-001-01"
+      ],
+      "feature_id": "FEAT-001",
+      "id": "PLAN-001",
+      "priority": "P0",
+      "risk_rationale": [
+        "base risk for category 'functional' = 30",
+        "strong obligation keyword (+10)",
+        "state-heavy design (max registers=8) (+8)",
+        "design contains memory array (+7)"
+      ],
+      "risk_score": 55,
+      "scenario_ids": [
+        "SCN-001-01",
+        "SCN-001-02",
+        "SCN-001-03",
+        "SCN-001-04"
+      ],
+      "techniques": [
+        "directed_sim",
+        "constrained_random",
+        "sva",
+        "cover"
+      ]
+    },
+    {
+      "approval": "proposed",
+      "assertion_ids": [
+        "ASRT-002-01"
+      ],
+      "category": "functional",
+      "coverage_ids": [
+        "COV-002-01"
+      ],
+      "feature_id": "FEAT-002",
+      "id": "PLAN-002",
+      "priority": "P0",
+      "risk_rationale": [
+        "base risk for category 'functional' = 30",
+        "strong obligation keyword (+10)",
+        "state-heavy design (max registers=8) (+8)",
+        "design contains memory array (+7)"
+      ],
+      "risk_score": 55,
+      "scenario_ids": [
+        "SCN-002-01",
+        "SCN-002-02",
+        "SCN-002-03",
+        "SCN-002-04"
+      ],
+      "techniques": [
+        "directed_sim",
+        "constrained_random",
+        "sva",
+        "cover"
+      ]
+    },
+    {
+      "approval": "approved",
+      "assertion_ids": [
+        "ASRT-003-01"
+      ],
+      "category": "reset",
+      "coverage_ids": [],
+      "feature_id": "FEAT-003",
+      "id": "PLAN-003",
+      "priority": "P1",
+      "risk_rationale": [
+        "base risk for category 'reset' = 40",
+        "strong obligation keyword (+10)"
+      ],
+      "risk_score": 50,
+      "scenario_ids": [
+        "SCN-003-01",
+        "SCN-003-02",
+        "SCN-003-03"
+      ],
+      "techniques": [
+        "directed_sim",
+        "formal",
+        "sva"
+      ]
+    },
+    {
+      "approval": "proposed",
+      "assertion_ids": [],
+      "category": "performance",
+      "coverage_ids": [
+        "COV-005-01"
+      ],
+      "feature_id": "FEAT-005",
+      "id": "PLAN-005",
+      "priority": "P1",
+      "risk_rationale": [
+        "base risk for category 'performance' = 35",
+        "strong obligation keyword (+10)"
+      ],
+      "risk_score": 45,
+      "scenario_ids": [
+        "SCN-005-01",
+        "SCN-005-02",
+        "SCN-005-03",
+        "SCN-005-04"
+      ],
+      "techniques": [
+        "constrained_random",
+        "emulation",
+        "cover",
+        "post_silicon"
+      ]
+    },
+    {
+      "approval": "proposed",
+      "assertion_ids": [
+        "ASRT-006-01"
+      ],
+      "category": "functional",
+      "coverage_ids": [
+        "COV-006-01"
+      ],
+      "feature_id": "FEAT-006",
+      "id": "PLAN-006",
+      "priority": "P1",
+      "risk_rationale": [
+        "base risk for category 'functional' = 30",
+        "state-heavy design (max registers=8) (+8)",
+        "design contains memory array (+7)"
+      ],
+      "risk_score": 45,
+      "scenario_ids": [
+        "SCN-006-01",
+        "SCN-006-02",
+        "SCN-006-03",
+        "SCN-006-04"
+      ],
+      "techniques": [
+        "directed_sim",
+        "constrained_random",
+        "sva",
+        "cover"
+      ]
+    }
+  ],
+  "provenance": {
+    "command": "<golden>",
+    "git_sha": "UNKNOWN",
+    "input_files": [],
+    "input_sha256": {},
+    "llm_adapter": "mock",
+    "schema_version": "0.1.0",
+    "tool": "verification-plan-agent",
+    "tool_version": "0.1.0"
+  },
+  "scenarios": [
+    {
+      "approval": "proposed",
+      "description": "Directed test hitting the nominal path of: The FIFO shall accept a write when wr_en…",
+      "feature_id": "FEAT-001",
+      "id": "SCN-001-01",
+      "technique": "directed_sim"
+    },
+    {
+      "approval": "proposed",
+      "description": "Constrained-random stimulus stressing: The FIFO shall accept a write when wr_en…",
+      "feature_id": "FEAT-001",
+      "id": "SCN-001-02",
+      "technique": "constrained_random"
+    },
+    {
+      "approval": "proposed",
+      "description": "Bind SVA checkers for the invariants of: The FIFO shall accept a write when wr_en…",
+      "feature_id": "FEAT-001",
+      "id": "SCN-001-03",
+      "technique": "sva"
+    },
+    {
+      "approval": "proposed",
+      "description": "Coverage collection for the behavior of: The FIFO shall accept a write when wr_en…",
+      "feature_id": "FEAT-001",
+      "id": "SCN-001-04",
+      "technique": "cover"
+    },
+    {
+      "approval": "proposed",
+      "description": "Directed test hitting the nominal path of: The FIFO shall present valid read data when…",
+      "feature_id": "FEAT-002",
+      "id": "SCN-002-01",
+      "technique": "directed_sim"
+    },
+    {
+      "approval": "proposed",
+      "description": "Constrained-random stimulus stressing: The FIFO shall present valid read data when…",
+      "feature_id": "FEAT-002",
+      "id": "SCN-002-02",
+      "technique": "constrained_random"
+    },
+    {
+      "approval": "proposed",
+      "description": "Bind SVA checkers for the invariants of: The FIFO shall present valid read data when…",
+      "feature_id": "FEAT-002",
+      "id": "SCN-002-03",
+      "technique": "sva"
+    },
+    {
+      "approval": "proposed",
+      "description": "Coverage collection for the behavior of: The FIFO shall present valid read data when…",
+      "feature_id": "FEAT-002",
+      "id": "SCN-002-04",
+      "technique": "cover"
+    },
+    {
+      "approval": "proposed",
+      "description": "Directed test hitting the nominal path of: On reset the FIFO must clear its occupancy…",
+      "feature_id": "FEAT-003",
+      "id": "SCN-003-01",
+      "technique": "directed_sim"
+    },
+    {
+      "approval": "proposed",
+      "description": "Formal property/proof scope for: On reset the FIFO must clear its occupancy…",
+      "feature_id": "FEAT-003",
+      "id": "SCN-003-02",
+      "technique": "formal"
+    },
+    {
+      "approval": "proposed",
+      "description": "Bind SVA checkers for the invariants of: On reset the FIFO must clear its occupancy…",
+      "feature_id": "FEAT-003",
+      "id": "SCN-003-03",
+      "technique": "sva"
+    },
+    {
+      "approval": "proposed",
+      "description": "Directed test hitting the nominal path of: A write when full or a read when…",
+      "feature_id": "FEAT-004",
+      "id": "SCN-004-01",
+      "technique": "directed_sim"
+    },
+    {
+      "approval": "proposed",
+      "description": "Constrained-random stimulus stressing: A write when full or a read when…",
+      "feature_id": "FEAT-004",
+      "id": "SCN-004-02",
+      "technique": "constrained_random"
+    },
+    {
+      "approval": "proposed",
+      "description": "Bind SVA checkers for the invariants of: A write when full or a read when…",
+      "feature_id": "FEAT-004",
+      "id": "SCN-004-03",
+      "technique": "sva"
+    },
+    {
+      "approval": "proposed",
+      "description": "Formal property/proof scope for: A write when full or a read when…",
+      "feature_id": "FEAT-004",
+      "id": "SCN-004-04",
+      "technique": "formal"
+    },
+    {
+      "approval": "proposed",
+      "description": "Constrained-random stimulus stressing: The FIFO shall sustain back-to-back writes at one…",
+      "feature_id": "FEAT-005",
+      "id": "SCN-005-01",
+      "technique": "constrained_random"
+    },
+    {
+      "approval": "proposed",
+      "description": "Emulation/FPGA soak scenario for: The FIFO shall sustain back-to-back writes at one…",
+      "feature_id": "FEAT-005",
+      "id": "SCN-005-02",
+      "technique": "emulation"
+    },
+    {
+      "approval": "proposed",
+      "description": "Coverage collection for the behavior of: The FIFO shall sustain back-to-back writes at one…",
+      "feature_id": "FEAT-005",
+      "id": "SCN-005-03",
+      "technique": "cover"
+    },
+    {
+      "approval": "proposed",
+      "description": "Post-silicon observability hook for: The FIFO shall sustain back-to-back writes at one…",
+      "feature_id": "FEAT-005",
+      "id": "SCN-005-04",
+      "technique": "post_silicon"
+    },
+    {
+      "approval": "proposed",
+      "description": "Directed test hitting the nominal path of: The FIFO is easy to use",
+      "feature_id": "FEAT-006",
+      "id": "SCN-006-01",
+      "technique": "directed_sim"
+    },
+    {
+      "approval": "proposed",
+      "description": "Constrained-random stimulus stressing: The FIFO is easy to use",
+      "feature_id": "FEAT-006",
+      "id": "SCN-006-02",
+      "technique": "constrained_random"
+    },
+    {
+      "approval": "proposed",
+      "description": "Bind SVA checkers for the invariants of: The FIFO is easy to use",
+      "feature_id": "FEAT-006",
+      "id": "SCN-006-03",
+      "technique": "sva"
+    },
+    {
+      "approval": "proposed",
+      "description": "Coverage collection for the behavior of: The FIFO is easy to use",
+      "feature_id": "FEAT-006",
+      "id": "SCN-006-04",
+      "technique": "cover"
+    }
+  ],
+  "schema_version": "0.1.0",
+  "traceability": [
+    {
+      "assertion_ids": [
+        "ASRT-001-01"
+      ],
+      "coverage_ids": [
+        "COV-001-01"
+      ],
+      "covered": true,
+      "existing_testplan_ids": [
+        "TP-LEGACY-01"
+      ],
+      "feature_ids": [
+        "FEAT-001"
+      ],
+      "requirement_id": "REQ-FIFO-01",
+      "scenario_ids": [
+        "SCN-001-01",
+        "SCN-001-02",
+        "SCN-001-03",
+        "SCN-001-04"
+      ]
+    },
+    {
+      "assertion_ids": [
+        "ASRT-002-01"
+      ],
+      "coverage_ids": [
+        "COV-002-01"
+      ],
+      "covered": true,
+      "existing_testplan_ids": [
+        "TP-LEGACY-01"
+      ],
+      "feature_ids": [
+        "FEAT-002"
+      ],
+      "requirement_id": "REQ-FIFO-02",
+      "scenario_ids": [
+        "SCN-002-01",
+        "SCN-002-02",
+        "SCN-002-03",
+        "SCN-002-04"
+      ]
+    },
+    {
+      "assertion_ids": [
+        "ASRT-003-01"
+      ],
+      "coverage_ids": [],
+      "covered": true,
+      "existing_testplan_ids": [],
+      "feature_ids": [
+        "FEAT-003"
+      ],
+      "requirement_id": "REQ-FIFO-03",
+      "scenario_ids": [
+        "SCN-003-01",
+        "SCN-003-02",
+        "SCN-003-03"
+      ]
+    },
+    {
+      "assertion_ids": [
+        "ASRT-004-01"
+      ],
+      "coverage_ids": [
+        "COV-004-01"
+      ],
+      "covered": true,
+      "existing_testplan_ids": [],
+      "feature_ids": [
+        "FEAT-004"
+      ],
+      "requirement_id": "REQ-FIFO-04",
+      "scenario_ids": [
+        "SCN-004-01",
+        "SCN-004-02",
+        "SCN-004-03",
+        "SCN-004-04"
+      ]
+    },
+    {
+      "assertion_ids": [],
+      "coverage_ids": [
+        "COV-005-01"
+      ],
+      "covered": true,
+      "existing_testplan_ids": [],
+      "feature_ids": [
+        "FEAT-005"
+      ],
+      "requirement_id": "REQ-FIFO-05",
+      "scenario_ids": [
+        "SCN-005-01",
+        "SCN-005-02",
+        "SCN-005-03",
+        "SCN-005-04"
+      ]
+    },
+    {
+      "assertion_ids": [
+        "ASRT-006-01"
+      ],
+      "coverage_ids": [
+        "COV-006-01"
+      ],
+      "covered": true,
+      "existing_testplan_ids": [],
+      "feature_ids": [
+        "FEAT-006"
+      ],
+      "requirement_id": "REQ-FIFO-06",
+      "scenario_ids": [
+        "SCN-006-01",
+        "SCN-006-02",
+        "SCN-006-03",
+        "SCN-006-04"
+      ]
+    }
+  ]
+}

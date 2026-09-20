@@ -1,0 +1,135 @@
+protocol:
+  name: AVSBus
+  version: "2.0"
+  description: APB-to-AVSBus 2.0 controller. Translates APB writes to 48-bit serial frames.
+
+interfaces:
+  - name: APB
+    role: slave
+    clocks: [PCLK]
+    resets: [PRESETn]
+    signals:
+      - name: PCLK
+        direction: input
+        width: 1
+        description: APB clock
+      - name: PRESETn
+        direction: input
+        width: 1
+        description: Active-low reset
+      - name: PSEL
+        direction: input
+        width: 1
+        description: APB select
+      - name: PENABLE
+        direction: input
+        width: 1
+        description: APB enable
+      - name: PWRITE
+        direction: input
+        width: 1
+        description: Write=1 Read=0
+      - name: PADDR
+        direction: input
+        width: 12
+        description: Register address
+      - name: PWDATA
+        direction: input
+        width: 32
+        description: Write data
+      - name: PRDATA
+        direction: output
+        width: 32
+        description: Read data
+      - name: PREADY
+        direction: output
+        width: 1
+        description: Always 1 (no wait states)
+
+  - name: AVSBus
+    role: master
+    clocks: [avs_clk]
+    signals:
+      - name: avs_clk
+        direction: output
+        width: 1
+        description: AVS serial clock
+      - name: avs_data
+        direction: inout
+        width: 1
+        description: Open-drain data
+
+transactions:
+  - name: WRITE_AND_COMMIT
+    description: Write data to target register and commit immediately
+    initiator: Controller
+    target: Target
+    data_fields: [target_addr, cmd_type, data, crc3]
+
+  - name: WRITE_AND_HOLD
+    description: Stage a write; commit sent separately
+    initiator: Controller
+    target: Target
+    data_fields: [target_addr, cmd_type, data, crc3]
+
+  - name: READ
+    description: Request data readback; response in target subframe
+    initiator: Controller
+    target: Target
+    data_fields: [target_addr, cmd_type, data, crc3]
+
+registers:
+  - name: CTRL
+    offset: "0x00"
+    width: 32
+    access: RW
+    reset_value: "0x0"
+    description: "Control register: enable, soft_rst, clksel"
+  - name: STATUS
+    offset: "0x04"
+    width: 32
+    access: RO
+    reset_value: "0x0"
+    description: "Status: tx_busy, rx_fifo_empty, cmd_fifo_full"
+  - name: WDATA
+    offset: "0x08"
+    width: 32
+    access: RW
+    reset_value: "0x0"
+    description: Write data register (10-bit payload)
+  - name: RDATA
+    offset: "0x0C"
+    width: 32
+    access: RO
+    reset_value: "0x0"
+    description: Readback data from target subframe
+  - name: TARGET_ADDR
+    offset: "0x10"
+    width: 32
+    access: RW
+    reset_value: "0x0"
+    description: Target address and selector
+  - name: INT_EN
+    offset: "0x14"
+    width: 32
+    access: RW
+    reset_value: "0x0"
+    description: Interrupt enable bits
+  - name: INT_STATUS
+    offset: "0x18"
+    width: 32
+    access: RW
+    reset_value: "0x0"
+    description: Interrupt status (write-1-to-clear)
+
+timing:
+  clock_freq_mhz: 100
+  frame_bits: 48
+  crc_poly: "x^3 + x + 1"
+
+constraints:
+  - PREADY must always be 1 (no wait states)
+  - CRC-3 validated on receive; corrupt frames yield BAD_FRAME_OR_CRC ack
+  - ACK codes 0=ACTION_TAKEN 1=RESOURCE_UNAVAILABLE 2=BAD_FRAME_OR_CRC 3=BAD_DATA_OR_SELECTOR
+  - CMD FIFO depth is 8 entries
+  - RBF (Readback FIFO) depth is 8 entries

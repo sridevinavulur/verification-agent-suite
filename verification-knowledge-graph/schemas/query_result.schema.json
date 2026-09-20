@@ -1,0 +1,52 @@
+{
+  "$defs": {
+    "QueryResultRow": {
+      "additionalProperties": false,
+      "description": "One row of a query result (stable, JSON-serializable).",
+      "properties": {
+        "fields": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Fields",
+          "type": "object"
+        }
+      },
+      "title": "QueryResultRow",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Structured result of a graph query.",
+  "properties": {
+    "query": {
+      "title": "Query",
+      "type": "string"
+    },
+    "description": {
+      "title": "Description",
+      "type": "string"
+    },
+    "columns": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Columns",
+      "type": "array"
+    },
+    "rows": {
+      "items": {
+        "$ref": "#/$defs/QueryResultRow"
+      },
+      "title": "Rows",
+      "type": "array"
+    }
+  },
+  "required": [
+    "query",
+    "description",
+    "columns"
+  ],
+  "title": "QueryResult",
+  "type": "object"
+}

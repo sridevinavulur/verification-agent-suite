@@ -1,0 +1,48 @@
+{
+  "schema_version": "0.1.0",
+  "top": "handshake_dut",
+  "provenance": {
+    "tool": "rtl-intent",
+    "tool_version": "0.1.0",
+    "git_sha": "PUBLIC-EXAMPLE",
+    "input_files": ["handshake_dut.sv"],
+    "input_sha256": {},
+    "schema_version": "0.1.0"
+  },
+  "parser": {
+    "adapter": "public-example",
+    "adapter_version": "0.1.0",
+    "supported_constructs": [],
+    "unsupported_constructs": []
+  },
+  "hierarchy": [],
+  "unresolved": [],
+  "modules": [
+    {
+      "name": "handshake_dut",
+      "location": {"file": "handshake_dut.sv", "line": 1, "col": 1, "end_line": 1, "end_col": 1},
+      "ports": [
+        {"name": "clk",        "direction": "input",  "location": {"file": "handshake_dut.sv", "line": 2, "col": 1, "end_line": 2, "end_col": 1}},
+        {"name": "rst_n",      "direction": "input",  "location": {"file": "handshake_dut.sv", "line": 3, "col": 1, "end_line": 3, "end_col": 1}},
+        {"name": "in_valid",   "direction": "input",  "location": {"file": "handshake_dut.sv", "line": 4, "col": 1, "end_line": 4, "end_col": 1}},
+        {"name": "in_data",    "direction": "input",  "range": {"msb": "WIDTH-1", "lsb": "0"}, "location": {"file": "handshake_dut.sv", "line": 5, "col": 1, "end_line": 5, "end_col": 1}},
+        {"name": "mode",       "direction": "input",  "range": {"msb": "1", "lsb": "0"}, "location": {"file": "handshake_dut.sv", "line": 6, "col": 1, "end_line": 6, "end_col": 1}},
+        {"name": "spare_in",   "direction": "input",  "location": {"file": "handshake_dut.sv", "line": 10, "col": 1, "end_line": 10, "end_col": 1}},
+        {"name": "in_ready",   "direction": "output", "location": {"file": "handshake_dut.sv", "line": 7, "col": 1, "end_line": 7, "end_col": 1}},
+        {"name": "out_valid",  "direction": "output", "location": {"file": "handshake_dut.sv", "line": 8, "col": 1, "end_line": 8, "end_col": 1}},
+        {"name": "out_data",   "direction": "output", "range": {"msb": "WIDTH-1", "lsb": "0"}, "location": {"file": "handshake_dut.sv", "line": 9, "col": 1, "end_line": 9, "end_col": 1}}
+      ],
+      "nets": [
+        {"name": "state",     "net_kind": "reg", "location": {"file": "handshake_dut.sv", "line": 12, "col": 1, "end_line": 12, "end_col": 1}},
+        {"name": "fifo_count","net_kind": "reg", "location": {"file": "handshake_dut.sv", "line": 13, "col": 1, "end_line": 13, "end_col": 1}}
+      ],
+      "registers": [
+        {"name": "in_ready",  "driven_in_procedure_index": 0, "location": {"file": "handshake_dut.sv", "line": 20, "col": 1, "end_line": 20, "end_col": 1}},
+        {"name": "out_valid", "driven_in_procedure_index": 0, "location": {"file": "handshake_dut.sv", "line": 21, "col": 1, "end_line": 21, "end_col": 1}},
+        {"name": "out_data",  "driven_in_procedure_index": 0, "location": {"file": "handshake_dut.sv", "line": 22, "col": 1, "end_line": 22, "end_col": 1}},
+        {"name": "state",     "driven_in_procedure_index": 0, "location": {"file": "handshake_dut.sv", "line": 23, "col": 1, "end_line": 23, "end_col": 1}},
+        {"name": "fifo_count","driven_in_procedure_index": 0, "location": {"file": "handshake_dut.sv", "line": 24, "col": 1, "end_line": 24, "end_col": 1}}
+      ]
+    }
+  ]
+}

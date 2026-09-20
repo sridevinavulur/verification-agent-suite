@@ -1,0 +1,282 @@
+{
+  "$defs": {
+    "DetectionConfig": {
+      "additionalProperties": false,
+      "description": "Tunable, versioned thresholds for the deterministic detector.",
+      "properties": {
+        "min_pct_change": {
+          "default": 5.0,
+          "description": "Minimum |%| mean change to consider notable",
+          "minimum": 0,
+          "title": "Min Pct Change",
+          "type": "number"
+        },
+        "robust_z_threshold": {
+          "default": 3.5,
+          "description": "Robust z (MAD) above which change is significant",
+          "minimum": 0,
+          "title": "Robust Z Threshold",
+          "type": "number"
+        },
+        "min_samples_for_confident": {
+          "default": 3,
+          "minimum": 1,
+          "title": "Min Samples For Confident",
+          "type": "integer"
+        },
+        "outlier_iqr_k": {
+          "default": 1.5,
+          "minimum": 0,
+          "title": "Outlier Iqr K",
+          "type": "number"
+        },
+        "outlier_z_threshold": {
+          "default": 3.5,
+          "minimum": 0,
+          "title": "Outlier Z Threshold",
+          "type": "number"
+        }
+      },
+      "title": "DetectionConfig",
+      "type": "object"
+    },
+    "MetricName": {
+      "description": "Canonical performance metric identifiers.\n\nKept as (str, Enum) for stable, human-readable JSON serialization.",
+      "enum": [
+        "sim_runtime_s",
+        "formal_runtime_s",
+        "peak_memory_mb",
+        "throughput_mops",
+        "latency_ns",
+        "bandwidth_gbps",
+        "utilization_pct",
+        "coverage_rate_pct",
+        "fpga_fmax_mhz",
+        "fpga_lut_util_pct"
+      ],
+      "title": "MetricName",
+      "type": "string"
+    },
+    "MetricStats": {
+      "additionalProperties": false,
+      "description": "Summary statistics for repeated samples of a metric.",
+      "properties": {
+        "metric": {
+          "$ref": "#/$defs/MetricName"
+        },
+        "n": {
+          "minimum": 1,
+          "title": "N",
+          "type": "integer"
+        },
+        "mean": {
+          "title": "Mean",
+          "type": "number"
+        },
+        "stdev": {
+          "minimum": 0,
+          "title": "Stdev",
+          "type": "number"
+        },
+        "median": {
+          "title": "Median",
+          "type": "number"
+        },
+        "ci95_low": {
+          "title": "Ci95 Low",
+          "type": "number"
+        },
+        "ci95_high": {
+          "title": "Ci95 High",
+          "type": "number"
+        },
+        "cv": {
+          "description": "Coefficient of variation (stdev/|mean|)",
+          "minimum": 0,
+          "title": "Cv",
+          "type": "number"
+        },
+        "kept": {
+          "description": "Non-outlier samples",
+          "items": {
+            "type": "number"
+          },
+          "title": "Kept",
+          "type": "array"
+        },
+        "outliers": {
+          "description": "Samples rejected by robust outlier filter",
+          "items": {
+            "type": "number"
+          },
+          "title": "Outliers",
+          "type": "array"
+        }
+      },
+      "required": [
+        "metric",
+        "n",
+        "mean",
+        "stdev",
+        "median",
+        "ci95_low",
+        "ci95_high",
+        "cv"
+      ],
+      "title": "MetricStats",
+      "type": "object"
+    },
+    "RegressionFinding": {
+      "additionalProperties": false,
+      "description": "Deterministic per-metric comparison of a candidate vs a baseline.",
+      "properties": {
+        "metric": {
+          "$ref": "#/$defs/MetricName"
+        },
+        "unit": {
+          "title": "Unit",
+          "type": "string"
+        },
+        "config": {
+          "title": "Config",
+          "type": "string"
+        },
+        "workload": {
+          "title": "Workload",
+          "type": "string"
+        },
+        "env_fingerprint": {
+          "title": "Env Fingerprint",
+          "type": "string"
+        },
+        "baseline_commit": {
+          "title": "Baseline Commit",
+          "type": "string"
+        },
+        "candidate_commit": {
+          "title": "Candidate Commit",
+          "type": "string"
+        },
+        "baseline_stats": {
+          "$ref": "#/$defs/MetricStats"
+        },
+        "candidate_stats": {
+          "$ref": "#/$defs/MetricStats"
+        },
+        "delta_abs": {
+          "description": "candidate.mean - baseline.mean",
+          "title": "Delta Abs",
+          "type": "number"
+        },
+        "delta_pct": {
+          "description": "signed % change of the mean",
+          "title": "Delta Pct",
+          "type": "number"
+        },
+        "robust_z": {
+          "description": "Change measured in baseline robust sigmas (MAD-based)",
+          "title": "Robust Z",
+          "type": "number"
+        },
+        "verdict": {
+          "$ref": "#/$defs/Verdict"
+        },
+        "confidence": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Confidence",
+          "type": "number"
+        },
+        "evidence": {
+          "description": "Human-readable statements supporting the verdict",
+          "items": {
+            "type": "string"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "artifact_urls": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Artifact Urls",
+          "type": "array"
+        }
+      },
+      "required": [
+        "metric",
+        "unit",
+        "config",
+        "workload",
+        "env_fingerprint",
+        "baseline_commit",
+        "candidate_commit",
+        "baseline_stats",
+        "candidate_stats",
+        "delta_abs",
+        "delta_pct",
+        "robust_z",
+        "verdict",
+        "confidence"
+      ],
+      "title": "RegressionFinding",
+      "type": "object"
+    },
+    "Verdict": {
+      "description": "Deterministic classification of a single metric comparison.",
+      "enum": [
+        "REGRESSION",
+        "IMPROVEMENT",
+        "STABLE",
+        "INCONCLUSIVE"
+      ],
+      "title": "Verdict",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Top-level report contract (serialized to JSON and rendered to Markdown).",
+  "properties": {
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "dataset_name": {
+      "title": "Dataset Name",
+      "type": "string"
+    },
+    "detection_config": {
+      "$ref": "#/$defs/DetectionConfig"
+    },
+    "n_runs": {
+      "title": "N Runs",
+      "type": "integer"
+    },
+    "n_comparisons": {
+      "title": "N Comparisons",
+      "type": "integer"
+    },
+    "n_regressions": {
+      "title": "N Regressions",
+      "type": "integer"
+    },
+    "findings": {
+      "items": {
+        "$ref": "#/$defs/RegressionFinding"
+      },
+      "title": "Findings",
+      "type": "array"
+    }
+  },
+  "required": [
+    "dataset_name",
+    "detection_config",
+    "n_runs",
+    "n_comparisons",
+    "n_regressions",
+    "findings"
+  ],
+  "title": "RegressionReport",
+  "type": "object"
+}

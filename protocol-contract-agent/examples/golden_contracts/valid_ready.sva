@@ -1,0 +1,23 @@
+// Candidate SVA for contract vr_producer__valid_ready__out_stream
+// CANDIDATE properties for human review. Not verified. Compile offline; syntactic acceptance != correctness.
+
+// [assert/guarantee] While valid is asserted and not accepted, valid remains asserted (DUT source holds valid until handshake).
+p_vr_producer_valid_stable: assert property (
+  @(posedge clk) disable iff (!rst_n) (out_valid && !out_ready) |=> (out_valid)
+);
+
+// [assert/guarantee] Payload data is held stable while valid is asserted and not yet accepted.
+p_vr_producer_data_stable: assert property (
+  @(posedge clk) disable iff (!rst_n) (out_valid && !out_ready) |=> $stable(out_data)
+);
+
+// [cover/cover] Cover at least one completed valid/ready handshake.
+p_vr_producer_handshake_cover: cover property (
+  @(posedge clk) disable iff (!rst_n) out_valid && out_ready
+);
+
+// [cover/negative] A transfer (ready high) must not be claimed complete without valid; assert ready implies valid is meaningful only when valid is set. Here we cover the illegal combination for review, not assert it away.
+p_vr_producer_accept_without_valid_cover: cover property (
+  @(posedge clk) disable iff (!rst_n) out_ready && !out_valid
+);
+

@@ -1,0 +1,23 @@
+// Candidate SVA for contract credit_src__credit
+// CANDIDATE properties for human review. Not verified. Compile offline; syntactic acceptance != correctness.
+
+// [assert/negative] A send must never occur when no credits are available (credit underflow).
+p_credit_src_no_send_without_credit: assert property (
+  @(posedge clk) disable iff (!rst_n) !(send && (credits == 0))
+);
+
+// [assert/guarantee] Available credits never exceed max_credits 8 (tracks MULTIPLE outstanding credits).
+p_credit_src_credit_bound: assert property (
+  @(posedge clk) disable iff (!rst_n) credits <= 8
+);
+
+// [cover/cover] Cover a send.
+p_credit_src_send_cover: cover property (
+  @(posedge clk) disable iff (!rst_n) send
+);
+
+// [cover/cover] Cover credits reaching zero (back-pressure exercised).
+p_credit_src_credit_exhausted_cover: cover property (
+  @(posedge clk) disable iff (!rst_n) credits == 0
+);
+

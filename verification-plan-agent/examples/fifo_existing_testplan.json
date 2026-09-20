@@ -1,0 +1,10 @@
+{
+  "items": [
+    {
+      "id": "TP-LEGACY-01",
+      "description": "Legacy directed test for basic write/read round-trip.",
+      "covers_requirements": ["REQ-FIFO-01", "REQ-FIFO-02"],
+      "approved": true
+    }
+  ]
+}

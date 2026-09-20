@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Coverage Closure Report — dut_alu</title>
+<style>
+  body{font-family:'Segoe UI',Arial,sans-serif;background:#f5f7fa;margin:0;padding:0;color:#222}
+  .header{background:linear-gradient(135deg,#1a237e,#283593);color:#fff;padding:28px 40px}
+  .header h1{margin:0;font-size:26px;letter-spacing:.4px}
+  .header .sub{font-size:13px;opacity:.85;margin-top:6px}
+  .container{max-width:1200px;margin:0 auto;padding:24px 40px}
+  .tiles{display:flex;flex-wrap:wrap;gap:16px;margin-bottom:24px}
+  .tile{background:#fff;border-radius:10px;padding:18px 22px;min-width:130px;
+        box-shadow:0 2px 8px rgba(0,0,0,.09);text-align:center}
+  .tile .val{font-size:30px;font-weight:700;color:#1a237e;margin:2px 0}
+  .tile .lbl{font-size:11px;color:#666;text-transform:uppercase;letter-spacing:.4px}
+  .card{background:#fff;border-radius:10px;padding:20px 24px;margin-bottom:22px;
+        box-shadow:0 2px 8px rgba(0,0,0,.09)}
+  .card h2{margin:0 0 14px;font-size:18px;color:#1a237e;
+           border-bottom:2px solid #e8eaf6;padding-bottom:8px}
+  .card h3{font-size:14px;color:#283593;margin:14px 0 6px}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th{background:#e8eaf6;color:#283593;text-align:left;padding:8px 12px}
+  td{padding:8px 12px;border-bottom:1px solid #f0f0f0;vertical-align:top}
+  tr:hover td{background:#fafafa}
+  code{background:#f0f0f5;padding:1px 4px;border-radius:3px}
+  footer{text-align:center;font-size:12px;color:#999;padding:20px}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>Coverage Closure Report — dut_alu</h1>
+  <div class="sub">Regression coverage summary &nbsp;|&nbsp; Tool: coverage-closure-agent &nbsp;|&nbsp; Generated: 2026-09-20T10:00:00Z &nbsp;|&nbsp; SHA: abc1234</div>
+</div>
+<div class="container">
+<div class="tiles">
+<div class="tile"><div class="val">92.4%</div><div class="lbl">Line</div><div style="margin-top:6px"><span style="background:#4CAF50;color:#fff;padding:2px 8px;border-radius:10px;font-size:11px;white-space:nowrap">PASS</span></div></div>
+<div class="tile"><div class="val">81.0%</div><div class="lbl">Toggle</div><div style="margin-top:6px"><span style="background:#FF9800;color:#fff;padding:2px 8px;border-radius:10px;font-size:11px;white-space:nowrap">WARN</span></div></div>
+<div class="tile"><div class="val">88.7%</div><div class="lbl">Branch</div><div style="margin-top:6px"><span style="background:#FF9800;color:#fff;padding:2px 8px;border-radius:10px;font-size:11px;white-space:nowrap">WARN</span></div></div>
+<div class="tile"><div class="val">248/250</div><div class="lbl">Tests Pass</div><div style="margin-top:6px"><span style="background:#FF9800;color:#fff;padding:2px 8px;border-radius:10px;font-size:11px;white-space:nowrap">WARN</span></div></div>
+<div class="tile"><div class="val">NEAR</div><div class="lbl">Closure</div><div style="margin-top:6px"><span style="background:#FF9800;color:#fff;padding:2px 8px;border-radius:10px;font-size:11px;white-space:nowrap">WARN</span></div></div>
+</div>
+<div class="card"><h2>Toggle Unreachability Analysis <span style="background:#3b82f6;color:#fff;padding:2px 8px;border-radius:10px;font-size:11px;white-space:nowrap">INFO</span></h2>
+<p style="font-size:13px;line-height:1.6">Signals below are architecturally unreachable and are excluded from the effective coverage ceiling. These exclusions are heuristic and should be reviewed by a human.</p>
+<table><tr><th>Signal</th><th>Direction</th><th>Category</th><th>Explanation</th></tr>
+<tr><td>alu.dbg_mode</td><td>1-&gt;0</td><td>Hardwired</td><td>Tied off in this config</td></tr>
+<tr><td>alu.spare[3]</td><td>0-&gt;1</td><td>Dead Code</td><td>Never driven in RTL</td></tr>
+<tr><td>ctr.q[15]</td><td>0-&gt;1</td><td>Counter Ceiling</td><td>Max count &lt; 2^15</td></tr>
+</table>
+</div>
+<div class="card"><h2>Coverage History</h2><table><tr><th>Point</th><th>line</th><th>toggle</th><th>branch</th></tr>
+<tr><td>0</td><td><div style="background:#e0e0e0;border-radius:4px;height:14px;width:180px;display:inline-block;vertical-align:middle"><div style="background:#f44336;width:71.2%;height:14px;border-radius:4px"></div></div> <b>71.2%</b></td><td><div style="background:#e0e0e0;border-radius:4px;height:14px;width:180px;display:inline-block;vertical-align:middle"><div style="background:#f44336;width:55.0%;height:14px;border-radius:4px"></div></div> <b>55.0%</b></td><td><div style="background:#e0e0e0;border-radius:4px;height:14px;width:180px;display:inline-block;vertical-align:middle"><div style="background:#f44336;width:63.1%;height:14px;border-radius:4px"></div></div> <b>63.1%</b></td></tr>
+<tr><td>1</td><td><div style="background:#e0e0e0;border-radius:4px;height:14px;width:180px;display:inline-block;vertical-align:middle"><div style="background:#FF9800;width:84.9%;height:14px;border-radius:4px"></div></div> <b>84.9%</b></td><td><div style="background:#e0e0e0;border-radius:4px;height:14px;width:180px;display:inline-block;vertical-align:middle"><div style="background:#f44336;width:70.3%;height:14px;border-radius:4px"></div></div> <b>70.3%</b></td><td><div style="background:#e0e0e0;border-radius:4px;height:14px;width:180px;display:inline-block;vertical-align:middle"><div style="background:#FF9800;width:79.8%;height:14px;border-radius:4px"></div></div> <b>79.8%</b></td></tr>
+<tr><td>2</td><td><div style="background:#e0e0e0;border-radius:4px;height:14px;width:180px;display:inline-block;vertical-align:middle"><div style="background:#4CAF50;width:92.4%;height:14px;border-radius:4px"></div></div> <b>92.4%</b></td><td><div style="background:#e0e0e0;border-radius:4px;height:14px;width:180px;display:inline-block;vertical-align:middle"><div style="background:#FF9800;width:81.0%;height:14px;border-radius:4px"></div></div> <b>81.0%</b></td><td><div style="background:#e0e0e0;border-radius:4px;height:14px;width:180px;display:inline-block;vertical-align:middle"><div style="background:#FF9800;width:88.7%;height:14px;border-radius:4px"></div></div> <b>88.7%</b></td></tr>
+</table></div>
+<div class="card"><h2>Findings</h2><table><tr><th>ID</th><th>Severity</th><th>Category</th><th>Detail</th><th>Status</th></tr>
+<tr><td><code>COV-001</code></td><td><span style="background:#FF9800;color:#fff;padding:1px 8px;border-radius:8px;font-size:11px;text-transform:uppercase">medium</span></td><td>coverage-gap</td><td style="max-width:520px"><b>Branch coverage below signoff threshold (90%)</b><br>Branch coverage of 88.7% is under the 90% signoff bar.<br><i style="color:#555">Fix: Add directed tests for the error-injection FSM path.</i><br><code style="font-size:11px">dut_alu/control_fsm.sv:142</code></td><td><span style="background:#f44336;color:#fff;padding:2px 8px;border-radius:10px;font-size:11px;white-space:nowrap">FAIL</span></td></tr>
+</table></div>
+<div class="card"><h2>Run Provenance</h2><table><tr><td><b>Tool</b></td><td>coverage-closure-agent</td></tr>
+<tr><td><b>Version</b></td><td>0.3.1</td></tr>
+<tr><td><b>Git SHA</b></td><td>abc1234</td></tr>
+<tr><td><b>Command</b></td><td>cca close --top dut_alu --seed 7</td></tr>
+<tr><td><b>Seed</b></td><td>7</td></tr>
+<tr><td><b>Status</b></td><td>PASS</td></tr>
+<tr><td><b>Runtime (s)</b></td><td>412.5</td></tr>
+<tr><td><b>Peak mem (MB)</b></td><td>1830.0</td></tr>
+<tr><td><b>Timestamp</b></td><td>2026-09-20T10:00:00Z</td></tr>
+<tr><td><b>hash:rtl</b></td><td><code>sha256:deadbeef</code></td></tr>
+<tr><td><b>hash:plan</b></td><td><code>sha256:c0ffee</code></td></tr></table></div>
+</div>
+<footer>Generated by verification-report-kit &mdash; schema v1.0</footer>
+</body>
+</html>

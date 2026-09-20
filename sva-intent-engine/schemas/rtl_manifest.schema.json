@@ -1,0 +1,145 @@
+{
+  "$defs": {
+    "RTLSymbol": {
+      "additionalProperties": false,
+      "description": "A symbol from the RTL Intent Manifest.",
+      "properties": {
+        "symbol_id": {
+          "title": "Symbol Id",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "kind": {
+          "title": "Kind",
+          "type": "string"
+        },
+        "direction": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Direction"
+        },
+        "width": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Width"
+        },
+        "signal_type": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Signal Type"
+        },
+        "hierarchy": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Hierarchy"
+        },
+        "file": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "File"
+        },
+        "line": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Line"
+        },
+        "aliases": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Aliases",
+          "type": "array"
+        }
+      },
+      "required": [
+        "symbol_id",
+        "name",
+        "kind"
+      ],
+      "title": "RTLSymbol",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Minimal RTL Intent Manifest fixture consumed by the grounding engine.",
+  "properties": {
+    "design_top": {
+      "title": "Design Top",
+      "type": "string"
+    },
+    "symbols": {
+      "items": {
+        "$ref": "#/$defs/RTLSymbol"
+      },
+      "title": "Symbols",
+      "type": "array"
+    },
+    "clock_candidates": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Clock Candidates",
+      "type": "array"
+    },
+    "reset_candidates": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Reset Candidates",
+      "type": "array"
+    }
+  },
+  "required": [
+    "design_top",
+    "symbols"
+  ],
+  "title": "RTLManifest",
+  "type": "object"
+}

@@ -1,0 +1,387 @@
+{
+  "$defs": {
+    "MClockCandidate": {
+      "properties": {
+        "confidence": {
+          "default": 0.0,
+          "title": "Confidence",
+          "type": "number"
+        },
+        "location": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/MSourceLocation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "rationale": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Rationale",
+          "type": "array"
+        },
+        "signal": {
+          "title": "Signal",
+          "type": "string"
+        }
+      },
+      "required": [
+        "signal"
+      ],
+      "title": "MClockCandidate",
+      "type": "object"
+    },
+    "MModule": {
+      "properties": {
+        "clock_candidates": {
+          "items": {
+            "$ref": "#/$defs/MClockCandidate"
+          },
+          "title": "Clock Candidates",
+          "type": "array"
+        },
+        "location": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/MSourceLocation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "nets": {
+          "items": {
+            "$ref": "#/$defs/MNet"
+          },
+          "title": "Nets",
+          "type": "array"
+        },
+        "ports": {
+          "items": {
+            "$ref": "#/$defs/MPort"
+          },
+          "title": "Ports",
+          "type": "array"
+        },
+        "registers": {
+          "items": {
+            "$ref": "#/$defs/MRegister"
+          },
+          "title": "Registers",
+          "type": "array"
+        },
+        "reset_candidates": {
+          "items": {
+            "$ref": "#/$defs/MResetCandidate"
+          },
+          "title": "Reset Candidates",
+          "type": "array"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "title": "MModule",
+      "type": "object"
+    },
+    "MNet": {
+      "properties": {
+        "location": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/MSourceLocation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "net_kind": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Net Kind"
+        },
+        "range": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/MRange"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "title": "MNet",
+      "type": "object"
+    },
+    "MPort": {
+      "properties": {
+        "direction": {
+          "$ref": "#/$defs/PortDirection"
+        },
+        "location": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/MSourceLocation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "net_kind": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Net Kind"
+        },
+        "range": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/MRange"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "name",
+        "direction"
+      ],
+      "title": "MPort",
+      "type": "object"
+    },
+    "MRange": {
+      "properties": {
+        "lsb": {
+          "title": "Lsb",
+          "type": "string"
+        },
+        "msb": {
+          "title": "Msb",
+          "type": "string"
+        }
+      },
+      "required": [
+        "msb",
+        "lsb"
+      ],
+      "title": "MRange",
+      "type": "object"
+    },
+    "MRegister": {
+      "properties": {
+        "location": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/MSourceLocation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "title": "MRegister",
+      "type": "object"
+    },
+    "MResetCandidate": {
+      "properties": {
+        "confidence": {
+          "default": 0.0,
+          "title": "Confidence",
+          "type": "number"
+        },
+        "location": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/MSourceLocation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "polarity": {
+          "$ref": "#/$defs/ResetPolarity",
+          "default": "unknown"
+        },
+        "rationale": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Rationale",
+          "type": "array"
+        },
+        "signal": {
+          "title": "Signal",
+          "type": "string"
+        },
+        "sync": {
+          "$ref": "#/$defs/ResetSync",
+          "default": "unknown"
+        }
+      },
+      "required": [
+        "signal"
+      ],
+      "title": "MResetCandidate",
+      "type": "object"
+    },
+    "MSourceLocation": {
+      "description": "Source location as emitted by rtl-intent (1-based).",
+      "properties": {
+        "col": {
+          "default": 1,
+          "title": "Col",
+          "type": "integer"
+        },
+        "end_col": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "End Col"
+        },
+        "end_line": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "End Line"
+        },
+        "file": {
+          "title": "File",
+          "type": "string"
+        },
+        "line": {
+          "title": "Line",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "file",
+        "line"
+      ],
+      "title": "MSourceLocation",
+      "type": "object"
+    },
+    "PortDirection": {
+      "enum": [
+        "input",
+        "output",
+        "inout"
+      ],
+      "title": "PortDirection",
+      "type": "string"
+    },
+    "ResetPolarity": {
+      "enum": [
+        "active_high",
+        "active_low",
+        "unknown"
+      ],
+      "title": "ResetPolarity",
+      "type": "string"
+    },
+    "ResetSync": {
+      "enum": [
+        "synchronous",
+        "asynchronous",
+        "unknown"
+      ],
+      "title": "ResetSync",
+      "type": "string"
+    }
+  },
+  "description": "Validated subset of the canonical RTL Intent Manifest.\n\nOnly the fields the contract generator consumes are modeled; all other\nfields present in a real manifest are ignored (not dropped from disk).",
+  "properties": {
+    "modules": {
+      "items": {
+        "$ref": "#/$defs/MModule"
+      },
+      "title": "Modules",
+      "type": "array"
+    },
+    "schema_version": {
+      "default": "0.1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "top": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Top"
+    }
+  },
+  "title": "RtlManifest",
+  "type": "object"
+}

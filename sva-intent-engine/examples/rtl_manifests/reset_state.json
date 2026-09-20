@@ -1,0 +1,10 @@
+{
+  "design_top": "counter",
+  "clock_candidates": ["clk"],
+  "reset_candidates": ["rst_n"],
+  "symbols": [
+    {"symbol_id": "s_clk", "name": "clk", "kind": "clock", "file": "counter.sv", "line": 3},
+    {"symbol_id": "s_rstn", "name": "rst_n", "kind": "reset", "signal_type": "active_low", "file": "counter.sv", "line": 4},
+    {"symbol_id": "s_count", "name": "count", "kind": "reg", "width": 8, "file": "counter.sv", "line": 10}
+  ]
+}

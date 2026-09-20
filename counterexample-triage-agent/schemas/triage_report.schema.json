@@ -1,0 +1,305 @@
+{
+  "$defs": {
+    "HypothesisCategory": {
+      "enum": [
+        "design_bug",
+        "property_issue",
+        "environment_issue",
+        "reset_issue",
+        "modeling_issue"
+      ],
+      "title": "HypothesisCategory",
+      "type": "string"
+    },
+    "ReproInfo": {
+      "properties": {
+        "command": {
+          "title": "Command",
+          "type": "string"
+        },
+        "artifacts": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Artifacts",
+          "type": "array"
+        }
+      },
+      "required": [
+        "command"
+      ],
+      "title": "ReproInfo",
+      "type": "object"
+    },
+    "RootCauseHypothesis": {
+      "properties": {
+        "category": {
+          "$ref": "#/$defs/HypothesisCategory"
+        },
+        "statement": {
+          "title": "Statement",
+          "type": "string"
+        },
+        "confidence": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Confidence",
+          "type": "number"
+        },
+        "evidence": {
+          "description": "Concrete, trace-grounded evidence lines. Never empty for a design_bug hypothesis.",
+          "items": {
+            "type": "string"
+          },
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "category",
+        "statement",
+        "confidence"
+      ],
+      "title": "RootCauseHypothesis",
+      "type": "object"
+    },
+    "SourceCitation": {
+      "properties": {
+        "file": {
+          "title": "File",
+          "type": "string"
+        },
+        "line": {
+          "minimum": 1,
+          "title": "Line",
+          "type": "integer"
+        },
+        "symbol": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Symbol"
+        },
+        "reason": {
+          "title": "Reason",
+          "type": "string"
+        }
+      },
+      "required": [
+        "file",
+        "line",
+        "reason"
+      ],
+      "title": "SourceCitation",
+      "type": "object"
+    },
+    "SourceLocation": {
+      "properties": {
+        "file": {
+          "title": "File",
+          "type": "string"
+        },
+        "line": {
+          "minimum": 1,
+          "title": "Line",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "file",
+        "line"
+      ],
+      "title": "SourceLocation",
+      "type": "object"
+    },
+    "TimelineEvent": {
+      "description": "One cycle-linked event in the reconstructed timeline.",
+      "properties": {
+        "cycle": {
+          "description": "Clock cycle index (0-based).",
+          "minimum": 0,
+          "title": "Cycle",
+          "type": "integer"
+        },
+        "time": {
+          "description": "Simulation time of the clock edge.",
+          "minimum": 0,
+          "title": "Time",
+          "type": "integer"
+        },
+        "kind": {
+          "description": "reset|antecedent|consequent|divergence|failure|sample",
+          "title": "Kind",
+          "type": "string"
+        },
+        "description": {
+          "title": "Description",
+          "type": "string"
+        },
+        "signals": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Signal values sampled at this cycle.",
+          "title": "Signals",
+          "type": "object"
+        }
+      },
+      "required": [
+        "cycle",
+        "time",
+        "kind",
+        "description"
+      ],
+      "title": "TimelineEvent",
+      "type": "object"
+    }
+  },
+  "description": "The complete deterministic triage output.",
+  "properties": {
+    "property_name": {
+      "title": "Property Name",
+      "type": "string"
+    },
+    "property_text": {
+      "title": "Property Text",
+      "type": "string"
+    },
+    "property_location": {
+      "$ref": "#/$defs/SourceLocation"
+    },
+    "clock": {
+      "title": "Clock",
+      "type": "string"
+    },
+    "reset": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Reset"
+    },
+    "antecedent_cycle": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "First cycle the antecedent activated, if determinable.",
+      "title": "Antecedent Cycle"
+    },
+    "antecedent_time": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Antecedent Time"
+    },
+    "first_divergence_cycle": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "First cycle the consequent failed to hold as required.",
+      "title": "First Divergence Cycle"
+    },
+    "first_divergence_time": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "First Divergence Time"
+    },
+    "timeline": {
+      "items": {
+        "$ref": "#/$defs/TimelineEvent"
+      },
+      "title": "Timeline",
+      "type": "array"
+    },
+    "rtl_cone": {
+      "description": "Symbols in the property's cone of influence.",
+      "items": {
+        "type": "string"
+      },
+      "title": "Rtl Cone",
+      "type": "array"
+    },
+    "citations": {
+      "items": {
+        "$ref": "#/$defs/SourceCitation"
+      },
+      "title": "Citations",
+      "type": "array"
+    },
+    "hypotheses": {
+      "items": {
+        "$ref": "#/$defs/RootCauseHypothesis"
+      },
+      "title": "Hypotheses",
+      "type": "array"
+    },
+    "unresolved_questions": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Unresolved Questions",
+      "type": "array"
+    },
+    "reproduction": {
+      "$ref": "#/$defs/ReproInfo"
+    },
+    "llm_narrative": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Optional LLM-authored prose. Advisory only; not evidence.",
+      "title": "Llm Narrative"
+    }
+  },
+  "required": [
+    "property_name",
+    "property_text",
+    "property_location",
+    "clock",
+    "reset",
+    "reproduction"
+  ],
+  "title": "TriageReport",
+  "type": "object"
+}

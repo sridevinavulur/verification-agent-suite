@@ -1,0 +1,46 @@
+[
+  {
+    "ambiguities": [],
+    "antecedent": "valid && ready",
+    "clause_id": "ready_valid.c0",
+    "clock_signal": "clk",
+    "confidence": 0.85,
+    "consequent": "grant",
+    "design_top": "handshake",
+    "disable_condition": null,
+    "environmental_assumptions": [],
+    "implication_style": "overlapping",
+    "max_delay": 3,
+    "min_delay": 1,
+    "property_form": "bounded_response",
+    "property_kind": "assert",
+    "referenced_symbols": [
+      {
+        "file": "handshake.sv",
+        "line": 5,
+        "name": "valid",
+        "symbol_id": "s_valid"
+      },
+      {
+        "file": "handshake.sv",
+        "line": 6,
+        "name": "ready",
+        "symbol_id": "s_ready"
+      },
+      {
+        "file": "handshake.sv",
+        "line": 7,
+        "name": "grant",
+        "symbol_id": "s_grant"
+      }
+    ],
+    "render_template_id": "bounded_response",
+    "requirement_id": "ready_valid",
+    "reset_polarity": "active_low",
+    "reset_signal": "rst_n",
+    "reviewer_status": "unreviewed",
+    "source_text": "When valid and ready are high, grant must be high within 1 to 3 cycles.",
+    "temporal_strength": "weak",
+    "validation_checks": []
+  }
+]

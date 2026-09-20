@@ -1,0 +1,136 @@
+{
+  "disclaimer": "STRUCTURAL HEURISTIC TRIAGE ONLY. This is NOT a CDC/RDC signoff tool and does not prove any crossing safe or unsafe. Use commercial CDC/RDC signoff for verification-quality results.",
+  "limitations": [
+    "Structural only: no metastability, glitch, or functional analysis.",
+    "Clock/reset domains come from heuristic candidates in the manifest; a wrong candidate propagates to every finding.",
+    "Data flow is derived from expression *text* (no full AST); complex expressions may under- or over-report identifier references.",
+    "Cross-module (hierarchical) crossings are NOT traced through port connections in this version -- analysis is per-module.",
+    "Parameterized widths that the manifest keeps as text cannot be evaluated, so some multi-bit crossings show width=unknown.",
+    "A '2-FF synchronizer candidate' is structural evidence only and does NOT prove correct metastability handling.",
+    "Generate blocks, functions/tasks, and memories are not modeled by the upstream subset parser and are therefore invisible here."
+  ],
+  "modules": [
+    {
+      "clock_domains": [
+        "clk_a",
+        "clk_b"
+      ],
+      "crossings": [
+        {
+          "dst_domain": {
+            "clock": "clk_b",
+            "reset": "rst_b"
+          },
+          "dst_location": {
+            "col": 13,
+            "end_col": 26,
+            "end_line": 61,
+            "file": "cdc_sync.sv",
+            "line": 61
+          },
+          "dst_signal": "bus_b",
+          "heuristic": true,
+          "kind": "CDC",
+          "module": "cdc_sync",
+          "multi_bit": true,
+          "rationale": [
+            "register 'bus_b' (clk=clk_b) reads register 'bus_a' (clk=clk_a) across clock domains",
+            "no back-to-back single-fan-in flop chain detected at the sampling flop -- no structural synchronizer evidence",
+            "transferred signal 'bus_a' is 8 bits wide -- multi-bit CDC needs gray-code/handshake; a plain FF sync is insufficient"
+          ],
+          "risk_score": 85,
+          "severity": "HIGH",
+          "src_domain": {
+            "clock": "clk_a",
+            "reset": "rst_a"
+          },
+          "src_location": {
+            "col": 13,
+            "end_col": 27,
+            "end_line": 32,
+            "file": "cdc_sync.sv",
+            "line": 32
+          },
+          "src_signal": "bus_a",
+          "sync_depth": null,
+          "sync_evidence": "no_synchronizer_evidence",
+          "width_bits": 8
+        },
+        {
+          "dst_domain": {
+            "clock": "clk_b",
+            "reset": "rst_b"
+          },
+          "dst_location": {
+            "col": 13,
+            "end_col": 28,
+            "end_line": 42,
+            "file": "cdc_sync.sv",
+            "line": 42
+          },
+          "dst_signal": "sync_ff1",
+          "heuristic": true,
+          "kind": "CDC",
+          "module": "cdc_sync",
+          "multi_bit": false,
+          "rationale": [
+            "register 'sync_ff1' (clk=clk_b) reads register 'flag_a' (clk=clk_a) across clock domains",
+            "3 back-to-back flops in destination clock domain 'clk_b' with single fan-in starting at the sampling flop 'sync_ff1' -- 3-FF synchronizer candidate (HEURISTIC; clock/domain evidence only, correctness NOT proven)"
+          ],
+          "risk_score": 25,
+          "severity": "INFO",
+          "src_domain": {
+            "clock": "clk_a",
+            "reset": "rst_a"
+          },
+          "src_location": {
+            "col": 13,
+            "end_col": 26,
+            "end_line": 31,
+            "file": "cdc_sync.sv",
+            "line": 31
+          },
+          "src_signal": "flag_a",
+          "sync_depth": 3,
+          "sync_evidence": "multi_ff_synchronizer_candidate",
+          "width_bits": 1
+        }
+      ],
+      "module": "cdc_sync",
+      "notes": [],
+      "reset_domains": [
+        "rst_a",
+        "rst_b"
+      ]
+    }
+  ],
+  "non_claims": [
+    "Does NOT claim the design is CDC clean.",
+    "Does NOT claim the design is RDC clean.",
+    "Does NOT claim any synchronizer is correct.",
+    "Does NOT prove metastability is handled.",
+    "Findings are heuristic and may contain false positives and false negatives."
+  ],
+  "reviewer_checklist": [
+    "Confirm the source and destination clocks are genuinely asynchronous (different frequency/phase or unrelated), not just differently named.",
+    "For each flagged crossing, confirm an appropriate synchronizer exists and matches the transfer type (single-bit -> N-FF; multi-bit -> gray-code or handshake/FIFO).",
+    "For every '2-FF synchronizer candidate', verify the flops are actually in the destination domain and have no combinational logic between stages.",
+    "For every multi-bit crossing, verify a coherent transfer scheme (gray-code counter, req/ack handshake, async FIFO) -- FF sync alone is unsafe.",
+    "Verify reset-domain crossings: source and destination resets must be sequenced/synchronized so a reset assert/deassert cannot corrupt the destination.",
+    "Confirm no CDC path is fed by combinational reconvergence of differently-synchronized bits.",
+    "Run a commercial CDC/RDC signoff tool -- this triage is heuristic and NOT a substitute for structural+functional CDC/RDC verification."
+  ],
+  "summary": {
+    "cdc_crossings": 2,
+    "crossings_without_sync_evidence": 1,
+    "high_severity": 1,
+    "low_severity": 0,
+    "medium_severity": 0,
+    "multi_bit_crossings": 1,
+    "rdc_crossings": 0,
+    "total_crossings": 2
+  },
+  "tool": "cdc-rdc-triage-agent",
+  "tool_version": "0.1.0",
+  "top": "cdc_sync"
+}

@@ -1,0 +1,31 @@
+{
+  "schema_version": "0.1.0",
+  "note": "Public toy test plan / requirement-to-test matrix.",
+  "requirements": [
+    {"id": "REQ-FIFO-001", "text": "FIFO shall not overflow when full"},
+    {"id": "REQ-FIFO-002", "text": "FIFO shall not underflow when empty"},
+    {"id": "REQ-FIFO-003", "text": "FIFO count shall reset to zero on por_rst"},
+    {"id": "REQ-ARB-001", "text": "Arbiter grant shall be one-hot"},
+    {"id": "REQ-ARB-002", "text": "Arbiter shall be fair over a window"}
+  ],
+  "tests": [
+    {
+      "id": "T_fifo_overflow",
+      "name": "fifo_overflow_directed",
+      "requirement_ids": ["REQ-FIFO-001"],
+      "coverage_bins": ["cov_fifo_full"]
+    },
+    {
+      "id": "T_fifo_underflow",
+      "name": "fifo_underflow_directed",
+      "requirement_ids": ["REQ-FIFO-002"],
+      "coverage_bins": ["cov_fifo_empty"]
+    },
+    {
+      "id": "T_arb_grant",
+      "name": "arbiter_grant_random",
+      "requirement_ids": ["REQ-ARB-001"],
+      "coverage_bins": ["cov_arb_grant"]
+    }
+  ]
+}

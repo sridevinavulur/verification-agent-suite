@@ -1,0 +1,56 @@
+{
+  "schema_version": "0.1.0",
+  "top": "counter",
+  "hierarchy": [],
+  "modules": [
+    {
+      "name": "counter",
+      "location": {"file": "examples/toy_counter/counter.v", "line": 17, "col": 1, "end_line": 33, "end_col": 10},
+      "ports": [
+        {"name": "clk", "direction": "input", "net_kind": "wire",
+         "location": {"file": "examples/toy_counter/counter.v", "line": 18, "col": 5, "end_line": 18, "end_col": 22}},
+        {"name": "rst", "direction": "input", "net_kind": "wire",
+         "location": {"file": "examples/toy_counter/counter.v", "line": 19, "col": 5, "end_line": 19, "end_col": 22}},
+        {"name": "en", "direction": "input", "net_kind": "wire",
+         "location": {"file": "examples/toy_counter/counter.v", "line": 20, "col": 5, "end_line": 20, "end_col": 22}},
+        {"name": "stall", "direction": "input", "net_kind": "wire",
+         "location": {"file": "examples/toy_counter/counter.v", "line": 21, "col": 5, "end_line": 21, "end_col": 22}},
+        {"name": "count", "direction": "output", "net_kind": "reg", "range": {"msb": "3", "lsb": "0"},
+         "location": {"file": "examples/toy_counter/counter.v", "line": 22, "col": 5, "end_line": 22, "end_col": 22}}
+      ],
+      "nets": [],
+      "registers": [
+        {"name": "count", "driven_in_procedure_index": 0,
+         "location": {"file": "examples/toy_counter/counter.v", "line": 22, "col": 5, "end_line": 22, "end_col": 22}}
+      ],
+      "continuous_assigns": [],
+      "procedures": [
+        {
+          "index": 0,
+          "kind": "always_ff",
+          "location": {"file": "examples/toy_counter/counter.v", "line": 25, "col": 5, "end_line": 31, "end_col": 8},
+          "sensitivity": [{"signal": "clk", "edge": "posedge"}],
+          "condition_signals": ["rst", "en", "stall"],
+          "assignment_targets": ["count"],
+          "assignments": [
+            {"lhs": "count", "rhs": "4'd0", "nonblocking": true,
+             "location": {"file": "examples/toy_counter/counter.v", "line": 27, "col": 13, "end_line": 27, "end_col": 26}},
+            {"lhs": "count", "rhs": "count + 4'd1", "nonblocking": true,
+             "location": {"file": "examples/toy_counter/counter.v", "line": 29, "col": 13, "end_line": 29, "end_col": 34}}
+          ]
+        }
+      ],
+      "clock_candidates": [
+        {"signal": "clk", "confidence": 1.0, "rationale": ["edge-sensitive in always_ff"]}
+      ],
+      "reset_candidates": [
+        {"signal": "rst", "confidence": 0.9, "polarity": "active_high", "sync": "synchronous", "rationale": ["gates count reset"]}
+      ]
+    }
+  ],
+  "unresolved": [],
+  "parser": {"adapter": "test-fixture", "adapter_version": "0.0.0",
+             "supported_constructs": [], "unsupported_constructs": []},
+  "provenance": {"tool_version": "0.1.0", "command": "test fixture", "git_sha": "UNKNOWN",
+                 "input_files": ["examples/toy_counter/counter.v"], "input_sha256": {}}
+}

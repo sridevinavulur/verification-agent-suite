@@ -1,0 +1,11 @@
+{
+  "module": "timer_block",
+  "symbols": [
+    { "name": "CTRL",   "kind": "register", "width_bits": 32, "reset_value": 0,          "access": "RW" },
+    { "name": "LOAD",   "kind": "register", "width_bits": 32, "reset_value": 4294967295, "access": "RW" },
+    { "name": "COUNT",  "kind": "register", "width_bits": 32, "reset_value": 0,          "access": "RO" },
+    { "name": "STATUS", "kind": "register", "width_bits": 32, "reset_value": 0,          "access": "RW" },
+    { "name": "clk",    "kind": "signal" },
+    { "name": "rst_n",  "kind": "signal" }
+  ]
+}

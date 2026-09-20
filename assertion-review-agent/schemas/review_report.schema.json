@@ -1,0 +1,169 @@
+{
+  "$defs": {
+    "CheckId": {
+      "description": "Stable identifiers for each deterministic check.",
+      "enum": [
+        "MISSING_DISABLE_IFF",
+        "RESET_POLARITY_RISK",
+        "IMPLICATION_STYLE_RISK",
+        "UNBOUNDED_TEMPORAL",
+        "WEAK_CONSEQUENT",
+        "ANTECEDENT_IN_CONSEQUENT",
+        "TRIVIALLY_PASSING",
+        "ASSUME_CONSTRAINS_OUTPUT",
+        "UNDECLARED_SIGNAL",
+        "WIDTH_MISMATCH",
+        "NAME_SEMANTICS",
+        "MISSING_CLOCK",
+        "REQ_TRACEABILITY",
+        "VACUITY_RISK"
+      ],
+      "title": "CheckId",
+      "type": "string"
+    },
+    "Finding": {
+      "description": "A single deterministic review finding.",
+      "properties": {
+        "check_id": {
+          "$ref": "#/$defs/CheckId"
+        },
+        "severity": {
+          "$ref": "#/$defs/Severity"
+        },
+        "message": {
+          "title": "Message",
+          "type": "string"
+        },
+        "location": {
+          "$ref": "#/$defs/SourceLocation"
+        },
+        "property_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Property Name"
+        },
+        "heuristic": {
+          "default": false,
+          "title": "Heuristic",
+          "type": "boolean"
+        },
+        "recommendation": {
+          "default": "",
+          "title": "Recommendation",
+          "type": "string"
+        },
+        "explanation": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Explanation"
+        }
+      },
+      "required": [
+        "check_id",
+        "severity",
+        "message",
+        "location"
+      ],
+      "title": "Finding",
+      "type": "object"
+    },
+    "Severity": {
+      "description": "Severity of a review finding.\n\n``ERROR``   -- almost certainly wrong; would give a misleading formal result.\n``WARNING`` -- likely defect or strong smell; needs human review.\n``INFO``    -- advisory / style / traceability note.",
+      "enum": [
+        "ERROR",
+        "WARNING",
+        "INFO"
+      ],
+      "title": "Severity",
+      "type": "string"
+    },
+    "SourceLocation": {
+      "description": "A 1-based location inside an SVA source file.",
+      "properties": {
+        "file": {
+          "title": "File",
+          "type": "string"
+        },
+        "line": {
+          "minimum": 1,
+          "title": "Line",
+          "type": "integer"
+        },
+        "column": {
+          "default": 1,
+          "minimum": 1,
+          "title": "Column",
+          "type": "integer"
+        },
+        "snippet": {
+          "default": "",
+          "title": "Snippet",
+          "type": "string"
+        }
+      },
+      "required": [
+        "file",
+        "line"
+      ],
+      "title": "SourceLocation",
+      "type": "object"
+    }
+  },
+  "description": "Full deterministic review output for one SVA file.",
+  "properties": {
+    "source_file": {
+      "title": "Source File",
+      "type": "string"
+    },
+    "manifest_top": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Manifest Top"
+    },
+    "property_count": {
+      "default": 0,
+      "title": "Property Count",
+      "type": "integer"
+    },
+    "findings": {
+      "items": {
+        "$ref": "#/$defs/Finding"
+      },
+      "title": "Findings",
+      "type": "array"
+    },
+    "checklist": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Checklist",
+      "type": "array"
+    }
+  },
+  "required": [
+    "source_file"
+  ],
+  "title": "ReviewReport",
+  "type": "object"
+}

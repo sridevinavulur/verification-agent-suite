@@ -1,0 +1,148 @@
+{
+  "$defs": {
+    "BenchmarkItem": {
+      "additionalProperties": false,
+      "description": "A public design + property pair to run, with difficulty features.\n\nThe ``features`` are the *observable* signals a policy may condition on\n(RTL size, register count, COI size, property type, etc.). ``group`` is the\ncorrelated-design cluster used to build leakage-free train/test splits.",
+      "properties": {
+        "benchmark_id": {
+          "title": "Benchmark Id",
+          "type": "string"
+        },
+        "design_name": {
+          "title": "Design Name",
+          "type": "string"
+        },
+        "design_sha": {
+          "description": "Placeholder SHA of the RTL design source.",
+          "title": "Design Sha",
+          "type": "string"
+        },
+        "property": {
+          "$ref": "#/$defs/PropertySpec"
+        },
+        "property_sha": {
+          "description": "Placeholder SHA of the property/SVA source.",
+          "title": "Property Sha",
+          "type": "string"
+        },
+        "group": {
+          "description": "Correlation group for leakage-free splitting.",
+          "title": "Group",
+          "type": "string"
+        },
+        "rtl_lines": {
+          "minimum": 0,
+          "title": "Rtl Lines",
+          "type": "integer"
+        },
+        "register_count": {
+          "minimum": 0,
+          "title": "Register Count",
+          "type": "integer"
+        },
+        "coi_size": {
+          "description": "Cone-of-influence node count estimate.",
+          "minimum": 0,
+          "title": "Coi Size",
+          "type": "integer"
+        },
+        "max_depth_hint": {
+          "description": "Depth at which the property resolves.",
+          "minimum": 1,
+          "title": "Max Depth Hint",
+          "type": "integer"
+        },
+        "intrinsic_difficulty": {
+          "description": "Public toy difficulty rating (mock ground-truth).",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Intrinsic Difficulty",
+          "type": "number"
+        },
+        "is_holds": {
+          "description": "Whether the property truly holds (toy ground truth).",
+          "title": "Is Holds",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "benchmark_id",
+        "design_name",
+        "design_sha",
+        "property",
+        "property_sha",
+        "group",
+        "rtl_lines",
+        "register_count",
+        "coi_size",
+        "max_depth_hint",
+        "intrinsic_difficulty",
+        "is_holds"
+      ],
+      "title": "BenchmarkItem",
+      "type": "object"
+    },
+    "PropertyKind": {
+      "enum": [
+        "assert",
+        "cover",
+        "assume"
+      ],
+      "title": "PropertyKind",
+      "type": "string"
+    },
+    "PropertySpec": {
+      "additionalProperties": false,
+      "properties": {
+        "property_id": {
+          "title": "Property Id",
+          "type": "string"
+        },
+        "kind": {
+          "$ref": "#/$defs/PropertyKind",
+          "default": "assert"
+        },
+        "description": {
+          "default": "",
+          "title": "Description",
+          "type": "string"
+        }
+      },
+      "required": [
+        "property_id"
+      ],
+      "title": "PropertySpec",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "default": "0.1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "suite_id": {
+      "title": "Suite Id",
+      "type": "string"
+    },
+    "description": {
+      "default": "",
+      "title": "Description",
+      "type": "string"
+    },
+    "items": {
+      "items": {
+        "$ref": "#/$defs/BenchmarkItem"
+      },
+      "title": "Items",
+      "type": "array"
+    }
+  },
+  "required": [
+    "suite_id",
+    "items"
+  ],
+  "title": "BenchmarkSuite",
+  "type": "object"
+}

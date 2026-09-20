@@ -1,0 +1,78 @@
+$date Mon Jan 01 00:00:00 2024 $end
+$version cx-triage toy generator $end
+$timescale 1ns $end
+$scope module tb $end
+$var wire 1 ! clk $end
+$var wire 1 " rst $end
+$var wire 1 # en $end
+$var wire 1 $ stall $end
+$var reg 4 % count [3:0] $end
+$var wire 1 & count_advanced $end
+$upscope $end
+$enddefinitions $end
+#0
+$dumpvars
+0!
+1"
+0#
+0$
+b0000 %
+0&
+$end
+#5
+1!
+#10
+0!
+#15
+1!
+#20
+0!
+#25
+1!
+0"
+1#
+#30
+0!
+#35
+1!
+b0001 %
+1&
+#40
+0!
+#45
+1!
+b0010 %
+#50
+0!
+#55
+1!
+1$
+b0011 %
+#60
+0!
+#65
+1!
+0$
+0&
+#70
+0!
+#75
+1!
+0#
+b0100 %
+1&
+#80
+0!
+#85
+1!
+1#
+0&
+#90
+0!
+#95
+1!
+0#
+b0101 %
+1&
+#100
+0!

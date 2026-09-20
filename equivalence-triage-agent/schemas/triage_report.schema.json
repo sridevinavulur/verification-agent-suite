@@ -1,0 +1,548 @@
+{
+  "$defs": {
+    "CauseCategory": {
+      "description": "Heuristic likely-cause categories called for by the spec.",
+      "enum": [
+        "width",
+        "polarity",
+        "gating",
+        "state_encoding",
+        "optimization",
+        "reset_init",
+        "config_constraint",
+        "unknown"
+      ],
+      "title": "CauseCategory",
+      "type": "string"
+    },
+    "ConfigDelta": {
+      "additionalProperties": false,
+      "description": "A single configuration/constraint difference between the two runs.\n\nSurfacing these is mandatory (never conceal configuration differences).",
+      "properties": {
+        "key": {
+          "title": "Key",
+          "type": "string"
+        },
+        "reference_value": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reference Value"
+        },
+        "revised_value": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Revised Value"
+        }
+      },
+      "required": [
+        "key"
+      ],
+      "title": "ConfigDelta",
+      "type": "object"
+    },
+    "DebugPacket": {
+      "additionalProperties": false,
+      "description": "A reproducible debug packet for one investigation.",
+      "properties": {
+        "repro_command": {
+          "title": "Repro Command",
+          "type": "string"
+        },
+        "input_files": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Input Files",
+          "type": "array"
+        },
+        "focus_compare_points": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Focus Compare Points",
+          "type": "array"
+        },
+        "focus_signals": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Focus Signals",
+          "type": "array"
+        },
+        "suggested_next_steps": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Suggested Next Steps",
+          "type": "array"
+        }
+      },
+      "required": [
+        "repro_command"
+      ],
+      "title": "DebugPacket",
+      "type": "object"
+    },
+    "EquivalenceStatus": {
+      "description": "The equivalence-checker's own verdict. Echoed, never invented.",
+      "enum": [
+        "EQUIVALENT",
+        "NOT_EQUIVALENT",
+        "INCONCLUSIVE",
+        "TIMEOUT",
+        "ERROR",
+        "ABORTED"
+      ],
+      "title": "EquivalenceStatus",
+      "type": "string"
+    },
+    "LikelyCause": {
+      "additionalProperties": false,
+      "description": "A heuristic likely-cause hypothesis. HEURISTIC, not a proof.",
+      "properties": {
+        "category": {
+          "$ref": "#/$defs/CauseCategory"
+        },
+        "confidence": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Confidence",
+          "type": "number"
+        },
+        "rationale": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Rationale",
+          "type": "array"
+        },
+        "is_heuristic": {
+          "default": true,
+          "title": "Is Heuristic",
+          "type": "boolean"
+        },
+        "evidence_refs": {
+          "description": "Pointers to log/CEX/manifest evidence supporting this.",
+          "items": {
+            "type": "string"
+          },
+          "title": "Evidence Refs",
+          "type": "array"
+        }
+      },
+      "required": [
+        "category",
+        "confidence"
+      ],
+      "title": "LikelyCause",
+      "type": "object"
+    },
+    "MismatchGroup": {
+      "additionalProperties": false,
+      "description": "A group of duplicate mismatch signatures + their triage.",
+      "properties": {
+        "signature": {
+          "title": "Signature",
+          "type": "string"
+        },
+        "members": {
+          "description": "compare-point names in this group.",
+          "items": {
+            "type": "string"
+          },
+          "title": "Members",
+          "type": "array"
+        },
+        "kind": {
+          "$ref": "#/$defs/MismatchKind",
+          "default": "unknown"
+        },
+        "cone_signals": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Cone Signals",
+          "type": "array"
+        },
+        "width_ref": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Width Ref"
+        },
+        "width_rev": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Width Rev"
+        },
+        "likely_causes": {
+          "items": {
+            "$ref": "#/$defs/LikelyCause"
+          },
+          "title": "Likely Causes",
+          "type": "array"
+        },
+        "ranked_locations": {
+          "items": {
+            "$ref": "#/$defs/RankedLocation"
+          },
+          "title": "Ranked Locations",
+          "type": "array"
+        }
+      },
+      "required": [
+        "signature"
+      ],
+      "title": "MismatchGroup",
+      "type": "object"
+    },
+    "MismatchKind": {
+      "description": "Structural classification of a mismatched compare point.",
+      "enum": [
+        "output",
+        "state",
+        "cutpoint",
+        "blackbox",
+        "unknown"
+      ],
+      "title": "MismatchKind",
+      "type": "string"
+    },
+    "Provenance": {
+      "additionalProperties": false,
+      "description": "Run provenance / ledger (BUILD_STANDARD requirement).",
+      "properties": {
+        "tool": {
+          "default": "eq-triage",
+          "title": "Tool",
+          "type": "string"
+        },
+        "tool_version": {
+          "title": "Tool Version",
+          "type": "string"
+        },
+        "schema_version": {
+          "default": "0.1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "command": {
+          "default": "",
+          "title": "Command",
+          "type": "string"
+        },
+        "git_sha": {
+          "default": "UNKNOWN",
+          "title": "Git Sha",
+          "type": "string"
+        },
+        "input_files": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Input Files",
+          "type": "array"
+        },
+        "input_sha256": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Input Sha256",
+          "type": "object"
+        }
+      },
+      "required": [
+        "tool_version"
+      ],
+      "title": "Provenance",
+      "type": "object"
+    },
+    "RankedLocation": {
+      "additionalProperties": false,
+      "description": "A source location ranked for engineer review.",
+      "properties": {
+        "signal": {
+          "title": "Signal",
+          "type": "string"
+        },
+        "design": {
+          "title": "Design",
+          "type": "string"
+        },
+        "location": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SourceLocation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "module": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Module"
+        },
+        "score": {
+          "minimum": 0.0,
+          "title": "Score",
+          "type": "number"
+        },
+        "reasons": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Reasons",
+          "type": "array"
+        }
+      },
+      "required": [
+        "signal",
+        "design",
+        "score"
+      ],
+      "title": "RankedLocation",
+      "type": "object"
+    },
+    "ResetComparison": {
+      "additionalProperties": false,
+      "description": "Reset/init behavior comparison between reference and revised.",
+      "properties": {
+        "reference": {
+          "$ref": "#/$defs/ResetInfo"
+        },
+        "revised": {
+          "$ref": "#/$defs/ResetInfo"
+        },
+        "polarity_differs": {
+          "default": false,
+          "title": "Polarity Differs",
+          "type": "boolean"
+        },
+        "sync_differs": {
+          "default": false,
+          "title": "Sync Differs",
+          "type": "boolean"
+        },
+        "init_value_diffs": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "signal -> 'ref!=rev' human-readable diff.",
+          "title": "Init Value Diffs",
+          "type": "object"
+        },
+        "notes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        }
+      },
+      "title": "ResetComparison",
+      "type": "object"
+    },
+    "ResetInfo": {
+      "additionalProperties": false,
+      "description": "Reset/init behavior for one design (extracted from a manifest).",
+      "properties": {
+        "signal": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Signal"
+        },
+        "polarity": {
+          "$ref": "#/$defs/ResetPolarity",
+          "default": "unknown"
+        },
+        "sync": {
+          "$ref": "#/$defs/ResetSync",
+          "default": "unknown"
+        },
+        "init_values": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Init Values",
+          "type": "object"
+        }
+      },
+      "title": "ResetInfo",
+      "type": "object"
+    },
+    "ResetPolarity": {
+      "enum": [
+        "active_high",
+        "active_low",
+        "unknown"
+      ],
+      "title": "ResetPolarity",
+      "type": "string"
+    },
+    "ResetSync": {
+      "enum": [
+        "synchronous",
+        "asynchronous",
+        "unknown"
+      ],
+      "title": "ResetSync",
+      "type": "string"
+    },
+    "SourceLocation": {
+      "additionalProperties": false,
+      "description": "1-based source location; mirrors the canonical manifest schema.",
+      "properties": {
+        "file": {
+          "title": "File",
+          "type": "string"
+        },
+        "line": {
+          "minimum": 1,
+          "title": "Line",
+          "type": "integer"
+        },
+        "col": {
+          "default": 1,
+          "minimum": 1,
+          "title": "Col",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "file",
+        "line"
+      ],
+      "title": "SourceLocation",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Top-level evidence-grounded mismatch-localization report.",
+  "properties": {
+    "provenance": {
+      "$ref": "#/$defs/Provenance"
+    },
+    "reported_status": {
+      "$ref": "#/$defs/EquivalenceStatus",
+      "description": "Echoed verbatim from the tool log. Never inferred."
+    },
+    "status_evidence": {
+      "description": "Where in the log the status came from.",
+      "items": {
+        "type": "string"
+      },
+      "title": "Status Evidence",
+      "type": "array"
+    },
+    "reference_design": {
+      "title": "Reference Design",
+      "type": "string"
+    },
+    "revised_design": {
+      "title": "Revised Design",
+      "type": "string"
+    },
+    "compare_points_total": {
+      "default": 0,
+      "title": "Compare Points Total",
+      "type": "integer"
+    },
+    "compare_points_matched": {
+      "default": 0,
+      "title": "Compare Points Matched",
+      "type": "integer"
+    },
+    "mismatch_count": {
+      "default": 0,
+      "title": "Mismatch Count",
+      "type": "integer"
+    },
+    "config_deltas": {
+      "items": {
+        "$ref": "#/$defs/ConfigDelta"
+      },
+      "title": "Config Deltas",
+      "type": "array"
+    },
+    "reset_comparison": {
+      "$ref": "#/$defs/ResetComparison"
+    },
+    "groups": {
+      "items": {
+        "$ref": "#/$defs/MismatchGroup"
+      },
+      "title": "Groups",
+      "type": "array"
+    },
+    "debug_packet": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/DebugPacket"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "warnings": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Warnings",
+      "type": "array"
+    }
+  },
+  "required": [
+    "provenance",
+    "reported_status",
+    "reference_design",
+    "revised_design"
+  ],
+  "title": "TriageReport",
+  "type": "object"
+}

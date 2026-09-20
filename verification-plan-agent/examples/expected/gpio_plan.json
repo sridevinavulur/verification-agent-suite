@@ -1,0 +1,235 @@
+{
+  "ambiguities": [
+    {
+      "detail": "RTL manifest exposes reset candidate(s) ['presetn'] but the spec has no reset requirement.",
+      "id": "AMB-001",
+      "kind": "missing_requirement",
+      "ref": "reset"
+    },
+    {
+      "detail": "Multiple clock candidates ['gclk', 'pclk'] in manifest but no CDC/RDC requirement in the spec.",
+      "id": "AMB-002",
+      "kind": "missing_requirement",
+      "ref": "cdc_rdc"
+    },
+    {
+      "detail": "Interface signal 'pwdata' is not mentioned by any requirement; assuming it is out of verification scope unless a reviewer says otherwise.",
+      "id": "AMB-003",
+      "kind": "assumption",
+      "ref": "pwdata"
+    },
+    {
+      "detail": "Interface signal 'gpio_out' is not mentioned by any requirement; assuming it is out of verification scope unless a reviewer says otherwise.",
+      "id": "AMB-004",
+      "kind": "assumption",
+      "ref": "gpio_out"
+    }
+  ],
+  "assertions": [
+    {
+      "approval": "proposed",
+      "feature_id": "FEAT-001",
+      "id": "ASRT-001-01",
+      "rationale": "Captures the liveness expectation for The controller shall drive the output pins to…; refine bounds during review.",
+      "sva_sketch": "assert property (@(posedge pclk) disable iff (!presetn) <antecedent> |-> <consequent>);  // functional invariant sketch"
+    },
+    {
+      "approval": "proposed",
+      "feature_id": "FEAT-002",
+      "id": "ASRT-002-01",
+      "rationale": "Captures the liveness expectation for Access to the configuration register must be restricted…; refine bounds during review.",
+      "sva_sketch": "assert property (@(posedge pclk) disable iff (!presetn) <antecedent> |-> <consequent>);  // functional invariant sketch"
+    }
+  ],
+  "coverage_targets": [
+    {
+      "approval": "proposed",
+      "description": "Cover key states/transitions of: The controller shall drive the output pins to…",
+      "feature_id": "FEAT-001",
+      "id": "COV-001-01",
+      "metric": "functional_bin"
+    }
+  ],
+  "design_name": "gpio_ctrl",
+  "features": [
+    {
+      "approval": "proposed",
+      "category": "functional",
+      "description": "The controller shall drive the output pins to match the value written to the data register.",
+      "id": "FEAT-001",
+      "name": "The controller shall drive the output pins to…",
+      "source_requirements": [
+        "REQ-GPIO-01"
+      ]
+    },
+    {
+      "approval": "proposed",
+      "category": "security",
+      "description": "Access to the configuration register must be restricted to privileged (secure) transactions.",
+      "id": "FEAT-002",
+      "name": "Access to the configuration register must be restricted…",
+      "source_requirements": [
+        "REQ-GPIO-02"
+      ]
+    }
+  ],
+  "plan_items": [
+    {
+      "approval": "proposed",
+      "assertion_ids": [
+        "ASRT-002-01"
+      ],
+      "category": "security",
+      "coverage_ids": [],
+      "feature_id": "FEAT-002",
+      "id": "PLAN-002",
+      "priority": "P0",
+      "risk_rationale": [
+        "base risk for category 'security' = 55",
+        "strong obligation keyword (+10)"
+      ],
+      "risk_score": 65,
+      "scenario_ids": [
+        "SCN-002-01",
+        "SCN-002-02",
+        "SCN-002-03"
+      ],
+      "techniques": [
+        "formal",
+        "sva",
+        "directed_sim"
+      ]
+    },
+    {
+      "approval": "proposed",
+      "assertion_ids": [
+        "ASRT-001-01"
+      ],
+      "category": "functional",
+      "coverage_ids": [
+        "COV-001-01"
+      ],
+      "feature_id": "FEAT-001",
+      "id": "PLAN-001",
+      "priority": "P2",
+      "risk_rationale": [
+        "base risk for category 'functional' = 30",
+        "strong obligation keyword (+10)"
+      ],
+      "risk_score": 40,
+      "scenario_ids": [
+        "SCN-001-01",
+        "SCN-001-02",
+        "SCN-001-03",
+        "SCN-001-04"
+      ],
+      "techniques": [
+        "directed_sim",
+        "constrained_random",
+        "sva",
+        "cover"
+      ]
+    }
+  ],
+  "provenance": {
+    "command": "<golden>",
+    "git_sha": "UNKNOWN",
+    "input_files": [],
+    "input_sha256": {},
+    "llm_adapter": "mock",
+    "schema_version": "0.1.0",
+    "tool": "verification-plan-agent",
+    "tool_version": "0.1.0"
+  },
+  "scenarios": [
+    {
+      "approval": "proposed",
+      "description": "Directed test hitting the nominal path of: The controller shall drive the output pins to…",
+      "feature_id": "FEAT-001",
+      "id": "SCN-001-01",
+      "technique": "directed_sim"
+    },
+    {
+      "approval": "proposed",
+      "description": "Constrained-random stimulus stressing: The controller shall drive the output pins to…",
+      "feature_id": "FEAT-001",
+      "id": "SCN-001-02",
+      "technique": "constrained_random"
+    },
+    {
+      "approval": "proposed",
+      "description": "Bind SVA checkers for the invariants of: The controller shall drive the output pins to…",
+      "feature_id": "FEAT-001",
+      "id": "SCN-001-03",
+      "technique": "sva"
+    },
+    {
+      "approval": "proposed",
+      "description": "Coverage collection for the behavior of: The controller shall drive the output pins to…",
+      "feature_id": "FEAT-001",
+      "id": "SCN-001-04",
+      "technique": "cover"
+    },
+    {
+      "approval": "proposed",
+      "description": "Formal property/proof scope for: Access to the configuration register must be restricted…",
+      "feature_id": "FEAT-002",
+      "id": "SCN-002-01",
+      "technique": "formal"
+    },
+    {
+      "approval": "proposed",
+      "description": "Bind SVA checkers for the invariants of: Access to the configuration register must be restricted…",
+      "feature_id": "FEAT-002",
+      "id": "SCN-002-02",
+      "technique": "sva"
+    },
+    {
+      "approval": "proposed",
+      "description": "Directed test hitting the nominal path of: Access to the configuration register must be restricted…",
+      "feature_id": "FEAT-002",
+      "id": "SCN-002-03",
+      "technique": "directed_sim"
+    }
+  ],
+  "schema_version": "0.1.0",
+  "traceability": [
+    {
+      "assertion_ids": [
+        "ASRT-001-01"
+      ],
+      "coverage_ids": [
+        "COV-001-01"
+      ],
+      "covered": true,
+      "existing_testplan_ids": [],
+      "feature_ids": [
+        "FEAT-001"
+      ],
+      "requirement_id": "REQ-GPIO-01",
+      "scenario_ids": [
+        "SCN-001-01",
+        "SCN-001-02",
+        "SCN-001-03",
+        "SCN-001-04"
+      ]
+    },
+    {
+      "assertion_ids": [
+        "ASRT-002-01"
+      ],
+      "coverage_ids": [],
+      "covered": true,
+      "existing_testplan_ids": [],
+      "feature_ids": [
+        "FEAT-002"
+      ],
+      "requirement_id": "REQ-GPIO-02",
+      "scenario_ids": [
+        "SCN-002-01",
+        "SCN-002-02",
+        "SCN-002-03"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+EQLOG/1
+tool: mock-lec
+tool_version: 0.1.0
+reference: ref_fsm
+revised: rev_fsm
+status: NOT_EQUIVALENT
+compare_points: 3/5
+# State-encoding + gating mismatch on the state register / outputs.
+mismatch: state_r kind=state ref=state[w2] rev=state[w3] fanin=en,rst_n
+mismatch: state[0] kind=output ref=state[0] rev=state[0] fanin=en,state_r
+mismatch: state[1] kind=output ref=state[1] rev=state[1] fanin=en,state_r
+cex: state_r @0 state ref=00 rev=001
+cex: state[0] @2 state[0] ref=1 rev=0
+cex: state[1] @2 state[1] ref=0 rev=1
+config: abstraction = none | none
+msg: state register width and encoding differ (binary vs one-hot).

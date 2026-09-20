@@ -1,0 +1,84 @@
+// Candidate SystemVerilog Assertions -- register-csr-agent
+// STATUS: candidate (NOT proven / NOT verified).
+// Bus handles (csr_write/csr_read/csr_addr/csr_wdata/csr_rdata) are abstract;
+// bind them to the real CSR interface before use.
+
+// [reset_value] value at deassertion of reset must equal declared reset value
+p_ctrl_enable_reset: assert property (
+  $rose(rst_n) |-> (csr.CTRL.ENABLE == 'h0)
+);
+
+// [readback] RW field stores the written value and reads it back
+p_ctrl_enable_rw_readback: assert property (
+  @(posedge clk) disable iff (!rst_n) (csr_write && (csr_addr == 'h0)) |=> (csr.CTRL.ENABLE == $past(csr_wdata[0]))
+);
+
+// [reset_value] value at deassertion of reset must equal declared reset value
+p_ctrl_mode_reset: assert property (
+  $rose(rst_n) |-> (csr.CTRL.MODE == 'h0)
+);
+
+// [readback] RW field stores the written value and reads it back
+p_ctrl_mode_rw_readback: assert property (
+  @(posedge clk) disable iff (!rst_n) (csr_write && (csr_addr == 'h0)) |=> (csr.CTRL.MODE == $past(csr_wdata[2:1]))
+);
+
+// [reset_value] value at deassertion of reset must equal declared reset value
+p_ctrl_rsvd_reset: assert property (
+  $rose(rst_n) |-> (csr.CTRL.RSVD == 'h0)
+);
+
+// [readback] reserved field reads as zero
+p_ctrl_rsvd_reserved_reads_zero: assert property (
+  @(posedge clk) disable iff (!rst_n) (csr_read && (csr_addr == 'h0)) |-> (csr_rdata[31:3] == 'h0)
+);
+
+// [reset_value] value at deassertion of reset must equal declared reset value
+p_load_reg_reset: assert property (
+  $rose(rst_n) |-> (csr.LOAD == 'hffffffff)
+);
+
+// [readback] RW field stores the written value and reads it back
+p_load_load_rw_readback: assert property (
+  @(posedge clk) disable iff (!rst_n) (csr_write && (csr_addr == 'h4)) |=> (csr.LOAD == $past(csr_wdata[31:0]))
+);
+
+// [reset_value] value at deassertion of reset must equal declared reset value
+p_count_reg_reset: assert property (
+  $rose(rst_n) |-> (csr.COUNT == 'h0)
+);
+
+// [illegal_write] RO field must not change on a bus write to its address
+p_count_count_ro_write_ignored: assert property (
+  @(posedge clk) disable iff (!rst_n) (csr_write && (csr_addr == 'h8)) |=> ($stable(csr.COUNT))
+);
+
+// [reset_value] value at deassertion of reset must equal declared reset value
+p_status_expired_reset: assert property (
+  $rose(rst_n) |-> (csr.STATUS.EXPIRED == 'h0)
+);
+
+// [side_effects] W1C: writing 1 clears the bit
+p_status_expired_w1c_clear: assert property (
+  @(posedge clk) disable iff (!rst_n) (csr_write && (csr_addr == 'hc) && csr_wdata[0]) |=> (csr.STATUS.EXPIRED == 'h0)
+);
+
+// [reset_value] value at deassertion of reset must equal declared reset value
+p_status_overrun_reset: assert property (
+  $rose(rst_n) |-> (csr.STATUS.OVERRUN == 'h0)
+);
+
+// [side_effects] W1C: writing 1 clears the bit
+p_status_overrun_w1c_clear: assert property (
+  @(posedge clk) disable iff (!rst_n) (csr_write && (csr_addr == 'hc) && csr_wdata[1]) |=> (csr.STATUS.OVERRUN == 'h0)
+);
+
+// [reset_value] value at deassertion of reset must equal declared reset value
+p_status_rsvd_reset: assert property (
+  $rose(rst_n) |-> (csr.STATUS.RSVD == 'h0)
+);
+
+// [readback] reserved field reads as zero
+p_status_rsvd_reserved_reads_zero: assert property (
+  @(posedge clk) disable iff (!rst_n) (csr_read && (csr_addr == 'hc)) |-> (csr_rdata[31:2] == 'h0)
+);

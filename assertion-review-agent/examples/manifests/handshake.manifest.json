@@ -1,0 +1,14 @@
+{
+  "top": "handshake",
+  "signals": [
+    {"name": "clk", "role": "clock", "width": 1, "reset_polarity": "unknown"},
+    {"name": "rst_n", "role": "reset", "width": 1, "reset_polarity": "active_low"},
+    {"name": "req", "role": "input", "width": 1, "reset_polarity": "unknown"},
+    {"name": "ack", "role": "output", "width": 1, "reset_polarity": "unknown"},
+    {"name": "grant", "role": "output", "width": 1, "reset_polarity": "unknown"},
+    {"name": "data", "role": "input", "width": 8, "reset_polarity": "unknown"},
+    {"name": "busy", "role": "internal", "width": 1, "reset_polarity": "unknown"}
+  ],
+  "clock_candidates": ["clk"],
+  "reset_candidates": ["rst_n"]
+}

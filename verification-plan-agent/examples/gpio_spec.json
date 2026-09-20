@@ -1,0 +1,16 @@
+{
+  "design_name": "gpio_ctrl",
+  "version": "0.2.0",
+  "requirements": [
+    {
+      "id": "REQ-GPIO-01",
+      "text": "The controller shall drive the output pins to match the value written to the data register.",
+      "tags": ["functional"]
+    },
+    {
+      "id": "REQ-GPIO-02",
+      "text": "Access to the configuration register must be restricted to privileged (secure) transactions.",
+      "tags": ["security"]
+    }
+  ]
+}

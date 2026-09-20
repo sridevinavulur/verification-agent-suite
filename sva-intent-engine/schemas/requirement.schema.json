@@ -1,0 +1,44 @@
+{
+  "additionalProperties": false,
+  "description": "A raw natural-language requirement as ingested.",
+  "properties": {
+    "requirement_id": {
+      "title": "Requirement Id",
+      "type": "string"
+    },
+    "source_text": {
+      "title": "Source Text",
+      "type": "string"
+    },
+    "design_top": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Design Top"
+    },
+    "origin_path": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Origin Path"
+    }
+  },
+  "required": [
+    "requirement_id",
+    "source_text"
+  ],
+  "title": "Requirement",
+  "type": "object"
+}

@@ -1,0 +1,764 @@
+{
+  "schema_version": "1.0.0",
+  "dataset_name": "public-mock-benchmark",
+  "detection_config": {
+    "min_pct_change": 5.0,
+    "robust_z_threshold": 3.5,
+    "min_samples_for_confident": 3,
+    "outlier_iqr_k": 1.5,
+    "outlier_z_threshold": 3.5
+  },
+  "n_runs": 20,
+  "n_comparisons": 13,
+  "n_regressions": 2,
+  "findings": [
+    {
+      "metric": "peak_memory_mb",
+      "unit": "MB",
+      "config": "opt3",
+      "workload": "cache_stress",
+      "env_fingerprint": "x86_64-linux|verilator@5.020",
+      "baseline_commit": "a1b2c3d",
+      "candidate_commit": "e5f6a7b",
+      "baseline_stats": {
+        "metric": "peak_memory_mb",
+        "n": 4,
+        "mean": 2048.41705,
+        "stdev": 5.807127709117555,
+        "median": 2046.8427000000001,
+        "ci95_low": 2039.177909814794,
+        "ci95_high": 2057.656190185206,
+        "cv": 0.002834934277234978,
+        "kept": [
+          2043.8269,
+          2044.0812,
+          2049.6042,
+          2056.1559
+        ],
+        "outliers": [
+          2023.8623
+        ]
+      },
+      "candidate_stats": {
+        "metric": "peak_memory_mb",
+        "n": 3,
+        "mean": 2412.9075666666668,
+        "stdev": 3.9485329887609724,
+        "median": 2412.6928,
+        "ci95_low": 2403.0980752958644,
+        "ci95_high": 2422.717058037469,
+        "cv": 0.0016364211556664434,
+        "kept": [
+          2409.0708,
+          2412.6928,
+          2416.9591
+        ],
+        "outliers": [
+          2396.7239,
+          2446.7847
+        ]
+      },
+      "delta_abs": 364.49051666666674,
+      "delta_pct": 17.79376502781339,
+      "robust_z": 85.47500387228989,
+      "verdict": "REGRESSION",
+      "confidence": 0.963968825139067,
+      "evidence": [
+        "Mean changed +17.8% (unit: MB), |\u0394%|=17.8% \u2265 5.0%.",
+        "Robust z=+85.48 (MAD-based) exceeds \u00b13.5: change is large relative to baseline noise.",
+        "Metric 'peak_memory_mb' is lower-is-better; observed direction is worse.",
+        "Outliers rejected before comparison: baseline=[2023.8623], candidate=[2396.7239, 2446.7847].",
+        "Baseline mean=2048.417 [95% CI 2039.178, 2057.656], candidate mean=2412.908 [95% CI 2403.098, 2422.717]."
+      ],
+      "artifact_urls": [
+        "https://ci.example.org/artifacts/A/a1b2c3d",
+        "https://ci.example.org/artifacts/A/e5f6a7b"
+      ]
+    },
+    {
+      "metric": "sim_runtime_s",
+      "unit": "s",
+      "config": "opt3",
+      "workload": "cache_stress",
+      "env_fingerprint": "x86_64-linux|verilator@5.020",
+      "baseline_commit": "a1b2c3d",
+      "candidate_commit": "e5f6a7b",
+      "baseline_stats": {
+        "metric": "sim_runtime_s",
+        "n": 5,
+        "mean": 120.12182,
+        "stdev": 3.2818041397987154,
+        "median": 118.4943,
+        "ci95_low": 116.04757521685718,
+        "ci95_high": 124.19606478314282,
+        "cv": 0.02732063283588873,
+        "kept": [
+          116.7675,
+          118.0497,
+          118.4943,
+          123.5863,
+          123.7113
+        ],
+        "outliers": []
+      },
+      "candidate_stats": {
+        "metric": "sim_runtime_s",
+        "n": 5,
+        "mean": 161.30702000000002,
+        "stdev": 4.840966704285413,
+        "median": 159.8136,
+        "ci95_low": 155.2971295555591,
+        "ci95_high": 167.31691044444094,
+        "cv": 0.030010886719532802,
+        "kept": [
+          155.9034,
+          158.9344,
+          159.8136,
+          163.3229,
+          168.5608
+        ],
+        "outliers": []
+      },
+      "delta_abs": 41.18520000000002,
+      "delta_pct": 34.28619379892847,
+      "robust_z": 16.72271486452333,
+      "verdict": "REGRESSION",
+      "confidence": 1.0,
+      "evidence": [
+        "Mean changed +34.3% (unit: s), |\u0394%|=34.3% \u2265 5.0%.",
+        "Robust z=+16.72 (MAD-based) exceeds \u00b13.5: change is large relative to baseline noise.",
+        "Metric 'sim_runtime_s' is lower-is-better; observed direction is worse.",
+        "Baseline mean=120.122 [95% CI 116.048, 124.196], candidate mean=161.307 [95% CI 155.297, 167.317]."
+      ],
+      "artifact_urls": [
+        "https://ci.example.org/artifacts/A/a1b2c3d",
+        "https://ci.example.org/artifacts/A/e5f6a7b"
+      ]
+    },
+    {
+      "metric": "throughput_mops",
+      "unit": "Mops",
+      "config": "opt3",
+      "workload": "random_rw",
+      "env_fingerprint": "x86_64-linux|verilator@5.020",
+      "baseline_commit": "a1b2c3d",
+      "candidate_commit": "e5f6a7b",
+      "baseline_stats": {
+        "metric": "throughput_mops",
+        "n": 3,
+        "mean": 847.2648333333333,
+        "stdev": 0.6017173450494328,
+        "median": 847.1358,
+        "ci95_low": 845.7699639424163,
+        "ci95_high": 848.7597027242502,
+        "cv": 0.0007101880325684466,
+        "kept": [
+          846.7381,
+          847.1358,
+          847.9206
+        ],
+        "outliers": [
+          829.1854,
+          870.7359
+        ]
+      },
+      "candidate_stats": {
+        "metric": "throughput_mops",
+        "n": 4,
+        "mean": 1031.783475,
+        "stdev": 11.12472327697037,
+        "median": 1030.6003,
+        "ci95_low": 1014.0840402663401,
+        "ci95_high": 1049.4829097336599,
+        "cv": 0.01078203280680607,
+        "kept": [
+          1019.8009,
+          1027.5177,
+          1033.6829,
+          1046.1324
+        ],
+        "outliers": [
+          984.981
+        ]
+      },
+      "delta_abs": 184.51864166666667,
+      "delta_pct": 21.778154174147442,
+      "robust_z": 313.1585379591195,
+      "verdict": "IMPROVEMENT",
+      "confidence": 0.9838907708707372,
+      "evidence": [
+        "Mean changed +21.8% (unit: Mops), |\u0394%|=21.8% \u2265 5.0%.",
+        "Robust z=+313.16 (MAD-based) exceeds \u00b13.5: change is large relative to baseline noise.",
+        "Metric 'throughput_mops' is higher-is-better; observed direction is better.",
+        "Outliers rejected before comparison: baseline=[829.1854, 870.7359], candidate=[984.981].",
+        "Baseline mean=847.265 [95% CI 845.770, 848.760], candidate mean=1031.783 [95% CI 1014.084, 1049.483]."
+      ],
+      "artifact_urls": [
+        "https://ci.example.org/artifacts/B/a1b2c3d",
+        "https://ci.example.org/artifacts/B/e5f6a7b"
+      ]
+    },
+    {
+      "metric": "sim_runtime_s",
+      "unit": "s",
+      "config": "opt3",
+      "workload": "random_rw",
+      "env_fingerprint": "x86_64-linux|verilator@5.020",
+      "baseline_commit": "a1b2c3d",
+      "candidate_commit": "e5f6a7b",
+      "baseline_stats": {
+        "metric": "sim_runtime_s",
+        "n": 3,
+        "mean": 108.59769999999999,
+        "stdev": 0.5686199433716704,
+        "median": 108.8089,
+        "ci95_low": 107.18505574866731,
+        "ci95_high": 110.01034425133267,
+        "cv": 0.005236021972580179,
+        "kept": [
+          107.9537,
+          108.8089,
+          109.0305
+        ],
+        "outliers": [
+          103.618,
+          111.4677
+        ]
+      },
+      "candidate_stats": {
+        "metric": "sim_runtime_s",
+        "n": 4,
+        "mean": 106.823725,
+        "stdev": 1.418787887306154,
+        "median": 107.1257,
+        "ci95_low": 104.56643347129591,
+        "ci95_high": 109.08101652870408,
+        "cv": 0.013281580354047324,
+        "kept": [
+          104.8673,
+          106.8097,
+          107.4417,
+          108.1762
+        ],
+        "outliers": [
+          111.4162
+        ]
+      },
+      "delta_abs": -1.773974999999993,
+      "delta_pct": -1.633529071057668,
+      "robust_z": -6.0423384180681055,
+      "verdict": "STABLE",
+      "confidence": 0.6,
+      "evidence": [],
+      "artifact_urls": [
+        "https://ci.example.org/artifacts/B/a1b2c3d",
+        "https://ci.example.org/artifacts/B/e5f6a7b"
+      ]
+    },
+    {
+      "metric": "latency_ns",
+      "unit": "ns",
+      "config": "opt3",
+      "workload": "random_rw",
+      "env_fingerprint": "x86_64-linux|verilator@5.020",
+      "baseline_commit": "a1b2c3d",
+      "candidate_commit": "e5f6a7b",
+      "baseline_stats": {
+        "metric": "latency_ns",
+        "n": 5,
+        "mean": 41.61584,
+        "stdev": 1.470651224118078,
+        "median": 41.8151,
+        "ci95_low": 39.790078064660015,
+        "ci95_high": 43.44160193533998,
+        "cv": 0.03533873698375614,
+        "kept": [
+          39.8595,
+          40.449,
+          41.8151,
+          42.5006,
+          43.455
+        ],
+        "outliers": []
+      },
+      "candidate_stats": {
+        "metric": "latency_ns",
+        "n": 4,
+        "mean": 35.50345,
+        "stdev": 0.5903946392033047,
+        "median": 35.49955,
+        "ci95_low": 34.56413212902754,
+        "ci95_high": 36.44276787097246,
+        "cv": 0.01662921882812247,
+        "kept": [
+          34.8694,
+          35.1592,
+          35.8399,
+          36.1453
+        ],
+        "outliers": [
+          33.0299
+        ]
+      },
+      "delta_abs": -6.112389999999998,
+      "delta_pct": -14.687652586130662,
+      "robust_z": -3.1162796296394433,
+      "verdict": "STABLE",
+      "confidence": 0.6,
+      "evidence": [],
+      "artifact_urls": [
+        "https://ci.example.org/artifacts/B/a1b2c3d",
+        "https://ci.example.org/artifacts/B/e5f6a7b"
+      ]
+    },
+    {
+      "metric": "coverage_rate_pct",
+      "unit": "%",
+      "config": "opt3",
+      "workload": "cache_stress",
+      "env_fingerprint": "x86_64-linux|verilator@5.020",
+      "baseline_commit": "a1b2c3d",
+      "candidate_commit": "e5f6a7b",
+      "baseline_stats": {
+        "metric": "coverage_rate_pct",
+        "n": 4,
+        "mean": 78.27397500000001,
+        "stdev": 0.14812999639955754,
+        "median": 78.28115,
+        "ci95_low": 78.03830017572831,
+        "ci95_high": 78.5096498242717,
+        "cv": 0.0018924552688113453,
+        "kept": [
+          78.1162,
+          78.1805,
+          78.3818,
+          78.4174
+        ],
+        "outliers": [
+          77.1734
+        ]
+      },
+      "candidate_stats": {
+        "metric": "coverage_rate_pct",
+        "n": 3,
+        "mean": 77.80143333333334,
+        "stdev": 0.018305554712530002,
+        "median": 77.7965,
+        "ci95_low": 77.75595614433645,
+        "ci95_high": 77.84691052233022,
+        "cv": 0.00023528557159225433,
+        "kept": [
+          77.7861,
+          77.7965,
+          77.8217
+        ],
+        "outliers": [
+          78.0503,
+          78.3298
+        ]
+      },
+      "delta_abs": -0.47254166666667174,
+      "delta_pct": -0.6037021457855842,
+      "robust_z": -2.7316543590845863,
+      "verdict": "STABLE",
+      "confidence": 0.6,
+      "evidence": [],
+      "artifact_urls": [
+        "https://ci.example.org/artifacts/A/a1b2c3d",
+        "https://ci.example.org/artifacts/A/e5f6a7b"
+      ]
+    },
+    {
+      "metric": "fpga_fmax_mhz",
+      "unit": "MHz",
+      "config": "synth",
+      "workload": "top_build",
+      "env_fingerprint": "fpga-u250|vivado@2023.2",
+      "baseline_commit": "a1b2c3d",
+      "candidate_commit": "e5f6a7b",
+      "baseline_stats": {
+        "metric": "fpga_fmax_mhz",
+        "n": 5,
+        "mean": 298.96018,
+        "stdev": 1.1806243970882506,
+        "median": 299.0703,
+        "ci95_low": 297.4944762023983,
+        "ci95_high": 300.42588379760167,
+        "cv": 0.003949102509532376,
+        "kept": [
+          297.4477,
+          298.1113,
+          299.0703,
+          299.983,
+          300.1886
+        ],
+        "outliers": []
+      },
+      "candidate_stats": {
+        "metric": "fpga_fmax_mhz",
+        "n": 5,
+        "mean": 301.87916,
+        "stdev": 1.2882355560999055,
+        "median": 301.4221,
+        "ci95_low": 300.27986072121337,
+        "ci95_high": 303.47845927878666,
+        "cv": 0.004267388169822341,
+        "kept": [
+          300.3997,
+          301.3649,
+          301.4221,
+          302.4071,
+          303.802
+        ],
+        "outliers": [
+          150.0
+        ]
+      },
+      "delta_abs": 2.918980000000033,
+      "delta_pct": 0.9763775229196187,
+      "robust_z": 1.9755475648212317,
+      "verdict": "STABLE",
+      "confidence": 0.6,
+      "evidence": [],
+      "artifact_urls": [
+        "https://ci.example.org/artifacts/D/a1b2c3d",
+        "https://ci.example.org/artifacts/D/e5f6a7b"
+      ]
+    },
+    {
+      "metric": "formal_runtime_s",
+      "unit": "s",
+      "config": "synth",
+      "workload": "top_build",
+      "env_fingerprint": "fpga-u250|vivado@2023.2",
+      "baseline_commit": "a1b2c3d",
+      "candidate_commit": "e5f6a7b",
+      "baseline_stats": {
+        "metric": "formal_runtime_s",
+        "n": 5,
+        "mean": 299.59042,
+        "stdev": 10.896653096111669,
+        "median": 297.4236,
+        "ci95_low": 286.0626072057627,
+        "ci95_high": 313.1182327942373,
+        "cv": 0.0363718342399322,
+        "kept": [
+          290.1389,
+          291.2129,
+          297.4236,
+          302.1445,
+          317.0322
+        ],
+        "outliers": []
+      },
+      "candidate_stats": {
+        "metric": "formal_runtime_s",
+        "n": 5,
+        "mean": 312.2145,
+        "stdev": 18.82031564373987,
+        "median": 312.5528,
+        "ci95_low": 288.8497379477127,
+        "ci95_high": 335.5792620522873,
+        "cv": 0.06028008194283056,
+        "kept": [
+          285.4784,
+          306.1914,
+          312.5528,
+          320.0569,
+          336.793
+        ],
+        "outliers": []
+      },
+      "delta_abs": 12.624079999999992,
+      "delta_pct": 4.213779599494534,
+      "robust_z": 1.6063125532294749,
+      "verdict": "STABLE",
+      "confidence": 0.6,
+      "evidence": [],
+      "artifact_urls": [
+        "https://ci.example.org/artifacts/D/a1b2c3d",
+        "https://ci.example.org/artifacts/D/e5f6a7b"
+      ]
+    },
+    {
+      "metric": "throughput_mops",
+      "unit": "Mops",
+      "config": "opt3",
+      "workload": "cache_stress",
+      "env_fingerprint": "x86_64-linux|verilator@5.020",
+      "baseline_commit": "a1b2c3d",
+      "candidate_commit": "e5f6a7b",
+      "baseline_stats": {
+        "metric": "throughput_mops",
+        "n": 3,
+        "mean": 856.9204666666666,
+        "stdev": 1.0718959340034975,
+        "median": 856.8792,
+        "ci95_low": 854.2575146424757,
+        "ci95_high": 859.5834186908575,
+        "cv": 0.0012508698014566785,
+        "kept": [
+          855.8698,
+          856.8792,
+          858.0124
+        ],
+        "outliers": [
+          807.3184,
+          843.4932
+        ]
+      },
+      "candidate_stats": {
+        "metric": "throughput_mops",
+        "n": 3,
+        "mean": 854.5674333333333,
+        "stdev": 2.0259352218996,
+        "median": 854.9226,
+        "ci95_low": 849.5343250539809,
+        "ci95_high": 859.6005416126857,
+        "cv": 0.0023707142852346,
+        "kept": [
+          852.3874,
+          854.9226,
+          856.3923
+        ],
+        "outliers": [
+          845.19,
+          871.2209
+        ]
+      },
+      "delta_abs": -2.3530333333333147,
+      "delta_pct": -0.27459179992355354,
+      "robust_z": -1.5447446549760566,
+      "verdict": "STABLE",
+      "confidence": 0.6,
+      "evidence": [],
+      "artifact_urls": [
+        "https://ci.example.org/artifacts/A/a1b2c3d",
+        "https://ci.example.org/artifacts/A/e5f6a7b"
+      ]
+    },
+    {
+      "metric": "peak_memory_mb",
+      "unit": "MB",
+      "config": "debug",
+      "workload": "smoke",
+      "env_fingerprint": "x86_64-linux|verilator@5.020",
+      "baseline_commit": "a1b2c3d",
+      "candidate_commit": "e5f6a7b",
+      "baseline_stats": {
+        "metric": "peak_memory_mb",
+        "n": 5,
+        "mean": 1432.20002,
+        "stdev": 10.430464063118158,
+        "median": 1434.8058,
+        "ci95_low": 1419.2509645461532,
+        "ci95_high": 1445.1490754538468,
+        "cv": 0.00728282636326046,
+        "kept": [
+          1415.7434,
+          1428.9227,
+          1434.8058,
+          1440.4994,
+          1441.0288
+        ],
+        "outliers": []
+      },
+      "candidate_stats": {
+        "metric": "peak_memory_mb",
+        "n": 4,
+        "mean": 1439.628725,
+        "stdev": 9.600736079549621,
+        "median": 1439.82445,
+        "ci95_low": 1424.3539538974367,
+        "ci95_high": 1454.9034961025634,
+        "cv": 0.006668897273878459,
+        "kept": [
+          1427.7625,
+          1438.4159,
+          1441.233,
+          1451.1035
+        ],
+        "outliers": [
+          1402.7048
+        ]
+      },
+      "delta_abs": 7.428705000000036,
+      "delta_pct": 0.5186918654001998,
+      "robust_z": 0.5529428950975864,
+      "verdict": "STABLE",
+      "confidence": 0.6,
+      "evidence": [],
+      "artifact_urls": [
+        "https://ci.example.org/artifacts/C/a1b2c3d",
+        "https://ci.example.org/artifacts/C/e5f6a7b"
+      ]
+    },
+    {
+      "metric": "coverage_rate_pct",
+      "unit": "%",
+      "config": "debug",
+      "workload": "smoke",
+      "env_fingerprint": "x86_64-linux|verilator@5.020",
+      "baseline_commit": "a1b2c3d",
+      "candidate_commit": "e5f6a7b",
+      "baseline_stats": {
+        "metric": "coverage_rate_pct",
+        "n": 5,
+        "mean": 78.18838000000001,
+        "stdev": 0.262165571729014,
+        "median": 78.3027,
+        "ci95_low": 77.86291063393294,
+        "ci95_high": 78.51384936606708,
+        "cv": 0.0033529991506284435,
+        "kept": [
+          77.8133,
+          78.0214,
+          78.3027,
+          78.3722,
+          78.4323
+        ],
+        "outliers": []
+      },
+      "candidate_stats": {
+        "metric": "coverage_rate_pct",
+        "n": 5,
+        "mean": 78.21678,
+        "stdev": 0.37009838826993113,
+        "median": 78.161,
+        "ci95_low": 77.75731582620234,
+        "ci95_high": 78.67624417379766,
+        "cv": 0.004731700643646173,
+        "kept": [
+          77.746,
+          78.0181,
+          78.161,
+          78.4777,
+          78.6811
+        ],
+        "outliers": []
+      },
+      "delta_abs": 0.028399999999990655,
+      "delta_pct": 0.03632253283670879,
+      "robust_z": -0.4471623923937633,
+      "verdict": "STABLE",
+      "confidence": 0.6,
+      "evidence": [],
+      "artifact_urls": [
+        "https://ci.example.org/artifacts/C/a1b2c3d",
+        "https://ci.example.org/artifacts/C/e5f6a7b"
+      ]
+    },
+    {
+      "metric": "fpga_lut_util_pct",
+      "unit": "%",
+      "config": "synth",
+      "workload": "top_build",
+      "env_fingerprint": "fpga-u250|vivado@2023.2",
+      "baseline_commit": "a1b2c3d",
+      "candidate_commit": "e5f6a7b",
+      "baseline_stats": {
+        "metric": "fpga_lut_util_pct",
+        "n": 4,
+        "mean": 55.200675000000004,
+        "stdev": 0.2831667515204908,
+        "median": 55.1639,
+        "ci95_low": 54.750156698330905,
+        "ci95_high": 55.6511933016691,
+        "cv": 0.005129769726918933,
+        "kept": [
+          54.9417,
+          54.9904,
+          55.3374,
+          55.5332
+        ],
+        "outliers": [
+          53.8341
+        ]
+      },
+      "candidate_stats": {
+        "metric": "fpga_lut_util_pct",
+        "n": 3,
+        "mean": 55.09256666666666,
+        "stdev": 0.258660633520706,
+        "median": 54.9476,
+        "ci95_low": 54.44996617182215,
+        "ci95_high": 55.73516716151118,
+        "cv": 0.004695018750636765,
+        "kept": [
+          54.9389,
+          54.9476,
+          55.3912
+        ],
+        "outliers": [
+          53.8868,
+          56.0903
+        ]
+      },
+      "delta_abs": -0.10810833333334102,
+      "delta_pct": -0.19584603509529733,
+      "robust_z": -0.24318258365427245,
+      "verdict": "STABLE",
+      "confidence": 0.6,
+      "evidence": [],
+      "artifact_urls": [
+        "https://ci.example.org/artifacts/D/a1b2c3d",
+        "https://ci.example.org/artifacts/D/e5f6a7b"
+      ]
+    },
+    {
+      "metric": "sim_runtime_s",
+      "unit": "s",
+      "config": "debug",
+      "workload": "smoke",
+      "env_fingerprint": "x86_64-linux|verilator@5.020",
+      "baseline_commit": "a1b2c3d",
+      "candidate_commit": "e5f6a7b",
+      "baseline_stats": {
+        "metric": "sim_runtime_s",
+        "n": 5,
+        "mean": 59.58582,
+        "stdev": 1.531304240508724,
+        "median": 59.6213,
+        "ci95_low": 57.684759471238586,
+        "ci95_high": 61.48688052876141,
+        "cv": 0.025699138494841962,
+        "kept": [
+          57.6556,
+          58.6147,
+          59.6213,
+          60.4697,
+          61.5678
+        ],
+        "outliers": []
+      },
+      "candidate_stats": {
+        "metric": "sim_runtime_s",
+        "n": 5,
+        "mean": 59.61378,
+        "stdev": 0.7374665666998046,
+        "median": 59.5658,
+        "ci95_low": 58.69824111220299,
+        "ci95_high": 60.529318887797004,
+        "cv": 0.012370739897718357,
+        "kept": [
+          58.7655,
+          59.0589,
+          59.5658,
+          60.124,
+          60.5547
+        ],
+        "outliers": []
+      },
+      "delta_abs": 0.027960000000000207,
+      "delta_pct": 0.046923915790703576,
+      "robust_z": -0.005038913680969285,
+      "verdict": "STABLE",
+      "confidence": 0.6,
+      "evidence": [],
+      "artifact_urls": [
+        "https://ci.example.org/artifacts/C/a1b2c3d",
+        "https://ci.example.org/artifacts/C/e5f6a7b"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "schema_version": "0.1.0",
+  "note": "Public toy coverage summary. hits<goal => coverage hole.",
+  "bins": [
+    {"id": "cov_fifo_full",  "name": "fifo_full_hit",  "module": "fifo",    "interface": "wr",        "hits": 12, "goal": 1},
+    {"id": "cov_fifo_empty", "name": "fifo_empty_hit", "module": "fifo",    "interface": "rd",        "hits": 0,  "goal": 1},
+    {"id": "cov_fifo_reset", "name": "fifo_reset_hit", "module": "fifo",                              "hits": 0,  "goal": 1},
+    {"id": "cov_arb_grant",  "name": "arb_grant_hit",  "module": "arbiter", "interface": "req_grant", "hits": 5,  "goal": 1},
+    {"id": "cov_arb_fair",   "name": "arb_fairness",   "module": "arbiter",                           "hits": 0,  "goal": 1}
+  ]
+}

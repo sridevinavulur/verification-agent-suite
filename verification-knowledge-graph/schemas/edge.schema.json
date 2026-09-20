@@ -1,0 +1,115 @@
+{
+  "$defs": {
+    "EdgeType": {
+      "description": "Typed directed edge kinds.\n\nDirection convention: the edge points from ``src`` to ``dst`` in the\nnatural reading of the verb. For example ``ASSERTS`` goes from an\nassertion to the requirement it asserts; ``COVERS`` goes from a test to\nthe coverage bin it covers.",
+      "enum": [
+        "asserts",
+        "tests",
+        "covers",
+        "coverage_of",
+        "in_module",
+        "exposes",
+        "on_interface",
+        "depends_on_reset",
+        "reset_of",
+        "produced",
+        "failure_of",
+        "affects_interface",
+        "waives",
+        "filed_as",
+        "supported_by"
+      ],
+      "title": "EdgeType",
+      "type": "string"
+    },
+    "SourceProvenance": {
+      "additionalProperties": false,
+      "description": "Where a node/edge came from.\n\n``artifact`` is the importer name (e.g. ``rtl_intent_manifest``).\n``source_file`` is the path of the imported JSON. ``locator`` is a\nbest-effort human-readable pointer (line number, key path, bin name)\ninto that source. ``input_hash`` is the sha256 of the source file so a\nrun can be reproduced and audited.",
+      "properties": {
+        "artifact": {
+          "title": "Artifact",
+          "type": "string"
+        },
+        "source_file": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source File"
+        },
+        "locator": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Locator"
+        },
+        "input_hash": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Input Hash"
+        }
+      },
+      "required": [
+        "artifact"
+      ],
+      "title": "SourceProvenance",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "A typed directed edge between two node IDs.\n\nThe edge ID is deterministic: ``sha1(type|src|dst)`` (see ``ids.edge_id``)\nso re-importing the same artifact is idempotent.",
+  "properties": {
+    "id": {
+      "title": "Id",
+      "type": "string"
+    },
+    "type": {
+      "$ref": "#/$defs/EdgeType"
+    },
+    "src": {
+      "title": "Src",
+      "type": "string"
+    },
+    "dst": {
+      "title": "Dst",
+      "type": "string"
+    },
+    "attrs": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Attrs",
+      "type": "object"
+    },
+    "provenance": {
+      "$ref": "#/$defs/SourceProvenance"
+    }
+  },
+  "required": [
+    "id",
+    "type",
+    "src",
+    "dst",
+    "provenance"
+  ],
+  "title": "Edge",
+  "type": "object"
+}

@@ -1,0 +1,158 @@
+{
+  "$defs": {
+    "ReviewState": {
+      "description": "Review state of a candidate property.",
+      "enum": [
+        "UNREVIEWED",
+        "REVIEWED_OK",
+        "REVIEWED_REJECTED"
+      ],
+      "title": "ReviewState",
+      "type": "string"
+    },
+    "SymbolMapping": {
+      "additionalProperties": false,
+      "description": "Grounding of a requirement term to an RTL symbol.",
+      "properties": {
+        "term": {
+          "minLength": 1,
+          "title": "Term",
+          "type": "string"
+        },
+        "symbol": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Symbol"
+        },
+        "source_loc": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Loc"
+        },
+        "confidence": {
+          "default": 0.0,
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Confidence",
+          "type": "number"
+        }
+      },
+      "required": [
+        "term"
+      ],
+      "title": "SymbolMapping",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "A candidate SVA property. It is a *candidate* until reviewed AND validated.\n\nThe SVA Intent Agent proposes; deterministic validators + human review gate\nit. No field here means \"proven\" or \"signoff\".",
+  "properties": {
+    "property_id": {
+      "minLength": 1,
+      "title": "Property Id",
+      "type": "string"
+    },
+    "task_id": {
+      "title": "Task Id",
+      "type": "string"
+    },
+    "requirement_text": {
+      "title": "Requirement Text",
+      "type": "string"
+    },
+    "sva_text": {
+      "minLength": 1,
+      "title": "Sva Text",
+      "type": "string"
+    },
+    "property_kind": {
+      "default": "assert",
+      "enum": [
+        "assert",
+        "assume",
+        "cover"
+      ],
+      "title": "Property Kind",
+      "type": "string"
+    },
+    "clock_signal": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Clock Signal"
+    },
+    "reset_signal": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Reset Signal"
+    },
+    "reset_polarity": {
+      "anyOf": [
+        {
+          "enum": [
+            "active_high",
+            "active_low",
+            "unknown"
+          ],
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Reset Polarity"
+    },
+    "groundings": {
+      "items": {
+        "$ref": "#/$defs/SymbolMapping"
+      },
+      "title": "Groundings",
+      "type": "array"
+    },
+    "syntax_ok": {
+      "default": false,
+      "title": "Syntax Ok",
+      "type": "boolean"
+    },
+    "review_state": {
+      "$ref": "#/$defs/ReviewState",
+      "default": "UNREVIEWED"
+    }
+  },
+  "required": [
+    "property_id",
+    "task_id",
+    "requirement_text",
+    "sva_text"
+  ],
+  "title": "CandidateProperty",
+  "type": "object"
+}

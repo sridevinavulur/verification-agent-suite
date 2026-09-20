@@ -1,0 +1,15 @@
+{
+  "design_name": "sync_fifo",
+  "signals": [
+    { "name": "clk", "direction": "input", "width": 1, "role": "clock", "description": "System clock." },
+    { "name": "rst_n", "direction": "input", "width": 1, "role": "reset", "description": "Active-low reset." },
+    { "name": "wr_en", "direction": "input", "width": 1, "role": "handshake", "description": "Write enable." },
+    { "name": "rd_en", "direction": "input", "width": 1, "role": "handshake", "description": "Read enable." },
+    { "name": "din", "direction": "input", "width": 8, "role": "data", "description": "Write data." },
+    { "name": "dout", "direction": "output", "width": 8, "role": "data", "description": "Read data." },
+    { "name": "full", "direction": "output", "width": 1, "role": "status", "description": "FIFO full flag." },
+    { "name": "empty", "direction": "output", "width": 1, "role": "status", "description": "FIFO empty flag." },
+    { "name": "err", "direction": "output", "width": 1, "role": "status", "description": "Illegal-operation flag." },
+    { "name": "dbg_level", "direction": "output", "width": 4, "role": "debug", "description": "Occupancy for debug; not in spec." }
+  ]
+}

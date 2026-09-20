@@ -1,0 +1,49 @@
+{
+  "design_top": "counter",
+  "symbols": {
+    "tb.clk": {
+      "name": "tb.clk",
+      "kind": "port_in",
+      "width": 1,
+      "location": {"file": "examples/toy_counter/counter.v", "line": 17},
+      "drivers": [],
+      "is_clock": true
+    },
+    "tb.rst": {
+      "name": "tb.rst",
+      "kind": "port_in",
+      "width": 1,
+      "location": {"file": "examples/toy_counter/counter.v", "line": 18},
+      "drivers": [],
+      "is_reset": true
+    },
+    "tb.en": {
+      "name": "tb.en",
+      "kind": "port_in",
+      "width": 1,
+      "location": {"file": "examples/toy_counter/counter.v", "line": 19},
+      "drivers": []
+    },
+    "tb.stall": {
+      "name": "tb.stall",
+      "kind": "port_in",
+      "width": 1,
+      "location": {"file": "examples/toy_counter/counter.v", "line": 20},
+      "drivers": []
+    },
+    "tb.count": {
+      "name": "tb.count",
+      "kind": "reg",
+      "width": 4,
+      "location": {"file": "examples/toy_counter/counter.v", "line": 24},
+      "drivers": ["tb.rst", "tb.en", "tb.stall", "tb.count"]
+    },
+    "tb.count_advanced": {
+      "name": "tb.count_advanced",
+      "kind": "wire",
+      "width": 1,
+      "location": {"file": "examples/toy_counter/counter.sva", "line": 11},
+      "drivers": ["tb.count"]
+    }
+  }
+}

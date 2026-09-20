@@ -1,0 +1,138 @@
+{
+  "schema_version": "1.0",
+  "title": "Counterexample Triage Report \u2014 fifo_ctrl",
+  "subtitle": "Formal property failures, classified",
+  "provenance": {
+    "tool": "counterexample-triage-agent",
+    "tool_version": "0.2.0",
+    "git_sha": "def5678",
+    "command": "cxt triage --cex cex_dump/",
+    "seed": "n/a",
+    "input_hashes": {},
+    "runtime_seconds": 37.2,
+    "peak_memory_mb": null,
+    "status": "FAIL",
+    "timestamp": "2026-09-20T11:30:00Z",
+    "extra": {}
+  },
+  "stats": [
+    {
+      "label": "Findings",
+      "value": 4,
+      "unit": null,
+      "status": null
+    },
+    {
+      "label": "Critical",
+      "value": 1,
+      "unit": null,
+      "status": "FAIL"
+    },
+    {
+      "label": "Properties",
+      "value": 12,
+      "unit": null,
+      "status": null
+    },
+    {
+      "label": "Proven",
+      "value": 8,
+      "unit": null,
+      "status": "PASS"
+    }
+  ],
+  "sections": [
+    {
+      "heading": "Summary",
+      "status": "FAIL",
+      "body": "8 of 12 properties were PROVEN. 4 produced counterexamples and are classified below. No result was upgraded to PASS from a TIMEOUT or INCONCLUSIVE outcome.",
+      "bullets": [
+        "1 critical: real design bug (overflow write).",
+        "1 high: likely design bug, needs designer confirm.",
+        "2 low/info: over-constrained property (spec gap)."
+      ],
+      "stats": [],
+      "tables": []
+    }
+  ],
+  "tables": [
+    {
+      "title": "Property Outcomes",
+      "columns": [
+        "Property",
+        "Result",
+        "Depth"
+      ],
+      "rows": [
+        [
+          "p_no_overflow",
+          "FAIL",
+          "7"
+        ],
+        [
+          "p_empty_after_reset",
+          "FAIL",
+          "2"
+        ],
+        [
+          "p_fair_grant",
+          "COMPILED",
+          "20 (bound)"
+        ],
+        [
+          "p_ptr_wrap",
+          "PASS",
+          "full"
+        ]
+      ],
+      "note": "Result vocabulary per BUILD_STANDARD.md."
+    }
+  ],
+  "findings": [
+    {
+      "id": "CEX-1",
+      "title": "FIFO write accepted while full \u2014 data overwrite",
+      "severity": "critical",
+      "status": "FAIL",
+      "category": "design-bug",
+      "description": "wr_en asserted with full=1 overwrites tail entry.",
+      "suggested_fix": "Gate wr_en with !full in the write path.",
+      "location": "fifo_ctrl.sv:88",
+      "heuristic": false
+    },
+    {
+      "id": "CEX-2",
+      "title": "Empty flag deasserts one cycle late after reset",
+      "severity": "high",
+      "status": "FAIL",
+      "category": "design-bug",
+      "description": "empty stays low for 1 cycle post-reset.",
+      "suggested_fix": null,
+      "location": "fifo_ctrl.sv:51",
+      "heuristic": false
+    },
+    {
+      "id": "CEX-3",
+      "title": "Property assumes single-clock; DUT is dual-clock",
+      "severity": "low",
+      "status": "INCONCLUSIVE",
+      "category": "spec-gap",
+      "description": "Over-constrained assumption; not a design bug.",
+      "suggested_fix": null,
+      "location": null,
+      "heuristic": true
+    },
+    {
+      "id": "CEX-4",
+      "title": "Liveness property compiled but not proven (bound reached)",
+      "severity": "info",
+      "status": "COMPILED",
+      "category": "proof-scope",
+      "description": "Bounded proof hit depth limit; not a sound pass.",
+      "suggested_fix": null,
+      "location": null,
+      "heuristic": false
+    }
+  ],
+  "coverage_history": []
+}

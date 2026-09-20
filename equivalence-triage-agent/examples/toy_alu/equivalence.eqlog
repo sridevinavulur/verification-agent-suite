@@ -1,0 +1,21 @@
+EQLOG/1
+tool: mock-lec
+tool_version: 0.1.0
+reference: ref_alu
+revised: rev_alu
+status: NOT_EQUIVALENT
+compare_points: 9/13
+# Width bug: high result bits [7:4] have no counterpart in revised (cutpoint diff)
+mismatch: result[7] kind=output ref=result[7] rev=result[7] fanin=a,b,op
+mismatch: result[6] kind=output ref=result[6] rev=result[6] fanin=a,b,op
+mismatch: result[5] kind=output ref=result[5] rev=result[5] fanin=a,b,op
+mismatch: result[4] kind=output ref=result[4] rev=result[4] fanin=a,b,op
+# Polarity bug: result register mismatches on reset (inverted reset value at t=0)
+mismatch: result_reg kind=state ref=result[w8] rev=result[w4] fanin=rst_n,rst
+cex: result[7] @1 result[7] ref=1 rev=0
+cex: result[6] @1 result[6] ref=1 rev=0
+cex: result_reg @0 rst_n ref=1 rev=0
+cex: result_reg @0 result ref=00 rev=ff
+config: reset_polarity = active_low | active_high
+config: abstraction = none | none
+msg: 4 compare points unmatched due to output width reduction 8->4.

@@ -1,0 +1,196 @@
+{
+  "$defs": {
+    "EdgeKind": {
+      "description": "Directed dependency edge kinds.\n\nEdges point **from a signal to the signals that drive it** (fan-in / reverse\ndataflow), so backward-COI is a forward walk over this graph.\n\n* ``COMB`` - combinational dependency (``assign`` RHS, comb-block RHS).\n* ``SEQ``  - sequential dependency: a register depends on its next-state\n  expression across a clock edge.\n* ``CLOCK`` - a register depends on its clock signal.\n* ``RESET`` - a register depends on its reset signal.\n* ``HIER``  - a signal crosses a module-instance boundary.",
+      "enum": [
+        "comb",
+        "seq",
+        "clock",
+        "reset",
+        "hier"
+      ],
+      "title": "EdgeKind",
+      "type": "string"
+    },
+    "GraphEdge": {
+      "additionalProperties": false,
+      "description": "Edge ``src -> dst`` meaning: signal ``src`` depends on signal ``dst``.",
+      "properties": {
+        "src": {
+          "minimum": 0,
+          "title": "Src",
+          "type": "integer"
+        },
+        "dst": {
+          "minimum": 0,
+          "title": "Dst",
+          "type": "integer"
+        },
+        "kind": {
+          "$ref": "#/$defs/EdgeKind"
+        }
+      },
+      "required": [
+        "src",
+        "dst",
+        "kind"
+      ],
+      "title": "GraphEdge",
+      "type": "object"
+    },
+    "GraphNode": {
+      "additionalProperties": false,
+      "properties": {
+        "node_id": {
+          "minimum": 0,
+          "title": "Node Id",
+          "type": "integer"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "kind": {
+          "$ref": "#/$defs/NodeKind"
+        },
+        "module": {
+          "title": "Module",
+          "type": "string"
+        },
+        "clock_domain": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Clock Domain"
+        },
+        "reset_domain": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reset Domain"
+        },
+        "location": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SourceLocation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "node_id",
+        "name",
+        "kind",
+        "module"
+      ],
+      "title": "GraphNode",
+      "type": "object"
+    },
+    "NodeKind": {
+      "description": "Kind of a graph node.\n\n``PORT_IN``/``PORT_OUT`` are module boundary signals; ``NET`` is a\ncombinational wire; ``REG`` is a state element (target of ``<=`` under a\nclock edge); ``CLOCK``/``RESET`` are control signals; ``CONST`` is a\nliteral source; ``BLACKBOX`` is an output of an undefined child instance.",
+      "enum": [
+        "port_in",
+        "port_out",
+        "net",
+        "reg",
+        "clock",
+        "reset",
+        "const",
+        "blackbox"
+      ],
+      "title": "NodeKind",
+      "type": "string"
+    },
+    "SourceLocation": {
+      "additionalProperties": false,
+      "properties": {
+        "file": {
+          "title": "File",
+          "type": "string"
+        },
+        "line": {
+          "minimum": 1,
+          "title": "Line",
+          "type": "integer"
+        },
+        "col": {
+          "default": 1,
+          "minimum": 1,
+          "title": "Col",
+          "type": "integer"
+        },
+        "end_line": {
+          "default": 1,
+          "minimum": 1,
+          "title": "End Line",
+          "type": "integer"
+        },
+        "end_col": {
+          "default": 1,
+          "minimum": 1,
+          "title": "End Col",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "file",
+        "line"
+      ],
+      "title": "SourceLocation",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Deterministic, ID-stable dependency graph.\n\nNodes are ordered by ``node_id``; ``node_id`` is assigned in first-seen\norder during graph construction, which is itself deterministic because the\nmanifest / parser produce signals in stable source order.",
+  "properties": {
+    "schema_version": {
+      "default": "0.1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "top": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Top"
+    },
+    "nodes": {
+      "items": {
+        "$ref": "#/$defs/GraphNode"
+      },
+      "title": "Nodes",
+      "type": "array"
+    },
+    "edges": {
+      "items": {
+        "$ref": "#/$defs/GraphEdge"
+      },
+      "title": "Edges",
+      "type": "array"
+    }
+  },
+  "title": "DependencyGraph",
+  "type": "object"
+}

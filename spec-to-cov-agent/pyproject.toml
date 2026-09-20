@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "spec-to-cov-agent"
+version = "0.1.0"
+description = "Spec-to-coverage-closure reference pipeline (formerly veri-forge)"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.10"
+keywords = ["hardware", "verification", "DV", "cocotb", "coverage", "LLM", "agents"]
+
+dependencies = [
+    "pydantic>=2.0",
+    "cocotb>=1.9",
+]
+
+[project.optional-dependencies]
+# Optional LLM backend. Install a provider SDK of your choice and point
+# LLM_PROVIDER at its module name; the deterministic stages need none of this.
+llm = ["openai>=1.0"]
+pdf = ["pdfminer.six"]
+vcd = ["pyDigitalWaveTools"]
+dev = ["pytest", "pytest-asyncio", "black", "ruff"]
+
+[project.scripts]
+veri-forge = "veri_forge.cli:main"
+
+[project.urls]
+Repository = "https://github.com/sridevinavulur/verification-agent-suite"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["veri_forge*"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"

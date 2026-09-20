@@ -1,0 +1,53 @@
+{
+  "name": "buggy_block",
+  "data_width_bits": 32,
+  "address_unit_bytes": 1,
+  "registers": [
+    {
+      "name": "REG_A",
+      "address": "0x00",
+      "width_bits": 32,
+      "access": "RW",
+      "reset": "0x1",
+      "description": "reset value disagrees with field-composed reset",
+      "fields": [
+        { "name": "FA0", "bits": "3:0", "access": "RW", "reset": "0x0" },
+        { "name": "FA1", "bits": "2:1", "access": "RW", "reset": "0x0",
+          "description": "OVERLAPS FA0 bits 1-2" }
+      ]
+    },
+    {
+      "name": "REG_B",
+      "address": "0x02",
+      "width_bits": 32,
+      "access": "RW",
+      "reset": "0x0",
+      "description": "base 0x02 overlaps REG_A byte range and is misaligned"
+    },
+    {
+      "name": "REG_C",
+      "address": "0x10",
+      "width_bits": 8,
+      "access": "RW",
+      "reset": "0x0",
+      "fields": [
+        { "name": "WIDE", "bits": "9:0", "access": "RW", "reset": "0x0",
+          "description": "MSB 9 exceeds 8-bit register" },
+        { "name": "RSVD", "bits": "7:6", "access": "RESERVED", "reset": "0x3",
+          "description": "reserved but nonzero reset" }
+      ]
+    },
+    {
+      "name": "IRQ_STATUS",
+      "address": "0x14",
+      "width_bits": 32,
+      "access": "RW",
+      "reset": "0x0",
+      "fields": [
+        { "name": "DONE", "bits": "0", "access": "RW", "reset": "0",
+          "interrupt_related": true,
+          "description": "status bit using plain RW (should be W1C)" }
+      ]
+    }
+  ]
+}

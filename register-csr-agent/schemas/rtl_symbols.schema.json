@@ -1,0 +1,108 @@
+{
+  "$defs": {
+    "AccessType": {
+      "description": "Closed set of supported field/register access semantics.\n\nThe tool refuses to invent semantics; any source token that does not map\nonto one of these members is reported as an ``UNKNOWN_ACCESS`` discrepancy.",
+      "enum": [
+        "RO",
+        "RW",
+        "WO",
+        "W1C",
+        "W1S",
+        "RC",
+        "RESERVED"
+      ],
+      "title": "AccessType",
+      "type": "string"
+    },
+    "RtlSymbol": {
+      "additionalProperties": false,
+      "description": "An RTL symbol (register/field/signal) extracted from an RTL export.\n\nSignal mappings are grounded against these symbols only. The tool never\nfabricates a symbol that is absent from this list.",
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "kind": {
+          "$ref": "#/$defs/SymbolKind",
+          "default": "signal"
+        },
+        "width_bits": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Width Bits"
+        },
+        "reset_value": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reset Value"
+        },
+        "access": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/AccessType"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "module": {
+          "default": "",
+          "title": "Module",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "title": "RtlSymbol",
+      "type": "object"
+    },
+    "SymbolKind": {
+      "enum": [
+        "register",
+        "field",
+        "signal"
+      ],
+      "title": "SymbolKind",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "module": {
+      "default": "",
+      "title": "Module",
+      "type": "string"
+    },
+    "symbols": {
+      "items": {
+        "$ref": "#/$defs/RtlSymbol"
+      },
+      "title": "Symbols",
+      "type": "array"
+    },
+    "source_file": {
+      "default": "",
+      "title": "Source File",
+      "type": "string"
+    }
+  },
+  "title": "RtlSymbolTable",
+  "type": "object"
+}

@@ -1,0 +1,62 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "testbench-recovery-agent"
+version = "0.1.0"
+description = "Static recovery of build/elaborate/run/analyze commands from a verification repository, with file+line evidence."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "Testbench Recovery Agent contributors" }]
+keywords = ["verification", "rtl", "makefile", "ci", "reproducibility", "verilator"]
+classifiers = [
+    "Programming Language :: Python :: 3.11",
+    "License :: OSI Approved :: MIT License",
+    "Topic :: Scientific/Engineering :: Electronic Design Automation (EDA)",
+]
+dependencies = [
+    "pydantic>=2.6,<3",
+    "typer>=0.12,<1",
+    "PyYAML>=6.0,<7",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.5",
+    "mypy>=1.8",
+    "types-PyYAML>=6.0",
+]
+
+[project.scripts]
+tb-recover = "tb_recovery.cli:run"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/tb_recovery"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "W", "C4"]
+ignore = ["B008"]  # typer uses function-call defaults for Option/Argument
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["E501"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["tb_recovery", "conftest"]
+
+[tool.mypy]
+python_version = "3.11"
+packages = ["tb_recovery"]
+ignore_missing_imports = true
+plugins = ["pydantic.mypy"]

@@ -1,0 +1,162 @@
+"""Deterministic spec-to-SVA agent core for {{ display_name }}.
+
+This is a REAL, working (deliberately constrained) requirement-to-SVA pipeline:
+
+1. Parse a structured requirement (trigger, response, cycle bounds, clock,
+   reset, polarity) into a typed temporal-intent IR.
+2. Ground every referenced signal against a supplied RTL symbol table. Any
+   ungrounded signal stops emission (no invented signals).
+3. Render a candidate SystemVerilog Assertion from the IR using a deterministic
+   template (no free-form LLM string is ever emitted verbatim).
+4. Statically validate the candidate (clock present, symbols grounded, timing
+   range sane) and classify the outcome using the safe result vocabulary.
+
+The LLM (mock by default) may only *propose* the structured requirement fields;
+it never produces the final SVA text directly, and its proposals are validated
+here before use.
+"""
+
+from __future__ import annotations
+
+import hashlib
+import json
+from dataclasses import dataclass
+
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
+
+from .models import ProvenanceRecord, ResultStatus, SymbolTable
+from .validators import StaticCheckResult, run_static_checks
+
+TOOL_NAME = "{{ agent_id }}"
+TOOL_VERSION = "{{ version }}"
+
+
+class ImplicationStyle(str):
+    OVERLAPPING = "|->"
+    NON_OVERLAPPING = "|=>"
+
+
+class TemporalIntent(BaseModel):
+    """Typed temporal-intent IR for a single bounded-response property."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    requirement_id: str = Field(..., min_length=1)
+    source_text: str = Field(..., min_length=1)
+    property_name: str = Field(..., min_length=1)
+    clock_signal: str = Field(..., min_length=1)
+    reset_signal: str | None = None
+    reset_active_high: bool = True
+    antecedent: str = Field(..., min_length=1)
+    consequent: str = Field(..., min_length=1)
+    min_delay: int = Field(..., ge=0)
+    max_delay: int = Field(..., ge=0)
+    referenced_signals: list[str] = Field(..., min_length=1)
+
+    @field_validator("clock_signal", "antecedent", "consequent")
+    @classmethod
+    def _no_placeholder(cls, v: str) -> str:
+        if "{{" in v or v.strip().upper() in {"TBD", "TODO", "?"}:
+            raise ValueError("field must be concrete, not a placeholder")
+        return v
+
+    @model_validator(mode="after")
+    def _delay_range(self) -> TemporalIntent:
+        if self.max_delay < self.min_delay:
+            raise ValueError("max_delay must be >= min_delay")
+        return self
+
+
+@dataclass
+class SvaCandidate:
+    """A rendered candidate assertion plus its validation outcome."""
+
+    intent: TemporalIntent
+    sva_text: str
+    static_checks: StaticCheckResult
+    status: ResultStatus
+    provenance: ProvenanceRecord
+
+    def to_dict(self) -> dict:
+        return {
+            "requirement_id": self.intent.requirement_id,
+            "property_name": self.intent.property_name,
+            "sva_text": self.sva_text,
+            "status": self.status.value,
+            "static_checks": {
+                "ok": self.static_checks.ok,
+                "issues": self.static_checks.issues,
+            },
+            "provenance": self.provenance.model_dump(mode="json"),
+        }
+
+
+def _render_sva(intent: TemporalIntent) -> str:
+    """Deterministically render a bounded-response SVA from the IR.
+
+    Form:
+        property <name>;
+          @(posedge <clk>) [disable iff (<reset>)]
+          <antecedent> |-> ##[min:max] <consequent>;
+        endproperty
+        assert property (<name>);
+    """
+    lines = [f"property {intent.property_name};"]
+    clock = f"  @(posedge {intent.clock_signal})"
+    if intent.reset_signal:
+        polarity = intent.reset_signal if intent.reset_active_high else f"!{intent.reset_signal}"
+        clock += f" disable iff ({polarity})"
+    lines.append(clock)
+    if intent.min_delay == 0 and intent.max_delay == 0:
+        delay = ""
+    elif intent.min_delay == intent.max_delay:
+        delay = f"##{intent.min_delay} "
+    else:
+        delay = f"##[{intent.min_delay}:{intent.max_delay}] "
+    lines.append(f"  {intent.antecedent} |-> {delay}{intent.consequent};")
+    lines.append("endproperty")
+    lines.append(f"assert property ({intent.property_name});")
+    return "\n".join(lines)
+
+
+def generate_candidate(
+    intent: TemporalIntent,
+    symbols: SymbolTable,
+    *,
+    seed: int = 0,
+    command: str = "",
+) -> SvaCandidate:
+    """Render and statically validate a candidate assertion.
+
+    The status is:
+      - COMPILED_ONLY when static checks pass (syntax-level acceptance only;
+        this is NOT a semantic PASS),
+      - ERROR when a static check fails (e.g. ungrounded signal, no clock).
+
+    We deliberately never return PASS here: semantic correctness requires
+    formal/simulation validation and human review, which is out of scope.
+    """
+    checks = run_static_checks(intent, symbols)
+    if checks.ok:
+        sva_text = _render_sva(intent)
+        status = ResultStatus.COMPILED_ONLY
+    else:
+        sva_text = ""
+        status = ResultStatus.ERROR
+
+    input_blob = json.dumps(intent.model_dump(mode="json"), sort_keys=True)
+    provenance = ProvenanceRecord(
+        tool=TOOL_NAME,
+        tool_version=TOOL_VERSION,
+        llm_model="mock-llm-deterministic-v1",
+        seed=seed,
+        input_sha256=hashlib.sha256(input_blob.encode()).hexdigest(),
+        command=command,
+    )
+    return SvaCandidate(
+        intent=intent,
+        sva_text=sva_text,
+        static_checks=checks,
+        status=status,
+        provenance=provenance,
+    )

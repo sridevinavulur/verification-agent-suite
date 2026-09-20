@@ -1,0 +1,39 @@
+// BAD constraint-hygiene corpus for `handshake_dut`.
+//
+// Every directive below embodies a distinct anti-pattern the review MUST flag:
+//   1. CONTRADICTION      - in_valid forced true and false by two assumptions.
+//   2. CONSTANT_CONFLICT  - mode forced to two different constants.
+//   3. OUTPUT_CONSTRAINT  - assuming on out_valid / in_ready (DUT outputs).
+//   4. INTERNAL_STATE     - assuming on `state` / `fifo_count` (internal regs).
+//   5. UNUSED_ASSUMPTION  - assumption on a signal no assert/cover references.
+//   6. UNKNOWN_SIGNAL     - assumption on a signal absent from the manifest.
+//
+// This file is a teaching artifact. Do NOT copy these patterns into a real
+// environment.
+
+// (1) Boolean contradiction on the input in_valid.
+am_valid_true:  assume property (@(posedge clk) in_valid);
+am_valid_false: assume property (@(posedge clk) !in_valid);
+
+// (2) Constant conflict on the input mode.
+am_mode_a: assume property (@(posedge clk) mode == 2'b01);
+am_mode_b: assume property (@(posedge clk) mode == 2'b10);
+
+// (3) OVERCONSTRAINT: assuming on DUT OUTPUTS. These should be assertions.
+am_force_out_valid: assume property (@(posedge clk) out_valid);
+am_force_in_ready:  assume property (@(posedge clk) in_ready);
+
+// (4) White-box overconstraint: assuming on internal DUT state.
+am_force_state:  assume property (@(posedge clk) state == 2'b00);
+am_force_count:  assume property (@(posedge clk) fifo_count == 0);
+
+// (5) Unused assumption: 'spare_in' is a real input but no check uses it.
+am_unused: assume property (@(posedge clk) spare_in == 0);
+
+// (6) Unknown signal: 'ghost_sig' does not exist in the manifest at all.
+am_unknown: assume property (@(posedge clk) ghost_sig);
+
+// A single assertion that references in_valid/out_data. Note: no cover pairs
+// with out_data, so a REACHABILITY_RISK recommendation is also expected.
+as_data_pipe: assert property (@(posedge clk) disable iff (!rst_n)
+    in_valid |-> out_data == in_data);

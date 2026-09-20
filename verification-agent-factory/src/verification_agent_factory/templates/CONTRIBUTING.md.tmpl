@@ -1,0 +1,12 @@
+# Contributing — {{ display_name }}
+
+1. Create a virtual environment: `python3.11 -m venv .venv && source .venv/bin/activate`
+2. Install: `pip install -e ".[dev]"`
+3. Lint: `ruff check .`
+4. Test: `pytest`
+
+## Rules
+- LLM proposes; deterministic tools validate. Keep the two layers separate.
+- Never classify TIMEOUT / ERROR / UNKNOWN as PASS.
+- No secrets, proprietary names, or internal paths in commits.
+- Small, independently testable commits.

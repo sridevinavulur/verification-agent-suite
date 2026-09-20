@@ -1,0 +1,11 @@
+{
+  "design_top": "sat_counter",
+  "clock_candidates": ["clk"],
+  "reset_candidates": ["rst_n"],
+  "symbols": [
+    {"symbol_id": "s_clk", "name": "clk", "kind": "clock", "file": "sat_counter.sv", "line": 3},
+    {"symbol_id": "s_rstn", "name": "rst_n", "kind": "reset", "signal_type": "active_low", "file": "sat_counter.sv", "line": 4},
+    {"symbol_id": "s_sat", "name": "sat", "kind": "reg", "width": 1, "file": "sat_counter.sv", "line": 15},
+    {"symbol_id": "s_wrap", "name": "wrap", "kind": "reg", "width": 1, "file": "sat_counter.sv", "line": 16}
+  ]
+}

@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# C++ build artifacts
+cpp/coi_core
+cpp/build/
+*.o
+
+# Local outputs (do not commit run reports with local paths)
+/report.json
+/graph.json
+/schema.json
+/coi.dot
+*.svg
+
+# Editor / OS
+.DS_Store
+.idea/
+.vscode/

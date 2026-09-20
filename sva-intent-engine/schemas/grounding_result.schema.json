@@ -1,0 +1,309 @@
+{
+  "$defs": {
+    "ClockResetSelection": {
+      "additionalProperties": false,
+      "properties": {
+        "clock_signal": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Clock Signal"
+        },
+        "clock_evidence": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Clock Evidence"
+        },
+        "reset_signal": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reset Signal"
+        },
+        "reset_evidence": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reset Evidence"
+        },
+        "reset_polarity": {
+          "$ref": "#/$defs/ResetPolarity",
+          "default": "unknown"
+        }
+      },
+      "title": "ClockResetSelection",
+      "type": "object"
+    },
+    "MatchKind": {
+      "enum": [
+        "exact",
+        "alias"
+      ],
+      "title": "MatchKind",
+      "type": "string"
+    },
+    "Provenance": {
+      "additionalProperties": false,
+      "description": "Immutable-ish record of how an artifact was produced.",
+      "properties": {
+        "tool": {
+          "default": "sva-intent-engine",
+          "title": "Tool",
+          "type": "string"
+        },
+        "tool_version": {
+          "default": "0.1.0",
+          "title": "Tool Version",
+          "type": "string"
+        },
+        "stage": {
+          "title": "Stage",
+          "type": "string"
+        },
+        "git_sha": {
+          "default": "UNKNOWN",
+          "title": "Git Sha",
+          "type": "string"
+        },
+        "input_hashes": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Input Hashes",
+          "type": "object"
+        },
+        "command": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Command"
+        },
+        "seed": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Seed"
+        },
+        "model_provider": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Model Provider"
+        },
+        "model_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Model Name"
+        },
+        "notes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        }
+      },
+      "required": [
+        "stage"
+      ],
+      "title": "Provenance",
+      "type": "object"
+    },
+    "ResetPolarity": {
+      "enum": [
+        "active_high",
+        "active_low",
+        "unknown"
+      ],
+      "title": "ResetPolarity",
+      "type": "string"
+    },
+    "SymbolMatch": {
+      "additionalProperties": false,
+      "description": "A ranked candidate mapping from a requirement term to an RTL symbol.",
+      "properties": {
+        "symbol_id": {
+          "title": "Symbol Id",
+          "type": "string"
+        },
+        "symbol_name": {
+          "title": "Symbol Name",
+          "type": "string"
+        },
+        "match_kind": {
+          "$ref": "#/$defs/MatchKind"
+        },
+        "score": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Score",
+          "type": "number"
+        },
+        "evidence": {
+          "title": "Evidence",
+          "type": "string"
+        },
+        "file": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "File"
+        },
+        "line": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Line"
+        }
+      },
+      "required": [
+        "symbol_id",
+        "symbol_name",
+        "match_kind",
+        "score",
+        "evidence"
+      ],
+      "title": "SymbolMatch",
+      "type": "object"
+    },
+    "TermGrounding": {
+      "additionalProperties": false,
+      "description": "All ranked matches for a single requirement term.",
+      "properties": {
+        "term": {
+          "title": "Term",
+          "type": "string"
+        },
+        "matches": {
+          "items": {
+            "$ref": "#/$defs/SymbolMatch"
+          },
+          "title": "Matches",
+          "type": "array"
+        },
+        "resolved": {
+          "default": false,
+          "title": "Resolved",
+          "type": "boolean"
+        },
+        "ambiguous": {
+          "default": false,
+          "title": "Ambiguous",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "term"
+      ],
+      "title": "TermGrounding",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Output of the grounding engine for one clause (spec 5.5).",
+  "properties": {
+    "clause_id": {
+      "title": "Clause Id",
+      "type": "string"
+    },
+    "requirement_id": {
+      "title": "Requirement Id",
+      "type": "string"
+    },
+    "design_top": {
+      "title": "Design Top",
+      "type": "string"
+    },
+    "term_groundings": {
+      "items": {
+        "$ref": "#/$defs/TermGrounding"
+      },
+      "title": "Term Groundings",
+      "type": "array"
+    },
+    "unresolved_terms": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Unresolved Terms",
+      "type": "array"
+    },
+    "clock_reset": {
+      "$ref": "#/$defs/ClockResetSelection"
+    },
+    "provenance": {
+      "$ref": "#/$defs/Provenance"
+    }
+  },
+  "required": [
+    "clause_id",
+    "requirement_id",
+    "design_top",
+    "term_groundings",
+    "provenance"
+  ],
+  "title": "GroundingResult",
+  "type": "object"
+}

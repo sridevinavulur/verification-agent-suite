@@ -1,0 +1,510 @@
+{
+  "$defs": {
+    "AgentCategory": {
+      "description": "Supported agent categories (prompt pack 4.1).",
+      "enum": [
+        "rtl_analysis",
+        "verification_planning",
+        "sva_generation",
+        "assertion_review",
+        "property_mutation",
+        "formal_run_orchestration",
+        "counterexample_triage",
+        "coverage_analysis",
+        "protocol_checking",
+        "register_csr_verification",
+        "reset_analysis",
+        "cdc_rdc_triage",
+        "equivalence_triage",
+        "regression_intelligence",
+        "knowledge_graph"
+      ],
+      "title": "AgentCategory",
+      "type": "string"
+    },
+    "ArtifactKind": {
+      "description": "Coarse artifact types an agent consumes or produces.",
+      "enum": [
+        "rtl",
+        "sva",
+        "natural_language_requirement",
+        "json_manifest",
+        "coverage_db",
+        "waveform",
+        "tool_log",
+        "register_map",
+        "report",
+        "run_ledger"
+      ],
+      "title": "ArtifactKind",
+      "type": "string"
+    },
+    "BenchmarkManifest": {
+      "additionalProperties": false,
+      "description": "Description of the public benchmark demonstrating usefulness.",
+      "properties": {
+        "description": {
+          "minLength": 5,
+          "title": "Description",
+          "type": "string"
+        },
+        "license": {
+          "minLength": 2,
+          "title": "License",
+          "type": "string"
+        },
+        "name": {
+          "minLength": 2,
+          "title": "Name",
+          "type": "string"
+        },
+        "public_source": {
+          "description": "Where the public benchmark data comes from.",
+          "minLength": 3,
+          "title": "Public Source",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "description",
+        "public_source",
+        "license"
+      ],
+      "title": "BenchmarkManifest",
+      "type": "object"
+    },
+    "ClaimPolicy": {
+      "additionalProperties": false,
+      "description": "The explicit, human-readable claim strings required by prompt pack 4.2.\n\nThese map one-to-one to the mandated sentences. They exist so that every\ngenerated agent forces its author to state, in plain English, what the agent\nmay and may not claim, and how results are interpreted. The factory refuses\nto generate a repo whose author left these blank or trivially short.",
+      "properties": {
+        "human_review_required_when": {
+          "description": "Completes \"Human review is required when...\"",
+          "minLength": 15,
+          "title": "Human Review Required When",
+          "type": "string"
+        },
+        "may_claim": {
+          "description": "Completes \"This agent may claim...\"",
+          "minLength": 15,
+          "title": "May Claim",
+          "type": "string"
+        },
+        "must_not_claim": {
+          "description": "Completes \"This agent must not claim...\"",
+          "minLength": 15,
+          "title": "Must Not Claim",
+          "type": "string"
+        },
+        "passing_result_means": {
+          "description": "Completes \"A passing result means...\"",
+          "minLength": 15,
+          "title": "Passing Result Means",
+          "type": "string"
+        },
+        "timeout_or_unknown_means": {
+          "description": "Completes \"A timeout or unknown result means...\"",
+          "minLength": 15,
+          "title": "Timeout Or Unknown Means",
+          "type": "string"
+        }
+      },
+      "required": [
+        "may_claim",
+        "must_not_claim",
+        "passing_result_means",
+        "timeout_or_unknown_means",
+        "human_review_required_when"
+      ],
+      "title": "ClaimPolicy",
+      "type": "object"
+    },
+    "DataClassificationPolicy": {
+      "additionalProperties": false,
+      "description": "What data is permitted and what must never be committed.",
+      "properties": {
+        "allowed_inputs": {
+          "default": "Public, non-proprietary RTL / specs / logs only.",
+          "minLength": 5,
+          "title": "Allowed Inputs",
+          "type": "string"
+        },
+        "must_not_commit": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Must Not Commit",
+          "type": "array"
+        }
+      },
+      "title": "DataClassificationPolicy",
+      "type": "object"
+    },
+    "EvidenceMetric": {
+      "additionalProperties": false,
+      "description": "A measurable success metric tied to how it is computed.",
+      "properties": {
+        "description": {
+          "minLength": 5,
+          "title": "Description",
+          "type": "string"
+        },
+        "how_measured": {
+          "minLength": 5,
+          "title": "How Measured",
+          "type": "string"
+        },
+        "name": {
+          "minLength": 2,
+          "title": "Name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "description",
+        "how_measured"
+      ],
+      "title": "EvidenceMetric",
+      "type": "object"
+    },
+    "LlmRole": {
+      "additionalProperties": false,
+      "description": "An optional LLM responsibility with its deterministic guardrail.",
+      "properties": {
+        "deterministic_check": {
+          "description": "Deterministic tool that validates the LLM output.",
+          "minLength": 3,
+          "title": "Deterministic Check",
+          "type": "string"
+        },
+        "role": {
+          "description": "What the LLM proposes.",
+          "minLength": 3,
+          "title": "Role",
+          "type": "string"
+        }
+      },
+      "required": [
+        "role",
+        "deterministic_check"
+      ],
+      "title": "LlmRole",
+      "type": "object"
+    },
+    "MaturityLevel": {
+      "description": "How much evidence backs the agent's behaviour.",
+      "enum": [
+        "prototype",
+        "evaluated_prototype",
+        "research_tool",
+        "production_candidate"
+      ],
+      "title": "MaturityLevel",
+      "type": "string"
+    },
+    "ProvenanceMetadata": {
+      "additionalProperties": false,
+      "description": "Authoring provenance for the manifest itself.",
+      "properties": {
+        "author_role": {
+          "minLength": 2,
+          "title": "Author Role",
+          "type": "string"
+        },
+        "created_utc": {
+          "description": "ISO-8601 UTC timestamp when the manifest was authored.",
+          "title": "Created Utc",
+          "type": "string"
+        },
+        "manifest_schema_version": {
+          "default": "1.0.0",
+          "title": "Manifest Schema Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "author_role",
+        "created_utc"
+      ],
+      "title": "ProvenanceMetadata",
+      "type": "object"
+    },
+    "ReleaseMode": {
+      "description": "Whether the generated repo is intended for public release.",
+      "enum": [
+        "public",
+        "private"
+      ],
+      "title": "ReleaseMode",
+      "type": "string"
+    },
+    "ReproducibilityRequirements": {
+      "additionalProperties": false,
+      "description": "Provenance fields that every run of the generated agent must record.",
+      "properties": {
+        "record_command_line": {
+          "default": true,
+          "title": "Record Command Line",
+          "type": "boolean"
+        },
+        "record_git_sha": {
+          "default": true,
+          "title": "Record Git Sha",
+          "type": "boolean"
+        },
+        "record_input_hashes": {
+          "default": true,
+          "title": "Record Input Hashes",
+          "type": "boolean"
+        },
+        "record_runtime_and_memory": {
+          "default": true,
+          "title": "Record Runtime And Memory",
+          "type": "boolean"
+        },
+        "record_seed": {
+          "default": true,
+          "title": "Record Seed",
+          "type": "boolean"
+        },
+        "record_tool_versions": {
+          "default": true,
+          "title": "Record Tool Versions",
+          "type": "boolean"
+        }
+      },
+      "title": "ReproducibilityRequirements",
+      "type": "object"
+    },
+    "SecurityPolicy": {
+      "additionalProperties": false,
+      "description": "Security posture for the generated repository.",
+      "properties": {
+        "requires_credentials_by_default": {
+          "default": false,
+          "description": "Must be False: CI runs with no secrets.",
+          "title": "Requires Credentials By Default",
+          "type": "boolean"
+        },
+        "secret_scan_on_release": {
+          "default": true,
+          "title": "Secret Scan On Release",
+          "type": "boolean"
+        },
+        "vulnerability_contact": {
+          "default": "See SECURITY.md",
+          "minLength": 3,
+          "title": "Vulnerability Contact",
+          "type": "string"
+        }
+      },
+      "title": "SecurityPolicy",
+      "type": "object"
+    },
+    "ValidationGate": {
+      "additionalProperties": false,
+      "description": "A deterministic gate that must pass before results are trusted.",
+      "properties": {
+        "blocking": {
+          "default": true,
+          "description": "If true, failure of this gate blocks a PASS classification.",
+          "title": "Blocking",
+          "type": "boolean"
+        },
+        "description": {
+          "minLength": 5,
+          "title": "Description",
+          "type": "string"
+        },
+        "name": {
+          "minLength": 2,
+          "title": "Name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "description"
+      ],
+      "title": "ValidationGate",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Strict manifest describing a single verification agent (prompt pack 4.2).\n\nThis is the input contract for :func:`verification_agent_factory.scaffold`.\nEvery field is validated; the model refuses manifests that would produce an\noverclaiming or unsafe agent (e.g. empty prohibited-actions, credentials\nrequired by default, or public release with an LLM role that has no\ndeterministic check).",
+  "properties": {
+    "agent_id": {
+      "description": "Kebab-case unique id, e.g. 'spec-to-sva-agent'.",
+      "title": "Agent Id",
+      "type": "string"
+    },
+    "authority_boundary": {
+      "minLength": 20,
+      "title": "Authority Boundary",
+      "type": "string"
+    },
+    "benchmark_manifest": {
+      "$ref": "#/$defs/BenchmarkManifest"
+    },
+    "category": {
+      "$ref": "#/$defs/AgentCategory"
+    },
+    "claim_policy": {
+      "$ref": "#/$defs/ClaimPolicy"
+    },
+    "data_classification_policy": {
+      "$ref": "#/$defs/DataClassificationPolicy"
+    },
+    "deterministic_tools": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Deterministic Tools",
+      "type": "array"
+    },
+    "display_name": {
+      "maxLength": 80,
+      "minLength": 3,
+      "title": "Display Name",
+      "type": "string"
+    },
+    "evidence_metrics": {
+      "items": {
+        "$ref": "#/$defs/EvidenceMetric"
+      },
+      "minItems": 1,
+      "title": "Evidence Metrics",
+      "type": "array"
+    },
+    "inputs": {
+      "items": {
+        "$ref": "#/$defs/ArtifactKind"
+      },
+      "minItems": 1,
+      "title": "Inputs",
+      "type": "array"
+    },
+    "known_limitations": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Known Limitations",
+      "type": "array"
+    },
+    "license": {
+      "default": "MIT",
+      "minLength": 2,
+      "title": "License",
+      "type": "string"
+    },
+    "maturity_level": {
+      "$ref": "#/$defs/MaturityLevel"
+    },
+    "mission": {
+      "description": "One-sentence mission statement.",
+      "maxLength": 400,
+      "minLength": 20,
+      "title": "Mission",
+      "type": "string"
+    },
+    "optional_llm_roles": {
+      "items": {
+        "$ref": "#/$defs/LlmRole"
+      },
+      "title": "Optional Llm Roles",
+      "type": "array"
+    },
+    "outputs": {
+      "items": {
+        "$ref": "#/$defs/ArtifactKind"
+      },
+      "minItems": 1,
+      "title": "Outputs",
+      "type": "array"
+    },
+    "owner_role": {
+      "maxLength": 80,
+      "minLength": 2,
+      "title": "Owner Role",
+      "type": "string"
+    },
+    "prohibited_actions": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Prohibited Actions",
+      "type": "array"
+    },
+    "provenance": {
+      "$ref": "#/$defs/ProvenanceMetadata"
+    },
+    "release_status": {
+      "$ref": "#/$defs/ReleaseMode"
+    },
+    "reproducibility_requirements": {
+      "$ref": "#/$defs/ReproducibilityRequirements"
+    },
+    "required_human_approvals": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Required Human Approvals",
+      "type": "array"
+    },
+    "security_policy": {
+      "$ref": "#/$defs/SecurityPolicy"
+    },
+    "supported_design_languages": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Supported Design Languages",
+      "type": "array"
+    },
+    "validation_gates": {
+      "items": {
+        "$ref": "#/$defs/ValidationGate"
+      },
+      "minItems": 1,
+      "title": "Validation Gates",
+      "type": "array"
+    },
+    "version": {
+      "description": "Semantic version, e.g. '0.1.0'.",
+      "title": "Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "agent_id",
+    "display_name",
+    "version",
+    "mission",
+    "category",
+    "owner_role",
+    "maturity_level",
+    "inputs",
+    "outputs",
+    "supported_design_languages",
+    "deterministic_tools",
+    "authority_boundary",
+    "prohibited_actions",
+    "required_human_approvals",
+    "claim_policy",
+    "validation_gates",
+    "evidence_metrics",
+    "benchmark_manifest",
+    "known_limitations",
+    "release_status",
+    "provenance"
+  ],
+  "title": "VerificationAgentManifest",
+  "type": "object"
+}

@@ -1,0 +1,10 @@
+{
+  "design_name": "gpio_ctrl",
+  "signals": [
+    { "name": "pclk", "direction": "input", "width": 1, "role": "clock", "description": "APB clock." },
+    { "name": "gclk", "direction": "input", "width": 1, "role": "clock", "description": "GPIO sample clock (async)." },
+    { "name": "presetn", "direction": "input", "width": 1, "role": "reset", "description": "Active-low reset." },
+    { "name": "pwdata", "direction": "input", "width": 32, "role": "data", "description": "Write data." },
+    { "name": "gpio_out", "direction": "output", "width": 8, "role": "data", "description": "Output pins." }
+  ]
+}

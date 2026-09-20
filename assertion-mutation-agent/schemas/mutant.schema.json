@@ -1,0 +1,122 @@
+{
+  "$defs": {
+    "MutationOperator": {
+      "description": "The source-mutation operators supported on the constrained Verilog subset.",
+      "enum": [
+        "relational_flip",
+        "boolean_negation",
+        "enable_removal",
+        "reset_polarity_flip",
+        "reset_value_change",
+        "counter_incdec_change",
+        "assign_operand_swap",
+        "valid_ready_gating_removal",
+        "width_truncation"
+      ],
+      "title": "MutationOperator",
+      "type": "string"
+    },
+    "SourceDiff": {
+      "description": "The exact textual change a mutation makes at a location.",
+      "properties": {
+        "location": {
+          "$ref": "#/$defs/SourceLocation"
+        },
+        "original_text": {
+          "title": "Original Text",
+          "type": "string"
+        },
+        "mutated_text": {
+          "title": "Mutated Text",
+          "type": "string"
+        },
+        "original_line": {
+          "title": "Original Line",
+          "type": "string"
+        },
+        "mutated_line": {
+          "title": "Mutated Line",
+          "type": "string"
+        }
+      },
+      "required": [
+        "location",
+        "original_text",
+        "mutated_text",
+        "original_line",
+        "mutated_line"
+      ],
+      "title": "SourceDiff",
+      "type": "object"
+    },
+    "SourceLocation": {
+      "description": "A 1-based line/column span into a source file.",
+      "properties": {
+        "file": {
+          "title": "File",
+          "type": "string"
+        },
+        "line": {
+          "minimum": 1,
+          "title": "Line",
+          "type": "integer"
+        },
+        "col_start": {
+          "minimum": 1,
+          "title": "Col Start",
+          "type": "integer"
+        },
+        "col_end": {
+          "minimum": 1,
+          "title": "Col End",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "file",
+        "line",
+        "col_start",
+        "col_end"
+      ],
+      "title": "SourceLocation",
+      "type": "object"
+    }
+  },
+  "description": "A single mutated variant of the design.",
+  "properties": {
+    "mutant_id": {
+      "title": "Mutant Id",
+      "type": "string"
+    },
+    "operator": {
+      "$ref": "#/$defs/MutationOperator"
+    },
+    "description": {
+      "title": "Description",
+      "type": "string"
+    },
+    "diff": {
+      "$ref": "#/$defs/SourceDiff"
+    },
+    "mutated_signals": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Mutated Signals",
+      "type": "array"
+    },
+    "mutated_source": {
+      "title": "Mutated Source",
+      "type": "string"
+    }
+  },
+  "required": [
+    "mutant_id",
+    "operator",
+    "description",
+    "diff",
+    "mutated_source"
+  ],
+  "title": "Mutant",
+  "type": "object"
+}

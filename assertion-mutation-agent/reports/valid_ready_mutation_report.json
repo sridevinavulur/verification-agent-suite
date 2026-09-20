@@ -1,0 +1,174 @@
+{
+  "schema_version": "1.0",
+  "module": "valid_ready",
+  "rtl_file": "examples/valid_ready.v",
+  "property_files": [
+    "examples/valid_ready.sva"
+  ],
+  "executor": "mock",
+  "provenance": {
+    "tool": "assertion-mutation-agent",
+    "tool_version": "0.1.0",
+    "git_sha": "PLACEHOLDER",
+    "executor": "mock",
+    "rtl_sha256_16": "049f8e620465bed7",
+    "property_sha256_16": "35dad4a36ded2cc2",
+    "operators": "relational_flip,boolean_negation,enable_removal,reset_polarity_flip,reset_value_change,counter_incdec_change,assign_operand_swap,valid_ready_gating_removal,width_truncation",
+    "seed": "deterministic"
+  },
+  "score": {
+    "total": 10,
+    "detected": 7,
+    "survived": 3,
+    "invalid": 0,
+    "timeout": 0,
+    "error": 0,
+    "inconclusive": 0,
+    "scored": 10,
+    "mutation_score": 0.7
+  },
+  "results": [
+    {
+      "mutant_id": "valid_ready.valid_ready_gating_removal.14.af1d3c96",
+      "operator": "valid_ready_gating_removal",
+      "status": "detected",
+      "detected_by": [
+        "p_accept_sets_valid"
+      ],
+      "detail": "Property(ies) reference a mutated signal (in_valid, out_ready).",
+      "executor": "mock"
+    },
+    {
+      "mutant_id": "valid_ready.reset_polarity_flip.16.fa37a048",
+      "operator": "reset_polarity_flip",
+      "status": "detected",
+      "detected_by": [
+        "p_accept_sets_valid",
+        "p_reset_not_valid"
+      ],
+      "detail": "Property(ies) reference a mutated signal (rst_n).",
+      "executor": "mock"
+    },
+    {
+      "mutant_id": "valid_ready.boolean_negation.17.0b8da8f0",
+      "operator": "boolean_negation",
+      "status": "detected",
+      "detected_by": [
+        "p_accept_sets_valid",
+        "p_reset_not_valid"
+      ],
+      "detail": "Property(ies) reference a mutated signal (rst_n).",
+      "executor": "mock"
+    },
+    {
+      "mutant_id": "valid_ready.reset_value_change.18.c7b2fa16",
+      "operator": "reset_value_change",
+      "status": "detected",
+      "detected_by": [
+        "p_accept_sets_valid",
+        "p_reset_not_valid"
+      ],
+      "detail": "Property(ies) reference a mutated signal (out_valid).",
+      "executor": "mock"
+    },
+    {
+      "mutant_id": "valid_ready.reset_value_change.19.0989f878",
+      "operator": "reset_value_change",
+      "status": "survived",
+      "detected_by": [],
+      "detail": "No property references any mutated signal (out_data); undetected mutation requiring investigation.",
+      "executor": "mock"
+    },
+    {
+      "mutant_id": "valid_ready.boolean_negation.21.75a06936",
+      "operator": "boolean_negation",
+      "status": "survived",
+      "detected_by": [],
+      "detail": "No property references any mutated signal (accept); undetected mutation requiring investigation.",
+      "executor": "mock"
+    },
+    {
+      "mutant_id": "valid_ready.reset_value_change.22.9d5a8c68",
+      "operator": "reset_value_change",
+      "status": "detected",
+      "detected_by": [
+        "p_accept_sets_valid",
+        "p_reset_not_valid"
+      ],
+      "detail": "Property(ies) reference a mutated signal (out_valid).",
+      "executor": "mock"
+    },
+    {
+      "mutant_id": "valid_ready.width_truncation.23.bfb8ef7f",
+      "operator": "width_truncation",
+      "status": "survived",
+      "detected_by": [],
+      "detail": "No property references any mutated signal (in_data, out_data); undetected mutation requiring investigation.",
+      "executor": "mock"
+    },
+    {
+      "mutant_id": "valid_ready.boolean_negation.24.770cf523",
+      "operator": "boolean_negation",
+      "status": "detected",
+      "detected_by": [
+        "p_accept_sets_valid"
+      ],
+      "detail": "Property(ies) reference a mutated signal (out_ready).",
+      "executor": "mock"
+    },
+    {
+      "mutant_id": "valid_ready.reset_value_change.25.064a623f",
+      "operator": "reset_value_change",
+      "status": "detected",
+      "detected_by": [
+        "p_accept_sets_valid",
+        "p_reset_not_valid"
+      ],
+      "detail": "Property(ies) reference a mutated signal (out_valid).",
+      "executor": "mock"
+    }
+  ],
+  "surviving_by_property": {
+    "p_reset_not_valid": [
+      "valid_ready.reset_value_change.19.0989f878",
+      "valid_ready.boolean_negation.21.75a06936",
+      "valid_ready.width_truncation.23.bfb8ef7f"
+    ],
+    "p_accept_sets_valid": [
+      "valid_ready.reset_value_change.19.0989f878",
+      "valid_ready.boolean_negation.21.75a06936",
+      "valid_ready.width_truncation.23.bfb8ef7f"
+    ]
+  },
+  "surviving_by_operator": {
+    "reset_value_change": [
+      "valid_ready.reset_value_change.19.0989f878"
+    ],
+    "boolean_negation": [
+      "valid_ready.boolean_negation.21.75a06936"
+    ],
+    "width_truncation": [
+      "valid_ready.width_truncation.23.bfb8ef7f"
+    ]
+  },
+  "surviving_mutants": [
+    {
+      "mutant_id": "valid_ready.reset_value_change.19.0989f878",
+      "operator": "reset_value_change",
+      "description": "Change reset/assign value '8'h00' -> '8'h01'",
+      "diff_summary": "@@ valid_ready:19 @@\n-             out_data  <= 8'h00;\n+             out_data  <= 8'h01;"
+    },
+    {
+      "mutant_id": "valid_ready.boolean_negation.21.75a06936",
+      "operator": "boolean_negation",
+      "description": "Negate if-condition: cond -> !(cond)",
+      "diff_summary": "@@ valid_ready:21 @@\n-             if (accept) begin\n+             if (!(accept)) begin"
+    },
+    {
+      "mutant_id": "valid_ready.width_truncation.23.bfb8ef7f",
+      "operator": "width_truncation",
+      "description": "Truncate width of RHS 'in_data' -> 'in_data[0]'",
+      "diff_summary": "@@ valid_ready:23 @@\n-                 out_data  <= in_data;\n+                 out_data  <= in_data[0];"
+    }
+  ]
+}

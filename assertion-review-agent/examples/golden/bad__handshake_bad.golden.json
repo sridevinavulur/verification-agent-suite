@@ -1,0 +1,161 @@
+{
+  "source": "bad/handshake_bad.sv",
+  "manifest": "manifests/handshake.manifest.json",
+  "property_count": 6,
+  "counts": {
+    "ERROR": 5,
+    "WARNING": 3,
+    "INFO": 13
+  },
+  "score": 37.5,
+  "grade": "F",
+  "findings": [
+    {
+      "line": 7,
+      "check_id": "RESET_POLARITY_RISK",
+      "severity": "ERROR",
+      "property": "p1",
+      "heuristic": false
+    },
+    {
+      "line": 7,
+      "check_id": "NAME_SEMANTICS",
+      "severity": "INFO",
+      "property": "p1",
+      "heuristic": true
+    },
+    {
+      "line": 7,
+      "check_id": "REQ_TRACEABILITY",
+      "severity": "INFO",
+      "property": "p1",
+      "heuristic": false
+    },
+    {
+      "line": 7,
+      "check_id": "WEAK_CONSEQUENT",
+      "severity": "INFO",
+      "property": "p1",
+      "heuristic": true
+    },
+    {
+      "line": 15,
+      "check_id": "MISSING_DISABLE_IFF",
+      "severity": "WARNING",
+      "property": "p2",
+      "heuristic": true
+    },
+    {
+      "line": 15,
+      "check_id": "NAME_SEMANTICS",
+      "severity": "INFO",
+      "property": "p2",
+      "heuristic": true
+    },
+    {
+      "line": 15,
+      "check_id": "REQ_TRACEABILITY",
+      "severity": "INFO",
+      "property": "p2",
+      "heuristic": false
+    },
+    {
+      "line": 15,
+      "check_id": "WEAK_CONSEQUENT",
+      "severity": "INFO",
+      "property": "p2",
+      "heuristic": true
+    },
+    {
+      "line": 21,
+      "check_id": "ASSUME_CONSTRAINS_OUTPUT",
+      "severity": "ERROR",
+      "property": "assume_ack",
+      "heuristic": false
+    },
+    {
+      "line": 21,
+      "check_id": "REQ_TRACEABILITY",
+      "severity": "INFO",
+      "property": "assume_ack",
+      "heuristic": false
+    },
+    {
+      "line": 27,
+      "check_id": "ANTECEDENT_IN_CONSEQUENT",
+      "severity": "ERROR",
+      "property": "req_implies_req",
+      "heuristic": false
+    },
+    {
+      "line": 27,
+      "check_id": "REQ_TRACEABILITY",
+      "severity": "INFO",
+      "property": "req_implies_req",
+      "heuristic": false
+    },
+    {
+      "line": 27,
+      "check_id": "WEAK_CONSEQUENT",
+      "severity": "INFO",
+      "property": "req_implies_req",
+      "heuristic": true
+    },
+    {
+      "line": 33,
+      "check_id": "UNDECLARED_SIGNAL",
+      "severity": "ERROR",
+      "property": "bad_signals",
+      "heuristic": false
+    },
+    {
+      "line": 33,
+      "check_id": "WIDTH_MISMATCH",
+      "severity": "WARNING",
+      "property": "bad_signals",
+      "heuristic": false
+    },
+    {
+      "line": 33,
+      "check_id": "NAME_SEMANTICS",
+      "severity": "INFO",
+      "property": "bad_signals",
+      "heuristic": true
+    },
+    {
+      "line": 33,
+      "check_id": "REQ_TRACEABILITY",
+      "severity": "INFO",
+      "property": "bad_signals",
+      "heuristic": false
+    },
+    {
+      "line": 39,
+      "check_id": "WEAK_CONSEQUENT",
+      "severity": "ERROR",
+      "property": "weak_and_unbounded",
+      "heuristic": false
+    },
+    {
+      "line": 39,
+      "check_id": "UNBOUNDED_TEMPORAL",
+      "severity": "WARNING",
+      "property": "weak_and_unbounded",
+      "heuristic": false
+    },
+    {
+      "line": 39,
+      "check_id": "NAME_SEMANTICS",
+      "severity": "INFO",
+      "property": "weak_and_unbounded",
+      "heuristic": true
+    },
+    {
+      "line": 39,
+      "check_id": "REQ_TRACEABILITY",
+      "severity": "INFO",
+      "property": "weak_and_unbounded",
+      "heuristic": false
+    }
+  ]
+}

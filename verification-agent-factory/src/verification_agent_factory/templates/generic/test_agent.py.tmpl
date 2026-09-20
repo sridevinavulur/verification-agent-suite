@@ -1,0 +1,35 @@
+"""Tests for {{ display_name }} (generic skeleton)."""
+
+from __future__ import annotations
+
+import json
+from pathlib import Path
+
+from {{ package_name }}.agent import analyze
+from {{ package_name }}.models import ResultStatus, SymbolTable
+
+EXAMPLES = Path(__file__).resolve().parent.parent / "examples"
+
+
+def _load() -> SymbolTable:
+    return SymbolTable.model_validate_json((EXAMPLES / "input_example.json").read_text())
+
+
+def test_analyze_runs():
+    result = analyze(_load(), seed=0)
+    assert "design_top=example_top" in result.summary
+
+
+def test_never_pass_without_domain_logic():
+    result = analyze(_load(), seed=0)
+    assert result.status is ResultStatus.UNKNOWN
+
+
+def test_result_serialisable():
+    json.dumps(analyze(_load(), seed=0).to_dict())
+
+
+def test_provenance_deterministic():
+    a = analyze(_load(), seed=3)
+    b = analyze(_load(), seed=3)
+    assert a.provenance.input_sha256 == b.provenance.input_sha256

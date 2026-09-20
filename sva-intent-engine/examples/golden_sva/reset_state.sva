@@ -1,0 +1,3 @@
+p_reset_state_c0_reset_state: assert property (
+  @(posedge clk) (!rst_n) |-> (count == 0)
+);

@@ -1,0 +1,229 @@
+{
+  "schema_version": "0.1.0",
+  "provenance": {
+    "tool": "constraint-hygiene-agent",
+    "tool_version": "0.1.0",
+    "command": "constraint-hygiene review examples/good/good_constraints.sva --manifest examples/dut_manifest.json",
+    "git_sha": "UNKNOWN",
+    "input_files": [
+      "examples/good/good_constraints.sva",
+      "examples/dut_manifest.json"
+    ],
+    "input_sha256": {
+      "good_constraints.sva": "425746b286ec0248ea21c70d397ea36346d62f1512ccc16dd73aa731662b1fd1",
+      "dut_manifest.json": "484b57e5247048ba66782c86405f8674a1828a32429aa9d5356e7c0eab624765"
+    }
+  },
+  "top_module": "handshake_dut",
+  "assumption_inventory": [
+    {
+      "name": "am_mode_legal",
+      "kind": "assume",
+      "expr": "mode == 2'b01",
+      "signals": [
+        "mode"
+      ],
+      "equalities": {
+        "mode": "1"
+      },
+      "boolean_facts": {},
+      "file": "good_constraints.sva",
+      "line": 17
+    },
+    {
+      "name": "am_reset_input",
+      "kind": "assume",
+      "expr": "rst_n",
+      "signals": [
+        "rst_n"
+      ],
+      "equalities": {},
+      "boolean_facts": {
+        "rst_n": true
+      },
+      "file": "good_constraints.sva",
+      "line": 20
+    },
+    {
+      "name": "am_valid_input",
+      "kind": "assume",
+      "expr": "in_valid",
+      "signals": [
+        "in_valid"
+      ],
+      "equalities": {},
+      "boolean_facts": {
+        "in_valid": true
+      },
+      "file": "good_constraints.sva",
+      "line": 23
+    }
+  ],
+  "assertion_inventory": [
+    {
+      "name": "as_ready_when_valid",
+      "kind": "assert",
+      "expr": "in_valid |-> in_ready",
+      "signals": [
+        "in_valid",
+        "in_ready"
+      ],
+      "equalities": {},
+      "boolean_facts": {},
+      "file": "good_constraints.sva",
+      "line": 27
+    },
+    {
+      "name": "as_out_valid_stable",
+      "kind": "assert",
+      "expr": "out_valid && mode |-> out_valid",
+      "signals": [
+        "out_valid",
+        "mode"
+      ],
+      "equalities": {},
+      "boolean_facts": {
+        "out_valid": true
+      },
+      "file": "good_constraints.sva",
+      "line": 30
+    }
+  ],
+  "cover_inventory": [
+    {
+      "name": "co_ready_seen",
+      "kind": "cover",
+      "expr": "rst_n && in_valid && in_ready",
+      "signals": [
+        "rst_n",
+        "in_valid",
+        "in_ready"
+      ],
+      "equalities": {},
+      "boolean_facts": {
+        "rst_n": true,
+        "in_valid": true,
+        "in_ready": true
+      },
+      "file": "good_constraints.sva",
+      "line": 35
+    },
+    {
+      "name": "co_out_valid_seen",
+      "kind": "cover",
+      "expr": "out_valid && mode",
+      "signals": [
+        "out_valid",
+        "mode"
+      ],
+      "equalities": {},
+      "boolean_facts": {
+        "out_valid": true,
+        "mode": true
+      },
+      "file": "good_constraints.sva",
+      "line": 37
+    }
+  ],
+  "signal_ownership": [
+    {
+      "signal": "in_ready",
+      "ownership": "dut_output",
+      "rationale": "'in_ready' is an output port of top module 'handshake_dut'."
+    },
+    {
+      "signal": "in_valid",
+      "ownership": "environment_input",
+      "rationale": "'in_valid' is an input port of top module 'handshake_dut'."
+    },
+    {
+      "signal": "mode",
+      "ownership": "environment_input",
+      "rationale": "'mode' is an input port of top module 'handshake_dut'."
+    },
+    {
+      "signal": "out_valid",
+      "ownership": "dut_output",
+      "rationale": "'out_valid' is an output port of top module 'handshake_dut'."
+    },
+    {
+      "signal": "rst_n",
+      "ownership": "environment_input",
+      "rationale": "'rst_n' is an input port of top module 'handshake_dut'."
+    }
+  ],
+  "contradiction_candidates": [],
+  "unused_assumption_candidates": [],
+  "output_constraint_warnings": [],
+  "dependency_map": [
+    {
+      "property": "as_out_valid_stable",
+      "signal": "mode",
+      "constrained_by_assumptions": [
+        "am_mode_legal"
+      ]
+    },
+    {
+      "property": "as_out_valid_stable",
+      "signal": "out_valid",
+      "constrained_by_assumptions": []
+    },
+    {
+      "property": "as_ready_when_valid",
+      "signal": "in_ready",
+      "constrained_by_assumptions": []
+    },
+    {
+      "property": "as_ready_when_valid",
+      "signal": "in_valid",
+      "constrained_by_assumptions": [
+        "am_valid_input"
+      ]
+    },
+    {
+      "property": "co_out_valid_seen",
+      "signal": "mode",
+      "constrained_by_assumptions": [
+        "am_mode_legal"
+      ]
+    },
+    {
+      "property": "co_out_valid_seen",
+      "signal": "out_valid",
+      "constrained_by_assumptions": []
+    },
+    {
+      "property": "co_ready_seen",
+      "signal": "in_ready",
+      "constrained_by_assumptions": []
+    },
+    {
+      "property": "co_ready_seen",
+      "signal": "in_valid",
+      "constrained_by_assumptions": [
+        "am_valid_input"
+      ]
+    },
+    {
+      "property": "co_ready_seen",
+      "signal": "rst_n",
+      "constrained_by_assumptions": [
+        "am_reset_input"
+      ]
+    }
+  ],
+  "vacuity_recommendations": [
+    {
+      "code": "VACUITY_RISK",
+      "severity": "info",
+      "confidence": "static_suspicion",
+      "message": "Reminder: a clean hygiene report is NOT a soundness or validity result.",
+      "evidence": "This tool performs static structural checks only. It cannot and does not conclude that the constraint set is consistent, non-vacuous, or that any proof is valid. Always run formal vacuity/reachability analysis in the tool.",
+      "properties": [],
+      "signals": [],
+      "needs_human_review": false
+    }
+  ],
+  "human_review_queue": [],
+  "disclaimer": "STATIC HYGIENE ONLY. Absence of a flagged contradiction does NOT mean the constraint set is sound or that any proof is valid. All findings are static suspicions requiring human review; no assumption may be changed without human approval."
+}

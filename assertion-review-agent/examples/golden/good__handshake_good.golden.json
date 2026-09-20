@@ -1,0 +1,28 @@
+{
+  "source": "good/handshake_good.sv",
+  "manifest": "manifests/handshake.manifest.json",
+  "property_count": 3,
+  "counts": {
+    "ERROR": 0,
+    "WARNING": 0,
+    "INFO": 2
+  },
+  "score": 96.7,
+  "grade": "A",
+  "findings": [
+    {
+      "line": 9,
+      "check_id": "WEAK_CONSEQUENT",
+      "severity": "INFO",
+      "property": "req_gets_grant",
+      "heuristic": true
+    },
+    {
+      "line": 17,
+      "check_id": "WEAK_CONSEQUENT",
+      "severity": "INFO",
+      "property": "grant_needs_req",
+      "heuristic": true
+    }
+  ]
+}

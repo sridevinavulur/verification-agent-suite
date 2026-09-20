@@ -1,0 +1,14 @@
+{
+  "protocol": "fifo",
+  "module": "sync_fifo",
+  "roles": {
+    "push": "wr_en",
+    "pop": "rd_en",
+    "full": "full",
+    "empty": "empty",
+    "count": "count"
+  },
+  "clock": "clk",
+  "reset": "rst_n",
+  "depth": 16
+}

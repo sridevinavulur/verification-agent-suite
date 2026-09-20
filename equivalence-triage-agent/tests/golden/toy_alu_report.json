@@ -1,0 +1,561 @@
+{
+  "provenance": {
+    "tool": "eq-triage",
+    "tool_version": "0.1.0",
+    "schema_version": "0.1.0",
+    "command": "eq-triage demo toy_alu",
+    "git_sha": "GOLDEN",
+    "input_files": [],
+    "input_sha256": {}
+  },
+  "reported_status": "NOT_EQUIVALENT",
+  "status_evidence": [
+    "examples/toy_alu/equivalence.eqlog: status: NOT_EQUIVALENT",
+    "examples/toy_alu/equivalence.eqlog: compare_points: 9/13"
+  ],
+  "reference_design": "ref_alu",
+  "revised_design": "rev_alu",
+  "compare_points_total": 13,
+  "compare_points_matched": 9,
+  "mismatch_count": 5,
+  "config_deltas": [
+    {
+      "key": "reset_polarity",
+      "reference_value": "active_low",
+      "revised_value": "active_high"
+    },
+    {
+      "key": "abstraction",
+      "reference_value": "none",
+      "revised_value": "none"
+    }
+  ],
+  "reset_comparison": {
+    "reference": {
+      "signal": "rst_n",
+      "polarity": "active_low",
+      "sync": "asynchronous",
+      "init_values": {
+        "result": "00"
+      }
+    },
+    "revised": {
+      "signal": "rst",
+      "polarity": "active_high",
+      "sync": "synchronous",
+      "init_values": {
+        "result": "0"
+      }
+    },
+    "polarity_differs": true,
+    "sync_differs": true,
+    "init_value_diffs": {
+      "result": "ref=00 != rev=0"
+    },
+    "notes": [
+      "Reset polarity differs: ref=active_low, rev=active_high.",
+      "Reset synchronization differs: ref=asynchronous, rev=synchronous."
+    ]
+  },
+  "groups": [
+    {
+      "signature": "output|same|result|result|a,b,op",
+      "members": [
+        "result[7]",
+        "result[6]"
+      ],
+      "kind": "output",
+      "cone_signals": [
+        "a",
+        "b",
+        "op",
+        "result[7]",
+        "result[6]"
+      ],
+      "width_ref": null,
+      "width_rev": null,
+      "likely_causes": [
+        {
+          "category": "polarity",
+          "confidence": 0.75,
+          "rationale": [
+            "Counterexample shows consistently inverted values (1 bit-pairs inverted); suggests polarity/inversion mismatch."
+          ],
+          "is_heuristic": true,
+          "evidence_refs": [
+            "cex:result[7]"
+          ]
+        },
+        {
+          "category": "config_constraint",
+          "confidence": 0.5,
+          "rationale": [
+            "Run configuration/constraints differ (reset_polarity); mismatches may be an artifact of setup, not RTL."
+          ],
+          "is_heuristic": true,
+          "evidence_refs": [
+            "config:reset_polarity"
+          ]
+        },
+        {
+          "category": "reset_init",
+          "confidence": 0.4,
+          "rationale": [
+            "Reset/init behavior differs between designs."
+          ],
+          "is_heuristic": true,
+          "evidence_refs": [
+            "reset_comparison"
+          ]
+        }
+      ],
+      "ranked_locations": [
+        {
+          "signal": "result[6]",
+          "design": "reference",
+          "location": {
+            "file": "ref_alu.v",
+            "line": 10,
+            "col": 22
+          },
+          "module": "ref_alu",
+          "score": 4.0,
+          "reasons": [
+            "direct compare point",
+            "in mismatch cone"
+          ]
+        },
+        {
+          "signal": "result[7]",
+          "design": "reference",
+          "location": {
+            "file": "ref_alu.v",
+            "line": 10,
+            "col": 22
+          },
+          "module": "ref_alu",
+          "score": 4.0,
+          "reasons": [
+            "direct compare point",
+            "in mismatch cone"
+          ]
+        },
+        {
+          "signal": "result[6]",
+          "design": "revised",
+          "location": null,
+          "module": null,
+          "score": 4.0,
+          "reasons": [
+            "direct compare point",
+            "in mismatch cone"
+          ]
+        },
+        {
+          "signal": "result[7]",
+          "design": "revised",
+          "location": null,
+          "module": null,
+          "score": 4.0,
+          "reasons": [
+            "direct compare point",
+            "in mismatch cone"
+          ]
+        },
+        {
+          "signal": "a",
+          "design": "reference",
+          "location": {
+            "file": "ref_alu.v",
+            "line": 8,
+            "col": 23
+          },
+          "module": "ref_alu",
+          "score": 1.0,
+          "reasons": [
+            "in mismatch cone"
+          ]
+        },
+        {
+          "signal": "b",
+          "design": "reference",
+          "location": {
+            "file": "ref_alu.v",
+            "line": 9,
+            "col": 23
+          },
+          "module": "ref_alu",
+          "score": 1.0,
+          "reasons": [
+            "in mismatch cone"
+          ]
+        },
+        {
+          "signal": "op",
+          "design": "reference",
+          "location": {
+            "file": "ref_alu.v",
+            "line": 10,
+            "col": 23
+          },
+          "module": "ref_alu",
+          "score": 1.0,
+          "reasons": [
+            "in mismatch cone"
+          ]
+        },
+        {
+          "signal": "a",
+          "design": "revised",
+          "location": null,
+          "module": null,
+          "score": 1.0,
+          "reasons": [
+            "in mismatch cone"
+          ]
+        },
+        {
+          "signal": "b",
+          "design": "revised",
+          "location": null,
+          "module": null,
+          "score": 1.0,
+          "reasons": [
+            "in mismatch cone"
+          ]
+        },
+        {
+          "signal": "op",
+          "design": "revised",
+          "location": null,
+          "module": null,
+          "score": 1.0,
+          "reasons": [
+            "in mismatch cone"
+          ]
+        }
+      ]
+    },
+    {
+      "signature": "output|same|result||a,b,op",
+      "members": [
+        "result[5]",
+        "result[4]"
+      ],
+      "kind": "output",
+      "cone_signals": [
+        "a",
+        "b",
+        "op"
+      ],
+      "width_ref": null,
+      "width_rev": null,
+      "likely_causes": [
+        {
+          "category": "config_constraint",
+          "confidence": 0.5,
+          "rationale": [
+            "Run configuration/constraints differ (reset_polarity); mismatches may be an artifact of setup, not RTL."
+          ],
+          "is_heuristic": true,
+          "evidence_refs": [
+            "config:reset_polarity"
+          ]
+        },
+        {
+          "category": "reset_init",
+          "confidence": 0.4,
+          "rationale": [
+            "Reset/init behavior differs between designs."
+          ],
+          "is_heuristic": true,
+          "evidence_refs": [
+            "reset_comparison"
+          ]
+        }
+      ],
+      "ranked_locations": [
+        {
+          "signal": "result[4]",
+          "design": "reference",
+          "location": null,
+          "module": null,
+          "score": 3.0,
+          "reasons": [
+            "direct compare point"
+          ]
+        },
+        {
+          "signal": "result[5]",
+          "design": "reference",
+          "location": null,
+          "module": null,
+          "score": 3.0,
+          "reasons": [
+            "direct compare point"
+          ]
+        },
+        {
+          "signal": "result[4]",
+          "design": "revised",
+          "location": null,
+          "module": null,
+          "score": 3.0,
+          "reasons": [
+            "direct compare point"
+          ]
+        },
+        {
+          "signal": "result[5]",
+          "design": "revised",
+          "location": null,
+          "module": null,
+          "score": 3.0,
+          "reasons": [
+            "direct compare point"
+          ]
+        },
+        {
+          "signal": "a",
+          "design": "reference",
+          "location": {
+            "file": "ref_alu.v",
+            "line": 8,
+            "col": 23
+          },
+          "module": "ref_alu",
+          "score": 1.0,
+          "reasons": [
+            "in mismatch cone"
+          ]
+        },
+        {
+          "signal": "b",
+          "design": "reference",
+          "location": {
+            "file": "ref_alu.v",
+            "line": 9,
+            "col": 23
+          },
+          "module": "ref_alu",
+          "score": 1.0,
+          "reasons": [
+            "in mismatch cone"
+          ]
+        },
+        {
+          "signal": "op",
+          "design": "reference",
+          "location": {
+            "file": "ref_alu.v",
+            "line": 10,
+            "col": 23
+          },
+          "module": "ref_alu",
+          "score": 1.0,
+          "reasons": [
+            "in mismatch cone"
+          ]
+        },
+        {
+          "signal": "a",
+          "design": "revised",
+          "location": null,
+          "module": null,
+          "score": 1.0,
+          "reasons": [
+            "in mismatch cone"
+          ]
+        },
+        {
+          "signal": "b",
+          "design": "revised",
+          "location": null,
+          "module": null,
+          "score": 1.0,
+          "reasons": [
+            "in mismatch cone"
+          ]
+        },
+        {
+          "signal": "op",
+          "design": "revised",
+          "location": null,
+          "module": null,
+          "score": 1.0,
+          "reasons": [
+            "in mismatch cone"
+          ]
+        }
+      ]
+    },
+    {
+      "signature": "state|w8!=w4|result_reg|result,rst_n|rst,rst_n",
+      "members": [
+        "result_reg"
+      ],
+      "kind": "state",
+      "cone_signals": [
+        "rst_n",
+        "rst",
+        "result"
+      ],
+      "width_ref": 8,
+      "width_rev": 4,
+      "likely_causes": [
+        {
+          "category": "width",
+          "confidence": 0.9,
+          "rationale": [
+            "Compare point width differs: ref=8 bits vs rev=4 bits."
+          ],
+          "is_heuristic": true,
+          "evidence_refs": [
+            "log:mismatch:result_reg"
+          ]
+        },
+        {
+          "category": "polarity",
+          "confidence": 0.6,
+          "rationale": [
+            "Reset polarity differs between designs and a reset-like signal is in the mismatch cone."
+          ],
+          "is_heuristic": true,
+          "evidence_refs": [
+            "reset_comparison"
+          ]
+        },
+        {
+          "category": "reset_init",
+          "confidence": 0.6,
+          "rationale": [
+            "Reset/init behavior differs between designs and first difference occurs at t=0."
+          ],
+          "is_heuristic": true,
+          "evidence_refs": [
+            "reset_comparison"
+          ]
+        },
+        {
+          "category": "config_constraint",
+          "confidence": 0.5,
+          "rationale": [
+            "Run configuration/constraints differ (reset_polarity); mismatches may be an artifact of setup, not RTL."
+          ],
+          "is_heuristic": true,
+          "evidence_refs": [
+            "config:reset_polarity"
+          ]
+        }
+      ],
+      "ranked_locations": [
+        {
+          "signal": "result",
+          "design": "reference",
+          "location": {
+            "file": "ref_alu.v",
+            "line": 10,
+            "col": 22
+          },
+          "module": "ref_alu",
+          "score": 4.0,
+          "reasons": [
+            "direct compare point",
+            "in mismatch cone"
+          ]
+        },
+        {
+          "signal": "result",
+          "design": "revised",
+          "location": {
+            "file": "rev_alu.v",
+            "line": 12,
+            "col": 22
+          },
+          "module": "rev_alu",
+          "score": 4.0,
+          "reasons": [
+            "direct compare point",
+            "in mismatch cone"
+          ]
+        },
+        {
+          "signal": "rst",
+          "design": "reference",
+          "location": null,
+          "module": null,
+          "score": 1.0,
+          "reasons": [
+            "in mismatch cone"
+          ]
+        },
+        {
+          "signal": "rst_n",
+          "design": "reference",
+          "location": {
+            "file": "ref_alu.v",
+            "line": 7,
+            "col": 23
+          },
+          "module": "ref_alu",
+          "score": 1.0,
+          "reasons": [
+            "in mismatch cone"
+          ]
+        },
+        {
+          "signal": "rst",
+          "design": "revised",
+          "location": {
+            "file": "rev_alu.v",
+            "line": 8,
+            "col": 23
+          },
+          "module": "rev_alu",
+          "score": 1.0,
+          "reasons": [
+            "in mismatch cone"
+          ]
+        },
+        {
+          "signal": "rst_n",
+          "design": "revised",
+          "location": null,
+          "module": null,
+          "score": 1.0,
+          "reasons": [
+            "in mismatch cone"
+          ]
+        }
+      ]
+    }
+  ],
+  "debug_packet": {
+    "repro_command": "eq-triage demo toy_alu",
+    "input_files": [],
+    "focus_compare_points": [
+      "result[7]",
+      "result[6]",
+      "result[5]",
+      "result[4]",
+      "result_reg"
+    ],
+    "focus_signals": [
+      "result[6]",
+      "result[7]",
+      "result[4]",
+      "result[5]",
+      "result",
+      "rst"
+    ],
+    "suggested_next_steps": [
+      "Reconcile configuration/constraint differences BEFORE debugging RTL -- mismatches may be a setup artifact.",
+      "Re-run equivalence check with the same tool/version to confirm reproducibility.",
+      "Inspect the ranked source locations for the top mismatch group.",
+      "Compare reset/init sequences of both designs on the failing compare points."
+    ]
+  },
+  "warnings": [
+    "Configuration/constraint differences detected between runs; these are surfaced in config_deltas and may explain mismatches."
+  ]
+}

@@ -1,0 +1,28 @@
+// Candidate SVA for contract irq_ctrl__interrupt
+// CANDIDATE properties for human review. Not verified. Compile offline; syntactic acceptance != correctness.
+
+// [assert/guarantee] Interrupt remains asserted until it is cleared/acknowledged (level-sensitive, sticky).
+p_irq_ctrl_irq_sticky: assert property (
+  @(posedge clk) disable iff (!rst_n) (irq && !irq_clear) |=> (irq)
+);
+
+// [assert/guarantee] After a clear with no pending source event, the interrupt deasserts on the next cycle.
+p_irq_ctrl_irq_clears: assert property (
+  @(posedge clk) disable iff (!rst_n) (irq_clear && !event_in) |=> (!irq)
+);
+
+// [assert/guarantee] A source event raises the interrupt within [1:2] cycles.
+p_irq_ctrl_irq_raise: assert property (
+  @(posedge clk) disable iff (!rst_n) (event_in) |-> ##[1:2] (irq)
+);
+
+// [cover/cover] Cover the interrupt being asserted.
+p_irq_ctrl_irq_cover: cover property (
+  @(posedge clk) disable iff (!rst_n) irq
+);
+
+// [assert/guarantee] While reset is asserted, the interrupt is deasserted.
+p_irq_ctrl_irq_reset_low: assert property (
+  @(posedge clk) (!rst_n) |-> (!irq)
+);
+

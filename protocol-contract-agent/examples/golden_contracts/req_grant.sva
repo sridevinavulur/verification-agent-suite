@@ -1,0 +1,23 @@
+// Candidate SVA for contract arbiter__req_grant__port0
+// CANDIDATE properties for human review. Not verified. Compile offline; syntactic acceptance != correctness.
+
+// [assert/guarantee] Grant is asserted only while (or after) a request is present (no spurious grant).
+p_arbiter_no_spurious_grant: assert property (
+  @(posedge clk) disable iff (rst) (gnt0) |-> (req0)
+);
+
+// [assert/guarantee] A sustained request receives a grant within [1:3] cycles.
+p_arbiter_grant_latency: assert property (
+  @(posedge clk) disable iff (rst) (req0) |-> ##[1:3] (gnt0)
+);
+
+// [assume/assumption] A request is held stable until it is granted.
+p_arbiter_req_stable_assume: assume property (
+  @(posedge clk) disable iff (rst) (req0 && !gnt0) |=> (req0)
+);
+
+// [cover/cover] Cover at least one request that is granted.
+p_arbiter_grant_cover: cover property (
+  @(posedge clk) disable iff (rst) req0 && gnt0
+);
+

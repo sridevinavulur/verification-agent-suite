@@ -1,0 +1,1710 @@
+{
+  "schema_version": "1.0.0",
+  "name": "public-mock-benchmark",
+  "runs": [
+    {
+      "schema_version": "1.0.0",
+      "run_id": "A-a1b2c3d",
+      "commit": "a1b2c3d",
+      "commit_order": 0,
+      "config": "opt3",
+      "workload": "cache_stress",
+      "environment": {
+        "platform": "x86_64-linux",
+        "cpu_model": "generic-16c",
+        "ram_gb": 64.0,
+        "tool": "verilator",
+        "tool_version": "5.020",
+        "os_release": "ubuntu-22.04"
+      },
+      "timestamp": "2026-09-10T00:00:00Z",
+      "artifact_url": "https://ci.example.org/artifacts/A/a1b2c3d",
+      "samples": [
+        {
+          "metric": "sim_runtime_s",
+          "value": 116.7675
+        },
+        {
+          "metric": "sim_runtime_s",
+          "value": 118.0497
+        },
+        {
+          "metric": "sim_runtime_s",
+          "value": 123.5863
+        },
+        {
+          "metric": "sim_runtime_s",
+          "value": 123.7113
+        },
+        {
+          "metric": "sim_runtime_s",
+          "value": 118.4943
+        },
+        {
+          "metric": "peak_memory_mb",
+          "value": 2056.1559
+        },
+        {
+          "metric": "peak_memory_mb",
+          "value": 2044.0812
+        },
+        {
+          "metric": "peak_memory_mb",
+          "value": 2049.6042
+        },
+        {
+          "metric": "peak_memory_mb",
+          "value": 2043.8269
+        },
+        {
+          "metric": "peak_memory_mb",
+          "value": 2023.8623
+        },
+        {
+          "metric": "throughput_mops",
+          "value": 807.3184
+        },
+        {
+          "metric": "throughput_mops",
+          "value": 858.0124
+        },
+        {
+          "metric": "throughput_mops",
+          "value": 855.8698
+        },
+        {
+          "metric": "throughput_mops",
+          "value": 843.4932
+        },
+        {
+          "metric": "throughput_mops",
+          "value": 856.8792
+        },
+        {
+          "metric": "coverage_rate_pct",
+          "value": 78.3818
+        },
+        {
+          "metric": "coverage_rate_pct",
+          "value": 78.1805
+        },
+        {
+          "metric": "coverage_rate_pct",
+          "value": 78.4174
+        },
+        {
+          "metric": "coverage_rate_pct",
+          "value": 77.1734
+        },
+        {
+          "metric": "coverage_rate_pct",
+          "value": 78.1162
+        }
+      ]
+    },
+    {
+      "schema_version": "1.0.0",
+      "run_id": "A-b2c3d4e",
+      "commit": "b2c3d4e",
+      "commit_order": 1,
+      "config": "opt3",
+      "workload": "cache_stress",
+      "environment": {
+        "platform": "x86_64-linux",
+        "cpu_model": "generic-16c",
+        "ram_gb": 64.0,
+        "tool": "verilator",
+        "tool_version": "5.020",
+        "os_release": "ubuntu-22.04"
+      },
+      "timestamp": "2026-09-11T00:00:00Z",
+      "artifact_url": "https://ci.example.org/artifacts/A/b2c3d4e",
+      "samples": [
+        {
+          "metric": "sim_runtime_s",
+          "value": 118.4522
+        },
+        {
+          "metric": "sim_runtime_s",
+          "value": 123.1345
+        },
+        {
+          "metric": "sim_runtime_s",
+          "value": 117.2046
+        },
+        {
+          "metric": "sim_runtime_s",
+          "value": 119.5899
+        },
+        {
+          "metric": "sim_runtime_s",
+          "value": 117.0434
+        },
+        {
+          "metric": "peak_memory_mb",
+          "value": 2053.3383
+        },
+        {
+          "metric": "peak_memory_mb",
+          "value": 2044.0608
+        },
+        {
+          "metric": "peak_memory_mb",
+          "value": 2044.2964
+        },
+        {
+          "metric": "peak_memory_mb",
+          "value": 2031.5715
+        },
+        {
+          "metric": "peak_memory_mb",
+          "value": 2068.6466
+        },
+        {
+          "metric": "throughput_mops",
+          "value": 827.2873
+        },
+        {
+          "metric": "throughput_mops",
+          "value": 845.4401
+        },
+        {
+          "metric": "throughput_mops",
+          "value": 843.847
+        },
+        {
+          "metric": "throughput_mops",
+          "value": 838.0685
+        },
+        {
+          "metric": "throughput_mops",
+          "value": 854.8301
+        },
+        {
+          "metric": "coverage_rate_pct",
+          "value": 78.3062
+        },
+        {
+          "metric": "coverage_rate_pct",
+          "value": 77.9322
+        },
+        {
+          "metric": "coverage_rate_pct",
+          "value": 77.8501
+        },
+        {
+          "metric": "coverage_rate_pct",
+          "value": 78.2049
+        },
+        {
+          "metric": "coverage_rate_pct",
+          "value": 79.0556
+        }
+      ]
+    },
+    {
+      "schema_version": "1.0.0",
+      "run_id": "A-c3d4e5f",
+      "commit": "c3d4e5f",
+      "commit_order": 2,
+      "config": "opt3",
+      "workload": "cache_stress",
+      "environment": {
+        "platform": "x86_64-linux",
+        "cpu_model": "generic-16c",
+        "ram_gb": 64.0,
+        "tool": "verilator",
+        "tool_version": "5.020",
+        "os_release": "ubuntu-22.04"
+      },
+      "timestamp": "2026-09-12T00:00:00Z",
+      "artifact_url": "https://ci.example.org/artifacts/A/c3d4e5f",
+      "samples": [
+        {
+          "metric": "sim_runtime_s",
+          "value": 161.4091
+        },
+        {
+          "metric": "sim_runtime_s",
+          "value": 167.0101
+        },
+        {
+          "metric": "sim_runtime_s",
+          "value": 163.0133
+        },
+        {
+          "metric": "sim_runtime_s",
+          "value": 161.2308
+        },
+        {
+          "metric": "sim_runtime_s",
+          "value": 164.5721
+        },
+        {
+          "metric": "peak_memory_mb",
+          "value": 2417.6189
+        },
+        {
+          "metric": "peak_memory_mb",
+          "value": 2406.9846
+        },
+        {
+          "metric": "peak_memory_mb",
+          "value": 2419.8648
+        },
+        {
+          "metric": "peak_memory_mb",
+          "value": 2404.4263
+        },
+        {
+          "metric": "peak_memory_mb",
+          "value": 2388.4451
+        },
+        {
+          "metric": "throughput_mops",
+          "value": 843.5623
+        },
+        {
+          "metric": "throughput_mops",
+          "value": 873.3901
+        },
+        {
+          "metric": "throughput_mops",
+          "value": 857.744
+        },
+        {
+          "metric": "throughput_mops",
+          "value": 875.5842
+        },
+        {
+          "metric": "throughput_mops",
+          "value": 875.3937
+        },
+        {
+          "metric": "coverage_rate_pct",
+          "value": 78.2462
+        },
+        {
+          "metric": "coverage_rate_pct",
+          "value": 78.6712
+        },
+        {
+          "metric": "coverage_rate_pct",
+          "value": 78.1051
+        },
+        {
+          "metric": "coverage_rate_pct",
+          "value": 77.547
+        },
+        {
+          "metric": "coverage_rate_pct",
+          "value": 78.0612
+        }
+      ]
+    },
+    {
+      "schema_version": "1.0.0",
+      "run_id": "A-d4e5f6a",
+      "commit": "d4e5f6a",
+      "commit_order": 3,
+      "config": "opt3",
+      "workload": "cache_stress",
+      "environment": {
+        "platform": "x86_64-linux",
+        "cpu_model": "generic-16c",
+        "ram_gb": 64.0,
+        "tool": "verilator",
+        "tool_version": "5.020",
+        "os_release": "ubuntu-22.04"
+      },
+      "timestamp": "2026-09-13T00:00:00Z",
+      "artifact_url": "https://ci.example.org/artifacts/A/d4e5f6a",
+      "samples": [
+        {
+          "metric": "sim_runtime_s",
+          "value": 157.8147
+        },
+        {
+          "metric": "sim_runtime_s",
+          "value": 163.6192
+        },
+        {
+          "metric": "sim_runtime_s",
+          "value": 155.7544
+        },
+        {
+          "metric": "sim_runtime_s",
+          "value": 162.5432
+        },
+        {
+          "metric": "sim_runtime_s",
+          "value": 163.0034
+        },
+        {
+          "metric": "peak_memory_mb",
+          "value": 2404.9818
+        },
+        {
+          "metric": "peak_memory_mb",
+          "value": 2381.5155
+        },
+        {
+          "metric": "peak_memory_mb",
+          "value": 2382.2754
+        },
+        {
+          "metric": "peak_memory_mb",
+          "value": 2438.7724
+        },
+        {
+          "metric": "peak_memory_mb",
+          "value": 2429.6646
+        },
+        {
+          "metric": "throughput_mops",
+          "value": 834.7196
+        },
+        {
+          "metric": "throughput_mops",
+          "value": 887.7646
+        },
+        {
+          "metric": "throughput_mops",
+          "value": 842.9118
+        },
+        {
+          "metric": "throughput_mops",
+          "value": 849.0719
+        },
+        {
+          "metric": "throughput_mops",
+          "value": 861.6475
+        },
+        {
+          "metric": "coverage_rate_pct",
+          "value": 77.9587
+        },
+        {
+          "metric": "coverage_rate_pct",
+          "value": 77.9218
+        },
+        {
+          "metric": "coverage_rate_pct",
+          "value": 78.4238
+        },
+        {
+          "metric": "coverage_rate_pct",
+          "value": 77.9756
+        },
+        {
+          "metric": "coverage_rate_pct",
+          "value": 78.3726
+        }
+      ]
+    },
+    {
+      "schema_version": "1.0.0",
+      "run_id": "A-e5f6a7b",
+      "commit": "e5f6a7b",
+      "commit_order": 4,
+      "config": "opt3",
+      "workload": "cache_stress",
+      "environment": {
+        "platform": "x86_64-linux",
+        "cpu_model": "generic-16c",
+        "ram_gb": 64.0,
+        "tool": "verilator",
+        "tool_version": "5.020",
+        "os_release": "ubuntu-22.04"
+      },
+      "timestamp": "2026-09-14T00:00:00Z",
+      "artifact_url": "https://ci.example.org/artifacts/A/e5f6a7b",
+      "samples": [
+        {
+          "metric": "sim_runtime_s",
+          "value": 168.5608
+        },
+        {
+          "metric": "sim_runtime_s",
+          "value": 158.9344
+        },
+        {
+          "metric": "sim_runtime_s",
+          "value": 163.3229
+        },
+        {
+          "metric": "sim_runtime_s",
+          "value": 155.9034
+        },
+        {
+          "metric": "sim_runtime_s",
+          "value": 159.8136
+        },
+        {
+          "metric": "peak_memory_mb",
+          "value": 2446.7847
+        },
+        {
+          "metric": "peak_memory_mb",
+          "value": 2412.6928
+        },
+        {
+          "metric": "peak_memory_mb",
+          "value": 2416.9591
+        },
+        {
+          "metric": "peak_memory_mb",
+          "value": 2409.0708
+        },
+        {
+          "metric": "peak_memory_mb",
+          "value": 2396.7239
+        },
+        {
+          "metric": "throughput_mops",
+          "value": 856.3923
+        },
+        {
+          "metric": "throughput_mops",
+          "value": 852.3874
+        },
+        {
+          "metric": "throughput_mops",
+          "value": 845.19
+        },
+        {
+          "metric": "throughput_mops",
+          "value": 854.9226
+        },
+        {
+          "metric": "throughput_mops",
+          "value": 871.2209
+        },
+        {
+          "metric": "coverage_rate_pct",
+          "value": 78.0503
+        },
+        {
+          "metric": "coverage_rate_pct",
+          "value": 77.7861
+        },
+        {
+          "metric": "coverage_rate_pct",
+          "value": 77.8217
+        },
+        {
+          "metric": "coverage_rate_pct",
+          "value": 77.7965
+        },
+        {
+          "metric": "coverage_rate_pct",
+          "value": 78.3298
+        }
+      ]
+    },
+    {
+      "schema_version": "1.0.0",
+      "run_id": "B-a1b2c3d",
+      "commit": "a1b2c3d",
+      "commit_order": 0,
+      "config": "opt3",
+      "workload": "random_rw",
+      "environment": {
+        "platform": "x86_64-linux",
+        "cpu_model": "generic-16c",
+        "ram_gb": 64.0,
+        "tool": "verilator",
+        "tool_version": "5.020",
+        "os_release": "ubuntu-22.04"
+      },
+      "timestamp": "2026-09-10T01:00:00Z",
+      "artifact_url": "https://ci.example.org/artifacts/B/a1b2c3d",
+      "samples": [
+        {
+          "metric": "sim_runtime_s",
+          "value": 108.8089
+        },
+        {
+          "metric": "sim_runtime_s",
+          "value": 111.4677
+        },
+        {
+          "metric": "sim_runtime_s",
+          "value": 107.9537
+        },
+        {
+          "metric": "sim_runtime_s",
+          "value": 109.0305
+        },
+        {
+          "metric": "sim_runtime_s",
+          "value": 103.618
+        },
+        {
+          "metric": "throughput_mops",
+          "value": 870.7359
+        },
+        {
+          "metric": "throughput_mops",
+          "value": 847.1358
+        },
+        {
+          "metric": "throughput_mops",
+          "value": 847.9206
+        },
+        {
+          "metric": "throughput_mops",
+          "value": 829.1854
+        },
+        {
+          "metric": "throughput_mops",
+          "value": 846.7381
+        },
+        {
+          "metric": "latency_ns",
+          "value": 43.455
+        },
+        {
+          "metric": "latency_ns",
+          "value": 42.5006
+        },
+        {
+          "metric": "latency_ns",
+          "value": 40.449
+        },
+        {
+          "metric": "latency_ns",
+          "value": 39.8595
+        },
+        {
+          "metric": "latency_ns",
+          "value": 41.8151
+        }
+      ]
+    },
+    {
+      "schema_version": "1.0.0",
+      "run_id": "B-b2c3d4e",
+      "commit": "b2c3d4e",
+      "commit_order": 1,
+      "config": "opt3",
+      "workload": "random_rw",
+      "environment": {
+        "platform": "x86_64-linux",
+        "cpu_model": "generic-16c",
+        "ram_gb": 64.0,
+        "tool": "verilator",
+        "tool_version": "5.020",
+        "os_release": "ubuntu-22.04"
+      },
+      "timestamp": "2026-09-11T01:00:00Z",
+      "artifact_url": "https://ci.example.org/artifacts/B/b2c3d4e",
+      "samples": [
+        {
+          "metric": "sim_runtime_s",
+          "value": 106.6189
+        },
+        {
+          "metric": "sim_runtime_s",
+          "value": 108.6488
+        },
+        {
+          "metric": "sim_runtime_s",
+          "value": 106.7384
+        },
+        {
+          "metric": "sim_runtime_s",
+          "value": 108.9696
+        },
+        {
+          "metric": "sim_runtime_s",
+          "value": 110.8735
+        },
+        {
+          "metric": "throughput_mops",
+          "value": 837.2697
+        },
+        {
+          "metric": "throughput_mops",
+          "value": 841.7503
+        },
+        {
+          "metric": "throughput_mops",
+          "value": 849.4992
+        },
+        {
+          "metric": "throughput_mops",
+          "value": 884.052
+        },
+        {
+          "metric": "throughput_mops",
+          "value": 852.1554
+        },
+        {
+          "metric": "latency_ns",
+          "value": 41.1588
+        },
+        {
+          "metric": "latency_ns",
+          "value": 43.1558
+        },
+        {
+          "metric": "latency_ns",
+          "value": 40.7636
+        },
+        {
+          "metric": "latency_ns",
+          "value": 42.3931
+        },
+        {
+          "metric": "latency_ns",
+          "value": 41.7758
+        }
+      ]
+    },
+    {
+      "schema_version": "1.0.0",
+      "run_id": "B-c3d4e5f",
+      "commit": "c3d4e5f",
+      "commit_order": 2,
+      "config": "opt3",
+      "workload": "random_rw",
+      "environment": {
+        "platform": "x86_64-linux",
+        "cpu_model": "generic-16c",
+        "ram_gb": 64.0,
+        "tool": "verilator",
+        "tool_version": "5.020",
+        "os_release": "ubuntu-22.04"
+      },
+      "timestamp": "2026-09-12T01:00:00Z",
+      "artifact_url": "https://ci.example.org/artifacts/B/c3d4e5f",
+      "samples": [
+        {
+          "metric": "sim_runtime_s",
+          "value": 106.1065
+        },
+        {
+          "metric": "sim_runtime_s",
+          "value": 108.7573
+        },
+        {
+          "metric": "sim_runtime_s",
+          "value": 106.8295
+        },
+        {
+          "metric": "sim_runtime_s",
+          "value": 106.8994
+        },
+        {
+          "metric": "sim_runtime_s",
+          "value": 112.0959
+        },
+        {
+          "metric": "throughput_mops",
+          "value": 857.9992
+        },
+        {
+          "metric": "throughput_mops",
+          "value": 819.4663
+        },
+        {
+          "metric": "throughput_mops",
+          "value": 851.444
+        },
+        {
+          "metric": "throughput_mops",
+          "value": 826.8445
+        },
+        {
+          "metric": "throughput_mops",
+          "value": 848.322
+        },
+        {
+          "metric": "latency_ns",
+          "value": 41.092
+        },
+        {
+          "metric": "latency_ns",
+          "value": 42.4241
+        },
+        {
+          "metric": "latency_ns",
+          "value": 43.2085
+        },
+        {
+          "metric": "latency_ns",
+          "value": 41.5409
+        },
+        {
+          "metric": "latency_ns",
+          "value": 40.7848
+        }
+      ]
+    },
+    {
+      "schema_version": "1.0.0",
+      "run_id": "B-d4e5f6a",
+      "commit": "d4e5f6a",
+      "commit_order": 3,
+      "config": "opt3",
+      "workload": "random_rw",
+      "environment": {
+        "platform": "x86_64-linux",
+        "cpu_model": "generic-16c",
+        "ram_gb": 64.0,
+        "tool": "verilator",
+        "tool_version": "5.020",
+        "os_release": "ubuntu-22.04"
+      },
+      "timestamp": "2026-09-13T01:00:00Z",
+      "artifact_url": "https://ci.example.org/artifacts/B/d4e5f6a",
+      "samples": [
+        {
+          "metric": "sim_runtime_s",
+          "value": 110.8362
+        },
+        {
+          "metric": "sim_runtime_s",
+          "value": 110.8801
+        },
+        {
+          "metric": "sim_runtime_s",
+          "value": 104.1209
+        },
+        {
+          "metric": "sim_runtime_s",
+          "value": 110.131
+        },
+        {
+          "metric": "sim_runtime_s",
+          "value": 111.277
+        },
+        {
+          "metric": "throughput_mops",
+          "value": 842.6211
+        },
+        {
+          "metric": "throughput_mops",
+          "value": 837.6515
+        },
+        {
+          "metric": "throughput_mops",
+          "value": 820.9061
+        },
+        {
+          "metric": "throughput_mops",
+          "value": 804.8963
+        },
+        {
+          "metric": "throughput_mops",
+          "value": 837.0067
+        },
+        {
+          "metric": "latency_ns",
+          "value": 41.5632
+        },
+        {
+          "metric": "latency_ns",
+          "value": 40.5582
+        },
+        {
+          "metric": "latency_ns",
+          "value": 41.5382
+        },
+        {
+          "metric": "latency_ns",
+          "value": 42.4264
+        },
+        {
+          "metric": "latency_ns",
+          "value": 43.5392
+        }
+      ]
+    },
+    {
+      "schema_version": "1.0.0",
+      "run_id": "B-e5f6a7b",
+      "commit": "e5f6a7b",
+      "commit_order": 4,
+      "config": "opt3",
+      "workload": "random_rw",
+      "environment": {
+        "platform": "x86_64-linux",
+        "cpu_model": "generic-16c",
+        "ram_gb": 64.0,
+        "tool": "verilator",
+        "tool_version": "5.020",
+        "os_release": "ubuntu-22.04"
+      },
+      "timestamp": "2026-09-14T01:00:00Z",
+      "artifact_url": "https://ci.example.org/artifacts/B/e5f6a7b",
+      "samples": [
+        {
+          "metric": "sim_runtime_s",
+          "value": 106.8097
+        },
+        {
+          "metric": "sim_runtime_s",
+          "value": 111.4162
+        },
+        {
+          "metric": "sim_runtime_s",
+          "value": 107.4417
+        },
+        {
+          "metric": "sim_runtime_s",
+          "value": 108.1762
+        },
+        {
+          "metric": "sim_runtime_s",
+          "value": 104.8673
+        },
+        {
+          "metric": "throughput_mops",
+          "value": 1019.8009
+        },
+        {
+          "metric": "throughput_mops",
+          "value": 1033.6829
+        },
+        {
+          "metric": "throughput_mops",
+          "value": 984.981
+        },
+        {
+          "metric": "throughput_mops",
+          "value": 1027.5177
+        },
+        {
+          "metric": "throughput_mops",
+          "value": 1046.1324
+        },
+        {
+          "metric": "latency_ns",
+          "value": 36.1453
+        },
+        {
+          "metric": "latency_ns",
+          "value": 35.1592
+        },
+        {
+          "metric": "latency_ns",
+          "value": 35.8399
+        },
+        {
+          "metric": "latency_ns",
+          "value": 34.8694
+        },
+        {
+          "metric": "latency_ns",
+          "value": 33.0299
+        }
+      ]
+    },
+    {
+      "schema_version": "1.0.0",
+      "run_id": "C-a1b2c3d",
+      "commit": "a1b2c3d",
+      "commit_order": 0,
+      "config": "debug",
+      "workload": "smoke",
+      "environment": {
+        "platform": "x86_64-linux",
+        "cpu_model": "generic-16c",
+        "ram_gb": 64.0,
+        "tool": "verilator",
+        "tool_version": "5.020",
+        "os_release": "ubuntu-22.04"
+      },
+      "timestamp": "2026-09-10T02:00:00Z",
+      "artifact_url": "https://ci.example.org/artifacts/C/a1b2c3d",
+      "samples": [
+        {
+          "metric": "sim_runtime_s",
+          "value": 58.6147
+        },
+        {
+          "metric": "sim_runtime_s",
+          "value": 59.6213
+        },
+        {
+          "metric": "sim_runtime_s",
+          "value": 60.4697
+        },
+        {
+          "metric": "sim_runtime_s",
+          "value": 57.6556
+        },
+        {
+          "metric": "sim_runtime_s",
+          "value": 61.5678
+        },
+        {
+          "metric": "peak_memory_mb",
+          "value": 1415.7434
+        },
+        {
+          "metric": "peak_memory_mb",
+          "value": 1434.8058
+        },
+        {
+          "metric": "peak_memory_mb",
+          "value": 1428.9227
+        },
+        {
+          "metric": "peak_memory_mb",
+          "value": 1440.4994
+        },
+        {
+          "metric": "peak_memory_mb",
+          "value": 1441.0288
+        },
+        {
+          "metric": "coverage_rate_pct",
+          "value": 78.3722
+        },
+        {
+          "metric": "coverage_rate_pct",
+          "value": 78.4323
+        },
+        {
+          "metric": "coverage_rate_pct",
+          "value": 78.3027
+        },
+        {
+          "metric": "coverage_rate_pct",
+          "value": 77.8133
+        },
+        {
+          "metric": "coverage_rate_pct",
+          "value": 78.0214
+        }
+      ]
+    },
+    {
+      "schema_version": "1.0.0",
+      "run_id": "C-b2c3d4e",
+      "commit": "b2c3d4e",
+      "commit_order": 1,
+      "config": "debug",
+      "workload": "smoke",
+      "environment": {
+        "platform": "x86_64-linux",
+        "cpu_model": "generic-16c",
+        "ram_gb": 64.0,
+        "tool": "verilator",
+        "tool_version": "5.020",
+        "os_release": "ubuntu-22.04"
+      },
+      "timestamp": "2026-09-11T02:00:00Z",
+      "artifact_url": "https://ci.example.org/artifacts/C/b2c3d4e",
+      "samples": [
+        {
+          "metric": "sim_runtime_s",
+          "value": 60.2054
+        },
+        {
+          "metric": "sim_runtime_s",
+          "value": 60.3647
+        },
+        {
+          "metric": "sim_runtime_s",
+          "value": 57.9768
+        },
+        {
+          "metric": "sim_runtime_s",
+          "value": 59.1812
+        },
+        {
+          "metric": "sim_runtime_s",
+          "value": 60.9011
+        },
+        {
+          "metric": "peak_memory_mb",
+          "value": 1413.9531
+        },
+        {
+          "metric": "peak_memory_mb",
+          "value": 1433.3063
+        },
+        {
+          "metric": "peak_memory_mb",
+          "value": 1403.0651
+        },
+        {
+          "metric": "peak_memory_mb",
+          "value": 1439.1516
+        },
+        {
+          "metric": "peak_memory_mb",
+          "value": 1432.5796
+        },
+        {
+          "metric": "coverage_rate_pct",
+          "value": 78.1906
+        },
+        {
+          "metric": "coverage_rate_pct",
+          "value": 78.0075
+        },
+        {
+          "metric": "coverage_rate_pct",
+          "value": 78.1333
+        },
+        {
+          "metric": "coverage_rate_pct",
+          "value": 78.1461
+        },
+        {
+          "metric": "coverage_rate_pct",
+          "value": 77.3729
+        }
+      ]
+    },
+    {
+      "schema_version": "1.0.0",
+      "run_id": "C-c3d4e5f",
+      "commit": "c3d4e5f",
+      "commit_order": 2,
+      "config": "debug",
+      "workload": "smoke",
+      "environment": {
+        "platform": "x86_64-linux",
+        "cpu_model": "generic-16c",
+        "ram_gb": 64.0,
+        "tool": "verilator",
+        "tool_version": "5.020",
+        "os_release": "ubuntu-22.04"
+      },
+      "timestamp": "2026-09-12T02:00:00Z",
+      "artifact_url": "https://ci.example.org/artifacts/C/c3d4e5f",
+      "samples": [
+        {
+          "metric": "sim_runtime_s",
+          "value": 59.193
+        },
+        {
+          "metric": "sim_runtime_s",
+          "value": 60.7515
+        },
+        {
+          "metric": "sim_runtime_s",
+          "value": 59.6004
+        },
+        {
+          "metric": "sim_runtime_s",
+          "value": 60.4348
+        },
+        {
+          "metric": "sim_runtime_s",
+          "value": 60.1976
+        },
+        {
+          "metric": "peak_memory_mb",
+          "value": 1440.3949
+        },
+        {
+          "metric": "peak_memory_mb",
+          "value": 1429.9155
+        },
+        {
+          "metric": "peak_memory_mb",
+          "value": 1424.2197
+        },
+        {
+          "metric": "peak_memory_mb",
+          "value": 1430.6324
+        },
+        {
+          "metric": "peak_memory_mb",
+          "value": 1430.8823
+        },
+        {
+          "metric": "coverage_rate_pct",
+          "value": 77.1646
+        },
+        {
+          "metric": "coverage_rate_pct",
+          "value": 77.6505
+        },
+        {
+          "metric": "coverage_rate_pct",
+          "value": 77.5155
+        },
+        {
+          "metric": "coverage_rate_pct",
+          "value": 77.2514
+        },
+        {
+          "metric": "coverage_rate_pct",
+          "value": 78.1606
+        }
+      ]
+    },
+    {
+      "schema_version": "1.0.0",
+      "run_id": "C-d4e5f6a",
+      "commit": "d4e5f6a",
+      "commit_order": 3,
+      "config": "debug",
+      "workload": "smoke",
+      "environment": {
+        "platform": "x86_64-linux",
+        "cpu_model": "generic-16c",
+        "ram_gb": 64.0,
+        "tool": "verilator",
+        "tool_version": "5.020",
+        "os_release": "ubuntu-22.04"
+      },
+      "timestamp": "2026-09-13T02:00:00Z",
+      "artifact_url": "https://ci.example.org/artifacts/C/d4e5f6a",
+      "samples": [
+        {
+          "metric": "sim_runtime_s",
+          "value": 61.3461
+        },
+        {
+          "metric": "sim_runtime_s",
+          "value": 59.8477
+        },
+        {
+          "metric": "sim_runtime_s",
+          "value": 59.9474
+        },
+        {
+          "metric": "sim_runtime_s",
+          "value": 57.3103
+        },
+        {
+          "metric": "sim_runtime_s",
+          "value": 58.0388
+        },
+        {
+          "metric": "peak_memory_mb",
+          "value": 1432.7516
+        },
+        {
+          "metric": "peak_memory_mb",
+          "value": 1433.636
+        },
+        {
+          "metric": "peak_memory_mb",
+          "value": 1422.3792
+        },
+        {
+          "metric": "peak_memory_mb",
+          "value": 1424.3789
+        },
+        {
+          "metric": "peak_memory_mb",
+          "value": 1431.3707
+        },
+        {
+          "metric": "coverage_rate_pct",
+          "value": 78.1081
+        },
+        {
+          "metric": "coverage_rate_pct",
+          "value": 77.9976
+        },
+        {
+          "metric": "coverage_rate_pct",
+          "value": 77.4721
+        },
+        {
+          "metric": "coverage_rate_pct",
+          "value": 77.3998
+        },
+        {
+          "metric": "coverage_rate_pct",
+          "value": 78.1956
+        }
+      ]
+    },
+    {
+      "schema_version": "1.0.0",
+      "run_id": "C-e5f6a7b",
+      "commit": "e5f6a7b",
+      "commit_order": 4,
+      "config": "debug",
+      "workload": "smoke",
+      "environment": {
+        "platform": "x86_64-linux",
+        "cpu_model": "generic-16c",
+        "ram_gb": 64.0,
+        "tool": "verilator",
+        "tool_version": "5.020",
+        "os_release": "ubuntu-22.04"
+      },
+      "timestamp": "2026-09-14T02:00:00Z",
+      "artifact_url": "https://ci.example.org/artifacts/C/e5f6a7b",
+      "samples": [
+        {
+          "metric": "sim_runtime_s",
+          "value": 59.5658
+        },
+        {
+          "metric": "sim_runtime_s",
+          "value": 58.7655
+        },
+        {
+          "metric": "sim_runtime_s",
+          "value": 60.5547
+        },
+        {
+          "metric": "sim_runtime_s",
+          "value": 60.124
+        },
+        {
+          "metric": "sim_runtime_s",
+          "value": 59.0589
+        },
+        {
+          "metric": "peak_memory_mb",
+          "value": 1427.7625
+        },
+        {
+          "metric": "peak_memory_mb",
+          "value": 1441.233
+        },
+        {
+          "metric": "peak_memory_mb",
+          "value": 1402.7048
+        },
+        {
+          "metric": "peak_memory_mb",
+          "value": 1438.4159
+        },
+        {
+          "metric": "peak_memory_mb",
+          "value": 1451.1035
+        },
+        {
+          "metric": "coverage_rate_pct",
+          "value": 78.4777
+        },
+        {
+          "metric": "coverage_rate_pct",
+          "value": 78.0181
+        },
+        {
+          "metric": "coverage_rate_pct",
+          "value": 78.6811
+        },
+        {
+          "metric": "coverage_rate_pct",
+          "value": 77.746
+        },
+        {
+          "metric": "coverage_rate_pct",
+          "value": 78.161
+        }
+      ]
+    },
+    {
+      "schema_version": "1.0.0",
+      "run_id": "D-a1b2c3d",
+      "commit": "a1b2c3d",
+      "commit_order": 0,
+      "config": "synth",
+      "workload": "top_build",
+      "environment": {
+        "platform": "fpga-u250",
+        "cpu_model": "generic-16c",
+        "ram_gb": 64.0,
+        "tool": "vivado",
+        "tool_version": "2023.2",
+        "os_release": "ubuntu-22.04"
+      },
+      "timestamp": "2026-09-10T03:00:00Z",
+      "artifact_url": "https://ci.example.org/artifacts/D/a1b2c3d",
+      "samples": [
+        {
+          "metric": "fpga_fmax_mhz",
+          "value": 300.1886
+        },
+        {
+          "metric": "fpga_fmax_mhz",
+          "value": 299.0703
+        },
+        {
+          "metric": "fpga_fmax_mhz",
+          "value": 298.1113
+        },
+        {
+          "metric": "fpga_fmax_mhz",
+          "value": 299.983
+        },
+        {
+          "metric": "fpga_fmax_mhz",
+          "value": 297.4477
+        },
+        {
+          "metric": "fpga_lut_util_pct",
+          "value": 55.5332
+        },
+        {
+          "metric": "fpga_lut_util_pct",
+          "value": 53.8341
+        },
+        {
+          "metric": "fpga_lut_util_pct",
+          "value": 55.3374
+        },
+        {
+          "metric": "fpga_lut_util_pct",
+          "value": 54.9904
+        },
+        {
+          "metric": "fpga_lut_util_pct",
+          "value": 54.9417
+        },
+        {
+          "metric": "formal_runtime_s",
+          "value": 317.0322
+        },
+        {
+          "metric": "formal_runtime_s",
+          "value": 302.1445
+        },
+        {
+          "metric": "formal_runtime_s",
+          "value": 290.1389
+        },
+        {
+          "metric": "formal_runtime_s",
+          "value": 291.2129
+        },
+        {
+          "metric": "formal_runtime_s",
+          "value": 297.4236
+        }
+      ]
+    },
+    {
+      "schema_version": "1.0.0",
+      "run_id": "D-b2c3d4e",
+      "commit": "b2c3d4e",
+      "commit_order": 1,
+      "config": "synth",
+      "workload": "top_build",
+      "environment": {
+        "platform": "fpga-u250",
+        "cpu_model": "generic-16c",
+        "ram_gb": 64.0,
+        "tool": "vivado",
+        "tool_version": "2023.2",
+        "os_release": "ubuntu-22.04"
+      },
+      "timestamp": "2026-09-11T03:00:00Z",
+      "artifact_url": "https://ci.example.org/artifacts/D/b2c3d4e",
+      "samples": [
+        {
+          "metric": "fpga_fmax_mhz",
+          "value": 300.4004
+        },
+        {
+          "metric": "fpga_fmax_mhz",
+          "value": 295.3792
+        },
+        {
+          "metric": "fpga_fmax_mhz",
+          "value": 294.6317
+        },
+        {
+          "metric": "fpga_fmax_mhz",
+          "value": 304.3941
+        },
+        {
+          "metric": "fpga_fmax_mhz",
+          "value": 296.8696
+        },
+        {
+          "metric": "fpga_lut_util_pct",
+          "value": 55.1547
+        },
+        {
+          "metric": "fpga_lut_util_pct",
+          "value": 55.5794
+        },
+        {
+          "metric": "fpga_lut_util_pct",
+          "value": 55.2199
+        },
+        {
+          "metric": "fpga_lut_util_pct",
+          "value": 55.4957
+        },
+        {
+          "metric": "fpga_lut_util_pct",
+          "value": 54.4662
+        },
+        {
+          "metric": "formal_runtime_s",
+          "value": 288.0904
+        },
+        {
+          "metric": "formal_runtime_s",
+          "value": 297.7994
+        },
+        {
+          "metric": "formal_runtime_s",
+          "value": 305.2824
+        },
+        {
+          "metric": "formal_runtime_s",
+          "value": 291.8534
+        },
+        {
+          "metric": "formal_runtime_s",
+          "value": 285.6246
+        }
+      ]
+    },
+    {
+      "schema_version": "1.0.0",
+      "run_id": "D-c3d4e5f",
+      "commit": "c3d4e5f",
+      "commit_order": 2,
+      "config": "synth",
+      "workload": "top_build",
+      "environment": {
+        "platform": "fpga-u250",
+        "cpu_model": "generic-16c",
+        "ram_gb": 64.0,
+        "tool": "vivado",
+        "tool_version": "2023.2",
+        "os_release": "ubuntu-22.04"
+      },
+      "timestamp": "2026-09-12T03:00:00Z",
+      "artifact_url": "https://ci.example.org/artifacts/D/c3d4e5f",
+      "samples": [
+        {
+          "metric": "fpga_fmax_mhz",
+          "value": 304.7822
+        },
+        {
+          "metric": "fpga_fmax_mhz",
+          "value": 304.0958
+        },
+        {
+          "metric": "fpga_fmax_mhz",
+          "value": 300.667
+        },
+        {
+          "metric": "fpga_fmax_mhz",
+          "value": 299.3891
+        },
+        {
+          "metric": "fpga_fmax_mhz",
+          "value": 299.6951
+        },
+        {
+          "metric": "fpga_lut_util_pct",
+          "value": 55.103
+        },
+        {
+          "metric": "fpga_lut_util_pct",
+          "value": 55.2623
+        },
+        {
+          "metric": "fpga_lut_util_pct",
+          "value": 55.321
+        },
+        {
+          "metric": "fpga_lut_util_pct",
+          "value": 54.6497
+        },
+        {
+          "metric": "fpga_lut_util_pct",
+          "value": 56.1621
+        },
+        {
+          "metric": "formal_runtime_s",
+          "value": 305.1018
+        },
+        {
+          "metric": "formal_runtime_s",
+          "value": 304.5743
+        },
+        {
+          "metric": "formal_runtime_s",
+          "value": 292.5453
+        },
+        {
+          "metric": "formal_runtime_s",
+          "value": 310.7945
+        },
+        {
+          "metric": "formal_runtime_s",
+          "value": 293.1265
+        }
+      ]
+    },
+    {
+      "schema_version": "1.0.0",
+      "run_id": "D-d4e5f6a",
+      "commit": "d4e5f6a",
+      "commit_order": 3,
+      "config": "synth",
+      "workload": "top_build",
+      "environment": {
+        "platform": "fpga-u250",
+        "cpu_model": "generic-16c",
+        "ram_gb": 64.0,
+        "tool": "vivado",
+        "tool_version": "2023.2",
+        "os_release": "ubuntu-22.04"
+      },
+      "timestamp": "2026-09-13T03:00:00Z",
+      "artifact_url": "https://ci.example.org/artifacts/D/d4e5f6a",
+      "samples": [
+        {
+          "metric": "fpga_fmax_mhz",
+          "value": 299.9921
+        },
+        {
+          "metric": "fpga_fmax_mhz",
+          "value": 300.8312
+        },
+        {
+          "metric": "fpga_fmax_mhz",
+          "value": 300.34
+        },
+        {
+          "metric": "fpga_fmax_mhz",
+          "value": 302.0304
+        },
+        {
+          "metric": "fpga_fmax_mhz",
+          "value": 305.9735
+        },
+        {
+          "metric": "fpga_lut_util_pct",
+          "value": 55.1904
+        },
+        {
+          "metric": "fpga_lut_util_pct",
+          "value": 55.367
+        },
+        {
+          "metric": "fpga_lut_util_pct",
+          "value": 54.5255
+        },
+        {
+          "metric": "fpga_lut_util_pct",
+          "value": 55.4085
+        },
+        {
+          "metric": "fpga_lut_util_pct",
+          "value": 55.2232
+        },
+        {
+          "metric": "formal_runtime_s",
+          "value": 280.0984
+        },
+        {
+          "metric": "formal_runtime_s",
+          "value": 290.4937
+        },
+        {
+          "metric": "formal_runtime_s",
+          "value": 294.2967
+        },
+        {
+          "metric": "formal_runtime_s",
+          "value": 294.3279
+        },
+        {
+          "metric": "formal_runtime_s",
+          "value": 293.599
+        }
+      ]
+    },
+    {
+      "schema_version": "1.0.0",
+      "run_id": "D-e5f6a7b",
+      "commit": "e5f6a7b",
+      "commit_order": 4,
+      "config": "synth",
+      "workload": "top_build",
+      "environment": {
+        "platform": "fpga-u250",
+        "cpu_model": "generic-16c",
+        "ram_gb": 64.0,
+        "tool": "vivado",
+        "tool_version": "2023.2",
+        "os_release": "ubuntu-22.04"
+      },
+      "timestamp": "2026-09-14T03:00:00Z",
+      "artifact_url": "https://ci.example.org/artifacts/D/e5f6a7b",
+      "samples": [
+        {
+          "metric": "fpga_fmax_mhz",
+          "value": 301.4221
+        },
+        {
+          "metric": "fpga_fmax_mhz",
+          "value": 300.3997
+        },
+        {
+          "metric": "fpga_fmax_mhz",
+          "value": 302.4071
+        },
+        {
+          "metric": "fpga_fmax_mhz",
+          "value": 303.802
+        },
+        {
+          "metric": "fpga_fmax_mhz",
+          "value": 301.3649
+        },
+        {
+          "metric": "fpga_lut_util_pct",
+          "value": 53.8868
+        },
+        {
+          "metric": "fpga_lut_util_pct",
+          "value": 56.0903
+        },
+        {
+          "metric": "fpga_lut_util_pct",
+          "value": 54.9389
+        },
+        {
+          "metric": "fpga_lut_util_pct",
+          "value": 54.9476
+        },
+        {
+          "metric": "fpga_lut_util_pct",
+          "value": 55.3912
+        },
+        {
+          "metric": "formal_runtime_s",
+          "value": 285.4784
+        },
+        {
+          "metric": "formal_runtime_s",
+          "value": 336.793
+        },
+        {
+          "metric": "formal_runtime_s",
+          "value": 312.5528
+        },
+        {
+          "metric": "formal_runtime_s",
+          "value": 320.0569
+        },
+        {
+          "metric": "formal_runtime_s",
+          "value": 306.1914
+        },
+        {
+          "metric": "fpga_fmax_mhz",
+          "value": 150.0
+        }
+      ]
+    }
+  ]
+}

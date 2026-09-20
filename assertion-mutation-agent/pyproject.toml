@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "assertion-mutation-agent"
+version = "0.1.0"
+description = "Source-mutation-based SVA property-quality scoring for a constrained Verilog subset (mock executor)."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "Verification Agent Portfolio" }]
+keywords = ["verilog", "sva", "mutation-testing", "formal-verification", "rtl"]
+dependencies = [
+    "pydantic>=2.5,<3",
+    "typer>=0.9,<1",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4",
+    "ruff>=0.5",
+]
+
+[project.scripts]
+assertion-mutation-agent = "assertion_mutation_agent.cli:main"
+ama = "assertion_mutation_agent.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+assertion_mutation_agent = ["py.typed"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "W"]
+ignore = ["B008"]  # Typer uses function-call defaults (typer.Argument/Option)
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"

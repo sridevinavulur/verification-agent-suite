@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Counterexample Triage Report — fifo_ctrl</title>
+<style>
+  body{font-family:'Segoe UI',Arial,sans-serif;background:#f5f7fa;margin:0;padding:0;color:#222}
+  .header{background:linear-gradient(135deg,#1a237e,#283593);color:#fff;padding:28px 40px}
+  .header h1{margin:0;font-size:26px;letter-spacing:.4px}
+  .header .sub{font-size:13px;opacity:.85;margin-top:6px}
+  .container{max-width:1200px;margin:0 auto;padding:24px 40px}
+  .tiles{display:flex;flex-wrap:wrap;gap:16px;margin-bottom:24px}
+  .tile{background:#fff;border-radius:10px;padding:18px 22px;min-width:130px;
+        box-shadow:0 2px 8px rgba(0,0,0,.09);text-align:center}
+  .tile .val{font-size:30px;font-weight:700;color:#1a237e;margin:2px 0}
+  .tile .lbl{font-size:11px;color:#666;text-transform:uppercase;letter-spacing:.4px}
+  .card{background:#fff;border-radius:10px;padding:20px 24px;margin-bottom:22px;
+        box-shadow:0 2px 8px rgba(0,0,0,.09)}
+  .card h2{margin:0 0 14px;font-size:18px;color:#1a237e;
+           border-bottom:2px solid #e8eaf6;padding-bottom:8px}
+  .card h3{font-size:14px;color:#283593;margin:14px 0 6px}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th{background:#e8eaf6;color:#283593;text-align:left;padding:8px 12px}
+  td{padding:8px 12px;border-bottom:1px solid #f0f0f0;vertical-align:top}
+  tr:hover td{background:#fafafa}
+  code{background:#f0f0f5;padding:1px 4px;border-radius:3px}
+  footer{text-align:center;font-size:12px;color:#999;padding:20px}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>Counterexample Triage Report — fifo_ctrl</h1>
+  <div class="sub">Formal property failures, classified &nbsp;|&nbsp; Tool: counterexample-triage-agent &nbsp;|&nbsp; Generated: 2026-09-20T11:30:00Z &nbsp;|&nbsp; SHA: def5678</div>
+</div>
+<div class="container">
+<div class="tiles">
+<div class="tile"><div class="val">4</div><div class="lbl">Findings</div></div>
+<div class="tile"><div class="val">1</div><div class="lbl">Critical</div><div style="margin-top:6px"><span style="background:#f44336;color:#fff;padding:2px 8px;border-radius:10px;font-size:11px;white-space:nowrap">FAIL</span></div></div>
+<div class="tile"><div class="val">12</div><div class="lbl">Properties</div></div>
+<div class="tile"><div class="val">8</div><div class="lbl">Proven</div><div style="margin-top:6px"><span style="background:#4CAF50;color:#fff;padding:2px 8px;border-radius:10px;font-size:11px;white-space:nowrap">PASS</span></div></div>
+</div>
+<div class="card"><h2>Summary <span style="background:#f44336;color:#fff;padding:2px 8px;border-radius:10px;font-size:11px;white-space:nowrap">FAIL</span></h2>
+<p style="font-size:13px;line-height:1.6">8 of 12 properties were PROVEN. 4 produced counterexamples and are classified below. No result was upgraded to PASS from a TIMEOUT or INCONCLUSIVE outcome.</p>
+<ul style="font-size:13px;line-height:1.7"><li>1 critical: real design bug (overflow write).</li><li>1 high: likely design bug, needs designer confirm.</li><li>2 low/info: over-constrained property (spec gap).</li></ul>
+</div>
+<div class="card"><h2>Property Outcomes</h2><table><tr><th>Property</th><th>Result</th><th>Depth</th></tr>
+<tr><td>p_no_overflow</td><td>FAIL</td><td>7</td></tr>
+<tr><td>p_empty_after_reset</td><td>FAIL</td><td>2</td></tr>
+<tr><td>p_fair_grant</td><td>COMPILED</td><td>20 (bound)</td></tr>
+<tr><td>p_ptr_wrap</td><td>PASS</td><td>full</td></tr>
+</table><p style="font-size:12px;color:#666;margin-top:8px">Result vocabulary per BUILD_STANDARD.md.</p></div>
+<div class="card"><h2>Findings</h2><table><tr><th>ID</th><th>Severity</th><th>Category</th><th>Detail</th><th>Status</th></tr>
+<tr><td><code>CEX-1</code></td><td><span style="background:#b71c1c;color:#fff;padding:1px 8px;border-radius:8px;font-size:11px;text-transform:uppercase">critical</span></td><td>design-bug</td><td style="max-width:520px"><b>FIFO write accepted while full — data overwrite</b><br>wr_en asserted with full=1 overwrites tail entry.<br><i style="color:#555">Fix: Gate wr_en with !full in the write path.</i><br><code style="font-size:11px">fifo_ctrl.sv:88</code></td><td><span style="background:#f44336;color:#fff;padding:2px 8px;border-radius:10px;font-size:11px;white-space:nowrap">FAIL</span></td></tr>
+<tr><td><code>CEX-2</code></td><td><span style="background:#f44336;color:#fff;padding:1px 8px;border-radius:8px;font-size:11px;text-transform:uppercase">high</span></td><td>design-bug</td><td style="max-width:520px"><b>Empty flag deasserts one cycle late after reset</b><br>empty stays low for 1 cycle post-reset.<br><code style="font-size:11px">fifo_ctrl.sv:51</code></td><td><span style="background:#f44336;color:#fff;padding:2px 8px;border-radius:10px;font-size:11px;white-space:nowrap">FAIL</span></td></tr>
+<tr><td><code>CEX-3</code></td><td><span style="background:#3b82f6;color:#fff;padding:1px 8px;border-radius:8px;font-size:11px;text-transform:uppercase">low</span></td><td>spec-gap</td><td style="max-width:520px"><b>Property assumes single-clock; DUT is dual-clock</b> <span style="background:#607d8b;color:#fff;padding:0 6px;border-radius:6px;font-size:10px">HEURISTIC</span><br>Over-constrained assumption; not a design bug.</td><td><span style="background:#9E9E9E;color:#fff;padding:2px 8px;border-radius:10px;font-size:11px;white-space:nowrap">INCONCLUSIVE</span></td></tr>
+<tr><td><code>CEX-4</code></td><td><span style="background:#9E9E9E;color:#fff;padding:1px 8px;border-radius:8px;font-size:11px;text-transform:uppercase">info</span></td><td>proof-scope</td><td style="max-width:520px"><b>Liveness property compiled but not proven (bound reached)</b><br>Bounded proof hit depth limit; not a sound pass.</td><td><span style="background:#607d8b;color:#fff;padding:2px 8px;border-radius:10px;font-size:11px;white-space:nowrap">COMPILED</span></td></tr>
+</table></div>
+<div class="card"><h2>Run Provenance</h2><table><tr><td><b>Tool</b></td><td>counterexample-triage-agent</td></tr>
+<tr><td><b>Version</b></td><td>0.2.0</td></tr>
+<tr><td><b>Git SHA</b></td><td>def5678</td></tr>
+<tr><td><b>Command</b></td><td>cxt triage --cex cex_dump/</td></tr>
+<tr><td><b>Seed</b></td><td>n/a</td></tr>
+<tr><td><b>Status</b></td><td>FAIL</td></tr>
+<tr><td><b>Runtime (s)</b></td><td>37.2</td></tr>
+<tr><td><b>Timestamp</b></td><td>2026-09-20T11:30:00Z</td></tr></table></div>
+</div>
+<footer>Generated by verification-report-kit &mdash; schema v1.0</footer>
+</body>
+</html>

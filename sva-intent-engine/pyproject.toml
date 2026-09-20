@@ -1,0 +1,51 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sva-intent-engine"
+version = "0.1.0"
+description = "Evidence-grounded candidate SystemVerilog Assertion generation and review (deterministic core)."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "sva-intent-engine contributors" }]
+keywords = ["sva", "systemverilog", "assertions", "formal", "verification", "rtl"]
+dependencies = [
+    "pydantic>=2.6,<3",
+    "typer>=0.12,<1",
+    "PyYAML>=6.0,<7",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.5",
+    "mypy>=1.8",
+]
+
+[project.scripts]
+sva-intent = "sva_intent_engine.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W", "UP", "B", "C4"]
+ignore = [
+    "B008",   # typer uses function-call defaults (typer.Argument/Option)
+    "UP042",  # (str, Enum) is intentional for stable JSON serialization
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.mypy]
+python_version = "3.11"
+ignore_missing_imports = true

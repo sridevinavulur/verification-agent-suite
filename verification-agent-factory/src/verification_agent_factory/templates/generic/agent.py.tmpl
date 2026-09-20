@@ -1,0 +1,52 @@
+"""Deterministic agent core for {{ display_name }} (generic skeleton).
+
+This category does not yet ship a full domain template. The core validates a
+typed input, echoes a structured, provenance-stamped result, and refuses to
+classify anything as PASS without domain-specific validation.
+
+TODO (roadmap): implement the {{ category }} domain logic (deterministic checks
+first, optional LLM proposal layer second).
+"""
+
+from __future__ import annotations
+
+import hashlib
+import json
+from dataclasses import dataclass
+
+from .models import ProvenanceRecord, ResultStatus, SymbolTable
+
+TOOL_NAME = "{{ agent_id }}"
+TOOL_VERSION = "{{ version }}"
+
+
+@dataclass
+class AgentResult:
+    status: ResultStatus
+    summary: str
+    provenance: ProvenanceRecord
+
+    def to_dict(self) -> dict:
+        return {
+            "status": self.status.value,
+            "summary": self.summary,
+            "provenance": self.provenance.model_dump(mode="json"),
+        }
+
+
+def analyze(symbols: SymbolTable, *, seed: int = 0, command: str = "") -> AgentResult:
+    """Deterministically summarise the input. Never returns PASS (out of scope)."""
+    blob = json.dumps(symbols.model_dump(mode="json"), sort_keys=True)
+    prov = ProvenanceRecord(
+        tool=TOOL_NAME,
+        tool_version=TOOL_VERSION,
+        llm_model="mock-llm-deterministic-v1",
+        seed=seed,
+        input_sha256=hashlib.sha256(blob.encode()).hexdigest(),
+        command=command,
+    )
+    summary = (
+        f"design_top={symbols.design_top}, symbols={len(symbols.symbols)}, "
+        f"clocks={len(symbols.clock_candidates)}, resets={len(symbols.reset_candidates)}"
+    )
+    return AgentResult(status=ResultStatus.UNKNOWN, summary=summary, provenance=prov)

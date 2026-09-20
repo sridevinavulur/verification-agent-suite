@@ -1,0 +1,40 @@
+[
+  {
+    "ambiguities": [],
+    "antecedent": "empty",
+    "clause_id": "fifo_underflow.c0",
+    "clock_signal": "clk",
+    "confidence": 0.85,
+    "consequent": "!underflow",
+    "design_top": "fifo",
+    "disable_condition": null,
+    "environmental_assumptions": [],
+    "implication_style": "non_overlapping",
+    "max_delay": 1,
+    "min_delay": 1,
+    "property_form": "no_underflow",
+    "property_kind": "assert",
+    "referenced_symbols": [
+      {
+        "file": "fifo.sv",
+        "line": 9,
+        "name": "empty",
+        "symbol_id": "s_empty"
+      },
+      {
+        "file": "fifo.sv",
+        "line": 21,
+        "name": "underflow",
+        "symbol_id": "s_unf"
+      }
+    ],
+    "render_template_id": "no_underflow",
+    "requirement_id": "fifo_underflow",
+    "reset_polarity": "active_low",
+    "reset_signal": "rst_n",
+    "reviewer_status": "unreviewed",
+    "source_text": "When empty is high, underflow must be low on the next cycle.",
+    "temporal_strength": "weak",
+    "validation_checks": []
+  }
+]

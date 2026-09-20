@@ -1,0 +1,403 @@
+{
+  "schema_version": "0.1.0",
+  "suite_id": "public-toy-v1",
+  "description": "Public synthetic toy benchmark suite for the Formal Run Orchestrator. No proprietary RTL; SHAs are placeholders.",
+  "items": [
+    {
+      "benchmark_id": "cnt_no_overflow",
+      "design_name": "counter",
+      "design_sha": "sha256:efe899c74558",
+      "property": {
+        "property_id": "p_no_overflow",
+        "kind": "assert",
+        "description": "count never exceeds max"
+      },
+      "property_sha": "sha256:4eb7d8350e06",
+      "group": "counter",
+      "rtl_lines": 60,
+      "register_count": 8,
+      "coi_size": 20,
+      "max_depth_hint": 8,
+      "intrinsic_difficulty": 0.05,
+      "is_holds": true
+    },
+    {
+      "benchmark_id": "cnt_wrap_bug",
+      "design_name": "counter_buggy",
+      "design_sha": "sha256:fefcf282d00d",
+      "property": {
+        "property_id": "p_wrap_correct",
+        "kind": "assert",
+        "description": "wrap-around is off-by-one (counterexample expected)"
+      },
+      "property_sha": "sha256:6f86df02e1ec",
+      "group": "counter",
+      "rtl_lines": 62,
+      "register_count": 8,
+      "coi_size": 22,
+      "max_depth_hint": 6,
+      "intrinsic_difficulty": 0.06,
+      "is_holds": false
+    },
+    {
+      "benchmark_id": "cnt_reset_state",
+      "design_name": "counter",
+      "design_sha": "sha256:efe899c74558",
+      "property": {
+        "property_id": "p_reset_zero",
+        "kind": "assert",
+        "description": "count == 0 after reset"
+      },
+      "property_sha": "sha256:027aa94b8be8",
+      "group": "counter",
+      "rtl_lines": 60,
+      "register_count": 8,
+      "coi_size": 15,
+      "max_depth_hint": 3,
+      "intrinsic_difficulty": 0.03,
+      "is_holds": true
+    },
+    {
+      "benchmark_id": "fifo_no_overflow",
+      "design_name": "sync_fifo",
+      "design_sha": "sha256:92c0eaf8962f",
+      "property": {
+        "property_id": "p_no_overflow",
+        "kind": "assert",
+        "description": "wr_ptr never passes rd_ptr by depth"
+      },
+      "property_sha": "sha256:c3922817562d",
+      "group": "fifo",
+      "rtl_lines": 180,
+      "register_count": 40,
+      "coi_size": 160,
+      "max_depth_hint": 40,
+      "intrinsic_difficulty": 0.35,
+      "is_holds": true
+    },
+    {
+      "benchmark_id": "fifo_no_underflow_bug",
+      "design_name": "sync_fifo_buggy",
+      "design_sha": "sha256:808f246f7840",
+      "property": {
+        "property_id": "p_no_underflow",
+        "kind": "assert",
+        "description": "empty read not gated (counterexample expected)"
+      },
+      "property_sha": "sha256:96446ee89c4d",
+      "group": "fifo",
+      "rtl_lines": 182,
+      "register_count": 40,
+      "coi_size": 165,
+      "max_depth_hint": 20,
+      "intrinsic_difficulty": 0.3,
+      "is_holds": false
+    },
+    {
+      "benchmark_id": "fifo_cover_full",
+      "design_name": "sync_fifo",
+      "design_sha": "sha256:92c0eaf8962f",
+      "property": {
+        "property_id": "c_reaches_full",
+        "kind": "cover",
+        "description": "cover: fifo becomes full"
+      },
+      "property_sha": "sha256:38cb152ee332",
+      "group": "fifo",
+      "rtl_lines": 180,
+      "register_count": 40,
+      "coi_size": 150,
+      "max_depth_hint": 32,
+      "intrinsic_difficulty": 0.28,
+      "is_holds": true
+    },
+    {
+      "benchmark_id": "arb_mutex",
+      "design_name": "rr_arbiter",
+      "design_sha": "sha256:8399146e77ef",
+      "property": {
+        "property_id": "p_one_hot_grant",
+        "kind": "assert",
+        "description": "at most one grant asserted"
+      },
+      "property_sha": "sha256:281b540439cd",
+      "group": "arbiter",
+      "rtl_lines": 240,
+      "register_count": 90,
+      "coi_size": 320,
+      "max_depth_hint": 70,
+      "intrinsic_difficulty": 0.55,
+      "is_holds": true
+    },
+    {
+      "benchmark_id": "arb_no_starve",
+      "design_name": "rr_arbiter",
+      "design_sha": "sha256:8399146e77ef",
+      "property": {
+        "property_id": "p_eventually_grant",
+        "kind": "assert",
+        "description": "round-robin: each requester eventually granted"
+      },
+      "property_sha": "sha256:1bb0004cc87a",
+      "group": "arbiter",
+      "rtl_lines": 245,
+      "register_count": 95,
+      "coi_size": 340,
+      "max_depth_hint": 110,
+      "intrinsic_difficulty": 0.75,
+      "is_holds": true
+    },
+    {
+      "benchmark_id": "hs_stable",
+      "design_name": "valid_ready",
+      "design_sha": "sha256:252b89f0c97b",
+      "property": {
+        "property_id": "p_data_stable",
+        "kind": "assert",
+        "description": "data stable while valid && !ready"
+      },
+      "property_sha": "sha256:3fd456adc869",
+      "group": "handshake",
+      "rtl_lines": 90,
+      "register_count": 16,
+      "coi_size": 45,
+      "max_depth_hint": 5,
+      "intrinsic_difficulty": 0.12,
+      "is_holds": true
+    },
+    {
+      "benchmark_id": "hs_no_drop_bug",
+      "design_name": "valid_ready_buggy",
+      "design_sha": "sha256:465e1cbd2989",
+      "property": {
+        "property_id": "p_no_drop",
+        "kind": "assert",
+        "description": "valid dropped before ready (counterexample expected)"
+      },
+      "property_sha": "sha256:a80831b7351e",
+      "group": "handshake",
+      "rtl_lines": 92,
+      "register_count": 16,
+      "coi_size": 48,
+      "max_depth_hint": 4,
+      "intrinsic_difficulty": 0.1,
+      "is_holds": false
+    },
+    {
+      "benchmark_id": "alu_add_comm",
+      "design_name": "alu",
+      "design_sha": "sha256:5cbb90f59409",
+      "property": {
+        "property_id": "p_add_commutes",
+        "kind": "assert",
+        "description": "a+b == b+a for all inputs (hard, likely deep/unbounded)"
+      },
+      "property_sha": "sha256:8dd796ea0d3c",
+      "group": "alu",
+      "rtl_lines": 300,
+      "register_count": 64,
+      "coi_size": 480,
+      "max_depth_hint": 150,
+      "intrinsic_difficulty": 0.9,
+      "is_holds": true
+    },
+    {
+      "benchmark_id": "alu_shift_bug",
+      "design_name": "alu_buggy",
+      "design_sha": "sha256:d3d5ae5be8aa",
+      "property": {
+        "property_id": "p_shift_correct",
+        "kind": "assert",
+        "description": "barrel shifter mask bug (shallow counterexample)"
+      },
+      "property_sha": "sha256:cf36f8f2ab91",
+      "group": "alu",
+      "rtl_lines": 305,
+      "register_count": 64,
+      "coi_size": 470,
+      "max_depth_hint": 18,
+      "intrinsic_difficulty": 0.6,
+      "is_holds": false
+    },
+    {
+      "benchmark_id": "shift_rot_inv",
+      "design_name": "barrel_shifter",
+      "design_sha": "sha256:60547f7bacf3",
+      "property": {
+        "property_id": "p_rotate_inverse",
+        "kind": "assert",
+        "description": "rotate-left then rotate-right is identity"
+      },
+      "property_sha": "sha256:39ca264d4128",
+      "group": "shifter",
+      "rtl_lines": 120,
+      "register_count": 24,
+      "coi_size": 90,
+      "max_depth_hint": 12,
+      "intrinsic_difficulty": 0.2,
+      "is_holds": true
+    },
+    {
+      "benchmark_id": "shift_sat_bug",
+      "design_name": "barrel_shifter_buggy",
+      "design_sha": "sha256:f9f63b546b0f",
+      "property": {
+        "property_id": "p_no_sign_leak",
+        "kind": "assert",
+        "description": "arithmetic shift sign leak (counterexample expected)"
+      },
+      "property_sha": "sha256:f7569986fea5",
+      "group": "shifter",
+      "rtl_lines": 122,
+      "register_count": 24,
+      "coi_size": 95,
+      "max_depth_hint": 7,
+      "intrinsic_difficulty": 0.18,
+      "is_holds": false
+    },
+    {
+      "benchmark_id": "shift_cover_max",
+      "design_name": "barrel_shifter",
+      "design_sha": "sha256:60547f7bacf3",
+      "property": {
+        "property_id": "c_max_shift",
+        "kind": "cover",
+        "description": "cover: maximum shift amount reached"
+      },
+      "property_sha": "sha256:7731a8e83e33",
+      "group": "shifter",
+      "rtl_lines": 120,
+      "register_count": 24,
+      "coi_size": 88,
+      "max_depth_hint": 16,
+      "intrinsic_difficulty": 0.22,
+      "is_holds": true
+    },
+    {
+      "benchmark_id": "crc_reset",
+      "design_name": "crc32",
+      "design_sha": "sha256:214a3e690516",
+      "property": {
+        "property_id": "p_reset_seed",
+        "kind": "assert",
+        "description": "crc register loads seed on reset"
+      },
+      "property_sha": "sha256:1d42c870e576",
+      "group": "crc",
+      "rtl_lines": 160,
+      "register_count": 32,
+      "coi_size": 130,
+      "max_depth_hint": 4,
+      "intrinsic_difficulty": 0.15,
+      "is_holds": true
+    },
+    {
+      "benchmark_id": "crc_stable",
+      "design_name": "crc32",
+      "design_sha": "sha256:214a3e690516",
+      "property": {
+        "property_id": "p_no_update_when_idle",
+        "kind": "assert",
+        "description": "crc holds value while enable deasserted"
+      },
+      "property_sha": "sha256:4f3560363b15",
+      "group": "crc",
+      "rtl_lines": 162,
+      "register_count": 32,
+      "coi_size": 135,
+      "max_depth_hint": 25,
+      "intrinsic_difficulty": 0.45,
+      "is_holds": true
+    },
+    {
+      "benchmark_id": "crc_poly_bug",
+      "design_name": "crc32_buggy",
+      "design_sha": "sha256:23c248be302e",
+      "property": {
+        "property_id": "p_poly_correct",
+        "kind": "assert",
+        "description": "wrong polynomial tap (counterexample expected)"
+      },
+      "property_sha": "sha256:3a668d4d98ab",
+      "group": "crc",
+      "rtl_lines": 165,
+      "register_count": 32,
+      "coi_size": 140,
+      "max_depth_hint": 22,
+      "intrinsic_difficulty": 0.5,
+      "is_holds": false
+    },
+    {
+      "benchmark_id": "stack_no_overflow",
+      "design_name": "lifo_stack",
+      "design_sha": "sha256:5a4bddc0cd53",
+      "property": {
+        "property_id": "p_no_overflow",
+        "kind": "assert",
+        "description": "stack pointer never exceeds depth"
+      },
+      "property_sha": "sha256:d7f4435b0ca7",
+      "group": "stack",
+      "rtl_lines": 140,
+      "register_count": 36,
+      "coi_size": 120,
+      "max_depth_hint": 34,
+      "intrinsic_difficulty": 0.3,
+      "is_holds": true
+    },
+    {
+      "benchmark_id": "stack_no_underflow_bug",
+      "design_name": "lifo_stack_buggy",
+      "design_sha": "sha256:676410e96c77",
+      "property": {
+        "property_id": "p_no_underflow",
+        "kind": "assert",
+        "description": "pop when empty not gated (counterexample expected)"
+      },
+      "property_sha": "sha256:e3fc8f28702d",
+      "group": "stack",
+      "rtl_lines": 142,
+      "register_count": 36,
+      "coi_size": 122,
+      "max_depth_hint": 16,
+      "intrinsic_difficulty": 0.28,
+      "is_holds": false
+    },
+    {
+      "benchmark_id": "stack_lifo_order",
+      "design_name": "lifo_stack",
+      "design_sha": "sha256:5a4bddc0cd53",
+      "property": {
+        "property_id": "p_lifo_order",
+        "kind": "assert",
+        "description": "last pushed value is first popped"
+      },
+      "property_sha": "sha256:2a015241b2e6",
+      "group": "stack",
+      "rtl_lines": 145,
+      "register_count": 40,
+      "coi_size": 150,
+      "max_depth_hint": 60,
+      "intrinsic_difficulty": 0.55,
+      "is_holds": true
+    },
+    {
+      "benchmark_id": "stack_cover_full",
+      "design_name": "lifo_stack",
+      "design_sha": "sha256:5a4bddc0cd53",
+      "property": {
+        "property_id": "c_reaches_full",
+        "kind": "cover",
+        "description": "cover: stack becomes full"
+      },
+      "property_sha": "sha256:57d1d3da518f",
+      "group": "stack",
+      "rtl_lines": 140,
+      "register_count": 36,
+      "coi_size": 118,
+      "max_depth_hint": 30,
+      "intrinsic_difficulty": 0.26,
+      "is_holds": true
+    }
+  ]
+}

@@ -1,0 +1,178 @@
+{
+  "property_name": "p_inc",
+  "property_text": "@(posedge clk) disable iff (rst) en |=> count_advanced",
+  "property_location": {
+    "file": "examples/toy_counter/counter.sva",
+    "line": 18
+  },
+  "clock": "tb.clk",
+  "reset": "tb.rst",
+  "antecedent_cycle": 2,
+  "antecedent_time": 25,
+  "first_divergence_cycle": 6,
+  "first_divergence_time": 65,
+  "timeline": [
+    {
+      "cycle": 0,
+      "time": 5,
+      "kind": "reset",
+      "description": "reset active",
+      "signals": {
+        "tb.rst": "1",
+        "tb.en": "0",
+        "tb.count_advanced": "0",
+        "tb.clk": "1"
+      }
+    },
+    {
+      "cycle": 1,
+      "time": 15,
+      "kind": "reset",
+      "description": "reset active",
+      "signals": {
+        "tb.rst": "1",
+        "tb.en": "0",
+        "tb.count_advanced": "0",
+        "tb.clk": "1"
+      }
+    },
+    {
+      "cycle": 2,
+      "time": 25,
+      "kind": "antecedent",
+      "description": "antecedent 'tb.en' activated",
+      "signals": {
+        "tb.rst": "0",
+        "tb.en": "1",
+        "tb.count_advanced": "0",
+        "tb.clk": "1"
+      }
+    },
+    {
+      "cycle": 3,
+      "time": 35,
+      "kind": "sample",
+      "description": "sampled clock edge",
+      "signals": {
+        "tb.rst": "0",
+        "tb.en": "1",
+        "tb.count_advanced": "1",
+        "tb.clk": "1"
+      }
+    },
+    {
+      "cycle": 5,
+      "time": 55,
+      "kind": "sample",
+      "description": "sampled clock edge",
+      "signals": {
+        "tb.rst": "0",
+        "tb.en": "1",
+        "tb.count_advanced": "1",
+        "tb.clk": "1"
+      }
+    },
+    {
+      "cycle": 6,
+      "time": 65,
+      "kind": "failure",
+      "description": "consequent failed to hold within window; tool-reported failure of 'p_inc'",
+      "signals": {
+        "tb.rst": "0",
+        "tb.en": "1",
+        "tb.count_advanced": "0",
+        "tb.clk": "1"
+      }
+    },
+    {
+      "cycle": 7,
+      "time": 75,
+      "kind": "sample",
+      "description": "sampled clock edge",
+      "signals": {
+        "tb.rst": "0",
+        "tb.en": "0",
+        "tb.count_advanced": "1",
+        "tb.clk": "1"
+      }
+    }
+  ],
+  "rtl_cone": [
+    "tb.count",
+    "tb.count_advanced",
+    "tb.en",
+    "tb.rst",
+    "tb.stall"
+  ],
+  "citations": [
+    {
+      "file": "examples/toy_counter/counter.sva",
+      "line": 18,
+      "symbol": "p_inc",
+      "reason": "Property whose failure is being triaged."
+    },
+    {
+      "file": "examples/toy_counter/counter.v",
+      "line": 24,
+      "symbol": "tb.count",
+      "reason": "In cone of influence (reg)."
+    },
+    {
+      "file": "examples/toy_counter/counter.sva",
+      "line": 11,
+      "symbol": "tb.count_advanced",
+      "reason": "In cone of influence (wire)."
+    },
+    {
+      "file": "examples/toy_counter/counter.v",
+      "line": 19,
+      "symbol": "tb.en",
+      "reason": "In cone of influence (port_in)."
+    },
+    {
+      "file": "examples/toy_counter/counter.v",
+      "line": 18,
+      "symbol": "tb.rst",
+      "reason": "In cone of influence (port_in)."
+    },
+    {
+      "file": "examples/toy_counter/counter.v",
+      "line": 20,
+      "symbol": "tb.stall",
+      "reason": "In cone of influence (port_in)."
+    }
+  ],
+  "hypotheses": [
+    {
+      "category": "design_bug",
+      "statement": "Logic in the cone of 'tb.count_advanced' fails to satisfy the property after 'tb.en'. Inspect the cone drivers.",
+      "confidence": 0.6,
+      "evidence": [
+        "Antecedent 'tb.en' activated at cycle 2 (time 25).",
+        "Consequent 'tb.count_advanced' did NOT hold within the required [1,1] window; first divergence at cycle 6 (time 65).",
+        "Reset 'tb.rst' was inactive at the divergence cycle.",
+        "Consequent value at divergence was a defined 0 (not x/z).",
+        "Cone of influence: tb.count, tb.count_advanced, tb.en, tb.rst, tb.stall."
+      ]
+    },
+    {
+      "category": "property_issue",
+      "statement": "The property (timing window, implication style, or antecedent/consequent choice) may not match design intent.",
+      "confidence": 0.3,
+      "evidence": [
+        "The property text/timing bounds should be reviewed against the requirement to confirm [min,max] and implication style are correct."
+      ]
+    }
+  ],
+  "unresolved_questions": [],
+  "reproduction": {
+    "command": "cx-triage triage --trace examples/toy_counter/counter_fail.vcd --failure examples/toy_counter/failure.json --manifest examples/toy_counter/manifest.json",
+    "artifacts": [
+      "examples/toy_counter/counter_fail.vcd",
+      "examples/toy_counter/failure.json",
+      "examples/toy_counter/manifest.json"
+    ]
+  },
+  "reproduction_attempt": null,
+  "llm_narrative": null
+}
