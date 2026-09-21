@@ -15,10 +15,31 @@ def load_dataset(path: str | Path) -> TelemetryDataset:
     return TelemetryDataset.model_validate(data)
 
 
+# Derived float metrics (cv, delta_pct, robust_z, CI bounds, ...) can differ in
+# their lowest-order digits across Python versions/platforms due to float
+# summation order. Rounding to 6 decimals is far coarser than that ~1e-11 drift
+# yet far finer than the input precision, so serialized reports are byte-stable
+# across environments (and the golden test stays meaningful on every Python).
+_JSON_FLOAT_DIGITS = 6
+
+
+def _round_floats(obj: object) -> object:
+    """Recursively round every float in a JSON-able structure for determinism."""
+    if isinstance(obj, bool):  # bool is a subclass of int — leave untouched
+        return obj
+    if isinstance(obj, float):
+        return round(obj, _JSON_FLOAT_DIGITS)
+    if isinstance(obj, dict):
+        return {k: _round_floats(v) for k, v in obj.items()}
+    if isinstance(obj, list):
+        return [_round_floats(v) for v in obj]
+    return obj
+
+
 def report_to_json(report: RegressionReport) -> str:
     """Deterministic, indented JSON serialization of a report."""
     return json.dumps(
-        report.model_dump(mode="json"),
+        _round_floats(report.model_dump(mode="json")),
         indent=2,
         sort_keys=False,
     )

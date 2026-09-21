@@ -5,12 +5,12 @@ from __future__ import annotations
 from pathlib import Path
 
 import pytest
-from tests.conftest import ALL_NAMES, EXAMPLES, _pair
 from typer.testing import CliRunner
 
 from protocol_contract_agent.cli import app
 from protocol_contract_agent.generator import generate_contract
 from protocol_contract_agent.report import render_sva_file
+from tests.conftest import ALL_NAMES, EXAMPLES, _pair
 
 runner = CliRunner()
 

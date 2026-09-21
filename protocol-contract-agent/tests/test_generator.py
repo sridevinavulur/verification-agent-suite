@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import pytest
-from tests.conftest import ALL_NAMES, _pair
 
 from protocol_contract_agent.generator import (
     _all_referenced_grounded,
@@ -14,6 +13,7 @@ from protocol_contract_agent.models import (
     PropertyKind,
     ProtocolKind,
 )
+from tests.conftest import ALL_NAMES, _pair
 
 
 @pytest.mark.parametrize("name", ALL_NAMES)

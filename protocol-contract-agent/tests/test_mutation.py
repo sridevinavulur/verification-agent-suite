@@ -10,10 +10,10 @@ distinct mutants and that no mutant equals its original.
 from __future__ import annotations
 
 import pytest
-from tests.conftest import ALL_NAMES, _pair
 
 from protocol_contract_agent import mutation
 from protocol_contract_agent.generator import generate_contract
+from tests.conftest import ALL_NAMES, _pair
 
 
 def test_flip_relational():
